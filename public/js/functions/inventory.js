@@ -21,8 +21,24 @@ var app = new Vue({
       this.fetchData();
       Vue.set(this.$data, 'form', _form); 
     },
-  
-  methods: {  
+  watch:
+  {
+   form: function()
+    {
+      console.log();
+    }
+  },
+  methods: { 
+    
+      //actualiza el id de categoria luego de haberlo seleccionado en el grid
+      setCategoryId: function(val)
+      {
+        if (val)
+        {
+          var vm=this;
+           Vue.set(vm.$data.form, 'category_id', val);
+        }
+      }, 
       toggleLListPrice: function () 
       {
         return this.toUseListPrice = this.toUseListPrice == true ? false : true
@@ -93,7 +109,7 @@ var app = new Vue({
       },
 
       update: function() {
-      var vm = this;    
+        var vm = this;    
         vm.isProcessing = true;
         axios.put('/inventory/' + vm.form.id, vm.form)
           .then(function(response) {

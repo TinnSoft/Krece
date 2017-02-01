@@ -28,8 +28,9 @@ class CategoryController extends Controller
         $income = Category::where('type_id',  1)
                 ->where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)
+                ->where('parent_id',"!=",  null)
                 ->defaultOrder()
-                ->select('id','name','description','lft','rgt','parent_id')
+                ->select('id','name','description','lft','rgt','parent_id','isEditable')
                 ->withDepth()               
                 ->get();
 

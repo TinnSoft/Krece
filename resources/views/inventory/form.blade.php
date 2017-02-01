@@ -155,10 +155,13 @@
                 </div>                
         </div>         
     </div> 
-
-   
         <div class="panel-body">
+       
             <div class="ibox-content">                                
-                @include('inventory.category-grid')             
+                @include('inventory.category-grid')
+                 <div v-if="errors.category_id" class="alert alert-danger">      
+                    Debe seleccionar una <strong>categoría</strong> antes de continuar
+                </div>             
             </div>  
         </div>  
+<pre>@{{$data.form}}</pre>

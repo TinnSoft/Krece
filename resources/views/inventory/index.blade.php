@@ -44,54 +44,50 @@
 
 
 
-<script>
-  @if(Session::has('message'))
-     var type = "{{ Session::get('alert-type', 'info') }}";
-    setTimeout(function() {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-               
-            switch(type){
-                case 'info':
-                    toastr.info("{{ Session::get('message') }}");
-                    break;
-                
-                case 'warning':
-                    toastr.warning("{{ Session::get('message') }}");
-                    break;
-
-                case 'success':
-                    toastr.success("{{ Session::get('message') }}");
-                    break;
-
-                case 'error':
-                    toastr.error("{{ Session::get('message') }}");
-                    break;
-            }
-        }, 1300);
-
-
-  @endif
-</script>
+@include('partials.warm_itemNotFound')
 
 <script>
 var app = new Vue({
   el: '#inventory_index',
-   data()  {
+   data:function()  {
     return {
-    idsel:""
+    errors:{},
+    form:{
+        isActive:null,
+        validate:true
+    }
   }},
   methods: {
-       goShow: function(val){
+    //bloquea/desbloquea un producto seleccionado
+    updateItemStatus: function(item,status)
+    {        
+        if (item)
+        {
+            if (status)
+            {
+                var vm = this; 
+                Vue.set(vm.$data.form, 'isActive', status);
+               
+                vm.isProcessing = true;
+                axios.put('/inventory/' + item, vm.form)
+                .then(function(response) {
+                    if(response.data.updated) {           
+                         $('#inventory-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                    }
+                })
+                .catch(function(error) {
+                    vm.isProcessing = false;
+                    Vue.set(vm.$data, 'errors', error.response.data);
+                })
+            }
+        }
+    },
+    goShow: function(val){
         window.location = '/inventory/'+val;
-      },
-      goEdit: function(val){
+    },
+    goEdit: function(val){
         window.location = '/inventory/'+val+'/edit';
-      },
+    },
     remove:function(val) {
       let self = this;
       swal({

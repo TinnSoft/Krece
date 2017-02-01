@@ -9,7 +9,7 @@ class Product extends Model
 {   
     protected $dates = ['deleted_at'];
     protected $table = 'product';
-    protected $fillable=['public_id','user_id','account_id','name','description','reference',
+    protected $fillable=['public_id','user_id','account_id','name','description','reference','isActive',
     'sale_price','tax_id','category_id','list_price_id','inv_quantity_initial','inv_unit_cost','inv_type_id','inv_inStock'];
 
     

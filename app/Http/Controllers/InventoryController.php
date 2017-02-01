@@ -30,8 +30,8 @@ class InventoryController extends Controller
     {
        $products = Product::where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)
-                ->orderBy('created_at', 'desc')
-                ->select( 'name','reference','sale_price','description','isActive','public_id'
+                ->orderBy('public_id', 'desc')
+                ->select( 'name','reference','sale_price','description','isActive','public_id','tax_id','category_id','id'
                )->get();    
 
         return response()->json($products);  
@@ -94,7 +94,8 @@ class InventoryController extends Controller
           $this->validate($request, [     
             'name' => 'required',
             'sale_price' => 'required',
-            'tax_id' => 'required'
+            'tax_id' => 'required',
+            'category_id' => 'required'
             ]);        
         
         $data = $request->except('tax');  
@@ -162,7 +163,7 @@ class InventoryController extends Controller
                 ->where('isDeleted',  0)
                 ->orderBy('created_at', 'desc')
                 ->select( 'id','name','reference','sale_price','description','tax_id','public_id','inv_type_id',
-                'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive'
+                'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive','category_id'
                 )->first();    
 
         
@@ -181,21 +182,36 @@ class InventoryController extends Controller
     }
 
     public function update(Request $request, $id)
-    {        
-              
-         $this->validate($request, [     
+    {   
+        //Actualizar solamente de activo para inactivo o biseversa
+        try{
+            $data = $request->except('tax');         
+            $avoidValidate=$data['validate'];
+            $data = $request->except('validate'); 
+             $data['isActive']= (int)$data['isActive'];
+
+            $item = Product::findOrFail($id);
+            $item->update($data);
+            
+            return response()
+            ->json([
+                'updated' => true                           
+            ]);
+        }
+        catch(\exception $e){}
+        
+        $this->validate($request, [     
             'name' => 'required',
             'sale_price' => 'required',
-            'tax_id' => 'required'
+            'tax_id' => 'required',
+            'category_id' => 'required'
         ]);
-       
+        
+    
       
-        $data = $request->except('tax');  
+        $data = $request->except('list_price','measure_unit','tax');  
         $data['account_id'] = Auth::user()->account_id;
-        $data['user_id'] = Auth::user()->id;         
-        $data['list_price_id'] =empty($data['list_price_id']) ? null : $data['list_price_id'];   
-        $data['tax_id'] =empty($data['tax_id']) ? null : $data['tax_id']; 
-        $data['inv_type_id'] =empty($data['inv_type_id']) ? null : $data['inv_type_id'];
+        $data['user_id'] = Auth::user()->id;
          
          if ( $data['inv_inStock']==true)
          {
@@ -210,15 +226,8 @@ class InventoryController extends Controller
               $data['inv_inStock'] =0;
          }
 
-          return response()
-            ->json([
-                'products_empty' => [ $data['inv_unit_cost']]
-            ], 422);
-
         $item = Product::findOrFail($id);
-
         $item->update($data);
-     
        
         return response()
             ->json([

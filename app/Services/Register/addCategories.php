@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Register;
 
-class CategoryController extends Model
+class CategoryController 
 {
       //Set up default categories for the registered user
     public function defaultCategories()
