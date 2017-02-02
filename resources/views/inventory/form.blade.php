@@ -5,17 +5,18 @@
   display: none;
 }
 
-        .green {color: green;}
-        .red {color: red;}
+
 
 </style>
 
+{!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
+  {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
 
     <div class="row">        
         <div class="col-lg-5">
             <table class="table table-responsive">				
 				<tr> 
-					<td style="width: 10em"><span>Nombre</span></td>
+					<td style="width: 10em"><span>Nombre</span><a class="text-danger"><strong> *</strong></a></td>
 					<td>  
                         <span>                              
                             <input type="text" class="form-control" v-model="form.name">    
@@ -33,8 +34,17 @@
                         </span>
                     </td>
 				</tr>
-				<tr>
-					<td><span >Precio de venta</span></td>
+				               
+                <tr> 
+					 <td><span >Descripción</span></td>
+					<td>
+                        <span>
+                           <textarea class="form-control" v-model="form.description"></textarea>  
+                        </span>
+                    </td>
+				</tr>   
+                <tr>
+					<td><span >Precio de venta</span><a class="text-danger"><strong> *</strong></a></td>
 					<td>
                         <span>
                            <input type="number" class="form-control" v-model="form.sale_price"> 
@@ -50,9 +60,9 @@
                         </span>
                     </td>
 				</tr>
-                <tr>
+                 <tr>
                  <template v-if="toUseListPrice == true">
-                        <td style="width: 10em"><span>Lista de precios</span></td>
+                        <td style="width: 10em"><span>Lista de precios</span><a class="text-danger"><strong> *</strong></a></td>
 					    <td>
                             <span>
                                 <multiselect 
@@ -67,15 +77,7 @@
                             </span>
                         </td> 
                     </template>    
-				</tr> 
-                <tr> 
-					 <td><span >Descripción</span></td>
-					<td>
-                        <span>
-                           <textarea class="form-control" v-model="form.description"></textarea>  
-                        </span>
-                    </td>
-				</tr>              
+				</tr>            
                
 			</table>
         </div> 
@@ -83,7 +85,7 @@
          <div class="col-lg-5">
             <table class="table table-responsive">	
 				<tr>
-					<td><span >Impuesto</span></td>
+					<td><span >Impuesto</span><a class="text-danger"><strong> *</strong></a></td>
 					<td>
                         <span>                     
                              <multiselect 
@@ -119,7 +121,7 @@
                     <h5>DETALLE DE INVENTARIO</h5>
                     <table class="table">
                         <tr> 
-                            <td><small>Unidad de medida</small></td>
+                            <td><small>Unidad de medida</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                  <multiselect 
                                  v-model="form.measure_unit" 
@@ -135,15 +137,15 @@
                             </td>                 
                         </tr>	
                          <tr> 
-                            <td><small>Cantidad inicial</small></td>
+                            <td><small>Cantidad inicial</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                 <span>                              
-                                    <input type="text" class="form-control" v-model="form.inv_quantity_initial">   
+                                    <input type="number" class="form-control" v-model="form.inv_quantity_initial">   
                                 </span>                           
                             </td>                 
                         </tr>	
                          <tr> 
-                            <td><small>Precio de compra</small></td>
+                            <td><small>Precio de compra</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                 <span>                              
                                     <input type="number" class="form-control" v-model="form.inv_unit_cost">   
@@ -153,10 +155,13 @@
                     </table>
                     </div> 
                 </div>                
-        </div>         
+        </div>   
+      
+     
+
     </div> 
         <div class="panel-body">
-       
+        
             <div class="ibox-content">                                
                 @include('inventory.category-grid')
                  <div v-if="errors.category_id" class="alert alert-danger">      
@@ -164,4 +169,16 @@
                 </div>             
             </div>  
         </div>  
-<pre>@{{$data.form}}</pre>
+
+
+
+    <button id="show-modal" @click="showModal = true">Show Modal</button>
+         <modal v-if="showModal" @close="showModal = false">
+    <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+    <h3 slot="header">custom header</h3>
+  </modal>
+<pre>@{{$data.showModal}}<pre>
+ 

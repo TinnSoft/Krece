@@ -78,7 +78,7 @@
                 var edit = "<div  title= 'editar'  class='fa fa-pencil' style='cursor: pointer; color:green' onClick=app.goShow(\""+cellvalue+"\") ></div><span > </span>",
                     Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=app.goEdit(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=app.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
                 
                 if (rowObject.isEditable==0)
                 {

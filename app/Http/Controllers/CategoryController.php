@@ -71,10 +71,7 @@ class CategoryController extends Controller
 
     }
 
-    public function create()
-    {
-        return view('contact.create');        
-    }
+   
         
     public function store(Request $request)
     {   
@@ -258,19 +255,21 @@ class CategoryController extends Controller
     }
     
     public function destroy($id)
-    {
+    {       
 
-            $contact = Contact::where('account_id',  Auth::user()->account_id)
-                ->where('public_id',  $id)
-                ->firstOrFail();   
-            
-            $contact['isDeleted']=1;
-            $contact['deleted_at']=$now = Carbon::now();
-            $contact->save();
-            
+        try{
+            $node = Category::findOrFail($id);
+            $node->delete();
             return response()
             ->json([
                 'deleted' => true
             ]);
+        }
+        catch(\exception $e){
+            return response()
+            ->json([
+                'deleted' => false
+            ]);
+        }
     }
 }

@@ -53,4 +53,5 @@ Route::get('getInventoryBaseInfo','InventoryController@BaseInfo');
 Route::get('getInventorylist','InventoryController@InventoryIndex');
 
 //Category
+Route::resource('category', 'CategoryController');
 Route::get('getCategoryIncome','CategoryController@CategoryIncome');

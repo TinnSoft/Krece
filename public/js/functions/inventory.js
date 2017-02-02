@@ -1,6 +1,16 @@
 Vue.config.devtools = true;
 Vue.config.debug = true;
 
+Vue.component('modal', {
+  /*template: "<transition name='modal'><div class='modal-mask'><div class='modal-wrapper'><div class=+modal-container+><div class='modal-header'>"+
+            "<slot name='header'>default header</slot></div><div class='modal-footer'>"+
+            "<slot name='footer'>default footer"+
+              "<button class='modal-default-button' @click='$emit('close')'> OK </button></slot>"+
+          "</div></div></div></div></transition>"*/
+          template: '<span>{{ app.message }}</span>'
+})
+
+
 var app = new Vue({
   el: '#inventory',
   components: {
@@ -8,6 +18,8 @@ var app = new Vue({
     },
   data: function() {   
     return{
+      message:'aaa',
+    showModal: false,
     toUseListPrice:false,
     isProcessing: false,
     name: '',
@@ -23,9 +35,18 @@ var app = new Vue({
     },
   watch:
   {
-   form: function()
+   'toUseListPrice': function(val)
     {
-      console.log();
+      if (val)
+      {
+        if (this.form.list_price_id)
+        {
+          isProcessing: true;
+        }
+      }
+      else{
+         isProcessing: false;
+      }
     }
   },
   methods: { 
@@ -64,19 +85,39 @@ var app = new Vue({
         else
         {this.form.inv_type_id=''; }    
       },
-      addLine: function(e) {      
-        this.form.contact_others.push({ 
-                  name:'',
-                  last_name:'',
-                  phone:'',
-                  email: '',
-                  phone_mobile:'',
-                  notify:0});           
+      addNewNode: function(e) {   
+        //alert();   
+          showModal = true;
       },
-      removeItem: function(detail) {      
-        var index = this.form.contact_others.indexOf(detail)
-        this.form.contact_others.splice(index,1);
-      },
+      remove:function(val) {
+        swal({
+          title: "Estas seguro?",
+          text: "Una vez eliminado este registro no se podrá recuperar",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          closeOnConfirm: false
+        }, function(isConfirm) {
+          if (isConfirm) {
+              var vm = this
+                  axios.delete('/category/' + val)
+                      .then(function(response) {
+                          if(response.data.deleted) {
+                              swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
+                              $('#category-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                          }
+                      })
+                      .catch(function(error) {                       
+                          swal("Error!", "El registro no se ha eliminado correctamente, intente de nuevo!!.", "error");                        
+                      })
+            
+          } else {
+            swal("Cancelado", "Cancelado :)", "error");
+          }
+        }.bind(this)); 
+    },
       fetchData: function()
       {    
         //carga de los datos del header
