@@ -12,7 +12,7 @@
 
         <div class="jqGrid_wrapper"> 
            <div class="ibox-content">     
-                <table id="category-grid"></table>    
+                <table id="category-grid"></table>       
             </div>  
     <div>
 
@@ -30,18 +30,18 @@
                     {name:'id',key:true,"width":30, label:'Acciones', index:'id',  "align":"right", 
                         formatter: displayButtons},
                     {name:"parent_id",hidden:true},
-                    {"name":"lft","hidden":true},
-                    {"name":"rgt","hidden":true},
-                    {"name":"depth","hidden":true},
-                    {"name":"id","hidden":true},
-                    {"name":"isEditable","hidden":true}
+                    {name:"lft",hidden:true},
+                    {name:"rgt",hidden:true},
+                    {name:"depth",hidden:true},
+                    {name:"id",hidden:true},
+                    {name:"isEditable",hidden:true}
 				],
 				"width":"780",
 				"viewrecords":false,
 				"gridview":true,
 				"height":"auto",
 				"sortname":"lft",
-				"loadonce":true,
+				"loadonce":false,
 				"rowNum":100,
 				"scrollrows":true,
 				"treeGrid":true,
@@ -62,7 +62,6 @@
                     {
                         jQuery('#category-grid').jqGrid('setSelection',app.form.category_id);
                     }
-                    // $('#category-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                 },
                 "onSelectRow" : function( rowid ) {
 					if(rowid) 
@@ -70,13 +69,14 @@
 						var rdata = $('#category-grid').jqGrid('getRowData', rowid);
                         app.setCategoryId(rdata.id);
 					} 
-				}              
-            
-            });
-            
+				}     
+            });            
+
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-pencil' style='cursor: pointer; color:green' onClick=app.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=app.goEdit(\""+cellvalue+"\")></div><span > </span>",
+            
+                
+                var edit = '<div  title= "editar"  class="fa fa-pencil" style="cursor: pointer; color:green" onClick="app.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
+                    Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=app.updateNode(\""+options+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
                     Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=app.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
                 
@@ -86,9 +86,15 @@
                     edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>";                   
                 }
 
-
                 return Add + edit + Details + Delete;
             }   
+            myfunc=function (desc,name,id,account)
+            {
+                console.log(desc);
+                console.log(name);
+                console.log(id);
+                console.log(account);
+            };
 
              $(window).bind('resize', function () {
                resizewidth();
@@ -99,9 +105,6 @@
                 var width = $('.jqGrid_wrapper').width();
                 $('#category-grid').setGridWidth(width); 
             }  
-
-            
-
         });
 
 

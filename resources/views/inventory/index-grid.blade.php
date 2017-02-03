@@ -29,7 +29,6 @@
                 url: "getInventorylist",               
                 datatype: "json",
                 mtype: 'GET',
-                emptyrecords:  "",
                 colModel: [                   
                     { label: 'Nombre', name: 'name', index: 'name', width: 75, sorttype: "text" },
                     { label: 'Referencia', name: 'reference', width: 90 },
@@ -42,14 +41,13 @@
                      {name:'tax_id',"hidden":true} ,     
                      {name:'id',"hidden":true}       
                 ],
-                viewrecords: true, // show the current page, data rang and total records on the toolbar
+                viewrecords: true, 
                 width: 780,
                 height: 300,
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
                 caption:"Inventario",
-                loadonce:true,
-                navOptions: { reloadGridOptions: { fromServer: true } },
+                loadonce:true,               
                 loadComplete: function () {
                     var count = $("#inventory-grid").getGridParam();
                     var ts = $("#inventory-grid")[0];
@@ -90,9 +88,8 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                 console.log(rowObject.id);
-                var edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='cursor: pointer ; color:green' onClick=app.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'Ver' class='fa fa-eye ' style='cursor: pointer; color:blue'  onClick=app.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                var edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='cursor: pointer ; color:green' onClick=app.goEdit(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'Ver' class='fa fa-eye ' style='cursor: pointer; color:blue'  onClick=app.goShow(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
                     Lock = "<div title= 'Activar' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=app.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
                 

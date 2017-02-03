@@ -1,15 +1,6 @@
 Vue.config.devtools = true;
 Vue.config.debug = true;
 
-Vue.component('modal', {
-  /*template: "<transition name='modal'><div class='modal-mask'><div class='modal-wrapper'><div class=+modal-container+><div class='modal-header'>"+
-            "<slot name='header'>default header</slot></div><div class='modal-footer'>"+
-            "<slot name='footer'>default footer"+
-              "<button class='modal-default-button' @click='$emit('close')'> OK </button></slot>"+
-          "</div></div></div></div></transition>"*/
-          template: '<span>{{ app.message }}</span>'
-})
-
 
 var app = new Vue({
   el: '#inventory',
@@ -17,12 +8,18 @@ var app = new Vue({
         "Multiselect": VueMultiselect.Multiselect
     },
   data: function() {   
-    return{
-      message:'aaa',
-    showModal: false,
+    return{ 
+    header_modal:"",
+    modal_isEdit:false,  
     toUseListPrice:false,
     isProcessing: false,
     name: '',
+    category:{
+        parent_id:'',
+        name:'',
+        description:'',
+        niif_account:''
+    },
     form: {},
     errors: {},
     measure_unit: [],
@@ -85,9 +82,77 @@ var app = new Vue({
         else
         {this.form.inv_type_id=''; }    
       },
-      addNewNode: function(e) {   
-        //alert();   
-          showModal = true;
+      addNewNode: function(e) {  
+        var vm = this;
+        if(e)
+        {   
+           this.header_modal="Nueva Categoría";    
+          Vue.set(vm.$data.category, 'parent_id', e);
+          this.category.name='';
+          this.category.niif_account='';
+          this.category.description='';
+          this.modal_isEdit=false;
+          $('#categoryModal').modal('toggle');  
+        }
+      },
+      updateNode: function(desc,name,id,account) {
+        var vm = this;
+    
+        if(id)
+        {   
+          this.header_modal="Editar Categoría";   
+          this.modal_isEdit=true;
+          Vue.set(vm.$data.category, 'parent_id', id);
+          Vue.set(vm.$data.category, 'name', name);
+          Vue.set(vm.$data.category, 'description', desc);
+          Vue.set(vm.$data.category, 'niif_account', account);
+      
+          $('#categoryModal').modal('toggle');  
+        }
+      },
+     Modal_click_save:function(){
+        if(this.modal_isEdit==true)
+        {
+          this.UpdateCategory();
+        }
+        else{
+          alert();
+          this.saveNewCategory();
+        }
+     },
+     UpdateCategory:function(){
+       var vm = this;    
+        vm.isProcessing = true;
+        axios.put('/category/' + vm.category.parent_id, vm.category)
+          .then(function(response) {
+            if(response.data.updated) {           
+               $('#category-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');         
+                 $('#categoryModal').modal('toggle');       
+            } else {             
+              vm.isProcessing = false;  
+            }
+          })
+          .catch(function(error) {
+            vm.isProcessing = false;
+            Vue.set(vm.$data, 'errors', error.response.data);
+          })
+     },
+      saveNewCategory: function() { 
+         var vm = this;
+          vm.isProcessing = true;
+          axios.post('/category', vm.category)
+            .then(function (response) {
+              if(response.data.created) {  
+                 $('#category-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');         
+                 $('#categoryModal').modal('toggle');                  
+              } else {
+                vm.isProcessing = false;
+              }
+            })
+            .catch(function (error) {        
+              vm.isProcessing = false;
+              Vue.set(vm.$data, 'errors', error.response.data);
+            });
       },
       remove:function(val) {
         swal({
