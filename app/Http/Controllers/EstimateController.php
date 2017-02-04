@@ -25,18 +25,22 @@ class EstimateController extends Controller
 
     public function index()
     {
+        return view('estimate.index');  
+    }
+
+    public function getEstimateList()
+    {
         //Obtener las cotizaciones creadas hasta la fecha       
-        $newestimate = Estimate::with('contact')
+        $estimate = Estimate::with('contact')
                 ->where('account_id',  Auth::user()->account_id)
                ->orderBy('created_at', 'desc')
                ->select('id', 'account_id','public_id',
                'user_id','seller_id','list_price_id','customer_id',
                'currency_code','total','date','due_date','notes',
                'observations','created_at'
-               )->paginate(100);    
+               )->get();
 
-        return view('estimate.index',compact('newestimate'));
-  
+         return response()->json($estimate);
     }
 
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc

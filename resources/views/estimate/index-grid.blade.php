@@ -6,6 +6,10 @@
       {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!}  
        {!!Html::script('/js/vue-library/vue.min.js')!!}
     {!!Html::style('/themes/krece/css/plugins/jqueryui/jquery-ui.css')!!}
+    <script>
+        moment.locale('es');  
+    </script>
+    
 
  <style>
           .green {color: green;}
@@ -13,7 +17,7 @@
 
     </style>
 
-        <div id="contact2" class="jqGrid_wrapper">            
+        <div id="estimate2" class="jqGrid_wrapper">            
            <!-- activar buscador 
             <div class="ibox-content">
                 <ul class="todo-list m-t small-list  col-sm-5 pull-right">
@@ -23,65 +27,60 @@
                     </li>
                 </ul>                      
             </div>-->
-           <div class="ibox-content">                 
-                    <div class="ibox-title">                        
-                        <div class="btn-group">
-                            <button id="refresh_all" class="btn btn-primary btn-sm btn-outline " type="button">Todos</button>
-                            <button id="refresh_client" class="btn btn-primary btn-sm btn-outline" type="button">Clientes</button>
-                            <button id="refresh_providers" class="btn btn-primary btn-sm btn-outline" type="button">Proveedores</button>
-                        </div>
-                    </div> 
-                <table id="contact-grid"></table>
+           <div class="ibox-content">  
+                <table id="estimate-grid"></table>
                 <div id="pager_list_2"></div>     
             </div>        
-    <div>
+        <div>
 
     <script>
         
         $(document).ready(function () {       
-            var emptyMsgDiv = $("<div class='alert alert-info' role='alert'><span class='glyphicon glyphicon-exclamation-sign'" +
-            "aria-hidden='true'></span><span class='sr-only'>Error:</span> Aún no tienes contactos creados." +
-            " Por que no empiezas <a href='{{route('contact.create')}}'><strong>creando uno?</a> </strong></div> '");
-          
-            $("#contact-grid").jqGrid({
-                url: "getContactlist/all",
-                editurl: 'contact',
+             var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
+            "<h3><i class='fa fa-exclamation'></i> No tienes cotizaciones creadas!</h3>" +
+            " <div class='ibox-content ibox-heading'><a href='{{route('estimate.create')}}' class='btn btn-primary btn-outline btn-sm '>" +
+            "<span class='fa fa-plus '></span>&nbsp;Crear Cotización</a> </div></div> '");
+         
+            $("#estimate-grid").jqGrid({
+                url: "getEstimateList",
+                editurl: 'estimate',
                 datatype: "json",
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'Nombre', name: 'name', index: 'name', width: 75, sorttype: "text" },
-                    { label: 'Nit', name: 'nit', width: 90 },
-                    { label: 'Teléfono', name: 'phone1', width: 90 },
-                    { label: 'Observaciones', name: 'observation', width: 90 },
-                     {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                    { label: 'No', name: 'public_id', index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
+                    { label: 'Cliente', name: 'contact.name',  width: 170, sorttype: "text" },
+                    { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
+                    { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     {name:'public_id',  keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 780,
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
-                caption:"Contactos (todos)",
+                caption:" ",
                 loadonce:true,
                 navOptions: { reloadGridOptions: { fromServer: true } },
                 loadComplete: function () {
-                    var count = $("#contact-grid").getGridParam();
-                    var ts = $("#contact-grid")[0];
+                    var count = $("#estimate-grid").getGridParam();
+                    var ts = $("#estimate-grid")[0];
                     if (ts.p.reccount === 0) {
-                        $("#contact-grid").hide();
-                        emptyMsgDiv.insertAfter($("#contact-grid").parent());
+                        $("#estimate-grid").hide();
+                        emptyMsgDiv.insertAfter($("#estimate-grid").parent());
                         emptyMsgDiv.show();
                     } else {
-                        $("#contact-grid").show();
+                        $("#estimate-grid").show();
                         emptyMsgDiv.hide();
                     };
                     resizewidth();
                 },         
                 pager:"#pager_list_2"
             });
-
+            
+      
           $("#export").on("click", function(){
-				$("#contact-grid").jqGrid("exportToExcel",{
+				$("#estimate-grid").jqGrid("exportToExcel",{
 					includeLabels : true,
 					includeGroupHeader : true,
 					includeFooter: true,
@@ -91,25 +90,25 @@
 			})
 
              $("#refresh_all").on("click", function(){             
-                 refreshgrid('a','Contactos (todos)');
+                 refreshgrid('a','estimateos (todos)');
 			})
 
             $("#refresh_client").on("click", function(){              
-                refreshgrid('c','Contactos (Clientes)');
+                refreshgrid('c','estimateos (Clientes)');
 			})
 
             $("#refresh_providers").on("click", function(){             
-                 refreshgrid('p','Contactos (Proveedores)');
+                 refreshgrid('p','estimateos (Proveedores)');
 			})
 
             function refreshgrid(filter, caption)
             {
-                 $("#contact-grid").setGridParam({url:"getContactlist/"+filter});
-                $('#contact-grid').jqGrid('setCaption', caption);
-                 $('#contact-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                 $("#estimate-grid").setGridParam({url:"getestimatelist/"+filter});
+                $('#estimate-grid').jqGrid('setCaption', caption);
+                 $('#estimate-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
             }
 
-             jQuery('#contact-grid').jqGrid('navGrid','#pager_list_2',
+             jQuery('#estimate-grid').jqGrid('navGrid','#pager_list_2',
                 {
                     "edit":false,
                     "add":false,
@@ -138,6 +137,14 @@
                 return edit + Details + Delete;
             }   
 
+            function formatpublicID(cellValue, options, rowObject) {
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=app.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    return goTo;
+            }
+             function diffForHumans(cellValue, options, rowObject) {
+                    return app.moment(cellValue);
+            }
+
              $(window).bind('resize', function () {
                resizewidth();
             });
@@ -145,11 +152,11 @@
             function resizewidth()
             {
                 var width = $('.jqGrid_wrapper').width();
-                $('#contact-grid').setGridWidth(width); 
+                $('#estimate-grid').setGridWidth(width); 
             }  
 
             	// activate the toolbar searching
-			$('#contact-grid').jqGrid('navGrid',"#pager_list_2", {                
+			$('#estimate-grid').jqGrid('navGrid',"#pager_list_2", {                
                 search: false, // show search button on the toolbar
                 add: false,
                 edit: false,
@@ -161,7 +168,7 @@
 				var self = this;
 				if(timer) { clearTimeout(timer); }
 				timer = setTimeout(function(){
-					$("#contact-grid").jqGrid('filterInput', self.value);
+					$("#estimate-grid").jqGrid('filterInput', self.value);
 				},0);
 			});
 

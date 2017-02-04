@@ -2,7 +2,10 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+         if(Auth::check()) {
+            return view('home');
+        }
+        return view('welcome');
 });
 
 
@@ -15,11 +18,11 @@ Auth::routes();
 Route::get('/home','HomeController@index');
 
 
-
-
 //Información del header de la cotización
 Route::resource('estimate', 'EstimateController');
 Route::get('getEstimateBaseInfo','EstimateController@BaseInfo');
+Route::get('getEstimateList','EstimateController@getEstimateList');
+
 //taxes
 Route::resource('taxes', 'TaxesController');
 Route::get('getTaxesBaseInfo','TaxesController@BaseInfo');

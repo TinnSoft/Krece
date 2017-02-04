@@ -10,6 +10,7 @@ trait DatesTranslator
     public function getCreatedAtAttribute($date)
     {
         return new Date($date);
+        
     }
      public function getUpdatedAtAttribute($date)
     {
