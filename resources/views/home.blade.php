@@ -105,7 +105,7 @@
                     <li>
                         <a href=""><i class="fa fa-book"></i> <span class="nav-label">Categorias</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">Categorias</a></li>
+                            <li><a href="{{route('category.index')}}">Categorias</a></li>
                             <li><a href="">Ajustes</a></li>
                         </ul>
                     </li>

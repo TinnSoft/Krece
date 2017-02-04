@@ -116,7 +116,6 @@ var app = new Vue({
           this.UpdateCategory();
         }
         else{
-          alert();
           this.saveNewCategory();
         }
      },

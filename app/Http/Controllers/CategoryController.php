@@ -36,6 +36,18 @@ class CategoryController extends Controller
 
         return response()->json($income);  
     }
+
+    public function CategoryAll()
+    {
+         $categories = Category::where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)               
+                ->defaultOrder()
+                ->select('id','name','description','lft','rgt','parent_id','isEditable','niif_account')
+                ->withDepth()               
+                ->get();
+
+        return response()->json($categories);  
+    }
         
     public function store(Request $request)
     {   
@@ -77,26 +89,7 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-       
-
-        $contact = Contact::with('contact_others')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('public_id',  $id)
-                ->where('isDeleted',  0)
-                ->first();   
-      
-
-        if (!$contact)
-        {
-            
-            $notification = array(
-                'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
-                'alert-type' => 'error'
-            );             
-          return redirect('/contact')->with($notification);
-        }
-      
-        return view('contact.show', compact('contact'));
+        
     }
 
     public function update(Request $request, $id)

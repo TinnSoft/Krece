@@ -55,3 +55,4 @@ Route::get('getInventorylist','InventoryController@InventoryIndex');
 //Category
 Route::resource('category', 'CategoryController');
 Route::get('getCategoryIncome','CategoryController@CategoryIncome');
+Route::get('getCategoryAll','CategoryController@CategoryAll');
