@@ -17,8 +17,7 @@ class ProfileController extends Controller
         
                $profileList = Profile::select('id', 'name','last_name','email')              
                ->findOrFail($id);
-        
-
+    
          return response()->json($profileList);
     }
 
@@ -52,7 +51,6 @@ class ProfileController extends Controller
         ]);
        
         $profile = Profile::findOrFail($id);    
-        //$data = $request->except('profile_type'); 
         $profile->update($request->all());
         
         return response()

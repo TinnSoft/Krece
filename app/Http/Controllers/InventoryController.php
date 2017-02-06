@@ -103,10 +103,7 @@ class InventoryController extends Controller
         $currentPublicId = Product::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
         $data['account_id'] = Auth::user()->account_id;
-        $data['user_id'] = Auth::user()->id;
-        $data['list_price_id'] =empty($data['list_price_id']) ? null : $data['list_price_id'];   
-        $data['tax_id'] =empty($data['tax_id']) ? null : $data['tax_id']; 
-        $data['inv_type_id'] =empty($data['inv_type_id']) ? null : $data['inv_type_id'];
+        $data['user_id'] = Auth::user()->id;       
         if ( $data['inv_inStock']==true)
          {
               $data['inv_inStock'] =1;

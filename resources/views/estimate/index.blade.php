@@ -77,11 +77,11 @@ var app = new Vue({
       }, function(isConfirm) {
         if (isConfirm) {
              var vm = this
-                axios.delete('/taxes/' + val)
+                axios.delete('/estimate/' + val)
                     .then(function(response) {
                         if(response.data.deleted) {
+                            $('#estimate-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                             swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
-                            //vm.$router.push(vm.redirect)
                         }
                     })
                     .catch(function(error) {

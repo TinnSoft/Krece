@@ -17,7 +17,6 @@ use App\Models\{
     Product
 };
 
-
 use Illuminate\Support\Facades\DB;
 
 class EstimateController extends Controller
@@ -32,7 +31,7 @@ class EstimateController extends Controller
     {
         //Obtener las cotizaciones creadas hasta la fecha       
         $estimate = Estimate::with('contact')
-                ->where('account_id',  Auth::user()->account_id)
+               ->GetAll(0)
                ->orderBy('created_at', 'desc')
                ->select('id', 'account_id','public_id',
                'user_id','seller_id','list_price_id','customer_id',
@@ -141,9 +140,7 @@ class EstimateController extends Controller
         $currentPublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
         $data['account_id'] = Auth::user()->account_id;
-        $data['user_id'] = Auth::user()->id;
-        $data['seller_id'] =empty($data['seller_id']) ? null : $data['seller_id']; 
-        $data['list_price_id'] =empty($data['list_price_id']) ? null : $data['list_price_id'];    
+        $data['user_id'] = Auth::user()->id;         
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
 
@@ -161,8 +158,8 @@ class EstimateController extends Controller
     public function show($id)
     {
         $estimate = Estimate::with('estimatedetail','list_price','seller')
-                    ->where('account_id',  Auth::user()->account_id)
-                    ->where('public_id',  $id)->first();
+                    ->GetByPublicId(0,$id)
+                    ->first();
          
         
         if (!$estimate)
@@ -192,8 +189,8 @@ class EstimateController extends Controller
     {
         
         $estimate = Estimate::with(['estimatedetail','contact','list_price','currency','seller'])
-        ->where('account_id',  Auth::user()->account_id)
-        ->where('public_id',  $id)->first();
+        ->GetByPublicId(0,$id)
+        ->first();
 
          if (!$estimate)
         {
@@ -242,9 +239,7 @@ class EstimateController extends Controller
         
        $data = $request->except('estimatedetail');       
 
-        $data['user_id'] = Auth::user()->id;
-        $data['seller_id'] =empty($data['seller_id']) ? null : $data['seller_id']; 
-        $data['list_price_id'] =empty($data['list_price_id']) ? null : $data['list_price_id'];    
+        $data['user_id'] = Auth::user()->id;       
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
         $estimate->update($data);
@@ -261,17 +256,17 @@ class EstimateController extends Controller
     
     public function destroy($id)
     {
-         return response()
+
+            $estimate = Estimate::GetByPublicId(0,$id)
+                ->firstOrFail();   
+            
+            $estimate['isDeleted']=1;
+            $estimate['deleted_at']=$now = Carbon::now();
+            $estimate->save();
+            
+            return response()
             ->json([
-                'products_empty' => ['Uno o mas productos son requeridos.']
-            ], 422);
-        /*
-        $estimate = Estimate::findOrFail($id);
-        EstimateDetail::where('id', $estimate->id)
-            ->delete();
-        $estimate->delete();
-        return redirect()
-            ->route('estimate.index');
-            */
+                'deleted' => true
+            ]);
     }
 }

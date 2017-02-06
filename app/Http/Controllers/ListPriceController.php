@@ -23,13 +23,8 @@ class ListPriceController extends Controller
                     )->get();    
             
 
-        return view('list_price.index',compact('listprice'));
-  
+        return view('list_price.index',compact('listprice'));  
     }
-
-
-
-   
 
     public function create()
     {
@@ -38,8 +33,6 @@ class ListPriceController extends Controller
         
     public function store(Request $request)
     {   
-            
-
         $this->validate($request, [     
             'name' => 'required',              
             'type_id' => 'required'
@@ -62,11 +55,8 @@ class ListPriceController extends Controller
             ]);
     }
 
-  
-
     public function edit($id)
-    {
-        
+    {        
         $listprice = ListPrice::where('account_id',  Auth::user()->account_id)
                         ->where('isDeleted',  0)
                      ->select('id', 'name','type_id','isDefault',
@@ -84,9 +74,7 @@ class ListPriceController extends Controller
           return redirect('/list_price')->with($notification);
         }
         $listprice['type_id']=(string) $listprice['type_id'];
-         return view('list_price.edit', compact('listprice'));
-         
-         
+         return view('list_price.edit', compact('listprice'));         
     }
 
     public function update(Request $request, $id)
