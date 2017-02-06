@@ -21,7 +21,7 @@ class Estimate extends Model
 	
 	
 	protected $fillable=[
-	'public_id','customer_id','description','account_id','user_id',
+	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
 	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted'
 	];
 	
@@ -39,7 +39,7 @@ class Estimate extends Model
 	public function contact()
 	{
 		
-		return $this->hasOne(Contact::class, 'id', 'customer_id')->select(array('id', 'name'));
+		return $this->hasOne(Contact::class, 'id', 'customer_id')->select(array('id', 'name','address','city','nit','phone1'));
 		
 	}
 	
@@ -81,5 +81,12 @@ class Estimate extends Model
                 ->where('isDeleted',$isDeleted)
                  ->where('public_id',  $id);
     }
+
+	 public function scopeGetSelectedFields($query)
+    {
+        return $query->select('id','public_id','seller_id','list_price_id','customer_id','currency_code',
+                    'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
+                    'created_at','updated_at');
+	}
 }
 

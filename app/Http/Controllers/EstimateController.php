@@ -16,7 +16,7 @@ use App\Models\{
     Contact,
     Product
 };
-
+use PDF;
 use Illuminate\Support\Facades\DB;
 
 class EstimateController extends Controller
@@ -33,11 +33,8 @@ class EstimateController extends Controller
         $estimate = Estimate::with('contact')
                ->GetAll(0)
                ->orderBy('created_at', 'desc')
-               ->select('id', 'account_id','public_id',
-               'user_id','seller_id','list_price_id','customer_id',
-               'currency_code','total','date','due_date','notes',
-               'observations','created_at'
-               )->get();
+                ->GetSelectedFields()
+               ->get();
 
          return response()->json($estimate);
     }
@@ -155,12 +152,13 @@ class EstimateController extends Controller
             ]);
     }
 
+
     public function show($id)
     {
-        $estimate = Estimate::with('estimatedetail','list_price','seller')
+          $estimate = Estimate::with('estimatedetail','list_price','seller')
                     ->GetByPublicId(0,$id)
+                    ->GetSelectedFields()
                     ->first();
-         
         
         if (!$estimate)
         {
@@ -168,11 +166,11 @@ class EstimateController extends Controller
                 'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
                 'alert-type' => 'error'
             );
-
           return redirect('/estimate')->with($notification);
         }
-        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
+         $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
         $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
+        
         return view('estimate.show', compact('estimate'));
     }
 
@@ -190,6 +188,7 @@ class EstimateController extends Controller
         
         $estimate = Estimate::with(['estimatedetail','contact','list_price','currency','seller'])
         ->GetByPublicId(0,$id)
+        ->GetSelectedFields()
         ->first();
 
          if (!$estimate)
@@ -268,5 +267,26 @@ class EstimateController extends Controller
             ->json([
                 'deleted' => true
             ]);
+    }
+
+    public function pdf($id, Request $request)
+    {
+        Carbon::setLocale('es');
+
+         $estimate = Estimate::with('estimatedetail','list_price','seller')
+                    ->GetByPublicId(0,$id)
+                    ->GetSelectedFields()
+                    ->first();
+
+        $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
+        $filename = "{$estimate->public_id}.pdf";
+
+         if($request->get('opt') === 'download') {
+            return $pdf->download($filename);            
+        }
+
+        return $mypdf->stream();
+    
+
     }
 }

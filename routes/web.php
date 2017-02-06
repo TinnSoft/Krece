@@ -22,6 +22,7 @@ Route::get('/home','HomeController@index');
 Route::resource('estimate', 'EstimateController');
 Route::get('getEstimateBaseInfo','EstimateController@BaseInfo');
 Route::get('getEstimateList','EstimateController@getEstimateList');
+Route::get('estimate/{id}/pdf', 'EstimateController@pdf');
 
 //taxes
 Route::resource('taxes', 'TaxesController');

@@ -65,8 +65,8 @@
             currency_code:'',
             currency:null,
             sub_total:'',
-            amount_discounts:'',
-            amount_taxes:'',
+            total_discounts:'',
+            total_taxes:'',
             total:'',           
             estimatedetail: [{
                 product_id: '',

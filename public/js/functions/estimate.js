@@ -178,6 +178,7 @@ var app = new Vue({
       var _subtotal= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
         return carry + (parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price));
       }, 0);
+      _subtotal=isNaN(_subtotal) ? 0:_subtotal;
        this.form.sub_total=_subtotal;
       return _subtotal;
     },
@@ -185,7 +186,7 @@ var app = new Vue({
       var discountsTot= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
         return carry + (((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))* parseFloat(estimatedetail.discount)))/100;        
       }, 0);      
-      this.form.amount_discounts=discountsTot;
+      this.form.total_discounts=isNaN(discountsTot) ? 0:discountsTot;
       return isNaN(discountsTot) ? 0:discountsTot
     },
 
@@ -196,7 +197,7 @@ var app = new Vue({
        parseFloat(estimatedetail.tax_amount)))/100; 
       }, 0);
       
-      this.form.amount_taxes=TaxTot;
+      this.form.total_taxes=isNaN(TaxTot) ? 0:TaxTot;
       
       return isNaN(TaxTot) ? 0:TaxTot
     },

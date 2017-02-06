@@ -1,7 +1,7 @@
 @extends('home')
 
-<!--<link href="/css/style_tables.css" rel="stylesheet">
--->
+
+
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
@@ -14,12 +14,10 @@
                     <strong>Cotizaciones</strong>                            
                 </li>
             </ol>
-        </div>
-                
+        </div>                
     </div>           
 
-          
-            <div class="row wrapper wrapper-content">
+            <div  class="row wrapper wrapper-content">
             
                                        <div class="ibox-title">
                                        
@@ -34,7 +32,7 @@
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
 
                                                 <a class="btn btn-info btn-sm btn-outline"> 
-                                                <span class="fa fa-eye"></span>&nbsp;Vista previa</a> 
+                                                <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>
                                      
                                         </div>
@@ -45,7 +43,7 @@
     
 
 
-  <div class="row">
+  <div id="estimate-show" class="row">
          
                 <div class="wrapper wrapper-content">
                     <div class="ibox-content p-xl">
@@ -97,7 +95,7 @@
                                         <th>PRECIO</th>
                                         <th>CANTIDAD</th>
                                         <th>DESC %</th>
-                                        <th>IMPUESTO</th>           
+                                        <th>IMPUESTO %</th>           
                                         <th>TOTAL</th>
                                     </tr>
                                     </thead>
@@ -126,30 +124,28 @@
                                 <tbody>
                                 <tr>
                                     <td><strong>Sub Total :</strong></td>
-                                    <td>$1026.00</td>
+                                    <td>{{$estimate->sub_total}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Descuentos :</strong></td>
-                                    <td>$235.98</td>
+                                    <td>{{$estimate->total_discounts}}</td>
                                 </tr>
                                  <tr>
                                     <td><strong>Impuestos :</strong></td>
-                                    <td>$235.98</td>
+                                    <td>{{$estimate->total_taxes}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
-                                    <td>{{$estimate->total}}</td>
-                                </tr>
+                                    <td>{{$estimate->total}}</td>                                    
+                                </tr>                                
                                 </tbody>
-                            </table>
-                            
+                            </table>                           
 
                             <div class="well m-t"><strong>Notas: </strong>
                                 {{$estimate->notes}}
                             </div>
-                        </div>
-                </div>
-         
+                        </div>                     
+                </div>         
         </div>
 
 

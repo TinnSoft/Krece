@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
+       Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -230,7 +230,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         
         'Date' => Jenssegers\Date\Date::class,
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
