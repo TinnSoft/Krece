@@ -134,12 +134,7 @@ class ContactsController extends Controller
         $currentPublicId = Contact::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
         $data['account_id'] = Auth::user()->account_id;
-        $data['user_id'] = Auth::user()->id;
-        $data['isProvider'] =empty($data['isProvider']) ? 0 : $data['isProvider']; 
-        $data['isCustomer'] =empty($data['isCustomer']) ? 0 : $data['isCustomer'];  
-        $data['list_price_id'] =empty($data['list_price_id']) ? null : $data['list_price_id'];   
-        $data['seller_id'] =empty($data['seller_id']) ? null : $data['seller_id']; 
-        $data['payment_terms_id'] =empty($data['payment_terms_id']) ? null : $data['payment_terms_id']; 
+        $data['user_id'] = Auth::user()->id;      
 
         if ($data['isProvider']==true)
         {

@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
        Barryvdh\DomPDF\ServiceProvider::class,
+       Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         
         'Date' => Jenssegers\Date\Date::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

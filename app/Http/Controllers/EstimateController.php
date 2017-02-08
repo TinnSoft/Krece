@@ -171,6 +171,11 @@ class EstimateController extends Controller
          $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
         $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
         
+        $estimate['total']=number_format($estimate['total'], '2', '.', ',');
+        $estimate['sub_total']=number_format($estimate['sub_total'], '2', '.', ',');
+        $estimate['total_taxes']=number_format($estimate['total_taxes'], '2', '.', ',');
+        $estimate['total_discounts']=number_format($estimate['total_discounts'], '2', '.', ',');
+
         return view('estimate.show', compact('estimate'));
     }
 
@@ -277,6 +282,11 @@ class EstimateController extends Controller
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
+                    
+        $estimate['total']=number_format($estimate['total'], '2', '.', ',');
+        $estimate['sub_total']=number_format($estimate['sub_total'], '2', '.', ',');
+        $estimate['total_taxes']=number_format($estimate['total_taxes'], '2', '.', ',');
+        $estimate['total_discounts']=number_format($estimate['total_discounts'], '2', '.', ',');
 
         $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
         $filename = "{$estimate->public_id}.pdf";

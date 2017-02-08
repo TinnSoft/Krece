@@ -23,6 +23,13 @@ class Account extends Model
 
      public function users()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany(User::class);
+    }
+
+     public function company()
+    {
+        return $this->hasOne(Company::class,'id','company_id')->select(array( 'id','name','identification','address',
+                      'phone','website','email','regime_id','logo',
+                      'decimal_precision','decimal_separator','city'));
     }
 }

@@ -1,21 +1,28 @@
 <?php
 
 
-Route::get('/', function () {
+/*Route::get('/', function () {
          if(Auth::check()) {
             return view('home');
         }
         return view('welcome');
 });
+*/
+Route::get('/', 'AppController@index');
 
+Route::post('login', 'AppController@login')->middleware('guest');
 
+Route::post('/logout', 'AppController@logout')->middleware('auth');
+Route::get('getLogo','AppController@getLogo');
+
+/*
 Route::group(['middleware'=>['api']],function()
 {
     Route::post('validate/user',['uses'=>'Validation\UserController@user',]);
 });
-
-Auth::routes();
-Route::get('/home','HomeController@index');
+*/
+//Auth::routes();
+//Route::get('/home','HomeController@index');
 
 
 //Información del header de la cotización
@@ -60,3 +67,6 @@ Route::get('getInventorylist','InventoryController@InventoryIndex');
 Route::resource('category', 'CategoryController');
 Route::get('getCategoryIncome','CategoryController@CategoryIncome');
 Route::get('getCategoryAll','CategoryController@CategoryAll');
+
+//Company
+Route::resource('company', 'CompanyController');

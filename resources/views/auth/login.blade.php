@@ -47,32 +47,7 @@
                              <a href="{{ url('/password/reset') }}"><small>Olvidaste tu contraseña?</small></a>    
                          </div>           
                    {!!Form::close()!!}
-                    <!--
-                    <form action="{{ url('/login') }}" id="loginForm" role="form" method="POST">
-                       {{ csrf_field() }}
-                       <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">                          
-                            <input type="email" placeholder="Tu correo" title="Porfavor ingrese su correo" required="" value="" name="email" id="email" class="form-control">
-                             @if ($errors->has('email'))
-                                <span class="help-block">
-                                     <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                             @endif                                                      
-                        </div>  
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">  
-                            <input type="password" title="Por favor ingrese su contraseña" placeholder="Tu Contraseña" required="" value="" name="password" id="password" class="form-control">
-                            @if ($errors->has('password'))
-                                 <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                 </span>
-                            @endif                               
-                        </div>                                                
-                        <div>
-                            <button class="btn btn-accent">Entrar</button>
-                            <a class="btn btn-default" href="{{ url('/register') }}">Crear cuenta</a>
-                             <a href="{{ url('/password/reset') }}"><small>Olvidaste tu contraseña?</small></a>     
-                        </div>                        
-                    </form>
-                    -->
+                   
                 </div>
             </div>
                                        

@@ -26,7 +26,7 @@
 
         <div class="error-desc">
             Lo siento, pero la página que estás intentando acceder no existe. Asegurate que la URL ingresada sea correcta y luego actualiza la página.
-            <br/><a href="{{ url('/home') }}" class="btn btn-primary m-t">Inicio</a>
+            <br/><a href="{{ url('/') }}" class="btn btn-primary m-t">Inicio</a>
         </div>
     </div>
 

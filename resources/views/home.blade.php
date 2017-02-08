@@ -20,12 +20,14 @@
     {!!Html::style('/themes/krece/css/plugins/toastr/toastr.min.css')!!}
     {!!Html::script('/themes/krece/js/jquery-3.1.1.min.js')!!}
     {!!Html::script('/js/libraries/moment.min.js')!!}
-    
+
+    {!!Html::script('/js/libraries/axios.min.js')!!}
+    {!!Html::script('/js/vue-library/vue.min.js')!!}
 
 
 </head>
 
-<body class="fixed-sidebar fixed-navbar md-skin">
+<body  class="fixed-sidebar fixed-navbar md-skin">
 
     <div id="wrapper">
     
@@ -33,8 +35,11 @@
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
-                        <div class="dropdown profile-element"> <span>
-                            <!--<img alt="image" class="img-circle" src="/themes/krece/img/krece.png" />-->
+                        <div id="home" class="dropdown profile-element"> <span>
+                        
+                            <img alt="image" class="img-circle" :src="logoSrc" style="width: 98px" height="71px" />
+                            
+
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{Auth::user()->email}}</strong>
@@ -116,6 +121,7 @@
                             <li><a href="{{route('taxes.index')}}">Impuestos</a></li>
                             <li><a href="{{route('retention.index')}}">Retenciones</a></li>
                             <li><a href="{{route('payterms.index')}}">Términos de Pago</a></li>
+                            <li><a href="{{route('company.edit','info')}}">Empresa</a></li>
                             <li><a href="{{route('profile.edit',Auth::user()->id)}}">Mi perfil</a></li>
                         </ul>
                     </li>
@@ -142,12 +148,7 @@
             </form>
         </div>
             <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <a>
-                     <i class="fa fa-cogs"></i> Configuración
-                    </a>                    
-                </li>
-
+               
                  <li>
                     <a>
                      <i class="fa fa-comments"></i> Soporte
@@ -204,7 +205,7 @@
          
               
                 @yield('content')  
-
+               
         </div>
       
        
@@ -223,7 +224,34 @@
      {!!Html::script('/themes/krece/js/plugins/dataTables/datatables.min.js')!!}
      {!!Html::script('/themes/krece/js/plugins/toastr/toastr.min.js')!!}
      
-     
+     <script>
+        var app = new Vue({
+            el: '#home',
+            data:  {   
+                logoSrc: {},
+                errors:{}
+            },
+            created: function () {  
+              
+                this.fetchData();
+            },
+            methods: {    
+                 fetchData: function()
+                    {    
+                        //carga de los datos del header
+                        var vm = this
+                                axios.get('/getLogo')
+                                    .then(function(response) {                                                                                                  
+                                        Vue.set(vm.$data, 'logoSrc', response.data);
+                                    })
+                                    .catch(function(error) {
+                                        console.log(error)
+                                    })                  
+                    },
+             }
+
+        });
+     </script>
 
 </body>
 
