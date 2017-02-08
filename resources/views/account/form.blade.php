@@ -9,13 +9,13 @@
  {!!Html::style('/themes/krece/css/plugins/jasny/jasny-bootstrap.min.css')!!}    
  {!!Html::script('/themes/krece/js/plugins/jasny/jasny-bootstrap.min.js')!!}  
 
-    <div id="company" class="row">        
+    <div id="account" class="row">        
         <div class="col-lg-6">
             <table class="table table-responsive">				
 				<tr> 
 					<th style="width: 10em"><label><a class="text-danger"><strong>* </strong></a>Nombre:</label></th>
 					<td>  <span>  
-                         <input type="text" class="form-control" v-model="form.company.name">    
+                         <input type="text" class="form-control" v-model="form.name">    
                             <small v-if="errors.name" class="error is-danger  text-danger">
                                 Adiciona un nombre 
                             </small>  
@@ -25,7 +25,7 @@
 					<th><label >NIT</label></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.company.identification">    
+                           <input type="text" class="form-control" v-model="form.identification">    
                         </span>
                     </td>
 				</tr>
@@ -33,7 +33,7 @@
 					<th><label >Dirección</label></th>
 					<td>
                         <smll>
-                            <input type="text" class="form-control" v-model="form.company.address">    
+                            <input type="text" class="form-control" v-model="form.address">    
                         </small>
                     </td>
 				</tr>
@@ -41,7 +41,7 @@
 					<th><label >Ciudad</label></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.company.city">    
+                            <input type="text" class="form-control" v-model="form.city">    
                         </span>
                     </td>
 				</tr>
@@ -49,7 +49,7 @@
 					<th><label >Teléfono</label></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.company.phone">    
+                            <input type="text" class="form-control" v-model="form.phone">    
                         </span>
                     </td>
 				</tr>
@@ -57,7 +57,7 @@
 					<th><span >Sitio Web</span></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.company.website">    
+                            <input type="text" class="form-control" v-model="form.website">    
                         </span>
                     </td>
 				</tr>
@@ -72,7 +72,7 @@
 					<th><span >Email</span></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.company.email">    
+                            <input type="text" class="form-control" v-model="form.email">    
                         </span>
                           <small v-if="errors.email" class="error is-danger  text-danger">
                                 Este correo ya existe en nuestra base de datos, intenta uno diferente.
@@ -83,7 +83,7 @@
 					<th><span >Régimen</span></th>
 					<td>
                         <span>
-                            <select name="cars" class="form-control" v-model="form.company.regime_id">
+                            <select name="cars" class="form-control" v-model="form.regime_id">
                                  <option v-for="option in companyregime" v-bind:value="option.id">
                                     @{{ option.value }}
                                 </option>
@@ -103,7 +103,7 @@
 					<th><span >Precisión decimal</span></th>
 					<td>
                         <span>
-                            <select name="decprec" class="form-control" v-model="form.company.decimal_precision">
+                            <select name="decprec" class="form-control" v-model="form.decimal_precision">
                                  <option v-for="option in dec_precision" v-bind:value="option.value">
                                     @{{ option.text }}
                                 </option>
@@ -115,7 +115,7 @@
 					<th><span >Separador de decimales para exportar</span></th>
 					<td>
                         <span>
-                           <select name="decsep" class="form-control" v-model="form.company.decimal_separator">
+                           <select name="decsep" class="form-control" v-model="form.decimal_separator">
                                  <option v-for="option in dec_separator" v-bind:value="option.value">
                                     @{{ option.text }}
                                 </option>
@@ -140,7 +140,7 @@
 				</tr>
 			</table>
             </div>
-           <pre><code>@{{$data.logo2 | json}}</code></pre>
+           
         </div> 
 
 <!--

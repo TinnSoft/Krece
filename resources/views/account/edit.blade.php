@@ -17,10 +17,10 @@
                 
             </div> 
  <div class="row  border-bottom white-bg dashboard-header">
-    <div id="company">   
+    <div id="account">   
         <div class="panel" v-cloak>           
             <div class="panel-body">
-                @include('company.form')
+                @include('account.form')
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
@@ -45,7 +45,7 @@
         window._form = {!! $company->toJson() !!};
         window._regime = {!! $companyRegime->toJson() !!};
     </script>
-    {!!Html::script('/js/functions/company.js')!!}
+    {!!Html::script('/js/functions/account.js')!!}
     
 @endpush
 

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserLoggedIn;
+use App\Events\SettingsChanged;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Account;
@@ -10,7 +11,7 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 
-class HandleUserSignedUp
+class HandleUserLoggedIn
 {
     /**
      * Create the event listener.
@@ -30,9 +31,8 @@ class HandleUserSignedUp
      */
     public function handle(UserLoggedIn $event)
     {
-         //$user = Auth::user();        
-         $this->setLogo();  
          $this->updateLoginInfo(); 
+         event(new SettingsChanged());
     }
 
     public static function updateLoginInfo()
@@ -45,20 +45,6 @@ class HandleUserSignedUp
             $userdata->save();
         }
     }
-    //Adiciona el logo de la compañia en el objeto session
-    public static function setLogo()
-    {
-        $company = Account::with('company')
-         ->where('id',  Auth::user()->account_id)  
-         ->select('company_id')      
-         ->first();
-         $companylogo=null;
-         if ($company)
-         {
-            $companylogo=$company->company->logo;        
-         }       
-        session(['logo' => $companylogo]);
-
-    }
+  
 
 }

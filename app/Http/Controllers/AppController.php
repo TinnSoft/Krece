@@ -52,7 +52,7 @@ class AppController extends Controller
                 ]);
         }
        
-        event(new LoggedIn());
+        event(new UserLoggedIn());
 
         return redirect()
             ->intended('/');

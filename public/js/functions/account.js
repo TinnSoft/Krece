@@ -1,11 +1,11 @@
 Vue.config.devtools = true;
 Vue.config.debug = true;
 
-var app = new Vue({
-  el: '#company',
+var appAccount = new Vue({
+  el: '#account',
   data:  {   
     isProcessing: false,
-    form: [id2=23],
+    form: [],
     errors: {},
     companyregime:[],
     currency:{},
@@ -32,7 +32,7 @@ var app = new Vue({
       deleteImage()
       {
         var vm = this;
-         Vue.set(vm.$data.form.company, 'logo');
+         Vue.set(vm.$data.form, 'logo');
       } ,     
       uploadLogo(e) {
          var files = e.target.files || e.dataTransfer.files;
@@ -46,7 +46,7 @@ var app = new Vue({
         var vm = this;
         
         reader.onload = (e) => {
-           Vue.set(vm.$data.form.company, 'logo', e.target.result);
+           Vue.set(vm.$data.form, 'logo', e.target.result);
           vm.logo = e.target.result;
         };
         reader.readAsDataURL(file);
@@ -54,7 +54,7 @@ var app = new Vue({
       update: function() {
       var vm = this;    
         vm.isProcessing = true;
-        axios.put('/company/' + vm.form.company_id, vm.form.company)
+        axios.put('/account/' + vm.form.id, vm.form)
           .then(function(response) {
             if(response.data.updated) {
              vm.isProcessing = false;

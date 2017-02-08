@@ -1,39 +1,48 @@
 @extends('pdf.master')
 
 @section('content')
-
-
- 
                    
-                            <div class="row">
+                            <div  class='row'>
                                 <div class="col-sm-6">
                                      <h1>Cotización No: <a class="text-navy"> {{$estimate->public_id}}</a></h1>
                                     <table  style=" width: 50%;border-color: #BBB; float: right;background: #EEE; border-color: #BBB;">
                                         <tbody>
                                             <tr>
-                                                <td colspan=2><strong>Mi negocio:</strong></td>
+                                                <td>
+                                                  @if (count($estimate->account) > 0)
+                                                  <img alt="image" src= {{$estimate->account->logo}} style="width: 98px" height="71px" />
+                                                   
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan=2><strong>
+                                                @if (count($estimate->account) > 0)
+                                                    {{$estimate->account->name}}
+                                                    @endif
+                                                </strong></td>
                                             </tr>
                                             <tr >
-                                                <td><strong>Nit:</strong></td>
+                                                <td><strong>NIT:</strong></td>
                                                 <td>
-                                                    @if (count($estimate->contact) > 0)
-                                                    {{$estimate->contact->nit}}
+                                                    @if (count($estimate->account) > 0)
+                                                    {{$estimate->account->identification}}
                                                     @endif
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Ciudad:</strong></td>
                                                     <td>
-                                                        @if (count($estimate->contact) > 0)
-                                                        {{$estimate->contact->city}}
+                                                        @if (count($estimate->account) > 0)
+                                                        {{$estimate->account->city}}
                                                         @endif
                                                     </td>
                                             </tr>         
                                             <tr>
                                                 <td><strong>Teléfono:</strong></td>
                                                     <td>
-                                                        @if (count($estimate->contact) > 0)
-                                                        {{$estimate->contact->phone1}}
+                                                        @if (count($estimate->account) > 0)
+                                                        {{$estimate->account->phone}}
                                                         @endif
                                                     </td>
                                             </tr>            

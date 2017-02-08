@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserLoggedIn' => [
             'App\Listeners\HandleUserLoggedIn',
         ],
+         'App\Events\SettingsChanged' => [
+            'App\Listeners\HandleSettingsChanged',
+        ],
     ];
 
     /**

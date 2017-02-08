@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyRegime extends Model
+class AccountRegime extends Model
 {
-    protected $table = 'company_regime';
+    protected $table = 'account_regime';
 }

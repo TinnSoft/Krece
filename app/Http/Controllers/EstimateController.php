@@ -278,7 +278,7 @@ class EstimateController extends Controller
     {
         Carbon::setLocale('es');
 
-         $estimate = Estimate::with('estimatedetail','list_price','seller')
+         $estimate = Estimate::with('account','estimatedetail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();

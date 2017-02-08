@@ -69,4 +69,4 @@ Route::get('getCategoryIncome','CategoryController@CategoryIncome');
 Route::get('getCategoryAll','CategoryController@CategoryAll');
 
 //Company
-Route::resource('company', 'CompanyController');
+Route::resource('account', 'AccountController');

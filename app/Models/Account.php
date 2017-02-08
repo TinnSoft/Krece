@@ -10,7 +10,8 @@ class Account extends Model
     protected $dates = ['deleted_at'];
     
     protected $fillable = [
-        'email','name'
+        'email','name', 'identification','address','phone','website','regime_id','logo',
+        'decimal_precision','decimal_separator','city'
     ];
 
      public function rules()
@@ -26,10 +27,15 @@ class Account extends Model
         return $this->hasMany(User::class);
     }
 
-     public function company()
+    
+     public function account_regime()
     {
-        return $this->hasOne(Company::class,'id','company_id')->select(array( 'id','name','identification','address',
-                      'phone','website','email','regime_id','logo',
-                      'decimal_precision','decimal_separator','city'));
+      return $this->hasOne(AccountRegime::class,'id','regime_id');
     }
+
+      public function estimates()
+    {
+        return $this->hasMany(Estimate::class);
+    }
+
 }

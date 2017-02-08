@@ -8,7 +8,6 @@ use App\Models\Contact;
 use App\Models\Seller;
 use App\Models\ListPrice;
 use App\Utilities\DatesTranslator;
-use Carbon\Carbon;
 use Auth;
 
 class Estimate extends Model
@@ -67,6 +66,10 @@ class Estimate extends Model
 		
 	}
 	
+	public function account()
+	{
+		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo'));
+	}
 	
 	public function scopeGetAll($query,$isDeleted)
 	{
@@ -84,7 +87,7 @@ class Estimate extends Model
 
 	 public function scopeGetSelectedFields($query)
     {
-        return $query->select('id','public_id','seller_id','list_price_id','customer_id','currency_code',
+        return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
                     'created_at','updated_at');
 	}

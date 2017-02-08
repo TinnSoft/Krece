@@ -35,7 +35,7 @@
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
-                        <div id="home" class="dropdown profile-element"> <span>
+                        <div id="logo" class="dropdown profile-element"> <span>
 
                             <template v-if="logoSrc != ''">
                                   <img alt="image" class="img-circle" :src="logoSrc" style="width: 98px" height="71px" />
@@ -47,7 +47,7 @@
                              </span> <span class="text-muted text-xs block">Opciones<b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="{{route('profile.edit',Auth::user()->id)}}">Mi Perfil</a></li>
-                                <li><a href="{{route('company.edit','info')}}">Configuración</a></li>
+                                <li><a href="{{route('account.edit','info')}}">Configuración</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ url('/logout') }}"  onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Salir</a></li>
@@ -122,7 +122,7 @@
                             <li><a href="{{route('taxes.index')}}">Impuestos</a></li>
                             <li><a href="{{route('retention.index')}}">Retenciones</a></li>
                             <li><a href="{{route('payterms.index')}}">Términos de Pago</a></li>
-                            <li><a href="{{route('company.edit','info')}}">Empresa</a></li>
+                            <li><a href="{{route('account.edit','info')}}">Empresa</a></li>
                             <li><a href="{{route('profile.edit',Auth::user()->id)}}">Mi perfil</a></li>
                         </ul>
                     </li>
@@ -225,34 +225,7 @@
      {!!Html::script('/themes/krece/js/plugins/dataTables/datatables.min.js')!!}
      {!!Html::script('/themes/krece/js/plugins/toastr/toastr.min.js')!!}
      
-     <script>
-        var appHome = new Vue({
-            el: '#home',
-            data:  {   
-                logoSrc: {},
-                errors:{}
-            },
-            created: function () {  
-              
-                this.fetchData();
-            },
-            methods: {    
-                 fetchData: function()
-                    {    
-                        //carga de los datos del header
-                        var vm = this
-                                axios.get('/getLogo')
-                                    .then(function(response) {                                                                                                  
-                                        Vue.set(vm.$data, 'logoSrc', response.data);
-                                    })
-                                    .catch(function(error) {
-                                        console.log(error)
-                                    })                  
-                    },
-             }
-
-        });
-     </script>
+    {!!Html::script('/js/functions/logo.js')!!}
 
 </body>
 

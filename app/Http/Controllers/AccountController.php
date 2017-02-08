@@ -6,21 +6,20 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\{
-    Company,
-    CompanyRegime,
+    AccountRegime,
     Account
 };
-
+use App\Events\SettingsChanged;
 use App\Http\Controllers\AppController;
 
-class CompanyController extends Controller
+class AccountController extends Controller
 {
         
     public function store(Request $request)
     {   
         $this->validate($request, [     
             'name' => 'required',
-            'regime_id'=>'required|exists:company_regime,id'
+            'regime_id'=>'required|exists:account_regime,id'
         ]);
 
         $data = $request->all();  
@@ -50,12 +49,13 @@ class CompanyController extends Controller
 
     public function edit($id)
     {      
-          $company = Account::with('company')
-         ->where('id',  Auth::user()->account_id)  
-         ->select('company_id')      
+          $company = Account::where('id',  Auth::user()->account_id)  
+         ->select('name','identification','address','phone','website','city','regime_id','logo',
+         'decimal_precision','decimal_separator','id','email')      
          ->first();
 
-         $companyRegime = CompanyRegime::select( 'id','value')->get();    
+         
+         $companyRegime = AccountRegime::select( 'id','value')->get();    
         
          if (!$company->company)
         {
@@ -65,7 +65,7 @@ class CompanyController extends Controller
             );
         }
   
-         return view('company.edit', compact('company','companyRegime'));         
+         return view('account.edit', compact('company','companyRegime'));         
     }
 
     public function update(Request $request, $id)
@@ -73,14 +73,14 @@ class CompanyController extends Controller
          
          $this->validate($request, [     
             'name' => 'required',
-            'regime_id'=>'required|exists:company_regime,id'
+            'regime_id'=>'required|exists:account_regime,id'
         ]);
         
-        $company = Company::findOrFail($id);
-        $data = $request->all();       
-        
-        //$header = $this->toBase64($request->file('logo'));
+           
+        $company = Account::findOrFail( Auth::user()->account_id);
 
+        $data = $request->all();       
+            
         try{
             $company->update($data);  
               
@@ -93,8 +93,13 @@ class CompanyController extends Controller
             ]);
         }
         
+        
         //Actualiza la session con el nuevo logo
-        $routecall= (new AppController)->setLogo();
+        try{
+          event(new SettingsChanged());
+        }
+        catch(\exception $e){           
+        }
 
         return response()
             ->json([
