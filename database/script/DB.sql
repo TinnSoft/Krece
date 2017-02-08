@@ -2105,7 +2105,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `remember_token` varchar(255) DEFAULT NULL,
   `transaction_token` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
-  `avatar` blob COMMENT 'user image',
   `status_id` int(11) DEFAULT '1' COMMENT 'state of the user: active, inactive',
   `created_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2129,12 +2128,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Volcando datos para la tabla krece.user: ~5 rows (aproximadamente)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `avatar`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
-	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'GDJjquFewnCUdr105VetJWeUSKjI9O0q5N7Tzre1gKVJmHia7ru3TyGedCdY', NULL, NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-01-24 09:42:03', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'FcregiMVfdO3B65QJkXKuELvAVo9VO41bZVsKq27s22fDwJDqK79DWs92VmN', NULL, NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(3, 3, 1, NULL, NULL, 'fernandwo2684@gmail.com', '$2y$10$u6v0vfdvla3xCyD7HJLkVeFS/Q6Ozhf.I1AIv9nnUCqDuPDCUe1XW', 'j7WUKqHUUhp5uBiAZKAg9fWmTvKYEgEq9kk9PGGiwf1ax3DE2H5oSjoau79P', NULL, NULL, NULL, 1, '2016-12-07 17:22:30', NULL, '2016-12-07 17:22:35', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(4, 4, 1, NULL, NULL, 'fernando268422@gmail.com', '$2y$10$n..GzUA79THtAPd2Y/J8N.7nZiFzeHcdCEIH3emPIM98k4Yp9/z7u', 'O67MhIiFYyJkgNi3AkvJsI1UL7fJf8cYE4depxK7Kmk3WvI50zYWoh2u0aRJ', NULL, NULL, NULL, 1, '2016-12-07 17:23:24', NULL, '2016-12-07 17:24:15', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(5, 5, 1, NULL, NULL, 'fernando2684fff@gmail.com', '$2y$10$pzPLJy8dj/OZm0PZig7RU.MQapUDHC0QAeeoS01n5W8jedsr9jaw6', 'vJlDKaPMlujHx33vjYwAE4b6pMzOkpf75DRllIZX0dkUsCMEsgJ7Lq6DqEEp', NULL, NULL, NULL, 1, '2016-12-07 22:43:02', NULL, '2017-01-17 17:56:29', NULL, NULL, NULL, 1, NULL, NULL, b'1');
+INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
+	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'Mk3VCRDCJ8Ybx5BMPrY8kRqy7rS5hsNe3yKGXWMPNRZo1tPIzvuQw7LJFLuS', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-02-08 09:31:18', '2017-02-08 09:31:18', NULL, NULL, 1, NULL, NULL, b'1'),
+	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'FcregiMVfdO3B65QJkXKuELvAVo9VO41bZVsKq27s22fDwJDqK79DWs92VmN', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
+	(3, 3, 1, NULL, NULL, 'fernandwo2684@gmail.com', '$2y$10$u6v0vfdvla3xCyD7HJLkVeFS/Q6Ozhf.I1AIv9nnUCqDuPDCUe1XW', 'j7WUKqHUUhp5uBiAZKAg9fWmTvKYEgEq9kk9PGGiwf1ax3DE2H5oSjoau79P', NULL, NULL, 1, '2016-12-07 17:22:30', NULL, '2016-12-07 17:22:35', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
+	(4, 4, 1, NULL, NULL, 'fernando268422@gmail.com', '$2y$10$n..GzUA79THtAPd2Y/J8N.7nZiFzeHcdCEIH3emPIM98k4Yp9/z7u', 'O67MhIiFYyJkgNi3AkvJsI1UL7fJf8cYE4depxK7Kmk3WvI50zYWoh2u0aRJ', NULL, NULL, 1, '2016-12-07 17:23:24', NULL, '2016-12-07 17:24:15', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
+	(5, 5, 1, NULL, NULL, 'fernando2684fff@gmail.com', '$2y$10$pzPLJy8dj/OZm0PZig7RU.MQapUDHC0QAeeoS01n5W8jedsr9jaw6', 'vJlDKaPMlujHx33vjYwAE4b6pMzOkpf75DRllIZX0dkUsCMEsgJ7Lq6DqEEp', NULL, NULL, 1, '2016-12-07 22:43:02', NULL, '2017-01-17 17:56:29', NULL, NULL, NULL, 1, NULL, NULL, b'1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.user_password_resets
