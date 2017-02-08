@@ -58,14 +58,18 @@ var app = new Vue({
           .then(function(response) {
             if(response.data.updated) {
              vm.isProcessing = false;
+
+              toastr.success('Registro actualizado correctamente.', 'Actualizado', {timeOut: 5000}); 
              //show a confirmation message
             } else {             
               vm.isProcessing = false;
+               toastr.error('No se ha podido completar la operación, intente de nuevo.', 'Error', {timeOut: 5000});
             }
           })
           .catch(function(error) {
             vm.isProcessing = false;
             Vue.set(vm.$data, 'errors', error.response.data);
+             toastr.error('No se ha podido completar la operación, intente de nuevo.', 'Error', {timeOut: 5000});
           })
       }   
     }

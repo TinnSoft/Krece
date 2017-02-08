@@ -36,17 +36,18 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div id="home" class="dropdown profile-element"> <span>
-                        
-                            <img alt="image" class="img-circle" :src="logoSrc" style="width: 98px" height="71px" />
-                            
 
+                            <template v-if="logoSrc != ''">
+                                  <img alt="image" class="img-circle" :src="logoSrc" style="width: 98px" height="71px" />
+                            </template>
+                           
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{Auth::user()->email}}</strong>
                              </span> <span class="text-muted text-xs block">Opciones<b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="">Mi Perfil</a></li>
-                                <li><a href="">Configuración</a></li>
+                                <li><a href="{{route('profile.edit',Auth::user()->id)}}">Mi Perfil</a></li>
+                                <li><a href="{{route('company.edit','info')}}">Configuración</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ url('/logout') }}"  onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">Salir</a></li>

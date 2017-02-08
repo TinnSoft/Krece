@@ -11,7 +11,7 @@
 Route::get('/', 'AppController@index');
 
 Route::post('login', 'AppController@login')->middleware('guest');
-
+Route::post('register', 'AppController@login')->middleware('auth');
 Route::post('/logout', 'AppController@logout')->middleware('auth');
 Route::get('getLogo','AppController@getLogo');
 

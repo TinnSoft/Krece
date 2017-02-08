@@ -58,9 +58,9 @@
 				"sortorder":"asc",
                 loadComplete: function () {                  
                     resizewidth();
-                    if (app.form.category_id)
+                    if (categoryApp.form.category_id)
                     {
-                        jQuery('#category-grid').jqGrid('setSelection',app.form.category_id);
+                        jQuery('#category-grid').jqGrid('setSelection',categoryApp.form.category_id);
                     }
                 },
                 "onSelectRow" : function( rowid ) {
@@ -75,10 +75,10 @@
              function displayButtons(cellvalue, options, rowObject) {
             
                 
-                var edit = '<div  title= "editar"  class="fa fa-pencil" style="cursor: pointer; color:green" onClick="app.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
-                    Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=app.updateNode(\""+options+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=app.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
+                var edit = '<div  title= "editar"  class="fa fa-pencil" style="cursor: pointer; color:green" onClick="categoryApp.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
+                    Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=categoryApp.updateNode(\""+options+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove'  style='cursor: pointer; color:red' onclick=categoryApp.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=categoryApp.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
                 
                 if (rowObject.isEditable==0)
                 {

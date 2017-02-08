@@ -41,7 +41,7 @@
 @include('partials.warm_itemNotFound')
 
 <script>
-var app = new Vue({
+var categoryApp = new Vue({
   el: '#inventory_index',
    data:function()  {
     return {

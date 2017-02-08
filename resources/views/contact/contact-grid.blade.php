@@ -131,9 +131,9 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=app.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=app.goEdit(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
+                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=app2.goShow(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=app2.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=app2.remove(\""+cellvalue+"\")/></div><span > </span>";
                 
                 return edit + Details + Delete;
             }   

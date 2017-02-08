@@ -47,7 +47,7 @@
 
 <script>
 
- var app = new Vue({
+ var estimateApp = new Vue({
   el: '#estimate_index',
    data()  {
     return {

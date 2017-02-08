@@ -17,7 +17,7 @@
 
     </style>
 
-        <div id="estimate2" class="jqGrid_wrapper">            
+        <div id="estimate_index" class="jqGrid_wrapper">            
            <!-- activar buscador 
             <div class="ibox-content">
                 <ul class="todo-list m-t small-list  col-sm-5 pull-right">
@@ -130,19 +130,19 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=app.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=app.goEdit(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
+                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=estimateApp.goShow(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=estimateApp.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=estimateApp.remove(\""+cellvalue+"\")/></div><span > </span>";
                 
                 return edit + Details + Delete;
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=app.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=estimateApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
                     return goTo;
             }
              function diffForHumans(cellValue, options, rowObject) {
-                    return app.moment(cellValue);
+                    return estimateApp.moment(cellValue);
             }
 
              $(window).bind('resize', function () {

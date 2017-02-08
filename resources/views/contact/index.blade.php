@@ -26,7 +26,7 @@
                 </div>                
             </div>           
 
-   <div id="contact"  class="row  border-bottom white-bg dashboard-header">
+   <div id="contact2"  class="row  border-bottom white-bg dashboard-header">
         <div class="panel-body">
                 <div class="ibox-content">   
                     <div class="row">
@@ -46,8 +46,8 @@
 @include('partials.warm_itemNotFound')
 
 <script>
-var app = new Vue({
-  el: '#contact',
+var app2 = new Vue({
+  el: '#contact2',
    data()  {
     return {
     idsel:""

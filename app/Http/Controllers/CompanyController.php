@@ -12,6 +12,8 @@ use App\Models\{
     Account
 };
 
+use App\Http\Controllers\AppController;
+
 class CompanyController extends Controller
 {
         
@@ -36,14 +38,13 @@ class CompanyController extends Controller
             $data['isCustomer']=1;
         }
         
-       $contact = Contact::create($data);
-        $contact->contact_others()->saveMany($items);
+        $contact = Contact::create($data);
 
-     
+        $routecall= (new AppController)->setLogo();
+
         return response()
             ->json([
-                'created' => true,
-                'id' => $contact->public_id
+                'created' => true
             ]);
     }
 
@@ -94,26 +95,15 @@ class CompanyController extends Controller
                 'message' => "No se pudo actualizar correctamente el contacto, intente de nuevo"            
             ]);
         }
-    
         
+        //Actualiza la session con el nuevo logo
+        $routecall= (new AppController)->setLogo();
+
         return response()
             ->json([
                 'updated' => true          
             ]);
     }
-     private function update_logo(Request $request)
-    {
-        $filename=null;
-        if ($request->hasFile('avatar'))
-        {
-            $logo=$request->file('logo');            
-            $filename=time().'.'.$logo->getClientOriginalExtension();
-            Image::make($logo)->resize(178,51)->save(public_path('/uploads/logos/'.$filename));           
-        }
-        return $filename;
-        //$data = File::get($file->path());
-        //$base64 = 'data:image/' . $file->extension() . ';base64,' . base64_encode($data);
-        //return $base64;
-    }
+    
    
 }
