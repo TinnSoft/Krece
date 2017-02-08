@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Carbon\Carbon;
 use App\Models\{
     Category,
     Category2

@@ -7,7 +7,7 @@ use Auth;
 use Session;
 use Response;
 use App\Models\Account;
-use App\Events\UserSignedUp;
+use App\Events\UserLoggedIn;
 
 class AppController extends Controller
 {
@@ -52,8 +52,8 @@ class AppController extends Controller
                 ]);
         }
        
-        event(new UserSignedUp());
-        
+        event(new LoggedIn());
+
         return redirect()
             ->intended('/');
     }

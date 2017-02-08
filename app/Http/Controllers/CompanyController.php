@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Carbon\Carbon;
 use App\Models\{
     Company,
     CompanyRegime,
@@ -50,17 +49,7 @@ class CompanyController extends Controller
 
 
     public function edit($id)
-    {
-          $logo=null;
-       if(session()->has('logo2'))
-       {
-            $logo=session()->get('logo2');
-       }
-        return response()
-            ->json([
-                'created' => $logo
-            ]);
-
+    {      
           $company = Account::with('company')
          ->where('id',  Auth::user()->account_id)  
          ->select('company_id')      
@@ -76,8 +65,7 @@ class CompanyController extends Controller
             );
         }
   
-         return view('company.edit', compact('company','companyRegime'));
-         
+         return view('company.edit', compact('company','companyRegime'));         
     }
 
     public function update(Request $request, $id)
