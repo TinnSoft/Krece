@@ -51,7 +51,16 @@ class CompanyController extends Controller
 
     public function edit($id)
     {
-        
+          $logo=null;
+       if(session()->has('logo2'))
+       {
+            $logo=session()->get('logo2');
+       }
+        return response()
+            ->json([
+                'created' => $logo
+            ]);
+
           $company = Account::with('company')
          ->where('id',  Auth::user()->account_id)  
          ->select('company_id')      

@@ -226,7 +226,7 @@
      {!!Html::script('/themes/krece/js/plugins/toastr/toastr.min.js')!!}
      
      <script>
-        var app = new Vue({
+        var appHome = new Vue({
             el: '#home',
             data:  {   
                 logoSrc: {},

@@ -7,6 +7,7 @@ use Auth;
 use Session;
 use Response;
 use App\Models\Account;
+use App\Events\UserSignedUp;
 
 class AppController extends Controller
 {
@@ -18,22 +19,7 @@ class AppController extends Controller
       
         return view('auth/login');
     }
-     public static function setLogo()
-    {
-        $company = Account::with('company')
-         ->where('id',  Auth::user()->account_id)  
-         ->select('company_id')      
-         ->first();
-         $companylogo=null;
-         if ($company)
-         {
-            $companylogo=$company->company->logo;        
-         }
-        Auth::user()->setAttribute('logo',$companylogo);
-        session(['logo' => $companylogo]);
-
-    }
-
+   
     public function getLogo()
       {
         $logo=null;
@@ -65,8 +51,9 @@ class AppController extends Controller
                     'email' => 'Correo invalido o password incompleto!'
                 ]);
         }
-        $this->setLogo();  
-
+       
+        event(new UserSignedUp());
+        
         return redirect()
             ->intended('/');
     }
