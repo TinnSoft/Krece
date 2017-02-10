@@ -81,8 +81,7 @@
                     Lock = "<div title= 'Desactivar' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
                 
                 if (rowObject.isActive==0)
-                {
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='color:#F3D8D5'/></div><span > </span>";
+                {                    
                     edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>";
                     Lock = "<div title= 'Activar' class='fa fa-lock '  style='cursor: pointer; color:gray' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
                 }

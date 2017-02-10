@@ -75,5 +75,5 @@ Route::resource('account', 'AccountController');
 Route::resource('resolution', 'ResolutionController');
 Route::get('getresolutionlist','ResolutionController@resolutionIndex');
 Route::get('getresolutionlist_number','ResolutionController@resolution_numbers');
-Route::get('update_state/{req}','ResolutionController@update_state');
+Route::put('update_state/{req}','ResolutionController@update_state');
 

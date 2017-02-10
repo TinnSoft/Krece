@@ -31,7 +31,6 @@
         <div class="panel-body">
             <div class="ibox-content">   
                     @include('resolution.resolution_number')    
-                    <pre>@{{$data}}</pre> 
                     <div class="row">            
                         <div class="col-lg-12 text-right">
                             <a href="{{route('resolution.create')}}" class="btn btn-primary btn-sm pull-right"> 
@@ -90,18 +89,15 @@ var appresolution = new Vue({
             if (status)
             {
                 var vm = this; 
-                Vue.set(vm.$data.status, 'isActive', status);
-               
-                vm.isProcessing = true;
+                Vue.set(vm.$data.status, 'isActive', status);               
+              
                 axios.put('/update_state/' + item, vm.status)
                 .then(function(response) {
-                    if(response.data.updated) {   
-                         toastr.success('Registro actualizado correctamente', 'Actualizado', {timeOut: 5000});        
+                    if(response.data.updated) {                             
                          $('#resolution-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                     }
                 })
-                .catch(function(error) {
-                    vm.isProcessing = false;
+                .catch(function(error) {                   
                     console.log(error.response.data);
                     Vue.set(vm.$data, 'errors', error.response.data);
                 })

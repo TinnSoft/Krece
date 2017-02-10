@@ -161,20 +161,10 @@ class ResolutionController extends Controller
             ]);
     }
     
-    public function update_state(Request $request)
+    public function update_state(Request $request,$id)
     {
-           return response()
-            ->json([
-                'products_empty' => [ '$data']
-            ], 422);
-
-            $data = $request->all();   
-
-             
-
-
+            $data = $request->all(); 
             $data['isActive']= (int)$data['isActive'];
-
              
             $item = Resolution::findOrFail($id);
             $item->update($data);
