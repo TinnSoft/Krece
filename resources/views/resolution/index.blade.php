@@ -51,18 +51,18 @@ var appresolution = new Vue({
   el: '#resolution_index',
    data:function()  {
     return {
-    errors:{},
-    resolution_number:[],
-    status:{isActive:null,},
-    form:{
-        
-        validate:true
-    },
-     isProcessing: false,
+        errors:{},
+        resolution_number:[],
+        status:{isActive:null,},
+        form:{
+            validate:true
+            },
+        isProcessing: false,
   }},
   created: function () {  
        var vm = this
-      vm.fetchdata();    
+      vm.fetchdata();
+
     },
   methods: {
     fetchdata: function()
@@ -89,11 +89,10 @@ var appresolution = new Vue({
             if (status)
             {
                 var vm = this; 
-                Vue.set(vm.$data.status, 'isActive', status);               
-              
+                Vue.set(vm.$data.status, 'isActive', status); 
                 axios.put('/update_state/' + item, vm.status)
                 .then(function(response) {
-                    if(response.data.updated) {                             
+                    if(response.data.updated) {   
                          $('#resolution-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                     }
                 })
@@ -104,12 +103,31 @@ var appresolution = new Vue({
             }
         }
     },
+    updateNumeration: function()
+    {        
+       
+                var vm = this; 
+                 vm.isProcessing=true;         
+                axios.put('/update_numeration/1', vm.resolution_number)
+                .then(function(response) {
+                    if(response.data.updated) {
+                         vm.isProcessing=false;
+                         toastr.success('Registro actualizado correctamente', 'Actualizado', {timeOut: 5000});    
+                    }
+                })
+                .catch(function(error) { 
+                    vm.isProcessing=false;                    
+                    console.log(error.response.data);
+                    toastr.error('No se ha podido actualizar el registro, intente de nuevo.', 'Error', {timeOut: 5000});
+                    Vue.set(vm.$data, 'errors', error.response.data);
+                })
+       
+    },
     goEdit: function(val){
         if (val)
         {
              window.location = '/resolution/'+val+'/edit';
         }
-       
     },
     remove:function(val) {
       let self = this;

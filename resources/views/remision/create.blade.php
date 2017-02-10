@@ -5,10 +5,10 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nueva cotización</h2>
+                    <h2 >Nueva remision</h2>
                     <ol class="breadcrumb">                       
                         <li>
-                            <a href="{{route('estimate.index')}}">Inicio</a>
+                            <a href="{{route('remision.index')}}">Inicio</a>
                         </li>
                          <li class="active">
                             <strong>Crear</strong>
@@ -19,15 +19,15 @@
             </div>           
 
  <div class="row  border-bottom white-bg dashboard-header">
-    <div id="estimate">   
+    <div id="remision">   
         <div class="panel" v-cloak>           
             <div class="panel-body">
-                @include('estimate.form')
+                @include('remision.form')
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
                     <button class="btn btn-primary pull-right" @click="create" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear</button>                   
-                    <a href="{{route('estimate.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
+                    <a href="{{route('remision.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>
         </div>
@@ -54,6 +54,8 @@
             public_id: '',
             resolution_id:'',
             customer_id: '',
+            documentType_id:'',
+            documentType:null,
             contact: null,
             notes: '',
             observations:'',
@@ -69,7 +71,7 @@
             total_discounts:'',
             total_taxes:'',
             total:'',           
-            estimatedetail: [{
+            remisiondetail: [{
                 product_id: '',
                 product:null,
                 description:'',
@@ -85,6 +87,6 @@
    
        
    {!!Html::script('/js/components/datepicker/datepicker-vue.js')!!} 
-    {!!Html::script('/js/functions/estimate.js')!!}
+    {!!Html::script('/js/functions/remision.js')!!}
    
 @endpush

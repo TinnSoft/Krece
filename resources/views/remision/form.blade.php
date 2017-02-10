@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="col-lg-5">
-                 <h2>COTIZACIÓN No: @{{form.resolution_id}}</h2>
+                 <h2>REMISION No: @{{form.resolution_id}}</h2>
             </div>
             <div class="col-lg-5 text-right">
                  <span> MONTO </span>
@@ -127,36 +127,56 @@
                 <tr>
 					<th><span >Lista de precios</span></th>
 					<td>
-                        <span id="prefix" ></span>                      
-                      
-                         <multiselect 
+                        <span id="prefix" ></span>    
+                            <multiselect 
+                                v-model="form.list_price" 
+                                deselect-label="quitar" 
+                                track-by="name" 
+                                label="name" 
+                                placeholder="Seleccione..." 
                                 :options="listPrice" 
-                                v-model="form.list_price"
-                                label="name"         
-                                track-by="name"
-                                placeholder="Seleccione..."
-                                @input="onInputlistprice"
-                            >
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputlistprice">
                             </multiselect>
-
+                    </td>
+				</tr>
+                 <tr>
+					<th><span >Tipo de documento</span><a class="text-danger"><strong> *</strong></a></th>
+					<td>
+                      
+                      <multiselect 
+                                v-model="form.documentType" 
+                                deselect-label="quitar" 
+                                track-by="description" 
+                                label="description" 
+                                placeholder="Seleccione..." 
+                                :options="documentType" 
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputDocumenttype">
+                            </multiselect>
+                            <small v-if="errors.documentType_id" class="error is-danger  text-danger">
+                            Debe seleccionar un tipo de documento</small> 
+                       
                     </td>
 				</tr>
                 <tr>
 					<th><span >Moneda</span></th>
 					<td>
                       
-                         <multiselect 
+                      <multiselect 
+                                v-model="form.currency" 
+                                deselect-label="quitar" 
+                                track-by="code" 
+                                label="code" 
+                                placeholder="Seleccione..." 
                                 :options="currency" 
-                                v-model="form.currency"
-                                label="code"         
-                                track-by="code"
-                                placeholder="Seleccione..."
-                                :custom-label="currencyLabel"
-                                @input="onInputCurrency"
-                            >
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputCurrency">
                             </multiselect>
-                           
-
+                       
                     </td>
 				</tr>
 			</table>
@@ -165,6 +185,7 @@
         
     </div> 
 <small>los campos marcados como <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
+<pre><code>@{{$data.errors | json}}</code></pre>
 
 <table class="table-hover">
     <thead>
@@ -183,10 +204,10 @@
     <tbody>
         
         
-        <tr id="Icon-m" title="Remover ítem" v-for="_estimatedetail in form.estimatedetail">                       
+        <tr id="Icon-m" title="Remover ítem" v-for="_remisiondetail in form.remisiondetail">                       
             <td style="width: 1em">
               
-                <a @click="removeItem(_estimatedetail)">
+                <a @click="removeItem(_remisiondetail)">
                     <span id="icon-detail" class="glyphicon glyphicon-trash fa-1x" style="color:red">
                     </span>
                 </a>
@@ -196,11 +217,11 @@
                     <multiselect 
                             :options="product_list" 
                             class="input_number"
-                            v-model="_estimatedetail.product"
+                            v-model="_remisiondetail.product"
                             label="name"         
                             track-by="name"
                             placeholder="Buscar ítem..." 
-                            @input="onInputProduct(_estimatedetail)"
+                            @input="onInputProduct(_remisiondetail)"
                         >
                         </multiselect>
 
@@ -208,32 +229,32 @@
                 </span>  
             </td>     
             <td class="form-description" style="width: 10em" >
-                <textarea rows="1" class="form-control input_number" v-model="_estimatedetail.description"></textarea>
+                <textarea rows="1" class="form-control input_number" v-model="_remisiondetail.description"></textarea>
             </td>
             <td class="form-unit_price" style="width: 8em">
-                <input type="number" class="form-control input_number"  v-model.number="_estimatedetail.unit_price">
+                <input type="number" class="form-control input_number"  v-model.number="_remisiondetail.unit_price">
             </td>
             <td class="form-quantity"  style="width: 7em">
-                <input type="number" class="form-control input_number" v-model.number="_estimatedetail.quantity">
+                <input type="number" class="form-control input_number" v-model.number="_remisiondetail.quantity">
             </td>            
             <td class="form-discount" style="width: 5em">
-                <input type="number" class="form-control input_number" v-model.number="_estimatedetail.discount">
+                <input type="number" class="form-control input_number" v-model.number="_remisiondetail.discount">
             </td>
             <td class="form-tax"  style="width: 5em">
                   <multiselect 
                             :options="taxes" 
-                            v-model="_estimatedetail.tax_value"
+                            v-model="_remisiondetail.tax_value"
                             label="text"         
                             track-by="value"
                             placeholder="Impuesto"
                             ShowLabels="false"
-                            @input="onInputTax(_estimatedetail)"
+                            @input="onInputTax(_remisiondetail)"
                         >
                         </multiselect>
 
             </td>
             <td class="form-total" style="width: 7em" >
-                <span class="form-number">@{{_estimatedetail.quantity * _estimatedetail.unit_price - (_estimatedetail.quantity * _estimatedetail.unit_price*_estimatedetail.discount/100)  | formatCurrency}}</span>
+                <span class="form-number">@{{_remisiondetail.quantity * _remisiondetail.unit_price - (_remisiondetail.quantity * _remisiondetail.unit_price*_remisiondetail.discount/100)  | formatCurrency}}</span>
             </td>
         </tr>        
     </tbody>
@@ -253,7 +274,7 @@
 		</tr>
 </table>
 
-  <div v-if="errors.products_empty" class="alert alert-danger">      
+  <div v-if="errors.remisiondetail" class="alert alert-danger">      
      Debe ingresar por lo menos un producto en la cotización
  </div>
 

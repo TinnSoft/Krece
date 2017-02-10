@@ -2,7 +2,7 @@ Vue.config.devtools = true;
 Vue.config.debug = true;
 
 var app = new Vue({
-  el: '#estimate',
+  el: '#remision',
   components: {
         "Multiselect": VueMultiselect.Multiselect
     },
@@ -13,12 +13,13 @@ var app = new Vue({
     form: {},
     errors: {},
     customer_list:[],
+    documentType:[],
     vendors:[],
     currency:[],
     listPrice:[],   
     product_list:[],
     taxes:[],
-    redirect: '/estimate/',  
+    redirect: '/remision/',  
   }},
     //similar on load event
 
@@ -31,6 +32,14 @@ var app = new Vue({
         },
 
   methods: {  
+    
+     onInputDocumenttype:function(val)
+      {
+        if(val)
+        {this.form.documentType_id=val.id; }
+        else
+        {this.form.documentType_id=''; }      
+      },
       onInputContact:function(val)
       {
         if(val)
@@ -97,15 +106,19 @@ var app = new Vue({
       
       getCurrentDate: function()
       {
-        var d = new Date();      
-        var n = d.toLocaleDateString();
+        var d = new Date();
+        
+        var dd = new Date();
+        dd.setMonth(d.getMonth()+1); 
+  
         if (this.form.date=="")
         {
-          this.form.date=n;
+          this.form.date=d.toLocaleDateString();
+          this.form.due_date=dd.toLocaleDateString();
         }
       },
       addLine: function(e) {      
-        this.form.estimatedetail.push({ product_id: null,
+        this.form.remisiondetail.push({ product_id: null,
                   name:'',
                   description:'',
                   unit_price: 0,
@@ -114,14 +127,14 @@ var app = new Vue({
                   tax_amount: 0});           
       },
       removeItem: function(detail) {      
-        var index = this.form.estimatedetail.indexOf(detail)
-        this.form.estimatedetail.splice(index,1);
+        var index = this.form.remisiondetail.indexOf(detail)
+        this.form.remisiondetail.splice(index,1);
       },
       fetchData: function()
       {    
         //carga de los datos del header
         var vm = this
-                  axios.get('/getEstimateBaseInfo')
+                  axios.get('/getRemisionBaseInfo')
                       .then(function(response) {                          
                           Vue.set(vm.$data, 'customer_list', response.data.contacts);
                           Vue.set(vm.$data, 'currency', response.data.currency);
@@ -129,6 +142,25 @@ var app = new Vue({
                           Vue.set(vm.$data, 'vendors', response.data.sellers);
                           Vue.set(vm.$data, 'product_list', response.data.productlist);
                           Vue.set(vm.$data, 'taxes', response.data.taxes);
+                          Vue.set(vm.$data, 'documentType', response.data.documentType);
+                          
+                          //default values
+                          if (!vm.$data.form.list_price)
+                          {
+                            Vue.set(vm.$data.form, 'list_price', response.data.list_price);
+                            Vue.set(vm.$data.form, 'list_price_id', response.data.list_price.id);
+                          }
+                           if (!vm.$data.form.documentType)
+                          {                             
+                            Vue.set(vm.$data.form, 'documentType', response.data.default_documentType);
+                            Vue.set(vm.$data.form, 'documentType_id', response.data.default_documentType.id);
+                          }
+                           if (!vm.$data.form.currency)
+                          {
+                            Vue.set(vm.$data.form, 'currency', response.data.default_Currency);
+                            Vue.set(vm.$data.form, 'currency_code', response.data.default_Currency.code_id);
+                          }
+                          
 
                           if (vm.$data.form.public_id=="")
                           {                          
@@ -139,7 +171,6 @@ var app = new Vue({
                           {                          
                             vm.$data.form.resolution_id=response.data.resolution_id.number;
                           }
-                          console.log( vm.$data.form);
                       })
                       .catch(function(error) {  
                           Vue.set(vm.$data, 'errors', error);
@@ -182,26 +213,26 @@ var app = new Vue({
  //valores calculados
   computed: {
     subTotal: function() {
-      var _subtotal= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-        return carry + (parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price));
+      var _subtotal= this.form.remisiondetail.reduce(function(carry, remisiondetail) {
+        return carry + (parseFloat(remisiondetail.quantity) * parseFloat(remisiondetail.unit_price));
       }, 0);
       _subtotal=isNaN(_subtotal) ? 0:_subtotal;
        this.form.sub_total=_subtotal;
       return _subtotal;
     },
      DiscountsTotal: function() {
-      var discountsTot= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-        return carry + (((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))* parseFloat(estimatedetail.discount)))/100;        
+      var discountsTot= this.form.remisiondetail.reduce(function(carry, remisiondetail) {
+        return carry + (((parseFloat(remisiondetail.quantity) * parseFloat(remisiondetail.unit_price))* parseFloat(remisiondetail.discount)))/100;        
       }, 0);      
       this.form.total_discounts=isNaN(discountsTot) ? 0:discountsTot;
       return isNaN(discountsTot) ? 0:discountsTot
     },
 
       TaxesTotal: function() {
-      var TaxTot= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-       return carry + ((((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))
-       -((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))* parseFloat(estimatedetail.discount))/100)* 
-       parseFloat(estimatedetail.tax_amount)))/100; 
+      var TaxTot= this.form.remisiondetail.reduce(function(carry, remisiondetail) {
+       return carry + ((((parseFloat(remisiondetail.quantity) * parseFloat(remisiondetail.unit_price))
+       -((parseFloat(remisiondetail.quantity) * parseFloat(remisiondetail.unit_price))* parseFloat(remisiondetail.discount))/100)* 
+       parseFloat(remisiondetail.tax_amount)))/100; 
       }, 0);
       
       this.form.total_taxes=isNaN(TaxTot) ? 0:TaxTot;

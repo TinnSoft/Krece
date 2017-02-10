@@ -10,27 +10,28 @@ use App\Models\ListPrice;
 use App\Utilities\DatesTranslator;
 use Auth;
 
-class Estimate extends Model
+class Remision extends Model
 {
 	
 	use DatesTranslator;
 	
 	
-	protected $table = 'estimate';
+	protected $table = 'remision';
 	
 	
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
-	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id'
+	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id',
+	'document_type_id','status_id'
 	];
 	
 	protected $dates = ['deleted_at'];
 	
 	
-	public function estimatedetail()
+	public function remisiondetail()
 	{
 		
-		return $this->hasMany(EstimateDetail::class)->with('product');
+		return $this->hasMany(RemisionDetail::class)->with('product');
 		
 	}
 	
@@ -89,7 +90,7 @@ class Estimate extends Model
     {
         return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
-                    'created_at','updated_at','resolution_id');
+                    'created_at','updated_at','resolution_id','status_id','document_type_id');
 	}
 }
 

@@ -12,4 +12,11 @@ class Helper
 
     return $valconverted;
  }
+   public static function setCustomDateFormat($dateval)
+    {            
+        $day=$dateval->day;
+        $month=$dateval->month;
+        $year=$dateval->year;
+        return $day.'/'. $month.'/'.$year;   
+    }
 }

@@ -76,4 +76,12 @@ Route::resource('resolution', 'ResolutionController');
 Route::get('getresolutionlist','ResolutionController@resolutionIndex');
 Route::get('getresolutionlist_number','ResolutionController@resolution_numbers');
 Route::put('update_state/{req}','ResolutionController@update_state');
+Route::put('update_numeration/{req}','ResolutionController@update_numeration');
+
+//Remision
+Route::resource('remision', 'RemisionController');
+Route::get('getRemisionBaseInfo','RemisionController@BaseInfo');
+Route::get('getRemisionList','RemisionController@getRemisionList');
+Route::get('remision/{id}/pdf', 'RemisionController@pdf');
+Route::put('remision_update_state/{req}','RemisionController@update_state');
 

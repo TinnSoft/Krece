@@ -73,6 +73,7 @@
                             <li><a href="">Pagos recibidos</a></li>
                             <li><a href="">Notas credito</a></li>       
                             <li><a href="{{route('estimate.index')}}">Cotizaciones</a></li>
+                            <li><a href="{{route('remision.index')}}">Remisiones</a></li>
                         </ul>
                     </li>
                     

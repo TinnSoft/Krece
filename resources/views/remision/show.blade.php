@@ -7,36 +7,38 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2 >Cotización No: <span class="text-navy">{{$estimate->resolution_id}}</span></h2>
+                <h2 >Remision No: <span class="text-navy">{{$remision->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
-                    <a href="{{route('estimate.index')}}">Inicio</a>
+                    <a href="{{route('remision.index')}}">Inicio</a>
                 </li>
                 <li class="active">
-                    <strong>Cotizaciones</strong>                            
+                    <strong>Inicio</strong>                            
                 </li>
             </ol>
         </div>                
     </div>           
 
-            <div id="estimate_show" class="row wrapper wrapper-content">
+            <div id="remision_show" class="row wrapper wrapper-content">
             
                                        <div class="ibox-title">
                                        
                                             <p>
-                                                <a href="{{route('estimate.index')}}" class="btn btn-info btn-sm "> 
+                                            @if($remision->status_id==1)
+                                                <a href="{{route('remision.index')}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
                                                 
-                                                <a href="{{route('estimate.edit', $estimate->public_id)}}" class="btn btn-info btn-sm "> 
+                                                
+                                                <a href="{{route('remision.edit', $remision->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('estimate.edit', $estimate->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('remision.edit', $remision->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Clonar</a> 
-                                                
-                                                <a href="{{route('estimate.create')}}" class="btn btn-primary btn-sm pull-right"> 
+                                           @endif 
+                                                <a href="{{route('remision.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$estimate->public_id}})"> 
+                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$remision->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            
@@ -49,38 +51,47 @@
                     <div class="ibox-content p-xl">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <span><strong>Cotizado a: </strong>  <h4 class="text-navy">
-                                      @if (count($estimate->contact) > 0)
-                                                 <a href="{{route('contact.show', $estimate->contact->public_id)}}">{{$estimate->contact->name}}</a>
+                                    <span><strong>Cliente: </strong>  <h4 class="text-navy">
+                                      @if (count($remision->contact) > 0)
+                                                 <a href="{{route('contact.show', $remision->contact->public_id)}}">{{$remision->contact->name}}</a>
                                         @endif</h4>
-                                    </span><br/>
-
-                                    <span><strong>Observaciones: </strong>  
-                                      {{$estimate->observations}}
                                     </span><br/>
                                     
                                     <span><strong>Vendedor: </strong>  
-                                        @if (count($estimate->seller) > 0)
-                                                 {{$estimate->seller->name}}
+                                        @if (count($remision->seller) > 0)
+                                                 {{$remision->seller->name}}
                                         @endif</h4>                                 
                                     </span><br/>
                                     
                                      <span><strong>Lista de precios: </strong>  
-                                        @if (count($estimate->list_price) > 0)
-                                            {{$estimate->list_price->name}}
+                                        @if (count($remision->list_price) > 0)
+                                            {{$remision->list_price->name}}
                                         @endif
                                      </span><br/>
-                                
-                                      <span><strong>Moneda: </strong>  
-                                        {{$estimate->currency_code}}
+                                     
+                                      <span><strong>Total: $</strong>  
+                                        {{$remision->total}}
                                     </span><br/>
+                                      <span><strong>Moneda: </strong>  
+                                        {{$remision->currency_code}}
+                                    </span><br/>
+                                    <span><strong>Observaciones: </strong>  
+                                      {{$remision->observations}}
+                                    </span><br/>
+                                    
 
                                 </div>
                                     
                                 <div class="col-sm-6 text-right">                                                                   
                                     <p>
-                                        <span><strong>Fecha de creación:</strong>  {{$estimate->date}} </span><br/>
-                                        <span><strong>Fecha de vencimiento:</strong> {{$estimate->due_date}}      </span>
+                                        <span><strong>Fecha de creación:</strong>  {{$remision->date}} </span><br/>
+                                        <span><strong>Fecha de vencimiento:</strong> {{$remision->due_date}}      </span>
+                                        @if ($remision->status_id==1)                                    
+                                           <p>Estado: <span class='label label-primary'>ACTIVO</span></p>                                        
+                                        @else
+                                            <p>Estado: <span class='label label-warning'>ANULADO</span></p>
+                                        @endif
+                
                                     </p>
                                 </div>
                             </div>
@@ -99,7 +110,7 @@
                                     </thead>
                                     <tbody>
                                      
-                                        @foreach($estimate->estimatedetail as $prod)
+                                        @foreach($remision->remisiondetail as $prod)
                                             <tr>
                                                 <td class="table-product_id">
                                                     <div><strong>{{$prod->product->name}}</strong></div>
@@ -122,25 +133,25 @@
                                 <tbody>
                                 <tr>
                                     <td><strong>Sub Total :</strong></td>
-                                    <td>$ {{$estimate->sub_total}}</td>
+                                    <td>$ {{$remision->sub_total}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Descuentos :</strong></td>
-                                    <td>$ {{$estimate->total_discounts}}</td>
+                                    <td>$ {{$remision->total_discounts}}</td>
                                 </tr>
                                  <tr>
                                     <td><strong>Impuestos :</strong></td>
-                                    <td>$ {{$estimate->total_taxes}}</td>
+                                    <td>$ {{$remision->total_taxes}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
-                                    <td>$ {{$estimate->total}}</td>                                    
+                                    <td>$ {{$remision->total}}</td>                                    
                                 </tr>                                
                                 </tbody>
                             </table>                           
 
                             <div class="well m-t"><strong>Notas: </strong>
-                                {{$estimate->notes}}
+                                {{$remision->notes}}
                             </div>
                         </div>                     
                 </div>         
@@ -148,11 +159,11 @@
 
 <script>
 
- var appEstimateShow = new Vue({
-  el: '#estimate_show',
+ var appRemisionShow = new Vue({
+  el: '#remision_show',
   methods: {
        printPdf: function(val){
-        window.open('/estimate/'+val+'/pdf', '_blank');
+        window.open('/remision/'+val+'/pdf', '_blank');
     },
     goShow: function(val){
           alert();

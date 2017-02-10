@@ -1,4 +1,4 @@
-@extends('pdf.master',['id_file' =>  $estimate->public_id])
+@extends('pdf.master',['id_file' =>  $remision->public_id])
 
 @section('content')
 
@@ -9,35 +9,40 @@
            <tbody>
                 <tr>
                     <td style="text-align: centered;width: 98px">
-                      @if (count($estimate->account) > 0)
-                         <img alt="image" src= {{$estimate->account->logo}} style='width: 98px' height='80px' />                                                   
+                      @if (count($remision->account) > 0)
+                         <img alt="image" src= {{$remision->account->logo}} style='width: 98px' height='80px' />                                                   
                       @endif
                   </td>
                   <td style="text-align: left;">
                     <address>
                         <strong>
-                            @if (count($estimate->account) > 0)
-                                 {{$estimate->account->name}}
+                            @if (count($remision->account) > 0)
+                                 {{$remision->account->name}}
                             @endif
                         </strong><br>
                              NIT 
-                             @if (count($estimate->account) > 0)
-                                {{$estimate->account->identification}}
+                             @if (count($remision->account) > 0)
+                                {{$remision->account->identification}}
                             @endif<br>
-                            @if (count($estimate->account) > 0)
-                                   {{$estimate->account->city}}
+                            @if (count($remision->account) > 0)
+                                   {{$remision->account->city}}
                             @endif<br>
                             <abbr>Tel:</abbr>  
-                            @if (count($estimate->account) > 0)
-                                   {{$estimate->account->phone}}
+                            @if (count($remision->account) > 0)
+                                   {{$remision->account->phone}}
                             @endif
                         </address>
                   </td>
                   <td style="text-align: right;">
-                       <h2>Cotización No: <a class="text-navy"> {{$estimate->resolution_id}}</a></h2>
+                        @if ($remision->document_type_id==1)
+                             <h2>Remision No: <a class="text-navy"> {{$remision->resolution_id}}</a></h2>
+                        @else
+                             <h2>Orden de servicio No: <a class="text-navy"> {{$remision->resolution_id}}</a></h2>
+                        @endif
+                      
                        <address>
-                            <small>Fecha de expedición: {{$estimate->date}}</small><br>
-                            <small>Fecha de vencimiento: {{$estimate->due_date}}</small>
+                            <small>Fecha de expedición: {{$remision->date}}</small><br>
+                            <small>Fecha de vencimiento: {{$remision->due_date}}</small>
                        </address>
                   </td>
                   
@@ -49,27 +54,27 @@
 <div class="ibox-title">
         <address>
              <span class="text-muted text-xs block">SEÑOR(ES):<br>   
-             <a class="text-navy">{{$estimate->contact->name}}</a></span><br>
+             <a class="text-navy">{{$remision->contact->name}}</a></span><br>
              <span>Dirección: 
-                 @if (count($estimate->contact) > 0)
-                      {{$estimate->contact->address}}
+                 @if (count($remision->contact) > 0)
+                      {{$remision->contact->address}}
                   @endif
              </span><br>
              <span>
                 Ciudad: 
-                 @if (count($estimate->contact) > 0)
-                      {{$estimate->contact->city}}
+                 @if (count($remision->contact) > 0)
+                      {{$remision->contact->city}}
                 @endif
              </span><br>
               <span>Teléfono:
-                 @if (count($estimate->contact) > 0)
-                      {{$estimate->contact->phone1}}
+                 @if (count($remision->contact) > 0)
+                      {{$remision->contact->phone1}}
                 @endif
              </span><br>
               <span>
                 NIT:
-                 @if (count($estimate->contact) > 0)
-                      {{$estimate->contact->nit}}
+                 @if (count($remision->contact) > 0)
+                      {{$remision->contact->nit}}
                 @endif
              </span><br>
         </address>
@@ -93,7 +98,7 @@
                                     </thead>
                                     <tbody>
                                      
-                                        @foreach($estimate->estimatedetail as $prod)
+                                        @foreach($remision->remisiondetail as $prod)
                                             <tr>
                                                 <td  style="width: 35%;">
                                                     <div><strong>{{$prod->product->name}}</strong></div>
@@ -117,19 +122,19 @@
                                 <tr><td></td></tr>
                                 <tr>
                                     <td><strong>Sub Total:</strong></td>
-                                    <td>${{$estimate->sub_total}}</td>
+                                    <td>${{$remision->sub_total}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Descuentos:</strong></td>
-                                    <td>${{$estimate->total_discounts}}</td>
+                                    <td>${{$remision->total_discounts}}</td>
                                 </tr>
                                  <tr>
                                     <td><strong>Impuestos:</strong></td>
-                                    <td>${{$estimate->total_taxes}}</td>
+                                    <td>${{$remision->total_taxes}}</td>
                                 </tr>
                                 <tr style="background:#00802b;color:white">
                                     <td><strong >TOTAL:</strong></td>
-                                    <td><strong >${{$estimate->total}}</strong></td>                                    
+                                    <td><strong >${{$remision->total}}</strong></td>                                    
                                 </tr>                                
                                 </tbody>
                             </table>                           

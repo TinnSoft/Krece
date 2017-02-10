@@ -75,7 +75,6 @@
         
 
              function displayButtons(cellvalue, options, rowObject) {
-                 console.log(cellvalue);
                 var edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='cursor: pointer ; color:green' onClick=appresolution.goEdit(\""+cellvalue+"\") ></div><span > </span>";
                     Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='cursor: pointer; color:red' onclick=appresolution.remove(\""+cellvalue+"\")/></div><span > </span>";
                     Lock = "<div title= 'Desactivar' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";

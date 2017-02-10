@@ -4,8 +4,11 @@
 [v-cloak] {
   display: none;
 }
+
+
 </style>
 
+<link href="/css/style_tables.css" rel="stylesheet">
 {!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
   {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
 
@@ -31,7 +34,7 @@
                         </span>
                     </td>
 				</tr>
-				               
+				<template v-if="form.auto_increment=='1'">           
                 <tr> 
 					 <td><span >Prefijo</span></td>
 					<td>
@@ -59,7 +62,7 @@
                         </span>
                     </td>
 				</tr>  
-
+                </template>
                 <tr> 
 					 <td><span >Preferida:</span></td>
 					<td>
@@ -79,7 +82,9 @@
 					 <td><span >Resolución:</span></td>
 					<td>
                         <span>
-                           <textarea class="form-control" v-model="form.invoice_text"></textarea>  
+                           <textarea class="form-control" v-model="form.invoice_text" 
+                           placeholder="Ejemplo: Resolución Facturación por computador No 12345678 de 2017/01/01 Rango del 1 al 2000">
+                           </textarea>  
                         </span>
                     </td>
 				</tr>  

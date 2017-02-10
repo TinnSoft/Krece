@@ -8,7 +8,9 @@ use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
     Resolution,
-    ResolutionNumber
+    ResolutionNumber,
+    Estimate,
+    Remision
 };
 
 
@@ -34,7 +36,7 @@ class ResolutionController extends Controller
     {
          $resolution_numbers = ResolutionNumber::where('account_id',  Auth::user()->account_id)              
                 ->orderBy('id', 'asc')
-                ->select('key','number','id','text')
+                ->select('key','number','id','text','id')
                 ->get();    
 
         return response()->json($resolution_numbers);  
@@ -49,7 +51,7 @@ class ResolutionController extends Controller
     {             
           $this->validate($request, [     
             'name' => 'required',
-            'initial_number' => 'required'
+            'initial_number' => 'required_if:auto_increment,1'
             ]);        
         
         $data = $request->all();  
@@ -114,8 +116,9 @@ class ResolutionController extends Controller
         
         $this->validate($request, [     
             'name' => 'required',
-            'initial_number' => 'required'
+             'initial_number' => 'required_if:auto_increment,1'
         ]);
+
         
         $data = $request->all();  
         $data['account_id'] = Auth::user()->account_id;
@@ -169,6 +172,50 @@ class ResolutionController extends Controller
             $item = Resolution::findOrFail($id);
             $item->update($data);
             
+            return response()
+            ->json([
+                'updated' => true                           
+            ]);
+    }
+
+    public function update_numeration(Request $request)
+    {
+            $data = $request->all(); 
+           
+           $resolutionNumber=null;
+           //solo actualizar el número de resolución cuando éste sea mayor al actual de la tabla correspondiente
+            foreach($data as $item) {
+                if(isset($item['id'])) {
+                     
+                     switch ($item['key']) {
+                        case 'estimate':                                  
+                                $resolutionNumber=  Estimate::where('account_id',  Auth::user()->account_id)->max('resolution_id')+1;                            
+                            break;
+                        case 'purchase_order':
+                            //$resolutionNumber=  PurchaseOrder::where('account_id',  Auth::user()->account_id)->max('resolution_id')+1;
+                            break;
+                        case 'credit_note':
+                            //$resolutionNumber=  CreditNote::where('account_id',  Auth::user()->account_id)->max('resolution_id')+1;
+                            break;
+                        case 'remision':
+                            $resolutionNumber=  Remision::where('account_id',  Auth::user()->account_id)->max('resolution_id')+1;
+                            break;
+                         default:
+                                abort(404, 'Operación desconocida');
+                                break;
+                        }
+                    if($resolutionNumber)
+                    {
+                        if ($item['number']>= $resolutionNumber)
+                        {
+                            ResolutionNumber::where('id',$item['id'])->update(['number'=>$item['number']]);
+                        }
+
+                    }
+                    $resolutionNumber=null;
+                } 
+            }
+           
             return response()
             ->json([
                 'updated' => true                           

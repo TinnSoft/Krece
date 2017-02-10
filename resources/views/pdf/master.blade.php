@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{$estimate->public_id}} </title>
+    <title>{{$id_file}} </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   
     {!!Html::style('/themes/krece/css/style.css')!!}

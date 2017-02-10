@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
-    EstimateDetail,
-    Estimate,
+    RemisionDetail,
+    Remision,
+    RemisionDocumentType,
     Seller,
     Tax,
     Currency,
@@ -21,24 +22,24 @@ use App\Utilities\Helper;
 use PDF;
 use Illuminate\Support\Facades\DB;
 
-class EstimateController extends Controller
+class RemisionController extends Controller
 {
 
     public function index()
     {
-        return view('estimate.index');  
+        return view('remision.index');  
     }
 
-    public function getEstimateList()
+    public function getRemisionList()
     {
         //Obtener las cotizaciones creadas hasta la fecha       
-        $estimate = Estimate::with('contact')
+        $remision = Remision::with('contact')
                ->GetAll(0)
                ->orderBy('created_at', 'desc')
                 ->GetSelectedFields()
                ->get();
 
-         return response()->json($estimate);
+         return response()->json($remision);
     }
 
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
@@ -86,12 +87,30 @@ class EstimateController extends Controller
                ->orderBy('created_at', 'asc')
                ->get();
 
+        $DocumentType = RemisionDocumentType::select('id', 'description')
+               ->orderBy('id', 'asc')
+               ->get();
+
        
-        $PublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
+        $PublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','estimate')
+                        ->where('key','=','remision')
                         ->select('number')
                         ->first();
+
+        //Defaultvalue
+        $defaultlist_price=ListPrice::select('id', 'name')
+                ->where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)
+               ->orderBy('created_at', 'asc')
+               ->first();
+
+        $defaultdocumentType=RemisionDocumentType::select('id', 'description')
+               ->orderBy('id', 'asc')
+               ->first();
+
+        $defaultCurrency=null;
+
 
         $baseInfo=[
                 'public_id' => $PublicId,
@@ -101,7 +120,11 @@ class EstimateController extends Controller
                'currency'=>$currencylist,
                'productlist'=>$productlist,
                'taxes'=>$taxes,
-               'resolution_id'=>$ResolutionId    
+               'resolution_id'=>$ResolutionId,
+               'documentType'=> $DocumentType, 
+               'list_price'=>$defaultlist_price,
+               'default_documentType'=>$defaultdocumentType,  
+               'default_Currency'=>$defaultCurrency,
             ];
              
      return response()->json($baseInfo);
@@ -110,7 +133,7 @@ class EstimateController extends Controller
 
     public function create()
     {
-        return view('estimate.create');        
+        return view('remision.create');        
     }
         
     public function store(Request $request)
@@ -119,16 +142,17 @@ class EstimateController extends Controller
             'customer_id' => 'required',              
             'date' => 'required',
             'due_date' => 'required',
-            'notes' => 'required',            
-            'estimatedetail.*.unit_price' => 'required|numeric|min:1',
-            'estimatedetail.*.quantity' => 'required|integer|min:1',
-            'estimatedetail.*.product_id' => 'required',    
+            'notes' => 'required',
+            'documentType_id' => 'required',            
+            'remisiondetail.*.unit_price' => 'required|numeric|min:1',
+            'remisiondetail.*.quantity' => 'required|integer|min:1',
+            'remisiondetail.*.product_id' => 'required',    
         ]);
 
-        $products = collect($request->estimatedetail)->transform(function($estimatedetail) {
-            $estimatedetail['total'] = $estimatedetail['quantity'] * $estimatedetail['unit_price'];
-            $estimatedetail['user_id'] =  Auth::user()->id;
-            return new EstimateDetail($estimatedetail);
+        $products = collect($request->remisiondetail)->transform(function($remisiondetail) {
+            $remisiondetail['total'] = $remisiondetail['quantity'] * $remisiondetail['unit_price'];
+            $remisiondetail['user_id'] =  Auth::user()->id;
+            return new RemisionDetail($remisiondetail);
         });
         
 
@@ -139,105 +163,110 @@ class EstimateController extends Controller
             ], 422);
         };
 
-        $data = $request->except('estimatedetail');       
-
-        $currentPublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
+        
+        $data = $request->except('remisiondetail','documentType','list_price','currency','contact','seller');       
+        
+        $currentPublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','estimate')
+                        ->where('key','=','remision')
                         ->select('number')
                         ->first();
         
         $data['public_id'] = $currentPublicId;
+        $data['document_type_id'] =  (int)$data['documentType_id'];
         $data['resolution_id'] = $ResolutionId->number;
+        $data['status_id'] = 1;        
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
-         if (!$data['currency_code'])
+        
+        //Default
+        if (!$data['currency_code'])
         {
             $data['currency_code']="COP";
         }
 
-         $estimate = Estimate::create($data);
-        $estimate->estimatedetail()->saveMany($products);
-        
+        $remision = Remision::create($data);
+        $remision->remisiondetail()->saveMany($products);
+     
         //Incrementa el numero de cotización
-        ResolutionNumber::where('key', 'estimate')
+        ResolutionNumber::where('key', 'remision')
                 ->increment('number');
        
         return response()
             ->json([
                 'created' => true,
-                'id' => $estimate->public_id
+                'id' => $remision->public_id
             ]);
     }
 
-
     public function show($id)
     {
-          $estimate = Estimate::with('estimatedetail','list_price','seller')
+          $remision = Remision::with('remisiondetail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
-                    ->first();        
+                    ->first();     
 
-        if (!$estimate)
+        if (!$remision)
         {
             $notification = array(
-                'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
+                'message' => 'No se encontró ninguna referencia de remision creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/estimate')->with($notification);
+          return redirect('/remision')->with($notification);
         }
-        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
-        $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
+        $remision['date']=Carbon::parse($remision['date'])->toFormattedDateString(); 
+        $remision['due_date']=Carbon::parse($remision['due_date'])->toFormattedDateString(); 
         
-       foreach($estimate->estimatedetail as $item) 
+       foreach($remision->remisiondetail as $item) 
         {
             $item['unit_price']=Helper::formatMoney($item['unit_price']);
             $item['total']=Helper::formatMoney($item['total']);
         }  
 
-        $estimate['total']=Helper::formatMoney($estimate['total']);
-        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
-        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
-        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
+        $remision['total']=Helper::formatMoney($remision['total']);
+        $remision['sub_total']=Helper::formatMoney($remision['sub_total']);
+        $remision['total_taxes']=Helper::formatMoney($remision['total_taxes']);
+        $remision['total_discounts']=Helper::formatMoney($remision['total_discounts']);
 
-        return view('estimate.show', compact('estimate'));
+        return view('remision.show', compact('remision'));
     }
+
 
 
     public function edit($id)
     {
         
-        $estimate = Estimate::with(['estimatedetail','contact','list_price','currency','seller'])
+        $remision = Remision::with(['remisiondetail','contact','list_price','currency','seller'])
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
 
         
-         if (!$estimate)
+         if (!$remision)
         {
             $notification = array(
                 'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/estimate')->with($notification);
+          return redirect('/remision')->with($notification);
         }
 
-        $estimate['date']= Helper::setCustomDateFormat(Carbon::parse($estimate['date']));
-        $estimate['due_date']= Helper::setCustomDateFormat(Carbon::parse($estimate['due_date']));
+        $remision['date']= Helper::setCustomDateFormat(Carbon::parse($remision['date']));
+        $remision['due_date']= Helper::setCustomDateFormat(Carbon::parse($remision['due_date']));
         
         if (request()->get('convert')=='clone')
         {
-            $PublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
-            $estimate['public_id']= $PublicId;
-            $estimate['date']=Helper::setCustomDateFormat(Carbon::now());
-            $estimate['due_date']=null;
-            $estimate['notes']=null;
-            return view('estimate.clone', compact('estimate'));
+            $PublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
+            $remision['public_id']= $PublicId;
+            $remision['date']=Helper::setCustomDateFormat(Carbon::now());
+            $remision['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
+            $remision['notes']=null;
+            return view('remision.clone', compact('remision'));
         }
 
-         return view('estimate.edit', compact('estimate'));
+         return view('remision.edit', compact('remision'));
     }
 
     
@@ -249,17 +278,17 @@ class EstimateController extends Controller
             'date' => 'required',
             'due_date' => 'required',
             'notes' => 'required',            
-            'estimatedetail.*.unit_price' => 'required|numeric|min:1',
-            'estimatedetail.*.quantity' => 'required|integer|min:1',
-            'estimatedetail.*.product_id' => 'required',    
+            'remisiondetail.*.unit_price' => 'required|numeric|min:1',
+            'remisiondetail.*.quantity' => 'required|integer|min:1',
+            'remisiondetail.*.product_id' => 'required',    
         ]);
        
-        $estimate = Estimate::findOrFail($id);
+        $remision = Remision::findOrFail($id);
 
-        $products = collect($request->estimatedetail)->transform(function($estimatedetail) {
-        $estimatedetail['total'] = $estimatedetail['quantity'] * $estimatedetail['unit_price'];
-        $estimatedetail['user_id'] =  Auth::user()->id;
-            return new EstimateDetail($estimatedetail);
+        $products = collect($request->remisiondetail)->transform(function($remisiondetail) {
+        $remisiondetail['total'] = $remisiondetail['quantity'] * $remisiondetail['unit_price'];
+        $remisiondetail['user_id'] =  Auth::user()->id;
+            return new RemisionDetail($remisiondetail);
         });
         
         if($products->isEmpty()) {
@@ -269,32 +298,32 @@ class EstimateController extends Controller
             ], 422);
         };
         
-       $data = $request->except('estimatedetail');       
+       $data = $request->except('remisiondetail');       
 
         $data['user_id'] = Auth::user()->id;       
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
-        $estimate->update($data);
+        $remision->update($data);
        
-        EstimateDetail::where('estimate_id', $estimate->id)->delete();
-        $estimate->estimatedetail()->saveMany($products);
+        RemisionDetail::where('remision_id', $remision->id)->delete();
+        $remision->remisiondetail()->saveMany($products);
 
         return response()
             ->json([
                 'updated' => true,
-                'id' => $estimate->public_id              
+                'id' => $remision->public_id              
             ]);
     }
     
     public function destroy($id)
     {
 
-            $estimate = Estimate::GetByPublicId(0,$id)
+            $remision = Remision::GetByPublicId(0,$id)
                 ->firstOrFail();   
             
-            $estimate['isDeleted']=1;
-            $estimate['deleted_at']=$now = Carbon::now();
-            $estimate->save();
+            $remision['isDeleted']=1;
+            $remision['deleted_at']=$now = Carbon::now();
+            $remision->save();
             
             return response()
             ->json([
@@ -306,34 +335,51 @@ class EstimateController extends Controller
     {
         Carbon::setLocale('es');
 
-         $estimate = Estimate::with('account','estimatedetail','list_price','seller')
+         $remision = Remision::with('account','remisiondetail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
                 
-        $estimate['total']=Helper::formatMoney($estimate['total']);
-        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
-        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
-        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
+        $remision['total']=Helper::formatMoney($remision['total']);
+        $remision['sub_total']=Helper::formatMoney($remision['sub_total']);
+        $remision['total_taxes']=Helper::formatMoney($remision['total_taxes']);
+        $remision['total_discounts']=Helper::formatMoney($remision['total_discounts']);
         
-        foreach($estimate->estimatedetail as $item) 
+        foreach($remision->remisiondetail as $item) 
         {
             $item['unit_price']=Helper::formatMoney($item['unit_price']);
             $item['total']=Helper::formatMoney($item['total']);
         }
         
-        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
-        $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
+        $remision['date']=Carbon::parse($remision['date'])->toFormattedDateString(); 
+        $remision['due_date']=Carbon::parse($remision['due_date'])->toFormattedDateString(); 
 
-        $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
-        $filename = "Cotizacion_"."{$estimate->public_id}.pdf";
+        $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision]);
+        $filename = "Remision_"."{$remision->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
         }
         
         return $mypdf->stream();
-    
-
     }
+    
+    public function update_state(Request $request,$id)
+    {
+        
+            $data = $request->all(); 
+            $data['status_id']= (int)$data['status_id'];
+             
+
+            $item = Remision::findOrFail($id);
+              
+            $item->update($data);
+
+            
+            return response()
+            ->json([
+                'updated' => true                           
+            ]);
+    }
+
 }
