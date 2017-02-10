@@ -70,3 +70,10 @@ Route::get('getCategoryAll','CategoryController@CategoryAll');
 
 //Company
 Route::resource('account', 'AccountController');
+
+//Resolution
+Route::resource('resolution', 'ResolutionController');
+Route::get('getresolutionlist','ResolutionController@resolutionIndex');
+Route::get('getresolutionlist_number','ResolutionController@resolution_numbers');
+Route::get('update_state/{req}','ResolutionController@update_state');
+

@@ -178,6 +178,8 @@ class InventoryController extends Controller
          
     }
 
+    
+
     public function update(Request $request, $id)
     {   
         //Actualizar solamente de activo para inactivo o biseversa

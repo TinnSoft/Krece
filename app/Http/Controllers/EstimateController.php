@@ -16,6 +16,7 @@ use App\Models\{
     Contact,
     Product
 };
+use App\Utilities\Helper;
 use PDF;
 use Illuminate\Support\Facades\DB;
 
@@ -158,8 +159,8 @@ class EstimateController extends Controller
           $estimate = Estimate::with('estimatedetail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
-                    ->first();
-        
+                    ->first();        
+
         if (!$estimate)
         {
             $notification = array(
@@ -168,13 +169,19 @@ class EstimateController extends Controller
             );
           return redirect('/estimate')->with($notification);
         }
-         $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
+        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
         $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
         
-        $estimate['total']=number_format($estimate['total'], '2', '.', ',');
-        $estimate['sub_total']=number_format($estimate['sub_total'], '2', '.', ',');
-        $estimate['total_taxes']=number_format($estimate['total_taxes'], '2', '.', ',');
-        $estimate['total_discounts']=number_format($estimate['total_discounts'], '2', '.', ',');
+       foreach($estimate->estimatedetail as $item) 
+        {
+            $item['unit_price']=Helper::formatMoney($item['unit_price']);
+            $item['total']=Helper::formatMoney($item['total']);
+        }  
+
+        $estimate['total']=Helper::formatMoney($estimate['total']);
+        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
+        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
+        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
 
         return view('estimate.show', compact('estimate'));
     }
@@ -196,6 +203,7 @@ class EstimateController extends Controller
         ->GetSelectedFields()
         ->first();
 
+        
          if (!$estimate)
         {
             $notification = array(
@@ -208,10 +216,18 @@ class EstimateController extends Controller
         $estimate['date']= $this->setCustomDateFormat(Carbon::parse($estimate['date']));
         $estimate['due_date']= $this->setCustomDateFormat(Carbon::parse($estimate['due_date']));
         
+        if (request()->get('convert')=='clone')
+        {
+            $PublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
+            $estimate['public_id']= $PublicId;
+            return view('estimate.clone', compact('estimate'));
+        }
+
          return view('estimate.edit', compact('estimate'));
          
-         
     }
+
+    
 
     public function update(Request $request, $id)
     {        
@@ -282,19 +298,28 @@ class EstimateController extends Controller
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
-                    
-        $estimate['total']=number_format($estimate['total'], '2', '.', ',');
-        $estimate['sub_total']=number_format($estimate['sub_total'], '2', '.', ',');
-        $estimate['total_taxes']=number_format($estimate['total_taxes'], '2', '.', ',');
-        $estimate['total_discounts']=number_format($estimate['total_discounts'], '2', '.', ',');
+                
+        $estimate['total']=Helper::formatMoney($estimate['total']);
+        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
+        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
+        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
+        
+        foreach($estimate->estimatedetail as $item) 
+        {
+            $item['unit_price']=Helper::formatMoney($item['unit_price']);
+            $item['total']=Helper::formatMoney($item['total']);
+        }
+        
+        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
+        $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
 
         $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
-        $filename = "{$estimate->public_id}.pdf";
+        $filename = "Cotizacion_"."{$estimate->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
         }
-
+        
         return $mypdf->stream();
     
 

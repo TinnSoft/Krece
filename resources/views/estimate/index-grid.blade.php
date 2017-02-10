@@ -52,7 +52,7 @@
                     { label: 'Cliente', name: 'contact.name',  width: 170, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     {name:'public_id',  keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                     {name:'public_id', search:false, keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 780,
@@ -132,9 +132,10 @@
              function displayButtons(cellvalue, options, rowObject) {
                 var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=estimateApp.goShow(\""+cellvalue+"\") ></div><span > </span>",
                     Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=estimateApp.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                    Print = "<div title= 'Imprimir' class='fa fa-print' style='cursor: pointer'  onClick=estimateApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=estimateApp.remove(\""+cellvalue+"\")/></div><span > </span>";
                 
-                return edit + Details + Delete;
+                return Details + Print + edit+ Delete;
             }   
 
             function formatpublicID(cellValue, options, rowObject) {

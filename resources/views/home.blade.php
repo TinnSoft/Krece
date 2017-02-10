@@ -38,7 +38,7 @@
                         <div id="logo" class="dropdown profile-element"> <span>
 
                             <template v-if="logoSrc != ''">
-                                  <img alt="image" class="img-circle" :src="logoSrc" style="width: 98px" height="71px" />
+                                  <img alt="image" class="img-circle" :src="logoSrc" style="width: 95px" height="95px" />
                             </template>
                            
                              </span>
@@ -122,6 +122,7 @@
                             <li><a href="{{route('taxes.index')}}">Impuestos</a></li>
                             <li><a href="{{route('retention.index')}}">Retenciones</a></li>
                             <li><a href="{{route('payterms.index')}}">Términos de Pago</a></li>
+                            <li><a href="{{route('resolution.index')}}">Numeracion de documentos</a></li>
                             <li><a href="{{route('account.edit','info')}}">Empresa</a></li>
                             <li><a href="{{route('profile.edit',Auth::user()->id)}}">Mi perfil</a></li>
                         </ul>

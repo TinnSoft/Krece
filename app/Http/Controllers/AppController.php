@@ -8,12 +8,13 @@ use Session;
 use Response;
 use App\Models\Account;
 use App\Events\UserLoggedIn;
+use App\Events\SettingsChanged;
 
 class AppController extends Controller
 {
     public function index()
     {
-        if(Auth::check()) {   
+        if(Auth::check()) {                       
             return view('home');
         }
       
@@ -26,6 +27,10 @@ class AppController extends Controller
        if(session()->has('logo'))
        {
             $logo=session()->get('logo');
+       }
+       else
+       {
+            event(new SettingsChanged()); 
        }
 
        return $logo;

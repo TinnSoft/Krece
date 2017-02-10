@@ -17,7 +17,8 @@ var app = new Vue({
     currency:[],
     listPrice:[],   
     product_list:[],
-    taxes:[]
+    taxes:[],
+    redirect: '/estimate/',  
   }},
     //similar on load event
 
@@ -141,10 +142,10 @@ var app = new Vue({
       create: function() {      
           var vm = this;
           vm.isProcessing = true;
-          axios.post('/estimate', vm.form)
+          axios.post(vm.redirect, vm.form)
             .then(function (response) {
               if(response.data.created) {          
-                window.location = '/estimate/' + response.data.id;
+                window.location = vm.redirect + response.data.id;
               } else {
                 vm.isProcessing = false;
               }
@@ -158,10 +159,10 @@ var app = new Vue({
       update: function() {
       var vm = this;    
         vm.isProcessing = true;
-        axios.put('/estimate/' + vm.form.id, vm.form)
+        axios.put(vm.redirect+ vm.form.id, vm.form)
           .then(function(response) {
             if(response.data.updated) {
-              window.location = '/estimate/' + response.data.id;;
+              window.location =vm.redirect + response.data.id;;
             } else {             
               vm.isProcessing = false;
             }

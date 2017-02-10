@@ -54,6 +54,9 @@
     idsel:""
   }},
   methods: {
+      printPdf: function(val){
+        window.open('/estimate/'+val+'/pdf', '_blank');
+    },
        goShow: function(val){
         window.location = '/estimate/'+val;
     },

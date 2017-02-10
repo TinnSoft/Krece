@@ -29,6 +29,9 @@
                                                 
                                                 <a href="{{route('estimate.edit', $estimate->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+
+                                                <a href="{{route('estimate.edit', $estimate->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <span ></span>&nbsp;Clonar</a> 
                                                 
                                                 <a href="{{route('estimate.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
@@ -107,7 +110,7 @@
                                                 <td class="table-qty">{{$prod->quantity}}</td>
                                                 <td class="table-discount">{{$prod->discount}}</td>
                                                 <td class="table-taxes">{{$prod->tax_amount}}</td>
-                                                <td class="table-total text-right">$ {{$prod->quantity * $prod->unit_price}}</td>
+                                                <td class="table-total text-right">$ {{$prod->total}}</td>
                                             </tr>
                                         @endforeach                                   
 

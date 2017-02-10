@@ -1,110 +1,89 @@
 @extends('pdf.master')
 
 @section('content')
-                   
-                            <div  class='row'>
-                                <div class="col-sm-6">
-                                     <h1>Cotización No: <a class="text-navy"> {{$estimate->public_id}}</a></h1>
-                                    <table  style=" width: 50%;border-color: #BBB; float: right;background: #EEE; border-color: #BBB;">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                  @if (count($estimate->account) > 0)
-                                                  <img alt="image" src= {{$estimate->account->logo}} style="width: 98px" height="71px" />
-                                                   
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan=2><strong>
-                                                @if (count($estimate->account) > 0)
-                                                    {{$estimate->account->name}}
-                                                    @endif
-                                                </strong></td>
-                                            </tr>
-                                            <tr >
-                                                <td><strong>NIT:</strong></td>
-                                                <td>
-                                                    @if (count($estimate->account) > 0)
-                                                    {{$estimate->account->identification}}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Ciudad:</strong></td>
-                                                    <td>
-                                                        @if (count($estimate->account) > 0)
-                                                        {{$estimate->account->city}}
-                                                        @endif
-                                                    </td>
-                                            </tr>         
-                                            <tr>
-                                                <td><strong>Teléfono:</strong></td>
-                                                    <td>
-                                                        @if (count($estimate->account) > 0)
-                                                        {{$estimate->account->phone}}
-                                                        @endif
-                                                    </td>
-                                            </tr>            
-                                        </tbody>
-                                    </table>  
-                                </div>
 
-                                <div class="col-sm-6 ">
-                                    <div class="table-responsive m-t">
-                                      <table  style=" width: 50%;border-color: black ;">
-                                        <tbody >
-                                            <tr>
-                                                <td><h4><strong>Señor(es)</strong></h4></td>
-                                                <td>
-                                                    @if (count($estimate->contact) > 0)
-                                                    {{$estimate->contact->name}}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr >
-                                                <td><small><strong>Dirección:</strong></small></td>
-                                                <td>
-                                                    @if (count($estimate->contact) > 0)
-                                                    {{$estimate->contact->address}}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><small><strong>Ciudad:</strong></small></td>
-                                                    <td>
-                                                        @if (count($estimate->contact) > 0)
-                                                        {{$estimate->contact->city}}
-                                                        @endif
-                                                    </td>
-                                            </tr>         
-                                            <tr>
-                                                <td><small><strong>Teléfono:</strong></small></td>
-                                                    <td>
-                                                        @if (count($estimate->contact) > 0)
-                                                        {{$estimate->contact->phone1}}
-                                                        @endif
-                                                    </td>
-                                            </tr>    
-                                            <tr>
-                                                <td><small><strong>Nit:</strong></small></td>
-                                                    <td>
-                                                        @if (count($estimate->contact) > 0)
-                                                        {{$estimate->contact->nit}}
-                                                        @endif
-                                                    </td>
-                                            </tr>           
-                                        </tbody>
-                                    </table> 
-                                   </div>
-                                </div>
-                            </div>
 
-                          <div class="table-responsive m-t">
-                                <table class="table invoice-table"  style="width: 100%;font-size:70%;">
+
+<div class="ibox">
+    <table  width= "100%">
+           <tbody>
+                <tr>
+                    <td style="text-align: centered;width: 98px">
+                      @if (count($estimate->account) > 0)
+                         <img alt="image" src= {{$estimate->account->logo}} style='width: 98px' height='80px' />                                                   
+                      @endif
+                  </td>
+                  <td style="text-align: left;">
+                    <address>
+                        <strong>
+                            @if (count($estimate->account) > 0)
+                                 {{$estimate->account->name}}
+                            @endif
+                        </strong><br>
+                             NIT 
+                             @if (count($estimate->account) > 0)
+                                {{$estimate->account->identification}}
+                            @endif<br>
+                            @if (count($estimate->account) > 0)
+                                   {{$estimate->account->city}}
+                            @endif<br>
+                            <abbr>Tel:</abbr>  
+                            @if (count($estimate->account) > 0)
+                                   {{$estimate->account->phone}}
+                            @endif
+                        </address>
+                  </td>
+                  <td style="text-align: right;">
+                       <h2>Cotización No: <a class="text-navy"> {{$estimate->public_id}}</a></h2>
+                       <address>
+                            <small>Fecha de expedición: {{$estimate->date}}</small><br>
+                            <small>Fecha de vencimiento: {{$estimate->due_date}}</small>
+                       </address>
+                  </td>
+                  
+                 </tr>                                       
+            </tbody>
+    </table
+</div>
+
+<div class="ibox-title">
+        <address>
+             <span class="text-muted text-xs block">SEÑOR(ES):<br>   
+             <a class="text-navy">{{$estimate->contact->name}}</a></span><br>
+             <span>Dirección: 
+                 @if (count($estimate->contact) > 0)
+                      {{$estimate->contact->address}}
+                  @endif
+             </span><br>
+             <span>
+                Ciudad: 
+                 @if (count($estimate->contact) > 0)
+                      {{$estimate->contact->city}}
+                @endif
+             </span><br>
+              <span>Teléfono:
+                 @if (count($estimate->contact) > 0)
+                      {{$estimate->contact->phone1}}
+                @endif
+             </span><br>
+              <span>
+                NIT:
+                 @if (count($estimate->contact) > 0)
+                      {{$estimate->contact->nit}}
+                @endif
+             </span><br>
+        </address>
+ </div>
+
+                
+
+
+
+<div class="table-responsive m-t">
+                                <table class="detail" style="width: 100%;font-size:70%;">
                                     <thead>
                                     <tr style="background: #009933; border-color: #93D4D4;color:white;">
-                                        <th style="text-align: center">PRODUCTO</th>                                       
+                                        <th >PRODUCTO</th>                                       
                                         <th style="text-align: center">PRECIO</th>
                                         <th style="text-align: center">CANTIDAD</th>
                                         <th style="text-align: center">DESC %</th>
@@ -120,47 +99,45 @@
                                                     <div><strong>{{$prod->product->name}}</strong></div>
                                                     <small>{{$prod->description}}</small>
                                                 </td>    
-                                                <td  style="width: 15%;" class="table-price">{{$prod->unit_price  }}</td>
-                                                <td style="width: 10%;" class="table-qty">{{$prod->quantity}}</td>
-                                                <td style="width: 10%;" class="table-discount">{{$prod->discount}}</td>
-                                                <td style="width: 15%;" class="table-taxes">{{$prod->tax_amount}}</td>
-                                                <td style="width: 15%;" class="table-total text-right">{{$prod->quantity * $prod->unit_price}}</td>
+                                                <td  style="width: 15%; text-align: center" class="table-price">${{$prod->unit_price  }}</td>
+                                                <td style="width: 10%; text-align: center" class="table-qty">{{$prod->quantity}}</td>
+                                                <td style="width: 10%; text-align: center">{{$prod->discount}}</td>
+                                                <td style="width: 15%; text-align: center" class="table-taxes">{{$prod->tax_amount}}</td>
+                                                <td style="width: 15%; text-align: center" class="table-total text-right">${{$prod->total}}</td>
                                             </tr>
                                         @endforeach                                   
 
                                     </tbody>
                                 </table>
-                            </div><!-- /table-responsive -->
-
-                            <table class="table invoice-total" style="float: right;font-size:70%; ">
+                            </div>
+                            <div class="ibox">
+                            <table class="total" >
                                 <tbody>
+                                <tr><td></td></tr>
+                                <tr><td></td></tr>
                                 <tr>
                                     <td><strong>Sub Total:</strong></td>
-                                    <td>{{$estimate->sub_total}}</td>
+                                    <td>${{$estimate->sub_total}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Descuentos:</strong></td>
-                                    <td>{{$estimate->total_discounts}}</td>
+                                    <td>${{$estimate->total_discounts}}</td>
                                 </tr>
                                  <tr>
                                     <td><strong>Impuestos:</strong></td>
-                                    <td>{{$estimate->total_taxes}}</td>
+                                    <td>${{$estimate->total_taxes}}</td>
                                 </tr>
                                 <tr style="background:#00802b;color:white">
                                     <td><strong >TOTAL:</strong></td>
-                                    <td><strong >{{$estimate->total}}</strong></td>                                    
+                                    <td><strong >${{$estimate->total}}</strong></td>                                    
                                 </tr>                                
                                 </tbody>
                             </table>                           
-
+                            </div>
                          <div class="footer">                 
                             <div>
                                <small> Cotización generada en el sistema <strong> www.krece.co</strong></small>
                             </div>
                         </div>
-  
-                            
-                     
-
 
 @endsection

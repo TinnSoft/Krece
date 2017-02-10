@@ -4,6 +4,12 @@ class Helper
 {
  public static function formatMoney($value)
  {
-    return number_format($value, '2', '.', ',');
+     $valconverted=$value;
+     try{
+     $valconverted=number_format($value, '2', '.', ',');
+     }
+     catch(\exception $e){}
+
+    return $valconverted;
  }
 }
