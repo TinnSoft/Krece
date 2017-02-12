@@ -90,15 +90,22 @@ class InventoryController extends Controller
     }
         
     public function store(Request $request)
-    {             
+    {        
+        
+
           $this->validate($request, [     
             'name' => 'required',
             'sale_price' => 'required',
             'tax_id' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'inv_type_id'=>'required_if:inv_inStock,true',
+            'inv_unit_cost'=>'required_if:inv_inStock,true',
+            'inv_quantity_initial'=>'required_if:inv_inStock,true'
             ]);        
         
-        $data = $request->except('tax');  
+        $data = $request->except('tax','list_price');  
+
+         
 
         $currentPublicId = Product::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
@@ -198,12 +205,15 @@ class InventoryController extends Controller
             ]);
         }
         catch(\exception $e){}
-        
+
         $this->validate($request, [     
             'name' => 'required',
             'sale_price' => 'required',
             'tax_id' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'inv_type_id'=>'required_if:inv_inStock,true',
+            'inv_unit_cost'=>'required_if:inv_inStock,true',
+            'inv_quantity_initial'=>'required_if:inv_inStock,true'
         ]);
         
     

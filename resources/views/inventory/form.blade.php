@@ -127,17 +127,24 @@
                                  group-label="measure_type" 
                                  placeholder="Seleccione.." 
                                  track-by="measure_unit" 
+                                 @input="onInputUnitMeasure"
                                  label="measure_unit">
                                  <span slot="noResult">Oops! No se han encontrado registros coincidentes.
                                  </span>
-                                 </multiselect>                       
+                                 </multiselect>     
+                                 <small v-if="errors.inv_type_id" class="error is-danger  text-danger">
+                                    Selecciona una unidad de medida
+                                </small>                     
                             </td>                 
                         </tr>	
                          <tr> 
                             <td><small>Cantidad inicial</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                 <span>                              
-                                    <input type="number" class="form-control" v-model="form.inv_quantity_initial">   
+                                    <input type="number" class="form-control" v-model="form.inv_quantity_initial">  
+                                    <small v-if="errors.inv_quantity_initial" class="error is-danger  text-danger">
+                                    La cantidad inicial debe ser mayor a 0
+                                </small>         
                                 </span>                           
                             </td>                 
                         </tr>	
@@ -146,7 +153,10 @@
                             <td>  
                                 <span>                              
                                     <input type="number" class="form-control" v-model="form.inv_unit_cost">   
-                                </span>                           
+                                </span> 
+                                <small v-if="errors.inv_unit_cost" class="error is-danger  text-danger">
+                                    El precio de compra debe ser mayor a 0
+                                </small>                                   
                             </td>                 
                         </tr>		
                     </table>
@@ -165,3 +175,4 @@
 
    @include('partials.category_modal')
 
+<pre>@{{$data.form}}</pre>
