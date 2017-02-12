@@ -69,7 +69,7 @@
             total_discounts:'',
             total_taxes:'',
             total:'',           
-            estimatedetail: [{
+            detail: [{
                 product_id: '',
                 product:null,
                 description:'',

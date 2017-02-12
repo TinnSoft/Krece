@@ -19,7 +19,6 @@ use App\Models\{
 };
 use App\Utilities\Helper;
 use PDF;
-use Illuminate\Support\Facades\DB;
 
 class EstimateController extends Controller
 {
@@ -45,63 +44,16 @@ class EstimateController extends Controller
     public function BaseInfo()
     {
        
-        $contact = Contact::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-
-        $sellers = Seller::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-                ->where('isEnabled',  1)
-               ->orderBy('created_at', 'asc')
-               ->get();
-
-        $listPrice = ListPrice::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-        $currencylist =  DB::table('currency')
-        ->join('currency_code', function ($join) {
-            $join->on('currency.code_id', '=', 'currency_code.code')
-                 ->where('currency.account_id', '=',  Auth::user()->account_id);
-        })
-        ->orderBy('currency_code.order', 'desc')
-               ->select('currency.code_id', 'currency_code.code','currency_code.symbol')->get();
-        
-
-        $productlist = Product::select('id', 'name','description','sale_price')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-        $taxes = Tax::select(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value')
-       ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-
        
-        $PublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
-        $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','estimate')
-                        ->select('number')
-                        ->first();
-
         $baseInfo=[
-                'public_id' => $PublicId,
-                'contacts' => $contact,
-               'sellers'=>$sellers,
-               'listprice'=>$listPrice,
-               'currency'=>$currencylist,
-               'productlist'=>$productlist,
-               'taxes'=>$taxes,
-               'resolution_id'=>$ResolutionId    
+                'public_id' => Helper::PublicId(Estimate::class),
+                'contacts' => Helper::contacts(),
+               'sellers'=>Helper::sellers(),
+               'listprice'=>Helper::listPrice(),
+               'currency'=>Helper::currencylist(),
+               'productlist'=>Helper::productlist(),
+               'taxes'=>Helper::taxes(),
+               'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'estimate')
             ];
              
      return response()->json($baseInfo);
@@ -120,15 +72,15 @@ class EstimateController extends Controller
             'date' => 'required',
             'due_date' => 'required',
             'notes' => 'required',            
-            'estimatedetail.*.unit_price' => 'required|numeric|min:1',
-            'estimatedetail.*.quantity' => 'required|integer|min:1',
-            'estimatedetail.*.product_id' => 'required',    
+            'detail.*.unit_price' => 'required|numeric|min:1',
+            'detail.*.quantity' => 'required|integer|min:1',
+            'detail.*.product_id' => 'required',    
         ]);
 
-        $products = collect($request->estimatedetail)->transform(function($estimatedetail) {
-            $estimatedetail['total'] = $estimatedetail['quantity'] * $estimatedetail['unit_price'];
-            $estimatedetail['user_id'] =  Auth::user()->id;
-            return new EstimateDetail($estimatedetail);
+        $products = collect($request->detail)->transform(function($detail) {
+            $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+            $detail['user_id'] =  Auth::user()->id;
+            return new EstimateDetail($detail);
         });
         
 
@@ -139,16 +91,11 @@ class EstimateController extends Controller
             ], 422);
         };
 
-        $data = $request->except('estimatedetail');       
+        $data = $request->except('detail','contact','seller');      
+         
 
-        $currentPublicId = Estimate::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
-        $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','estimate')
-                        ->select('number')
-                        ->first();
-        
-        $data['public_id'] = $currentPublicId;
-        $data['resolution_id'] = $ResolutionId->number;
+        $data['public_id'] = Helper::PublicId(Estimate::class);
+        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'estimate')['number'];
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
@@ -157,9 +104,20 @@ class EstimateController extends Controller
         {
             $data['currency_code']="COP";
         }
+        
+        try
+        {
+        $estimate = Estimate::create($data);
+        }
+        catch(\exception $e){
+              return response()
+            ->json([
+                'products_empty' => [$data]
+            ], 422);
 
-         $estimate = Estimate::create($data);
-        $estimate->estimatedetail()->saveMany($products);
+        }
+         
+        $estimate->detail()->saveMany($products);
         
         //Incrementa el numero de cotización
         ResolutionNumber::where('key', 'estimate')
@@ -175,7 +133,7 @@ class EstimateController extends Controller
 
     public function show($id)
     {
-          $estimate = Estimate::with('estimatedetail','list_price','seller')
+          $estimate = Estimate::with('detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();        
@@ -188,19 +146,8 @@ class EstimateController extends Controller
             );
           return redirect('/estimate')->with($notification);
         }
-        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
-        $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
         
-       foreach($estimate->estimatedetail as $item) 
-        {
-            $item['unit_price']=Helper::formatMoney($item['unit_price']);
-            $item['total']=Helper::formatMoney($item['total']);
-        }  
-
-        $estimate['total']=Helper::formatMoney($estimate['total']);
-        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
-        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
-        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
+        $estimate=Helper::_InvoiceFormatter($estimate);
 
         return view('estimate.show', compact('estimate'));
     }
@@ -209,7 +156,7 @@ class EstimateController extends Controller
     public function edit($id)
     {
         
-        $estimate = Estimate::with(['estimatedetail','contact','list_price','currency','seller'])
+        $estimate = Estimate::with(['detail','contact','list_price','currency','seller'])
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
@@ -249,17 +196,17 @@ class EstimateController extends Controller
             'date' => 'required',
             'due_date' => 'required',
             'notes' => 'required',            
-            'estimatedetail.*.unit_price' => 'required|numeric|min:1',
-            'estimatedetail.*.quantity' => 'required|integer|min:1',
-            'estimatedetail.*.product_id' => 'required',    
+            'detail.*.unit_price' => 'required|numeric|min:1',
+            'detail.*.quantity' => 'required|integer|min:1',
+            'detail.*.product_id' => 'required',    
         ]);
        
         $estimate = Estimate::findOrFail($id);
 
-        $products = collect($request->estimatedetail)->transform(function($estimatedetail) {
-        $estimatedetail['total'] = $estimatedetail['quantity'] * $estimatedetail['unit_price'];
-        $estimatedetail['user_id'] =  Auth::user()->id;
-            return new EstimateDetail($estimatedetail);
+        $products = collect($request->detail)->transform(function($detail) {
+        $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+        $detail['user_id'] =  Auth::user()->id;
+            return new EstimateDetail($detail);
         });
         
         if($products->isEmpty()) {
@@ -269,7 +216,7 @@ class EstimateController extends Controller
             ], 422);
         };
         
-       $data = $request->except('estimatedetail');       
+       $data = $request->except('detail');       
 
         $data['user_id'] = Auth::user()->id;       
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
@@ -277,7 +224,7 @@ class EstimateController extends Controller
         $estimate->update($data);
        
         EstimateDetail::where('estimate_id', $estimate->id)->delete();
-        $estimate->estimatedetail()->saveMany($products);
+        $estimate->detail()->saveMany($products);
 
         return response()
             ->json([
@@ -306,25 +253,14 @@ class EstimateController extends Controller
     {
         Carbon::setLocale('es');
 
-         $estimate = Estimate::with('account','estimatedetail','list_price','seller')
+         $estimate = Estimate::with('account','detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
                 
-        $estimate['total']=Helper::formatMoney($estimate['total']);
-        $estimate['sub_total']=Helper::formatMoney($estimate['sub_total']);
-        $estimate['total_taxes']=Helper::formatMoney($estimate['total_taxes']);
-        $estimate['total_discounts']=Helper::formatMoney($estimate['total_discounts']);
+       $estimate=Helper::_InvoiceFormatter($estimate);
+    
         
-        foreach($estimate->estimatedetail as $item) 
-        {
-            $item['unit_price']=Helper::formatMoney($item['unit_price']);
-            $item['total']=Helper::formatMoney($item['total']);
-        }
-        
-        $estimate['date']=Carbon::parse($estimate['date'])->toFormattedDateString(); 
-        $estimate['due_date']=Carbon::parse($estimate['due_date'])->toFormattedDateString(); 
-
         $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
         $filename = "Cotizacion_"."{$estimate->public_id}.pdf";
 
@@ -333,7 +269,6 @@ class EstimateController extends Controller
         }
         
         return $mypdf->stream();
-    
 
     }
 }

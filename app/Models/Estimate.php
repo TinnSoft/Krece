@@ -27,7 +27,7 @@ class Estimate extends Model
 	protected $dates = ['deleted_at'];
 	
 	
-	public function estimatedetail()
+	public function detail()
 	{
 		
 		return $this->hasMany(EstimateDetail::class)->with('product');

@@ -28,7 +28,7 @@ class Remision extends Model
 	protected $dates = ['deleted_at'];
 	
 	
-	public function remisiondetail()
+	public function detail()
 	{
 		
 		return $this->hasMany(RemisionDetail::class)->with('product');

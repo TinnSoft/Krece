@@ -98,7 +98,7 @@
                                     </thead>
                                     <tbody>
                                      
-                                        @foreach($remision->remisiondetail as $prod)
+                                        @foreach($remision->detail as $prod)
                                             <tr>
                                                 <td  style="width: 35%;">
                                                     <div><strong>{{$prod->product->name}}</strong></div>

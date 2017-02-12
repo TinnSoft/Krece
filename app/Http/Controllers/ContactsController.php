@@ -211,15 +211,12 @@ class ContactsController extends Controller
     }
 
     public function update(Request $request, $id)
-    {        
-         
-
+    {      
          $this->validate($request, [     
             'name' => 'required'
         ]);
        
          $items=[];
-        
         
         foreach($request->contact_others as $item) {
               if($item['name'])

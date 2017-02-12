@@ -204,10 +204,10 @@
     <tbody>
         
         
-        <tr id="Icon-m" title="Remover ítem" v-for="_remisiondetail in form.remisiondetail">                       
+        <tr id="Icon-m" title="Remover ítem" v-for="_detail in form.detail">                       
             <td style="width: 1em">
               
-                <a @click="removeItem(_remisiondetail)">
+                <a @click="removeItem(_detail)">
                     <span id="icon-detail" class="glyphicon glyphicon-trash fa-1x" style="color:red">
                     </span>
                 </a>
@@ -217,11 +217,11 @@
                     <multiselect 
                             :options="product_list" 
                             class="input_number"
-                            v-model="_remisiondetail.product"
+                            v-model="_detail.product"
                             label="name"         
                             track-by="name"
                             placeholder="Buscar ítem..." 
-                            @input="onInputProduct(_remisiondetail)"
+                            @input="onInputProduct(_detail)"
                         >
                         </multiselect>
 
@@ -229,32 +229,32 @@
                 </span>  
             </td>     
             <td class="form-description" style="width: 10em" >
-                <textarea rows="1" class="form-control input_number" v-model="_remisiondetail.description"></textarea>
+                <textarea rows="1" class="form-control input_number" v-model="_detail.description"></textarea>
             </td>
             <td class="form-unit_price" style="width: 8em">
-                <input type="number" class="form-control input_number"  v-model.number="_remisiondetail.unit_price">
+                <input type="number" class="form-control input_number"  v-model.number="_detail.unit_price">
             </td>
             <td class="form-quantity"  style="width: 7em">
-                <input type="number" class="form-control input_number" v-model.number="_remisiondetail.quantity">
+                <input type="number" class="form-control input_number" v-model.number="_detail.quantity">
             </td>            
             <td class="form-discount" style="width: 5em">
-                <input type="number" class="form-control input_number" v-model.number="_remisiondetail.discount">
+                <input type="number" class="form-control input_number" v-model.number="_detail.discount">
             </td>
             <td class="form-tax"  style="width: 5em">
                   <multiselect 
                             :options="taxes" 
-                            v-model="_remisiondetail.tax_value"
+                            v-model="_detail.tax_value"
                             label="text"         
                             track-by="value"
                             placeholder="Impuesto"
                             ShowLabels="false"
-                            @input="onInputTax(_remisiondetail)"
+                            @input="onInputTax(_detail)"
                         >
                         </multiselect>
 
             </td>
             <td class="form-total" style="width: 7em" >
-                <span class="form-number">@{{_remisiondetail.quantity * _remisiondetail.unit_price - (_remisiondetail.quantity * _remisiondetail.unit_price*_remisiondetail.discount/100)  | formatCurrency}}</span>
+                <span class="form-number">@{{_detail.quantity * _detail.unit_price - (_detail.quantity * _detail.unit_price*_detail.discount/100)  | formatCurrency}}</span>
             </td>
         </tr>        
     </tbody>
@@ -274,7 +274,7 @@
 		</tr>
 </table>
 
-  <div v-if="errors.remisiondetail" class="alert alert-danger">      
+  <div v-if="errors.detail" class="alert alert-danger">      
      Debe ingresar por lo menos un producto en la cotización
  </div>
 

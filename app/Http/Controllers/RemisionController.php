@@ -20,7 +20,6 @@ use App\Models\{
 };
 use App\Utilities\Helper;
 use PDF;
-use Illuminate\Support\Facades\DB;
 
 class RemisionController extends Controller
 {
@@ -45,65 +44,11 @@ class RemisionController extends Controller
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
     public function BaseInfo()
     {
-       
-        $contact = Contact::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
 
-        $sellers = Seller::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-                ->where('isEnabled',  1)
-               ->orderBy('created_at', 'asc')
-               ->get();
-
-        $listPrice = ListPrice::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-        $currencylist =  DB::table('currency')
-        ->join('currency_code', function ($join) {
-            $join->on('currency.code_id', '=', 'currency_code.code')
-                 ->where('currency.account_id', '=',  Auth::user()->account_id);
-        })
-        ->orderBy('currency_code.order', 'desc')
-               ->select('currency.code_id', 'currency_code.code','currency_code.symbol')->get();
-        
-
-        $productlist = Product::select('id', 'name','description','sale_price')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-        $taxes = Tax::select(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value')
-       ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
 
         $DocumentType = RemisionDocumentType::select('id', 'description')
                ->orderBy('id', 'asc')
                ->get();
-
-       
-        $PublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
-        $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','remision')
-                        ->select('number')
-                        ->first();
-
-        //Defaultvalue
-        $defaultlist_price=ListPrice::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->first();
 
         $defaultdocumentType=RemisionDocumentType::select('id', 'description')
                ->orderBy('id', 'asc')
@@ -113,20 +58,20 @@ class RemisionController extends Controller
 
 
         $baseInfo=[
-                'public_id' => $PublicId,
-                'contacts' => $contact,
-               'sellers'=>$sellers,
-               'listprice'=>$listPrice,
-               'currency'=>$currencylist,
-               'productlist'=>$productlist,
-               'taxes'=>$taxes,
-               'resolution_id'=>$ResolutionId,
+                'public_id' =>Helper::PublicId(Remision::class),
+                'contacts' => Helper::contacts(),
+               'sellers'=>Helper::sellers(),
+               'listprice'=>Helper::listPrice(),
+               'currency'=>Helper::currencylist(),
+               'productlist'=>Helper::productlist(),
+               'taxes'=>Helper::taxes(),
+               'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'remision'),
                'documentType'=> $DocumentType, 
-               'list_price'=>$defaultlist_price,
+               'list_price'=>Helper::listprice_default(),
                'default_documentType'=>$defaultdocumentType,  
                'default_Currency'=>$defaultCurrency,
             ];
-             
+
      return response()->json($baseInfo);
 
     }
@@ -144,15 +89,15 @@ class RemisionController extends Controller
             'due_date' => 'required',
             'notes' => 'required',
             'documentType_id' => 'required',            
-            'remisiondetail.*.unit_price' => 'required|numeric|min:1',
-            'remisiondetail.*.quantity' => 'required|integer|min:1',
-            'remisiondetail.*.product_id' => 'required',    
+            'detail.*.unit_price' => 'required|numeric|min:1',
+            'detail.*.quantity' => 'required|integer|min:1',
+            'detail.*.product_id' => 'required',    
         ]);
 
-        $products = collect($request->remisiondetail)->transform(function($remisiondetail) {
-            $remisiondetail['total'] = $remisiondetail['quantity'] * $remisiondetail['unit_price'];
-            $remisiondetail['user_id'] =  Auth::user()->id;
-            return new RemisionDetail($remisiondetail);
+        $products = collect($request->detail)->transform(function($detail) {
+            $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+            $detail['user_id'] =  Auth::user()->id;
+            return new RemisionDetail($detail);
         });
         
 
@@ -164,17 +109,11 @@ class RemisionController extends Controller
         };
 
         
-        $data = $request->except('remisiondetail','documentType','list_price','currency','contact','seller');       
+        $data = $request->except('detail','documentType','list_price','currency','contact','seller');       
         
-        $currentPublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
-        $ResolutionId = ResolutionNumber::where('account_id',  Auth::user()->account_id)
-                        ->where('key','=','remision')
-                        ->select('number')
-                        ->first();
-        
-        $data['public_id'] = $currentPublicId;
+        $data['public_id'] = Helper::PublicId(Remision::class);
         $data['document_type_id'] =  (int)$data['documentType_id'];
-        $data['resolution_id'] = $ResolutionId->number;
+        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'remision')['number'];
         $data['status_id'] = 1;        
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
@@ -188,7 +127,7 @@ class RemisionController extends Controller
         }
 
         $remision = Remision::create($data);
-        $remision->remisiondetail()->saveMany($products);
+        $remision->detail()->saveMany($products);
      
         //Incrementa el numero de cotización
         ResolutionNumber::where('key', 'remision')
@@ -203,7 +142,7 @@ class RemisionController extends Controller
 
     public function show($id)
     {
-          $remision = Remision::with('remisiondetail','list_price','seller')
+          $remision = Remision::with('detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();     
@@ -216,19 +155,8 @@ class RemisionController extends Controller
             );
           return redirect('/remision')->with($notification);
         }
-        $remision['date']=Carbon::parse($remision['date'])->toFormattedDateString(); 
-        $remision['due_date']=Carbon::parse($remision['due_date'])->toFormattedDateString(); 
-        
-       foreach($remision->remisiondetail as $item) 
-        {
-            $item['unit_price']=Helper::formatMoney($item['unit_price']);
-            $item['total']=Helper::formatMoney($item['total']);
-        }  
-
-        $remision['total']=Helper::formatMoney($remision['total']);
-        $remision['sub_total']=Helper::formatMoney($remision['sub_total']);
-        $remision['total_taxes']=Helper::formatMoney($remision['total_taxes']);
-        $remision['total_discounts']=Helper::formatMoney($remision['total_discounts']);
+       
+        $remision=Helper::_InvoiceFormatter($remision);
 
         return view('remision.show', compact('remision'));
     }
@@ -238,7 +166,7 @@ class RemisionController extends Controller
     public function edit($id)
     {
         
-        $remision = Remision::with(['remisiondetail','contact','list_price','currency','seller'])
+        $remision = Remision::with(['detail','contact','list_price','currency','seller'])
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
@@ -253,12 +181,13 @@ class RemisionController extends Controller
           return redirect('/remision')->with($notification);
         }
 
+
         $remision['date']= Helper::setCustomDateFormat(Carbon::parse($remision['date']));
         $remision['due_date']= Helper::setCustomDateFormat(Carbon::parse($remision['due_date']));
         
         if (request()->get('convert')=='clone')
         {
-            $PublicId = Remision::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
+            $PublicId = Helper::PublicId(Remision::class);
             $remision['public_id']= $PublicId;
             $remision['date']=Helper::setCustomDateFormat(Carbon::now());
             $remision['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
@@ -278,17 +207,17 @@ class RemisionController extends Controller
             'date' => 'required',
             'due_date' => 'required',
             'notes' => 'required',            
-            'remisiondetail.*.unit_price' => 'required|numeric|min:1',
-            'remisiondetail.*.quantity' => 'required|integer|min:1',
-            'remisiondetail.*.product_id' => 'required',    
+            'detail.*.unit_price' => 'required|numeric|min:1',
+            'detail.*.quantity' => 'required|integer|min:1',
+            'detail.*.product_id' => 'required',    
         ]);
        
         $remision = Remision::findOrFail($id);
 
-        $products = collect($request->remisiondetail)->transform(function($remisiondetail) {
-        $remisiondetail['total'] = $remisiondetail['quantity'] * $remisiondetail['unit_price'];
-        $remisiondetail['user_id'] =  Auth::user()->id;
-            return new RemisionDetail($remisiondetail);
+        $products = collect($request->detail)->transform(function($detail) {
+        $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+        $detail['user_id'] =  Auth::user()->id;
+            return new RemisionDetail($detail);
         });
         
         if($products->isEmpty()) {
@@ -298,7 +227,7 @@ class RemisionController extends Controller
             ], 422);
         };
         
-       $data = $request->except('remisiondetail');       
+       $data = $request->except('detail');       
 
         $data['user_id'] = Auth::user()->id;       
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
@@ -306,7 +235,7 @@ class RemisionController extends Controller
         $remision->update($data);
        
         RemisionDetail::where('remision_id', $remision->id)->delete();
-        $remision->remisiondetail()->saveMany($products);
+        $remision->detail()->saveMany($products);
 
         return response()
             ->json([
@@ -335,25 +264,13 @@ class RemisionController extends Controller
     {
         Carbon::setLocale('es');
 
-         $remision = Remision::with('account','remisiondetail','list_price','seller')
+         $remision = Remision::with('account','detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
                 
-        $remision['total']=Helper::formatMoney($remision['total']);
-        $remision['sub_total']=Helper::formatMoney($remision['sub_total']);
-        $remision['total_taxes']=Helper::formatMoney($remision['total_taxes']);
-        $remision['total_discounts']=Helper::formatMoney($remision['total_discounts']);
+        $remision=Helper::_InvoiceFormatter($remision);
         
-        foreach($remision->remisiondetail as $item) 
-        {
-            $item['unit_price']=Helper::formatMoney($item['unit_price']);
-            $item['total']=Helper::formatMoney($item['total']);
-        }
-        
-        $remision['date']=Carbon::parse($remision['date'])->toFormattedDateString(); 
-        $remision['due_date']=Carbon::parse($remision['due_date'])->toFormattedDateString(); 
-
         $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision]);
         $filename = "Remision_"."{$remision->public_id}.pdf";
 

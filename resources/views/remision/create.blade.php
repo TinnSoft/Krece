@@ -71,7 +71,7 @@
             total_discounts:'',
             total_taxes:'',
             total:'',           
-            remisiondetail: [{
+            detail: [{
                 product_id: '',
                 product:null,
                 description:'',

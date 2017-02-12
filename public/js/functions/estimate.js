@@ -105,7 +105,7 @@ var app = new Vue({
         }
       },
       addLine: function(e) {      
-        this.form.estimatedetail.push({ product_id: null,
+        this.form.detail.push({ product_id: null,
                   name:'',
                   description:'',
                   unit_price: 0,
@@ -114,8 +114,8 @@ var app = new Vue({
                   tax_amount: 0});           
       },
       removeItem: function(detail) {      
-        var index = this.form.estimatedetail.indexOf(detail)
-        this.form.estimatedetail.splice(index,1);
+        var index = this.form.detail.indexOf(detail)
+        this.form.detail.splice(index,1);
       },
       fetchData: function()
       {    
@@ -182,26 +182,26 @@ var app = new Vue({
  //valores calculados
   computed: {
     subTotal: function() {
-      var _subtotal= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-        return carry + (parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price));
+      var _subtotal= this.form.detail.reduce(function(carry, detail) {
+        return carry + (parseFloat(detail.quantity) * parseFloat(detail.unit_price));
       }, 0);
       _subtotal=isNaN(_subtotal) ? 0:_subtotal;
        this.form.sub_total=_subtotal;
       return _subtotal;
     },
      DiscountsTotal: function() {
-      var discountsTot= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-        return carry + (((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))* parseFloat(estimatedetail.discount)))/100;        
+      var discountsTot= this.form.detail.reduce(function(carry, detail) {
+        return carry + (((parseFloat(detail.quantity) * parseFloat(detail.unit_price))* parseFloat(detail.discount)))/100;        
       }, 0);      
       this.form.total_discounts=isNaN(discountsTot) ? 0:discountsTot;
       return isNaN(discountsTot) ? 0:discountsTot
     },
 
       TaxesTotal: function() {
-      var TaxTot= this.form.estimatedetail.reduce(function(carry, estimatedetail) {
-       return carry + ((((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))
-       -((parseFloat(estimatedetail.quantity) * parseFloat(estimatedetail.unit_price))* parseFloat(estimatedetail.discount))/100)* 
-       parseFloat(estimatedetail.tax_amount)))/100; 
+      var TaxTot= this.form.detail.reduce(function(carry, detail) {
+       return carry + ((((parseFloat(detail.quantity) * parseFloat(detail.unit_price))
+       -((parseFloat(detail.quantity) * parseFloat(detail.unit_price))* parseFloat(detail.discount))/100)* 
+       parseFloat(detail.tax_amount)))/100; 
       }, 0);
       
       this.form.total_taxes=isNaN(TaxTot) ? 0:TaxTot;
