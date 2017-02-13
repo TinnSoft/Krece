@@ -12,19 +12,19 @@ use Auth;
 
 
 
-class Remision extends Model
+class Invoice extends Model
 {
 	
 	use DatesTranslator;
 	
 	
-	protected $table = 'remision';
+	protected $table = 'invoice_sale_order';
 	
 	
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
 	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id',
-	'document_type_id','status_id'
+	'status_id','payment_terms_id'
 	];
 	
 	protected $dates = ['deleted_at'];
@@ -33,7 +33,7 @@ class Remision extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(RemisionDetail::class)->with('product');
+		return $this->hasMany(InvoiceDetail::class)->with('product');
 		
 	}
 	
@@ -73,6 +73,11 @@ class Remision extends Model
 	{
 		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo'));
 	}
+
+	public function payment_terms()
+	{
+		return $this->hasOne(PaymentTerms::class,'id','payment_terms_id')->select(array('id','name','days'));
+	}
 	
 	public function scopeGetAll($query,$isDeleted)
 	{
@@ -92,16 +97,16 @@ class Remision extends Model
     {
         return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
-                    'created_at','updated_at','resolution_id','status_id','document_type_id');
+                    'created_at','updated_at','resolution_id','status_id','payment_terms_id');
 	}
 }
 
 
 /*
 
-	Remision::created(function ($remision) {
+	Invoice::created(function ($invoice) {
 			event(new RecordActivity('Create','Se creó la remisión número: ' 
-			.$remision->resolution_id.' para el cliente '.$remision->contact->name,
-			'Remision','/remision/'.$remision->public_id));	
+			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
+			'Invoice','/invoice/'.$invoice->public_id));	
 	});
 */

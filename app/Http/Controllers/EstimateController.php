@@ -132,7 +132,8 @@ class EstimateController extends Controller
 
 
     public function show($id)
-    {
+    {  
+        
           $estimate = Estimate::with('detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
@@ -189,8 +190,8 @@ class EstimateController extends Controller
 
     
     public function update(Request $request, $id)
-    {        
-              
+    {  
+
         $this->validate($request, [     
             'customer_id' => 'required',               
             'date' => 'required',
@@ -267,6 +268,10 @@ class EstimateController extends Controller
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
         }
+
+         event(new RecordActivity('Print','Se ha impreso el pdf de la cotización No: ' 
+			.$estimate->resolution_id,
+			'Estimate','/estimate/'.$estimate->public_id));	
         
         return $mypdf->stream();
 

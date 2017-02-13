@@ -8,7 +8,8 @@ use App\Models\{
     ListPrice,
     Contact,
     Product,
-    ResolutionNumber
+    ResolutionNumber,
+    PaymentTerms
 };
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -48,7 +49,8 @@ class Helper
     }
     public static function contacts()
     {
-         return Contact::select('id', 'name')
+         return Contact::with('seller')
+                ->select('id', 'name','seller_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
                 ->where('isDeleted',  0)
                ->orderBy('created_at', 'asc')
@@ -95,6 +97,17 @@ class Helper
                 ->get()
                 ->toArray();
     }
+
+      public static function PaymentTerms()
+    {
+        return PaymentTerms::select('id', 'name','days')
+                    ->where('account_id',  Auth::user()->account_id)
+                    ->where('isDeleted',  0)
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->toArray();
+    }
+
     public static function ResolutionId($model,$key)
     {
         return $model::where('account_id',  Auth::user()->account_id)

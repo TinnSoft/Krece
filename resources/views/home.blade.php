@@ -68,7 +68,7 @@
                         <a href=""><i class="fa fa-line-chart"></i> <span class="nav-label">Mis Ingresos </span><span class="fa arrow"></span></a>
                      
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">Factura de venta</a></li>
+                            <li><a href="{{route('invoice.index')}}">Factura de venta</a></li>
                             <li><a href="">Factura recurrente</a></li>
                             <li><a href="">Pagos recibidos</a></li>
                             <li><a href="">Notas credito</a></li>       

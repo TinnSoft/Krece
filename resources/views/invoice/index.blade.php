@@ -18,7 +18,7 @@
 
     <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2>Remisiones</h2>
+                    <h2>Invoicees</h2>
                   
                     <ol class="breadcrumb">
                         <li class="active">
@@ -28,16 +28,16 @@
                 </div>                
             </div>            
    
-      <div id="remision_index"  class="row  border-bottom white-bg dashboard-header">
+      <div id="invoice_index"  class="row  border-bottom white-bg dashboard-header">
         <div class="panel-body">
                 <div class="ibox-content">   
                     <div class="row">
-                            <a href="{{route('remision.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                            <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Remision</a>                     
+                            <a href="{{route('invoice.create')}}" class="btn btn-primary btn-sm pull-right"> 
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a>                     
                     </div>                    
                 </div>  
                <div class="ibox-content">                                
-                    @include('remision.index-grid')                           
+                    @include('invoice.index-grid')                           
                 </div>  
         </div>   
 
@@ -48,8 +48,8 @@
 
 <script>
 
- var remisionApp = new Vue({
-  el: '#remision_index',
+ var invoiceApp = new Vue({
+  el: '#invoice_index',
    data: function()  {
     return {
     idsel:"",
@@ -57,13 +57,13 @@
   }},
   methods: {
       printPdf: function(val){
-        window.open('/remision/'+val+'/pdf', '_blank');
+        window.open('/invoice/'+val+'/pdf', '_blank');
     },
        goShow: function(val){
-        window.location = '/remision/'+val;
+        window.location = '/invoice/'+val;
     },
     goEdit: function(val){
-        window.location = '/remision/'+val+'/edit';
+        window.location = '/invoice/'+val+'/edit';
     },
     moment: function (date) {
         return moment(date).fromNow();
@@ -77,10 +77,10 @@
                 var vm = this; 
               
                 Vue.set(vm.$data.status, 'status_id', status);                 
-                axios.put('/remision_update_state/' + item, vm.status)
+                axios.put('/invoice_update_state/' + item, vm.status)
                 .then(function(response) {
                     if(response.data.updated) {   
-                         $('#remision-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                         $('#invoice-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                     }
                 })
                 .catch(function(error) {                   
@@ -104,10 +104,10 @@
       }, function(isConfirm) {
         if (isConfirm) {
              var vm = this
-                axios.delete('/remision/' + val)
+                axios.delete('/invoice/' + val)
                     .then(function(response) {
                         if(response.data.deleted) {
-                            $('#remision-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                            $('#invoice-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                             swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
                         }
                     })

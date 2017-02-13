@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
          'App\Events\SettingsChanged' => [
             'App\Listeners\HandleSettingsChanged',
         ],
+         'App\Events\RecordActivity' => [
+            'App\Listeners\HandleActivityLog',
+        ]
     ];
 
     /**

@@ -9,6 +9,7 @@ use App\Models\Seller;
 use App\Models\ListPrice;
 use App\Utilities\DatesTranslator;
 use Auth;
+use App\Events\RecordActivity;
 
 class Estimate extends Model
 {
@@ -91,5 +92,24 @@ class Estimate extends Model
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
                     'created_at','updated_at','resolution_id');
 	}
+
 }
 
+//launch events to store log
+Estimate::updated(function ($estimate) {
+			event(new RecordActivity('Update','Se actualizó la cotización número' 
+			.$estimate->resolution_id.' para el cliente '.$estimate->contact->name,
+			'Estimate','/estimate/'.$estimate->public_id));	
+	});
+
+	Estimate::created(function ($estimate) {
+			event(new RecordActivity('Create','Se creó la cotización número' 
+			.$estimate->resolution_id.' para el cliente '.$estimate->contact->name,
+			'Estimate','/estimate/'.$estimate->public_id));	
+	});
+
+		Estimate::deleted(function ($estimate) {
+			event(new RecordActivity('Delete','Se eliminó la cotización número' 
+			.$estimate->resolution_id,
+			'Estimate',null));	
+	});

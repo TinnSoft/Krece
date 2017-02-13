@@ -9,6 +9,7 @@ use Response;
 use App\Models\Account;
 use App\Events\UserLoggedIn;
 use App\Events\SettingsChanged;
+use App\Events\RecordActivity;
 
 class AppController extends Controller
 {
@@ -58,6 +59,10 @@ class AppController extends Controller
         }
        
         event(new UserLoggedIn());
+
+        event(new RecordActivity('LogIn',Auth::user()->name.' ha iniciado sesion',
+			'User','/profile/'.Auth::user()->id.'/edit'));	
+        
 
         return redirect()
             ->intended('/');

@@ -7,70 +7,75 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
-    RemisionDetail,
-    Remision,
-    RemisionDocumentType,
+    InvoiceDetail,
+    Invoice,
+    InvoiceDocumentType,
     Seller,
     Tax,
     Currency,
     ListPrice,
     Contact,
     Product,
-    ResolutionNumber
+    ResolutionNumber,
+    Resolution
 };
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 
-class RemisionController extends Controller
+class InvoiceController extends Controller
 {
 
     public function index()
     {
-        return view('remision.index');  
+        return view('invoice.index');  
     }
 
-    public function getRemisionList()
+    public function getInvoiceList()
     {
         //Obtener las cotizaciones creadas hasta la fecha       
-        $remision = Remision::with('contact')
+        $invoice = Invoice::with('contact')
                ->GetAll(0)
                ->orderBy('created_at', 'desc')
                 ->GetSelectedFields()
                ->get();
 
-         return response()->json($remision);
+         return response()->json($invoice);
     }
 
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
     public function BaseInfo()
     {
 
-
-        $DocumentType = RemisionDocumentType::select('id', 'description')
-               ->orderBy('id', 'asc')
-               ->get();
-
-        $defaultdocumentType=RemisionDocumentType::select('id', 'description')
-               ->orderBy('id', 'asc')
-               ->first();
-
         $defaultCurrency=null;
 
+        $resolutionID=Resolution::select('next_invoice_number')
+                                ->where('isDefault',1)
+                                ->where('account_id',Auth::user()->account_id)
+                                ->where('isDeleted',0)
+                                ->where('isActive',1)
+                                ->first();
+
+        $numeration_for_saleOrder=Resolution::select('id','name','prefix','next_invoice_number','auto_increment')
+                                ->where('account_id',Auth::user()->account_id)
+                                ->where('isDeleted',0)
+                                ->where('isActive',1)
+                                ->get()
+                                ->toArray();
 
         $baseInfo=[
-                'public_id' =>Helper::PublicId(Remision::class),
+                'public_id' =>Helper::PublicId(Invoice::class),
                 'contacts' => Helper::contacts(),
                'sellers'=>Helper::sellers(),
                'listprice'=>Helper::listPrice(),
                'currency'=>Helper::currencylist(),
                'productlist'=>Helper::productlist(),
                'taxes'=>Helper::taxes(),
-               'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'remision'),
-               'documentType'=> $DocumentType, 
-               'list_price'=>Helper::listprice_default(),
-               'default_documentType'=>$defaultdocumentType,  
+               'resolution_id'=>$resolutionID,
+               'list_price'=>Helper::listprice_default(), 
                'default_Currency'=>$defaultCurrency,
+               'paymentTerms'=>Helper::PaymentTerms(),
+               'numerationList_sale_order'=>$numeration_for_saleOrder
             ];
 
      return response()->json($baseInfo);
@@ -79,7 +84,7 @@ class RemisionController extends Controller
 
     public function create()
     {
-        return view('remision.create');        
+        return view('invoice.create');        
     }
         
     public function store(Request $request)
@@ -98,7 +103,7 @@ class RemisionController extends Controller
         $products = collect($request->detail)->transform(function($detail) {
             $detail['total'] = $detail['quantity'] * $detail['unit_price'];
             $detail['user_id'] =  Auth::user()->id;
-            return new RemisionDetail($detail);
+            return new InvoiceDetail($detail);
         });
         
 
@@ -112,9 +117,9 @@ class RemisionController extends Controller
         
         $data = $request->except('detail','documentType','list_price','currency','contact','seller');       
         
-        $data['public_id'] = Helper::PublicId(Remision::class);
+        $data['public_id'] = Helper::PublicId(Invoice::class);
         $data['document_type_id'] =  (int)$data['documentType_id'];
-        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'remision')['number'];
+        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'invoice')['number'];
         $data['status_id'] = 1;        
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
@@ -127,43 +132,43 @@ class RemisionController extends Controller
             $data['currency_code']="COP";
         }
 
-        $remision = Remision::create($data);
-        $remision->detail()->saveMany($products);
+        $invoice = Invoice::create($data);
+        $invoice->detail()->saveMany($products);
      
         //Incrementa el numero de cotización
-        ResolutionNumber::where('key', 'remision')
+        ResolutionNumber::where('key', 'invoice')
                 ->increment('number');
        
        event(new RecordActivity('Create','Se creó la remisión número: ' 
-			.$remision->resolution_id.' para el cliente '.$remision->contact->name,
-			'Remision','/remision/'.$remision->public_id));	
+			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
+			'Invoice','/invoice/'.$invoice->public_id));	
 
         return response()
             ->json([
                 'created' => true,
-                'id' => $remision->public_id
+                'id' => $invoice->public_id
             ]);
     }
 
     public function show($id)
     {
-          $remision = Remision::with('detail','list_price','seller')
+          $invoice = Invoice::with('detail','list_price','seller','payment_terms')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();     
 
-        if (!$remision)
+        if (!$invoice)
         {
             $notification = array(
-                'message' => 'No se encontró ninguna referencia de remision creadas!', 
+                'message' => 'No se encontró ninguna referencia de invoice creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/remision')->with($notification);
+          return redirect('/invoice')->with($notification);
         }
        
-        $remision=Helper::_InvoiceFormatter($remision);
+        $invoice=Helper::_InvoiceFormatter($invoice);
 
-        return view('remision.show', compact('remision'));
+        return view('invoice.show', compact('invoice'));
     }
 
 
@@ -171,36 +176,36 @@ class RemisionController extends Controller
     public function edit($id)
     {
         
-        $remision = Remision::with(['detail','contact','list_price','currency','seller'])
+        $invoice = Invoice::with(['detail','contact','list_price','currency','seller','payment_terms'])
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
 
         
-         if (!$remision)
+         if (!$invoice)
         {
             $notification = array(
                 'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/remision')->with($notification);
+          return redirect('/invoice')->with($notification);
         }
 
 
-        $remision['date']= Helper::setCustomDateFormat(Carbon::parse($remision['date']));
-        $remision['due_date']= Helper::setCustomDateFormat(Carbon::parse($remision['due_date']));
+        $invoice['date']= Helper::setCustomDateFormat(Carbon::parse($invoice['date']));
+        $invoice['due_date']= Helper::setCustomDateFormat(Carbon::parse($invoice['due_date']));
         
         if (request()->get('convert')=='clone')
         {
-            $PublicId = Helper::PublicId(Remision::class);
-            $remision['public_id']= $PublicId;
-            $remision['date']=Helper::setCustomDateFormat(Carbon::now());
-            $remision['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
-            $remision['notes']=null;
-            return view('remision.clone', compact('remision'));
+            $PublicId = Helper::PublicId(Invoice::class);
+            $invoice['public_id']= $PublicId;
+            $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
+            $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
+            $invoice['notes']=null;
+            return view('invoice.clone', compact('invoice'));
         }
 
-         return view('remision.edit', compact('remision'));
+         return view('invoice.edit', compact('invoice'));
     }
 
     
@@ -217,12 +222,12 @@ class RemisionController extends Controller
             'detail.*.product_id' => 'required',    
         ]);
        
-        $remision = Remision::findOrFail($id);
+        $invoice = Invoice::findOrFail($id);
 
         $products = collect($request->detail)->transform(function($detail) {
         $detail['total'] = $detail['quantity'] * $detail['unit_price'];
         $detail['user_id'] =  Auth::user()->id;
-            return new RemisionDetail($detail);
+            return new InvoiceDetail($detail);
         });
         
         if($products->isEmpty()) {
@@ -237,35 +242,35 @@ class RemisionController extends Controller
         $data['user_id'] = Auth::user()->id;       
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
-        $remision->update($data);
+        $invoice->update($data);
        
-        RemisionDetail::where('remision_id', $remision->id)->delete();
-        $remision->detail()->saveMany($products);
+        InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+        $invoice->detail()->saveMany($products);
 
         event(new RecordActivity('Update','Se actualizó la remisión número: ' 
-			.$remision->resolution_id.' para el cliente '.$remision->contact->name,
-			'Remision','/remision/'.$remision->public_id));	
+			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
+			'Invoice','/invoice/'.$invoice->public_id));	
 
         return response()
             ->json([
                 'updated' => true,
-                'id' => $remision->public_id              
+                'id' => $invoice->public_id              
             ]);
     }
     
     public function destroy($id)
     {
 
-            $remision = Remision::GetByPublicId(0,$id)
+            $invoice = Invoice::GetByPublicId(0,$id)
                 ->firstOrFail();   
             
-            $remision['isDeleted']=1;
-            $remision['deleted_at']=$now = Carbon::now();
-            $remision->save();
+            $invoice['isDeleted']=1;
+            $invoice['deleted_at']=$now = Carbon::now();
+            $invoice->save();
             
             event(new RecordActivity('Delete','Se eliminó la remisión número: ' 
-			.$remision->resolution_id,
-			'Remision',null));	
+			.$invoice->resolution_id,
+			'Invoice',null));	
 
             return response()
             ->json([
@@ -277,23 +282,23 @@ class RemisionController extends Controller
     {
         Carbon::setLocale('es');
 
-         $remision = Remision::with('account','detail','list_price','seller')
+         $invoice = Invoice::with('account','detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
                 
-        $remision=Helper::_InvoiceFormatter($remision);
+        $invoice=Helper::_InvoiceFormatter($invoice);
         
-        $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision]);
-        $filename = "Remision_"."{$remision->public_id}.pdf";
+        $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice]);
+        $filename = "Invoice_"."{$invoice->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
         }
         
-        event(new RecordActivity('Print','Se ha impreso el pdf de la remision No: ' 
-			.$remision->resolution_id,
-			'Remision','/remision/'.$remision->public_id));	
+        event(new RecordActivity('Print','Se ha impreso el pdf de la invoice No: ' 
+			.$invoice->resolution_id,
+			'Invoice','/invoice/'.$invoice->public_id));	
 
         return $mypdf->stream();
     }
@@ -304,13 +309,13 @@ class RemisionController extends Controller
             $data = $request->all(); 
             $data['status_id']= (int)$data['status_id'];             
 
-            $item = Remision::findOrFail($id);
+            $item = Invoice::findOrFail($id);
               
             $item->update($data);
 
             event(new RecordActivity('Update','Se actualizó el estado de la remisión número: ' 
-			.$remision->resolution_id.' para el cliente '.$remision->contact->name,
-			'Remision','/remision/'.$remision->public_id));	
+			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
+			'Invoice','/invoice/'.$invoice->public_id));	
 
             return response()
             ->json([

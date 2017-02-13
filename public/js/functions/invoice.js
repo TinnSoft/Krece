@@ -2,39 +2,77 @@ Vue.config.devtools = true;
 Vue.config.debug = true;
 
 var app = new Vue({
-  el: '#estimate',
+  el: '#invoice',
   components: {
         "Multiselect": VueMultiselect.Multiselect
     },
   data:function()  {
     return {
+    
+    ResolutionIsAutoNumeric:true,
     isProcessing: false,
     name: '',
+    numerationList_sale_order:[],
     form: {},
     errors: {},
     customer_list:[],
+    paymentTerms:[],
     vendors:[],
     currency:[],
     listPrice:[],   
     product_list:[],
     taxes:[],
-    redirect: '/estimate/',  
+    redirect: '/invoice/',  
   }},
     //similar on load event
 
   created: function () {  
       this.fetchData();
-      Vue.set(this.$data, 'form', _form); 
+      Vue.set(this.$data, 'form', _form);      
     },
   beforeMount() {
              this.getCurrentDate();
         },
 
   methods: {  
+    onInputResolutionList:function(val)
+      {        
+         if(val)
+        {
+          if (val.auto_increment==1)
+          {
+              this.ResolutionIsAutoNumeric=true;
+              this.form.resolution_id=val.next_invoice_number;
+              this.form.prefix=val.prefix;
+          }
+          else
+          {
+            this.ResolutionIsAutoNumeric=false;
+            this.form.resolution_id='';
+            this.form.prefix='';
+          }
+        }
+      },
+     onInputpaymentTerms:function(val)
+      {
+        if(val)
+        {
+          this.form.payment_terms_id=val.id; 
+          
+            var d = new Date();
+            d.setDate(d.getDate() + val.days);
+            this.form.due_date=d.toLocaleDateString();
+        }
+        else
+        {this.form.payment_terms_id=''; }      
+      },
       onInputContact:function(val)
       {
         if(val)
-        {this.form.customer_id=val.id; }
+        {
+          this.form.customer_id=val.id; 
+          this.form.seller=val.seller;
+        }
         else
         {this.form.customer_id=''; }      
       },
@@ -97,11 +135,12 @@ var app = new Vue({
       
       getCurrentDate: function()
       {
-        var d = new Date();      
-        var n = d.toLocaleDateString();
+        var d = new Date();
+  
         if (this.form.date=="")
         {
-          this.form.date=n;
+          this.form.date=d.toLocaleDateString();
+          this.form.due_date=d.toLocaleDateString();
         }
       },
       addLine: function(e) {      
@@ -121,7 +160,7 @@ var app = new Vue({
       {    
         //carga de los datos del header
         var vm = this
-                  axios.get('/getEstimateBaseInfo')
+                  axios.get('/getInvoiceBaseInfo')
                       .then(function(response) {                          
                           Vue.set(vm.$data, 'customer_list', response.data.contacts);
                           Vue.set(vm.$data, 'currency', response.data.currency);
@@ -129,6 +168,23 @@ var app = new Vue({
                           Vue.set(vm.$data, 'vendors', response.data.sellers);
                           Vue.set(vm.$data, 'product_list', response.data.productlist);
                           Vue.set(vm.$data, 'taxes', response.data.taxes);
+                          Vue.set(vm.$data, 'paymentTerms', response.data.paymentTerms);
+                          Vue.set(vm.$data, 'numerationList_sale_order', response.data.numerationList_sale_order);
+                          Vue.set(vm.$data.form, 'resolution_id', response.data.resolution_id['next_invoice_number']);
+                          
+                          //default values
+                          if (!vm.$data.form.list_price)
+                          {
+                            Vue.set(vm.$data.form, 'list_price', response.data.list_price);
+                            Vue.set(vm.$data.form, 'list_price_id', response.data.list_price.id);
+                          }
+                           
+                           if (!vm.$data.form.currency)
+                          {
+                            Vue.set(vm.$data.form, 'currency', response.data.default_Currency);
+                            Vue.set(vm.$data.form, 'currency_code', response.data.default_Currency.code_id);
+                          }
+                          
 
                           if (vm.$data.form.public_id=="")
                           {                          
@@ -139,7 +195,6 @@ var app = new Vue({
                           {                          
                             vm.$data.form.resolution_id=response.data.resolution_id.number;
                           }
-                          console.log( vm.$data.form);
                       })
                       .catch(function(error) {  
                           Vue.set(vm.$data, 'errors', error);
@@ -168,8 +223,7 @@ var app = new Vue({
         axios.put(vm.redirect+ vm.form.id, vm.form)
           .then(function(response) {
             if(response.data.updated) {
-               vm.isProcessing = false;             
-                window.location =vm.redirect + response.data.id;;
+              window.location =vm.redirect + response.data.id;;
             } else {             
               vm.isProcessing = false;
             }

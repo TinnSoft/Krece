@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="col-lg-5">
-                 <h2>COTIZACIÓN No: @{{form.resolution_id}}</h2>
+                 <h2>Factura de venta No: @{{form.resolution_id}}</h2>
             </div>
             <div class="col-lg-5 text-right">
                  <span> MONTO </span>
@@ -26,7 +26,29 @@
 
     <div class="row">        
         <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <table class="table table-responsive">			
+                <template v-if="numerationList_sale_order.length>1">
+                <tr >
+                    <th style="width: 10em"><span>Numeración</span><a class="text-danger"><strong> *</strong></a></th>
+                    <td>  <span>  
+                     
+                          <multiselect 
+                            :options="numerationList_sale_order" 
+                            v-model="form.resolution"
+                            label="name"         
+                            track-by="name"
+                            placeholder="Seleccione..." 
+                            @input="onInputResolutionList"
+                        >
+                        </multiselect>
+                    </td>
+                </tr>	
+                <tr>
+                    <th style="width: 10em"><span>Número</span><a class="text-danger"><strong> *</strong></a></th>
+                    <td><input type="text" placeholder="Prefijo" v-model="form.prefix" class="form-control">
+                    <input type="number" placeholder="Número" v-model="form.resolution_id" class="form-control"></td>
+                </tr>
+                </template>
 				<tr> 
 					<th style="width: 10em"><span>Cliente</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>  <span>  
@@ -46,28 +68,30 @@
                         </span>   </span>                           
                     </td>                 
 				</tr>
-                <tr>
-					<th><span >Observaciones</span></th>
-					<td>
-                        <span id="prefix1" ></span>
-                        <span>
-                            <textarea class="form-control" v-model="form.observations"></textarea>
-                        </span>
-                    </td>
-				</tr>
+               
 				<tr>
-					<th><span >Notas de la cotización</span><a class="text-danger"><strong> *</strong></a></th>
+					<th><span >Notas</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>
                         <span id="prefix2" ></span>
                         <span>
                         
-                            <textarea class="form-control has-icon has-icon-right form-control" placeholder="Estas notas no serán visibles en la cotización" v-model="form.notes"></textarea> 
+                            <textarea class="form-control has-icon has-icon-right form-control" placeholder="Visibles en la factura de venta" v-model="form.notes"></textarea> 
                             
                         </span>
                          <span v-if="errors.notes" class="error is-danger  text-danger">
                             No olvides ingresar una nota aquí.
                         </span>   </span> 
 
+                    </td>
+				</tr>
+                 <tr>
+					<th><span >Observaciones</span></th>
+					<td>
+                        <span id="prefix1" ></span>
+                        <span>
+                            <textarea class="form-control" placeholder="No visible en las facturas de venta" 
+                            v-model="form.observations"></textarea>
+                        </span>
                     </td>
 				</tr>
 			</table>
@@ -85,7 +109,7 @@
                              </datepicker-vue>
                                              
                             <span v-if="errors.date" class="error is-danger  text-danger">
-                            Ingrese una fecha para la cotización</span>  
+                            Ingrese una fecha para la factura de venta</span>  
                         </span>
                     </td>                 
 				</tr>
@@ -127,36 +151,56 @@
                 <tr>
 					<th><span >Lista de precios</span></th>
 					<td>
-                        <span id="prefix" ></span>                      
-                      
-                         <multiselect 
+                        <span id="prefix" ></span>    
+                            <multiselect 
+                                v-model="form.list_price" 
+                                deselect-label="quitar" 
+                                track-by="name" 
+                                label="name" 
+                                placeholder="Seleccione..." 
                                 :options="listPrice" 
-                                v-model="form.list_price"
-                                label="name"         
-                                track-by="name"
-                                placeholder="Seleccione..."
-                                @input="onInputlistprice"
-                            >
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputlistprice">
                             </multiselect>
-
+                    </td>
+				</tr>
+                 <tr>
+					<th><span >Plazo</span><a class="text-danger"><strong> *</strong></a></th>
+					<td>
+                      
+                      <multiselect 
+                                v-model="form.payment_terms" 
+                                deselect-label="quitar" 
+                                track-by="name" 
+                                label="name" 
+                                placeholder="Seleccione..." 
+                                :options="paymentTerms" 
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputpaymentTerms">
+                            </multiselect>
+                            <small v-if="errors.documentType_id" class="error is-danger  text-danger">
+                            Debe seleccionar un término de pago</small> 
+                       
                     </td>
 				</tr>
                 <tr>
 					<th><span >Moneda</span></th>
 					<td>
                       
-                         <multiselect 
+                      <multiselect 
+                                v-model="form.currency" 
+                                deselect-label="quitar" 
+                                track-by="code" 
+                                label="code" 
+                                placeholder="Seleccione..." 
                                 :options="currency" 
-                                v-model="form.currency"
-                                label="code"         
-                                track-by="code"
-                                placeholder="Seleccione..."
-                                :custom-label="currencyLabel"
-                                @input="onInputCurrency"
-                            >
+                                :searchable="false" 
+                                :allow-empty="false"
+                                @input="onInputCurrency">
                             </multiselect>
-                           
-
+                       
                     </td>
 				</tr>
 			</table>
@@ -165,6 +209,7 @@
         
     </div> 
 <small>los campos marcados como <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
+<pre><code>@{{$data | json}}</code></pre>
 
 <table class="table-hover">
     <thead>
@@ -253,8 +298,8 @@
 		</tr>
 </table>
 
-  <div v-if="errors.products_empty" class="alert alert-danger">      
-     Debe ingresar por lo menos un producto en la cotización
+  <div v-if="errors.detail" class="alert alert-danger">      
+     Debe ingresar por lo menos un producto en la factura de venta
  </div>
 
 
@@ -282,6 +327,5 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
-
 
 
