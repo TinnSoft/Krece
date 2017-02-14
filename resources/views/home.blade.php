@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Bienvenido a Krece</title>
+    <title>{{$title}}</title>
      
     {!!Html::style('/themes/krece/css/plugins/select2/select2.min.css')!!}
     {!!Html::style('/themes/krece/css/bootstrap.min.css')!!}

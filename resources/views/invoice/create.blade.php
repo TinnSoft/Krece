@@ -1,4 +1,4 @@
-@extends('home')
+@extends('home',['title' =>  'Factura de venta'])
 
 @section('content')
 
@@ -53,6 +53,7 @@
         window._form = {
             public_id: '',
             resolution_id:'',
+            resolution_number:'',
             customer_id: '',
             payment_terms_id:'',
             payment_terms:null,
@@ -77,6 +78,7 @@
                 product:null,
                 description:'',
                 unit_price: 0,
+                reference:'',
                 discount: 0,
                 quantity: 1,
                 tax_amount: 0,

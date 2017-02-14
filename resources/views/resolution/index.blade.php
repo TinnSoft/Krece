@@ -1,5 +1,5 @@
 
-@extends('home')
+@extends('home',['title' =>  'Numeraciones'])
 
    
 
@@ -95,10 +95,13 @@ var appresolution = new Vue({
                     if(response.data.updated) {   
                          $('#resolution-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                     }
+                    else
+                    {
+                        toastr.error('No fue posible realizar la actualización del estado, porfavor verifique que no esté marcada como preferida.', 'Error', {timeOut: 5000});
+                    }
                 })
-                .catch(function(error) {                   
-                    console.log(error.response.data);
-                    Vue.set(vm.$data, 'errors', error.response.data);
+                .catch(function(error) {     
+                    Vue.set(vm.$data, 'errors', error.response.data);                     
                 })
             }
         }

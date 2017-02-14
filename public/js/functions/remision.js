@@ -43,9 +43,20 @@ var app = new Vue({
       onInputContact:function(val)
       {
         if(val)
-        {this.form.customer_id=val.id; }
+        {this.form.customer_id=val.id; 
+          if (val.seller)
+          {
+            this.form.seller=val.seller;
+            this.form.seller_id=val.seller.id; 
+          }
+          else{
+            this.form.seller_id='';
+            this.form.seller=null;
+          }
+        }
         else
-        {this.form.customer_id=''; }      
+        {this.form.customer_id=''; 
+        this.form.seller_id='';}      
       },
        onInputSeller:function(val)
       {

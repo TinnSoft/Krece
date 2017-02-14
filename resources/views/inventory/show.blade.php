@@ -1,8 +1,4 @@
-@extends('home')
-
-<!--<link href="/css/style_tables.css" rel="stylesheet">
--->
-
+@extends('home',['title' =>  'Inventario'])
 
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">

@@ -1,7 +1,5 @@
 
-@extends('home')
-
-   
+@extends('home',['title' =>  'Precios de lista'])
 
 @section('content')
   

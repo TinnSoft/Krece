@@ -34,9 +34,20 @@ var app = new Vue({
       onInputContact:function(val)
       {
         if(val)
-        {this.form.customer_id=val.id; }
+        {this.form.customer_id=val.id; 
+          if (val.seller)
+          {
+            this.form.seller=val.seller;
+            this.form.seller_id=val.seller.id; 
+          }
+          else{
+            this.form.seller_id='';
+            this.form.seller=null;
+          }
+        }
         else
-        {this.form.customer_id=''; }      
+        {this.form.customer_id=''; 
+        this.form.seller_id='';}      
       },
        onInputSeller:function(val)
       {
@@ -130,6 +141,12 @@ var app = new Vue({
                           Vue.set(vm.$data, 'product_list', response.data.productlist);
                           Vue.set(vm.$data, 'taxes', response.data.taxes);
 
+                           if (!vm.$data.form.list_price)
+                          {
+                            Vue.set(vm.$data.form, 'list_price', response.data.list_price);
+                            Vue.set(vm.$data.form, 'list_price_id', response.data.list_price.id);
+                          }
+                          
                           if (vm.$data.form.public_id=="")
                           {                          
                             vm.$data.form.public_id=response.data.public_id;
@@ -139,7 +156,13 @@ var app = new Vue({
                           {                          
                             vm.$data.form.resolution_id=response.data.resolution_id.number;
                           }
-                          console.log( vm.$data.form);
+                          
+                           if (!vm.$data.form.currency)
+                          {
+                            Vue.set(vm.$data.form, 'currency', response.data.default_Currency);
+                            Vue.set(vm.$data.form, 'currency_code', response.data.default_Currency.code_id);
+                          }
+
                       })
                       .catch(function(error) {  
                           Vue.set(vm.$data, 'errors', error);

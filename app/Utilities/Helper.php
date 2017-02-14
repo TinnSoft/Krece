@@ -1,7 +1,5 @@
 <?php namespace App\Utilities;
 use App\Models\{
-    EstimateDetail,
-    Estimate,
     Seller,
     Tax,
     Currency,
@@ -90,7 +88,7 @@ class Helper
     }
     public static function productlist()
     {
-        return Product::select('id', 'name','description','sale_price')
+        return Product::select('id', 'name','description','sale_price','reference')
                     ->where('account_id',  Auth::user()->account_id)
                     ->where('isDeleted',  0)
                 ->orderBy('created_at', 'asc')
@@ -130,6 +128,13 @@ class Helper
                ->first();
     }
 
+    public static function default_currency()
+    {
+         return [
+            'code_id' => 'COP',
+           'code' => 'COP',
+           'symbol' => '$'];
+    }
     //realiza el formato de mneda y fecha para los arreglos tipo factura (nvoice, remision, estimate, etc..)
     public static function _InvoiceFormatter($model_in)
     {

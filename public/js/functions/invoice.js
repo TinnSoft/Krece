@@ -8,8 +8,7 @@ var app = new Vue({
     },
   data:function()  {
     return {
-    
-    ResolutionIsAutoNumeric:true,
+    wasSetByDefault:false,
     isProcessing: false,
     name: '',
     numerationList_sale_order:[],
@@ -27,29 +26,65 @@ var app = new Vue({
     //similar on load event
 
   created: function () {  
-      this.fetchData();
-      Vue.set(this.$data, 'form', _form);      
+       var vm=this;
+      vm.fetchData();
+      Vue.set(vm.$data, 'form', _form); 
+      Vue.set(vm.$data.form, 'ResolutionIsAutoNumeric',false);  
+      
     },
   beforeMount() {
-             this.getCurrentDate();
+          var vm=this;
+          vm.getCurrentDate();
+          
         },
-
-  methods: {  
+    
+  methods: {
+    
+    checkNumeration:function(){
+      var vm=this;
+      if (vm.numerationList_sale_order.length>1)
+      {     
+        return true;
+      }
+      else{
+          vm.form.resolution=vm.numerationList_sale_order[0];
+          vm.onInputResolutionList(vm.form.resolution);          
+          
+          if (vm.form.ResolutionIsAutoNumeric==false)
+          {
+            return true;
+          }
+         return false;
+      }
+      
+    },
     onInputResolutionList:function(val)
-      {        
+      {    
+        var vm=this;    
          if(val)
         {
           if (val.auto_increment==1)
           {
-              this.ResolutionIsAutoNumeric=true;
-              this.form.resolution_id=val.next_invoice_number;
-              this.form.prefix=val.prefix;
+              Vue.set(vm.$data.form, 'ResolutionIsAutoNumeric',true);
+              vm.form.resolution_id=val.id;
+               vm.form.resolution_number=val.next_invoice_number;
+              vm.form.prefix=val.prefix;             
           }
           else
           {
-            this.ResolutionIsAutoNumeric=false;
-            this.form.resolution_id='';
-            this.form.prefix='';
+            Vue.set(vm.$data.form, 'ResolutionIsAutoNumeric',false);
+            vm.form.resolution_id=val.id;
+            vm.form.resolution_number='';
+            vm.form.prefix='';
+          }
+          
+          if (val.isDefault==1 || val.auto_increment==1)
+          {
+            vm.wasSetByDefault= true;
+          }
+          else
+          {
+            vm.wasSetByDefault= false;
           }
         }
       },
@@ -71,15 +106,25 @@ var app = new Vue({
         if(val)
         {
           this.form.customer_id=val.id; 
-          this.form.seller=val.seller;
+           if (val.seller)
+          {
+            this.form.seller=val.seller;
+            this.form.seller_id=val.seller.id; 
+          }
+          else{
+            this.form.seller_id='';
+            this.form.seller=null;
+          }
         }
         else
-        {this.form.customer_id=''; }      
+        {this.form.customer_id='';
+        this.form.seller_id=''; }      
       },
-       onInputSeller:function(val)
+      onInputSeller:function(val)
       {
         if(val)
-        {this.form.seller_id=val.id; }
+        {
+          this.form.seller_id=val.id; }
         else
         {this.form.seller_id=''; }      
       },
@@ -114,9 +159,14 @@ var app = new Vue({
           val.description=val.product.description;
           val.unit_price=val.product.sale_price;
           val.product_id=val.product.id;
+          val.reference=val.product.reference;
         }
         else{ 
           val.product_id="";
+          val.description='';
+          val.unit_price=0;
+          val.product_id='';
+          val.reference='';
           }
       },
       currencyLabel({
@@ -170,8 +220,17 @@ var app = new Vue({
                           Vue.set(vm.$data, 'taxes', response.data.taxes);
                           Vue.set(vm.$data, 'paymentTerms', response.data.paymentTerms);
                           Vue.set(vm.$data, 'numerationList_sale_order', response.data.numerationList_sale_order);
-                          Vue.set(vm.$data.form, 'resolution_id', response.data.resolution_id['next_invoice_number']);
-                          
+                          Vue.set(vm.$data.form, 'resolution_number', response.data.resolution_id['next_invoice_number']);
+                         
+                           vm.numerationList_sale_order.forEach(function(item) {
+                            if (item.isDefault==1)
+                            {
+                              vm.form.resolution=item;
+                              vm.form.resolution_id=item.id;
+                              vm.wasSetByDefault= true;
+                            }
+                          });
+                                            
                           //default values
                           if (!vm.$data.form.list_price)
                           {
@@ -191,9 +250,10 @@ var app = new Vue({
                             vm.$data.form.public_id=response.data.public_id;
                           }
                          
-                          if (vm.$data.form.resolution_id=="")
+                          if (vm.$data.form.resolution_number=='')
                           {                          
-                            vm.$data.form.resolution_id=response.data.resolution_id.number;
+                            vm.$data.form.resolution_number=response.data.resolution_number.number;
+                            vm.$data.form.resolution_id=response.data.resolution_number.id;
                           }
                       })
                       .catch(function(error) {  
@@ -213,7 +273,7 @@ var app = new Vue({
             })
             .catch(function (error) {        
               vm.isProcessing = false;
-              Vue.set(vm.$data, 'errors', error.response.data);
+              Vue.set(vm.$data, 'errors', error.response.data); 
             });
       },
 

@@ -170,6 +170,13 @@ class ResolutionController extends Controller
             $data['isActive']= (int)$data['isActive'];
              
             $item = Resolution::findOrFail($id);
+            if($item['isDefault']==1)
+            {
+                return response()
+                ->json([
+                'updated' => false                           
+                ]);
+            }
             $item->update($data);
             
             return response()

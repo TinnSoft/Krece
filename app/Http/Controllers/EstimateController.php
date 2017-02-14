@@ -44,7 +44,6 @@ class EstimateController extends Controller
     public function BaseInfo()
     {
        
-       
         $baseInfo=[
                 'public_id' => Helper::PublicId(Estimate::class),
                 'contacts' => Helper::contacts(),
@@ -52,6 +51,8 @@ class EstimateController extends Controller
                'listprice'=>Helper::listPrice(),
                'currency'=>Helper::currencylist(),
                'productlist'=>Helper::productlist(),
+               'default_Currency'=>Helper::default_currency(),
+               'list_price'=>Helper::listprice_default(), 
                'taxes'=>Helper::taxes(),
                'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'estimate')
             ];
@@ -78,7 +79,9 @@ class EstimateController extends Controller
         ]);
 
         $products = collect($request->detail)->transform(function($detail) {
-            $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+           $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
             return new EstimateDetail($detail);
         });
@@ -205,8 +208,10 @@ class EstimateController extends Controller
         $estimate = Estimate::findOrFail($id);
 
         $products = collect($request->detail)->transform(function($detail) {
-        $detail['total'] = $detail['quantity'] * $detail['unit_price'];
-        $detail['user_id'] =  Auth::user()->id;
+            $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
+            $detail['user_id'] =  Auth::user()->id;
             return new EstimateDetail($detail);
         });
         

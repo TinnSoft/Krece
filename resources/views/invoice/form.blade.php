@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="col-lg-5">
-                 <h2>Factura de venta No: @{{form.resolution_id}}</h2>
+                 <h2>Factura de venta No: @{{form.resolution_number}}</h2>
             </div>
             <div class="col-lg-5 text-right">
                  <span> MONTO </span>
@@ -22,12 +22,16 @@
 
      <div class="hr-line-dashed"></div>
 
-
+    <template  v-if="errors.invoice_exists" >
+        <div class="alert alert-danger">         
+            Éste número de factura ya está creado, verifique la numeración seleccionada.
+    </div>
+   </template>
 
     <div class="row">        
         <div class="col-lg-5">
             <table class="table table-responsive">			
-                <template v-if="numerationList_sale_order.length>1">
+                <template v-if="checkNumeration()==true">
                 <tr >
                     <th style="width: 10em"><span>Numeración</span><a class="text-danger"><strong> *</strong></a></th>
                     <td>  <span>  
@@ -36,18 +40,26 @@
                             :options="numerationList_sale_order" 
                             v-model="form.resolution"
                             label="name"         
-                            track-by="name"
+                            track-by="name"                            
+                            :show-labels="false"
                             placeholder="Seleccione..." 
+                            :allow-empty="false"
                             @input="onInputResolutionList"
                         >
                         </multiselect>
                     </td>
                 </tr>	
-                <tr>
+                <template v-if="wasSetByDefault==false">
+                <tr >
                     <th style="width: 10em"><span>Número</span><a class="text-danger"><strong> *</strong></a></th>
                     <td><input type="text" placeholder="Prefijo" v-model="form.prefix" class="form-control">
-                    <input type="number" placeholder="Número" v-model="form.resolution_id" class="form-control"></td>
+                    <input type="number" placeholder="Número" v-model="form.resolution_number" class="form-control">
+                    <small v-if="errors.resolution_number" class="error is-danger  text-danger">
+                            Debe ingresar un número de resolución válido</small>  
+                     
+                    
                 </tr>
+                </template>
                 </template>
 				<tr> 
 					<th style="width: 10em"><span>Cliente</span><a class="text-danger"><strong> *</strong></a></th>
@@ -63,9 +75,9 @@
                         >
                         </multiselect>
 
-                        <span v-if="errors.customer_id" class="error is-danger  text-danger">
+                        <small v-if="errors.customer_id" class="error is-danger  text-danger">
                             Olvidaste seleccionar un cliente.
-                        </span>   </span>                           
+                        </small>   </span>                           
                     </td>                 
 				</tr>
                
@@ -78,9 +90,9 @@
                             <textarea class="form-control has-icon has-icon-right form-control" placeholder="Visibles en la factura de venta" v-model="form.notes"></textarea> 
                             
                         </span>
-                         <span v-if="errors.notes" class="error is-danger  text-danger">
+                         <small v-if="errors.notes" class="error is-danger  text-danger">
                             No olvides ingresar una nota aquí.
-                        </span>   </span> 
+                        </small>   </span> 
 
                     </td>
 				</tr>
@@ -108,8 +120,8 @@
                                 value='@{{form.date }}'>
                              </datepicker-vue>
                                              
-                            <span v-if="errors.date" class="error is-danger  text-danger">
-                            Ingrese una fecha para la factura de venta</span>  
+                            <small v-if="errors.date" class="error is-danger  text-danger">
+                            Ingrese una fecha para la factura de venta</small>  
                         </span>
                     </td>                 
 				</tr>
@@ -125,8 +137,8 @@
                                 >
                              </datepicker-vue>
                             </div>
-                            <span v-if="errors.due_date" class="error is-danger  text-danger">
-                            Adiciona una fecha final</span>  
+                            <small v-if="errors.due_date" class="error is-danger  text-danger">
+                            Adiciona una fecha final</small>  
                         </span>
                     </td>
 				</tr>
@@ -142,6 +154,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                 @input="onInputSeller"
+                                :show-labels="false"
                             >
                             </multiselect>
 
@@ -159,7 +172,7 @@
                                 label="name" 
                                 placeholder="Seleccione..." 
                                 :options="listPrice" 
-                                :searchable="false" 
+                                :show-labels="false"
                                 :allow-empty="false"
                                 @input="onInputlistprice">
                             </multiselect>
@@ -176,11 +189,11 @@
                                 label="name" 
                                 placeholder="Seleccione..." 
                                 :options="paymentTerms" 
-                                :searchable="false" 
+                               :show-labels="false"
                                 :allow-empty="false"
                                 @input="onInputpaymentTerms">
                             </multiselect>
-                            <small v-if="errors.documentType_id" class="error is-danger  text-danger">
+                            <small v-if="errors.payment_terms_id" class="error is-danger  text-danger">
                             Debe seleccionar un término de pago</small> 
                        
                     </td>
@@ -196,7 +209,7 @@
                                 label="code" 
                                 placeholder="Seleccione..." 
                                 :options="currency" 
-                                :searchable="false" 
+                                :show-labels="false"
                                 :allow-empty="false"
                                 @input="onInputCurrency">
                             </multiselect>
@@ -208,20 +221,19 @@
         </div> 
         
     </div> 
-<small>los campos marcados como <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
-<pre><code>@{{$data | json}}</code></pre>
+<small>los campos marcados con <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
 
 <table class="table-hover">
     <thead>
-        <tr>
-            <th style="width: 2em"> </th>
-            <th style="width: 2em">PRODUCTO</th>
-             <th>DESCRIPCIÓN</th>
+        <tr>           
+            <th >PRODUCTO</th>
+            <th>REF</th>
+            <th>DESCRIPCIÓN</th>
             <th>PRECIO</th>
             <th>CANTIDAD</th>
             <th>DESC %</th>
             <th>IMPUESTO %</th>           
-            <th>TOTAL</th>
+            <th colspan="2">TOTAL</th>
         </tr>
     </thead>
        
@@ -229,14 +241,8 @@
         
         
         <tr id="Icon-m" title="Remover ítem" v-for="_detail in form.detail">                       
-            <td style="width: 1em">
-              
-                <a @click="removeItem(_detail)">
-                    <span id="icon-detail" class="glyphicon glyphicon-trash fa-1x" style="color:red">
-                    </span>
-                </a>
-            </td>           
-            <td style="width: 18em" class="form-product_id"  >
+                
+            <td style="width: 16em" class="form-product_id"  >
                <span> 
                     <multiselect 
                             :options="product_list" 
@@ -251,7 +257,10 @@
 
 
                 </span>  
-            </td>     
+            </td>    
+             <td class="form-ref" style="width: 7em" >
+                <input type="text" class="form-control input_number"  v-model.number="_detail.reference">
+            </td> 
             <td class="form-description" style="width: 10em" >
                 <textarea rows="1" class="form-control input_number" v-model="_detail.description"></textarea>
             </td>
@@ -271,7 +280,7 @@
                             label="text"         
                             track-by="value"
                             placeholder="Impuesto"
-                            ShowLabels="false"
+                            :show-labels="false"
                             @input="onInputTax(_detail)"
                         >
                         </multiselect>
@@ -280,6 +289,13 @@
             <td class="form-total" style="width: 7em" >
                 <span class="form-number">@{{_detail.quantity * _detail.unit_price - (_detail.quantity * _detail.unit_price*_detail.discount/100)  | formatCurrency}}</span>
             </td>
+             <td style="width: 1em">
+              
+                <a @click="removeItem(_detail)">
+                    <span id="icon-detail" class="fa fa-remove fa-2x" style="color:red">
+                    </span>
+                </a>
+            </td>      
         </tr>        
     </tbody>
     
@@ -323,6 +339,7 @@
               
                                
 </table>
+
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

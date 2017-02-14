@@ -1,7 +1,4 @@
-@extends('home')
-
-<!--<link href="/css/style_tables.css" rel="stylesheet">
--->
+@extends('home',['title' =>  'Numeraciones'])
 
 
 @section('content')

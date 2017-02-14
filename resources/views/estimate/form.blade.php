@@ -38,6 +38,7 @@
                             track-by="name"
                             placeholder="Seleccione..." 
                             @input="onInputContact"
+                             :allow-empty="false"
                         >
                         </multiselect>
 
@@ -118,6 +119,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                 @input="onInputSeller"
+                                :show-labels="false"
                             >
                             </multiselect>
 
@@ -136,6 +138,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                 @input="onInputlistprice"
+                                :show-labels="false"
                             >
                             </multiselect>
 
@@ -153,6 +156,7 @@
                                 placeholder="Seleccione..."
                                 :custom-label="currencyLabel"
                                 @input="onInputCurrency"
+                                :show-labels="false"
                             >
                             </multiselect>
                            
@@ -169,14 +173,14 @@
 <table class="table-hover">
     <thead>
         <tr>
-            <th style="width: 2em"> </th>
+         
             <th style="width: 2em">PRODUCTO</th>
              <th>DESCRIPCIÓN</th>
             <th>PRECIO</th>
             <th>CANTIDAD</th>
             <th>DESC %</th>
             <th>IMPUESTO %</th>           
-            <th>TOTAL</th>
+            <th colspan="2">TOTAL</th>
         </tr>
     </thead>
        
@@ -184,13 +188,7 @@
         
         
         <tr id="Icon-m" title="Remover ítem" v-for="_detail in form.detail">                       
-            <td style="width: 1em">
               
-                <a @click="removeItem(_detail)">
-                    <span id="icon-detail" class="glyphicon glyphicon-trash fa-1x" style="color:red">
-                    </span>
-                </a>
-            </td>           
             <td style="width: 18em" class="form-product_id"  >
                <span> 
                     <multiselect 
@@ -228,6 +226,7 @@
                             placeholder="Impuesto"
                             ShowLabels="false"
                             @input="onInputTax(_detail)"
+                            :show-labels="false"
                         >
                         </multiselect>
 
@@ -235,6 +234,13 @@
             <td class="form-total" style="width: 7em" >
                 <span class="form-number">@{{_detail.quantity * _detail.unit_price - (_detail.quantity * _detail.unit_price*_detail.discount/100)  | formatCurrency}}</span>
             </td>
+             <td style="width: 1em">
+              
+                <a @click="removeItem(_detail)">
+                    <span id="icon-detail" class="fa fa-remove fa-2x" style="color:red">
+                    </span>
+                </a>
+            </td>        
         </tr>        
     </tbody>
     
@@ -282,6 +288,7 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
+
 
 
 

@@ -1,4 +1,4 @@
-@extends('home')
+@extends('home',['title' =>  'Contactos'])
 
 <!--<link href="/css/style_tables.css" rel="stylesheet">
 -->

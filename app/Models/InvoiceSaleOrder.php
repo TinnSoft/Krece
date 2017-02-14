@@ -12,7 +12,7 @@ use Auth;
 
 
 
-class Invoice extends Model
+class InvoiceSaleOrder extends Model
 {
 	
 	use DatesTranslator;
@@ -24,7 +24,7 @@ class Invoice extends Model
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
 	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id',
-	'status_id','payment_terms_id'
+	'status_id','payment_terms_id','category_id','total_payed','balance'
 	];
 	
 	protected $dates = ['deleted_at'];
@@ -33,7 +33,7 @@ class Invoice extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(InvoiceDetail::class)->with('product');
+		return $this->hasMany(InvoiceSaleOrderDetail::class)->with('product');
 		
 	}
 	
@@ -101,12 +101,3 @@ class Invoice extends Model
 	}
 }
 
-
-/*
-
-	Invoice::created(function ($invoice) {
-			event(new RecordActivity('Create','Se creó la remisión número: ' 
-			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'Invoice','/invoice/'.$invoice->public_id));	
-	});
-*/

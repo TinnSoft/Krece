@@ -1,5 +1,5 @@
 
-@extends('home')
+@extends('home',['title' =>  'Contactos'])
 
    
 

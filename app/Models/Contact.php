@@ -31,7 +31,7 @@ class Contact extends Model
     }
      public function seller()
     {
-        return $this->hasOne(Seller::class, 'id', 'seller_id')->select(array('id', 'name'));        
+        return $this->hasOne(Seller::class, 'id', 'seller_id')->where('isEnabled',1)->where('isDeleted',0)->select(array('id', 'name'));        
     }
      public function payment_terms()
     {

@@ -1,4 +1,4 @@
-@extends('home')
+@extends('home',['title' =>  'Retencion'])
 
 @section('content')
 

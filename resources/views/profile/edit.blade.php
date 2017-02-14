@@ -1,4 +1,4 @@
-@extends('home')
+@extends('home',['title' =>  'Mi Perfil'])
 
 @section('content')
 

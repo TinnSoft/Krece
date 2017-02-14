@@ -28,7 +28,7 @@
                 colModel: [                   
                     { label: 'Nombre', name: 'name', index: 'name', width: 75,   sorttype: "text" },
                     { label: 'Prefijo', name: 'prefix', width: 40 },
-                    { label: 'Número Inicial', name: 'initial_number', width: 60},                    
+                    { label: 'Número Inicial', name: 'next_invoice_number', width: 60},                    
                     { label: 'Preferido', name: 'isDefault', width: 90,formatter: default_mask },
                     { label: 'Estado', name: 'isActive', width: 50,align:"center", formatter:state_mask },
                      { label: 'Resolución', name: 'invoice_text', width: 160 },

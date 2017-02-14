@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
-    InvoiceDetail,
-    Invoice,
-    InvoiceDocumentType,
+    InvoiceSaleOrderDetail,
+    InvoiceSaleOrder,
     Seller,
     Tax,
     Currency,
@@ -17,13 +16,14 @@ use App\Models\{
     Contact,
     Product,
     ResolutionNumber,
-    Resolution
+    Resolution,
+    Category
 };
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 
-class InvoiceController extends Controller
+class InvoiceSaleOrderController extends Controller
 {
 
     public function index()
@@ -34,7 +34,7 @@ class InvoiceController extends Controller
     public function getInvoiceList()
     {
         //Obtener las cotizaciones creadas hasta la fecha       
-        $invoice = Invoice::with('contact')
+        $invoice = InvoiceSaleOrder::with('contact')
                ->GetAll(0)
                ->orderBy('created_at', 'desc')
                 ->GetSelectedFields()
@@ -47,8 +47,6 @@ class InvoiceController extends Controller
     public function BaseInfo()
     {
 
-        $defaultCurrency=null;
-
         $resolutionID=Resolution::select('next_invoice_number')
                                 ->where('isDefault',1)
                                 ->where('account_id',Auth::user()->account_id)
@@ -56,7 +54,7 @@ class InvoiceController extends Controller
                                 ->where('isActive',1)
                                 ->first();
 
-        $numeration_for_saleOrder=Resolution::select('id','name','prefix','next_invoice_number','auto_increment')
+        $numeration_for_saleOrder=Resolution::select('id','name','prefix','next_invoice_number','auto_increment','isDefault')
                                 ->where('account_id',Auth::user()->account_id)
                                 ->where('isDeleted',0)
                                 ->where('isActive',1)
@@ -64,7 +62,7 @@ class InvoiceController extends Controller
                                 ->toArray();
 
         $baseInfo=[
-                'public_id' =>Helper::PublicId(Invoice::class),
+                'public_id' =>Helper::PublicId(InvoiceSaleOrder::class),
                 'contacts' => Helper::contacts(),
                'sellers'=>Helper::sellers(),
                'listprice'=>Helper::listPrice(),
@@ -73,7 +71,7 @@ class InvoiceController extends Controller
                'taxes'=>Helper::taxes(),
                'resolution_id'=>$resolutionID,
                'list_price'=>Helper::listprice_default(), 
-               'default_Currency'=>$defaultCurrency,
+               'default_Currency'=>Helper::default_currency(),
                'paymentTerms'=>Helper::PaymentTerms(),
                'numerationList_sale_order'=>$numeration_for_saleOrder
             ];
@@ -94,16 +92,37 @@ class InvoiceController extends Controller
             'date' => 'required',
             'due_date' => 'required',
             'notes' => 'required',
-            'documentType_id' => 'required',            
-            'detail.*.unit_price' => 'required|numeric|min:1',
+            'payment_terms_id' => 'required',
+            'resolution_number'   =>'required_if:ResolutionIsAutoNumeric,false',         
+            'detail.*.unit_price' => 'required|numeric|min:0',
             'detail.*.quantity' => 'required|integer|min:1',
             'detail.*.product_id' => 'required',    
         ]);
 
+       
+        $data = $request->except('detail','list_price','currency','contact','seller','payment_terms'
+                ,'resolution','ResolutionIsAutoNumeric','resolution_id');  
+
+
+        //el numero de resolución debe ser único
+        $checkInvoiceNumber=InvoiceSaleOrder::where('account_id',Auth::user()->account_id)
+                            ->where('resolution_id',$data['resolution_number'])->get()->count();
+
+
+         if ($checkInvoiceNumber>0)
+         {
+                return response()
+            ->json([
+                'invoice_exists' => ['Ya existe una factura con el número '.$data['resolution_number'].' creado, asegúrese de ingresar ún número válido ']
+            ], 422); 
+         }
+
         $products = collect($request->detail)->transform(function($detail) {
-            $detail['total'] = $detail['quantity'] * $detail['unit_price'];
-            $detail['user_id'] =  Auth::user()->id;
-            return new InvoiceDetail($detail);
+            $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
+            $detail['user_id'] =  Auth::user()->id;          
+            return new InvoiceSaleOrderDetail($detail);
         });
         
 
@@ -113,35 +132,49 @@ class InvoiceController extends Controller
                 'products_empty' => ['Uno o mas productos son requeridos.']
             ], 422);
         };
+        
+        $categoryId=Category::select('id')
+                    ->where('account_id',Auth::user()->account_id)
+                    ->where('name','Ventas')
+                    ->first();
 
-        
-        $data = $request->except('detail','documentType','list_price','currency','contact','seller');       
-        
-        $data['public_id'] = Helper::PublicId(Invoice::class);
-        $data['document_type_id'] =  (int)$data['documentType_id'];
-        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'invoice')['number'];
-        $data['status_id'] = 1;        
+        $data['public_id'] = Helper::PublicId(InvoiceSaleOrder::class);     
+        $data['resolution_id'] = (int)$data['resolution_number'];      
+        $data['status_id'] = 1;   
+        $data['category_id'] = $categoryId['id'];       
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
-        
+     
         //Default
         if (!$data['currency_code'])
         {
             $data['currency_code']="COP";
         }
+            
+        $invoice = InvoiceSaleOrder::create($data);
 
-        $invoice = Invoice::create($data);
+        try
+        {
         $invoice->detail()->saveMany($products);
+        }
+        catch(\exception $e){
+              return response()
+            ->json([
+                'asasa' => [$e]
+            ], 422);
+           
+        }
      
         //Incrementa el numero de cotización
-        ResolutionNumber::where('key', 'invoice')
-                ->increment('number');
+        Resolution::where('account_id', Auth::user()->account_id)
+                ->where('id',$request['resolution_id'])
+                ->increment('next_invoice_number');
        
-       event(new RecordActivity('Create','Se creó la remisión número: ' 
+       event(new RecordActivity('Create','Se creó la factura de venta número: ' 
 			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'Invoice','/invoice/'.$invoice->public_id));	
+			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
         return response()
             ->json([
@@ -152,7 +185,7 @@ class InvoiceController extends Controller
 
     public function show($id)
     {
-          $invoice = Invoice::with('detail','list_price','seller','payment_terms')
+          $invoice = InvoiceSaleOrder::with('detail','list_price','seller','payment_terms')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();     
@@ -171,12 +204,10 @@ class InvoiceController extends Controller
         return view('invoice.show', compact('invoice'));
     }
 
-
-
     public function edit($id)
     {
         
-        $invoice = Invoice::with(['detail','contact','list_price','currency','seller','payment_terms'])
+        $invoice = InvoiceSaleOrder::with(['detail','contact','list_price','currency','seller','payment_terms'])
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
@@ -197,7 +228,7 @@ class InvoiceController extends Controller
         
         if (request()->get('convert')=='clone')
         {
-            $PublicId = Helper::PublicId(Invoice::class);
+            $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
             $invoice['public_id']= $PublicId;
             $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
             $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
@@ -213,21 +244,25 @@ class InvoiceController extends Controller
     {        
               
         $this->validate($request, [     
-            'customer_id' => 'required',               
+             'customer_id' => 'required',              
             'date' => 'required',
             'due_date' => 'required',
-            'notes' => 'required',            
-            'detail.*.unit_price' => 'required|numeric|min:1',
+            'notes' => 'required',
+            'payment_terms_id' => 'required',
+            'resolution_number'   =>'required_if:ResolutionIsAutoNumeric,false',         
+            'detail.*.unit_price' => 'required|numeric|min:0',
             'detail.*.quantity' => 'required|integer|min:1',
             'detail.*.product_id' => 'required',    
         ]);
        
-        $invoice = Invoice::findOrFail($id);
+        $invoice = InvoiceSaleOrder::findOrFail($id);
 
         $products = collect($request->detail)->transform(function($detail) {
-        $detail['total'] = $detail['quantity'] * $detail['unit_price'];
-        $detail['user_id'] =  Auth::user()->id;
-            return new InvoiceDetail($detail);
+            $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
+            $detail['user_id'] =  Auth::user()->id;
+            return new InvoiceSaleOrderDetail($detail);
         });
         
         if($products->isEmpty()) {
@@ -244,12 +279,12 @@ class InvoiceController extends Controller
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
         $invoice->update($data);
        
-        InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+        InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();
         $invoice->detail()->saveMany($products);
 
         event(new RecordActivity('Update','Se actualizó la remisión número: ' 
 			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'Invoice','/invoice/'.$invoice->public_id));	
+			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
         return response()
             ->json([
@@ -261,7 +296,7 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
 
-            $invoice = Invoice::GetByPublicId(0,$id)
+            $invoice = InvoiceSaleOrder::GetByPublicId(0,$id)
                 ->firstOrFail();   
             
             $invoice['isDeleted']=1;
@@ -270,7 +305,7 @@ class InvoiceController extends Controller
             
             event(new RecordActivity('Delete','Se eliminó la remisión número: ' 
 			.$invoice->resolution_id,
-			'Invoice',null));	
+			'InvoiceSaleOrder',null));	
 
             return response()
             ->json([
@@ -282,7 +317,7 @@ class InvoiceController extends Controller
     {
         Carbon::setLocale('es');
 
-         $invoice = Invoice::with('account','detail','list_price','seller')
+         $invoice = InvoiceSaleOrder::with('account','detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
@@ -290,7 +325,7 @@ class InvoiceController extends Controller
         $invoice=Helper::_InvoiceFormatter($invoice);
         
         $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice]);
-        $filename = "Invoice_"."{$invoice->public_id}.pdf";
+        $filename = "InvoiceSaleOrder_"."{$invoice->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
@@ -298,7 +333,7 @@ class InvoiceController extends Controller
         
         event(new RecordActivity('Print','Se ha impreso el pdf de la invoice No: ' 
 			.$invoice->resolution_id,
-			'Invoice','/invoice/'.$invoice->public_id));	
+			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
         return $mypdf->stream();
     }
@@ -309,13 +344,13 @@ class InvoiceController extends Controller
             $data = $request->all(); 
             $data['status_id']= (int)$data['status_id'];             
 
-            $item = Invoice::findOrFail($id);
+            $item = InvoiceSaleOrder::findOrFail($id);
               
             $item->update($data);
 
             event(new RecordActivity('Update','Se actualizó el estado de la remisión número: ' 
 			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'Invoice','/invoice/'.$invoice->public_id));	
+			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
             return response()
             ->json([

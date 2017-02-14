@@ -87,7 +87,7 @@ Route::put('remision_update_state/{req}','RemisionController@update_state');
 
 
 //Invoice for sale
-Route::resource('invoice', 'InvoiceController');
-Route::get('getInvoiceBaseInfo','InvoiceController@BaseInfo');
-Route::get('getInvoiceList','InvoiceController@getInvoiceList');
-Route::get('remision/{id}/pdf', 'InvoiceController@pdf');
+Route::resource('invoice', 'InvoiceSaleOrderController');
+Route::get('getInvoiceBaseInfo','InvoiceSaleOrderController@BaseInfo');
+Route::get('getInvoiceList','InvoiceSaleOrderController@getInvoiceList');
+Route::get('remision/{id}/pdf', 'InvoiceSaleOrderController@pdf');

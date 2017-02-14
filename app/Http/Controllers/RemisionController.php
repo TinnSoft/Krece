@@ -55,7 +55,6 @@ class RemisionController extends Controller
                ->orderBy('id', 'asc')
                ->first();
 
-        $defaultCurrency=null;
 
 
         $baseInfo=[
@@ -70,7 +69,7 @@ class RemisionController extends Controller
                'documentType'=> $DocumentType, 
                'list_price'=>Helper::listprice_default(),
                'default_documentType'=>$defaultdocumentType,  
-               'default_Currency'=>$defaultCurrency,
+               'default_Currency'=>Helper::default_currency(),
             ];
 
      return response()->json($baseInfo);
@@ -96,7 +95,9 @@ class RemisionController extends Controller
         ]);
 
         $products = collect($request->detail)->transform(function($detail) {
-            $detail['total'] = $detail['quantity'] * $detail['unit_price'];
+            $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
             return new RemisionDetail($detail);
         });
@@ -220,8 +221,10 @@ class RemisionController extends Controller
         $remision = Remision::findOrFail($id);
 
         $products = collect($request->detail)->transform(function($detail) {
-        $detail['total'] = $detail['quantity'] * $detail['unit_price'];
-        $detail['user_id'] =  Auth::user()->id;
+            $baseprice=$detail['quantity'] * $detail['unit_price'];
+            $totalDiscount= $baseprice*($detail['discount']/100);
+            $detail['total'] = $baseprice- $totalDiscount;
+            $detail['user_id'] =  Auth::user()->id;
             return new RemisionDetail($detail);
         });
         

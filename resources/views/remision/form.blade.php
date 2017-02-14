@@ -185,19 +185,19 @@
         
     </div> 
 <small>los campos marcados como <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
-<pre><code>@{{$data.errors | json}}</code></pre>
+
 
 <table class="table-hover">
     <thead>
         <tr>
-            <th style="width: 2em"> </th>
+         
             <th style="width: 2em">PRODUCTO</th>
              <th>DESCRIPCIÓN</th>
             <th>PRECIO</th>
             <th>CANTIDAD</th>
             <th>DESC %</th>
             <th>IMPUESTO %</th>           
-            <th>TOTAL</th>
+            <th colspan="2">TOTAL</th>
         </tr>
     </thead>
        
@@ -205,13 +205,7 @@
         
         
         <tr id="Icon-m" title="Remover ítem" v-for="_detail in form.detail">                       
-            <td style="width: 1em">
-              
-                <a @click="removeItem(_detail)">
-                    <span id="icon-detail" class="glyphicon glyphicon-trash fa-1x" style="color:red">
-                    </span>
-                </a>
-            </td>           
+                   
             <td style="width: 18em" class="form-product_id"  >
                <span> 
                     <multiselect 
@@ -256,6 +250,13 @@
             <td class="form-total" style="width: 7em" >
                 <span class="form-number">@{{_detail.quantity * _detail.unit_price - (_detail.quantity * _detail.unit_price*_detail.discount/100)  | formatCurrency}}</span>
             </td>
+             <td style="width: 1em">
+              
+                <a @click="removeItem(_detail)">
+                    <span id="icon-detail" class="fa fa-remove fa-2x" style="color:red">
+                    </span>
+                </a>
+            </td>   
         </tr>        
     </tbody>
     
