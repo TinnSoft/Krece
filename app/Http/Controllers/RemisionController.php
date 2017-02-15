@@ -312,8 +312,8 @@ class RemisionController extends Controller
             $item->update($data);
 
             event(new RecordActivity('Update','Se actualizó el estado de la remisión número: ' 
-			.$remision->resolution_id.' para el cliente '.$remision->contact->name,
-			'Remision','/remision/'.$remision->public_id));	
+			.$item->resolution_id.' para el cliente '.$item->contact->name,
+			'Remision','/remision/'.$item->public_id));	
 
             return response()
             ->json([

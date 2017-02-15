@@ -122,7 +122,8 @@ class InvoiceSaleOrderController extends Controller
             $baseprice=$detail['quantity'] * $detail['unit_price'];
             $totalDiscount= $baseprice*($detail['discount']/100);
             $detail['total'] = $baseprice- $totalDiscount;
-            $detail['user_id'] =  Auth::user()->id;          
+            $detail['user_id'] =  Auth::user()->id;
+            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);           
             return new InvoiceSaleOrderDetail($detail);
         });
         

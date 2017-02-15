@@ -25,7 +25,7 @@ Route::group(['middleware'=>['api']],function()
 //Route::get('/home','HomeController@index');
 
 
-//Información del header de la cotización
+//Cotizacion
 Route::resource('estimate', 'EstimateController');
 Route::get('getEstimateBaseInfo','EstimateController@BaseInfo');
 Route::get('getEstimateList','EstimateController@getEstimateList');
@@ -92,3 +92,9 @@ Route::get('getInvoiceBaseInfo','InvoiceSaleOrderController@BaseInfo');
 Route::get('getInvoiceList','InvoiceSaleOrderController@getInvoiceList');
 Route::get('invoice/{id}/pdf', 'InvoiceSaleOrderController@pdf');
 Route::put('invoice_update_state/{req}','InvoiceSaleOrderController@update_state');
+
+//Nota crédito
+Route::resource('credit-note', 'CreditNoteController');
+Route::get('getCreditNoteBaseInfo','CreditNoteController@BaseInfo');
+Route::get('getCreditNoteList','CreditNoteController@getCreditNoteList');
+Route::get('credit-note/{id}/pdf', 'CreditNoteController@pdf');

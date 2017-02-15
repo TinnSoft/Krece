@@ -71,7 +71,7 @@
                             <li><a href="{{route('invoice.index')}}">Factura de venta</a></li>
                             <li><a href="">Factura recurrente</a></li>
                             <li><a href="">Pagos recibidos</a></li>
-                            <li><a href="">Notas credito</a></li>       
+                            <li><a href="{{route('credit-note.index')}}">Notas credito</a></li>       
                             <li><a href="{{route('estimate.index')}}">Cotizaciones</a></li>
                             <li><a href="{{route('remision.index')}}">Remisiones</a></li>
                         </ul>

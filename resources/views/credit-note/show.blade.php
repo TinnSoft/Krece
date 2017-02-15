@@ -1,4 +1,4 @@
-@extends('home',['title' =>  'Factura de venta'])
+@extends('home',['title' =>  'Nota Crédito'])
 
 
 
@@ -7,46 +7,38 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2 >Factura de venta No: <span class="text-navy">{{$invoice->resolution_id}}</span></h2>
+                <h2 >Nota Crédito No: <span class="text-navy">{{$creditnote->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
-                    <a href="{{route('invoice.index')}}">Inicio</a>
+                    <a href="{{route('credit-note.index')}}">Inicio</a>
                 </li>
                 <li class="active">
-                    <strong>Inicio</strong>                            
+                    <strong>Cotizaciones</strong>                            
                 </li>
             </ol>
         </div>                
     </div>           
 
-            <div id="invoice_show" class="row wrapper wrapper-content">
-            
-                                       <div class="ibox-title">
-                                       
+            <div id="creditnote_show" class="row wrapper wrapper-content">            
+                                       <div class="ibox-title">                                       
                                             <p>
-                                            @if($invoice->status_id==1)
-                                                <a href="{{route('invoice.index')}}" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('credit-note.index')}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
                                                 
-                                                
-                                                <a href="{{route('invoice.edit', $invoice->public_id)}}" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('credit-note.edit', $creditnote->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('credit-note.edit', $creditnote->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Clonar</a> 
+                                                
+                                                <a href="{{route('credit-note.create')}}" class="btn btn-primary btn-sm pull-right"> 
+                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Nota crédito</a> 
 
-                                                <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Anular</a> 
-                                           @endif 
-                                                <a href="{{route('invoice.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a> 
-
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$invoice->public_id}})"> 
+                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$creditnote->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            
-                 </div>
-          
+                 </div>          
 
   <div class="row">
          
@@ -54,47 +46,31 @@
                     <div class="ibox-content p-xl">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <span><strong>Cliente: </strong>  <h4 class="text-navy">
-                                      @if (count($invoice->contact) > 0)
-                                                 <a href="{{route('contact.show', $invoice->contact->public_id)}}">{{$invoice->contact->name}}</a>
+                                    <span><strong>Cotizado a: </strong>  <h4 class="text-navy">
+                                      @if (count($creditnote->contact) > 0)
+                                                 <a href="{{route('contact.show', $creditnote->contact->public_id)}}">{{$creditnote->contact->name}}</a>
                                         @endif</h4>
                                     </span><br/>
-                                    
-                                    <span><strong>Vendedor: </strong>  
-                                        @if (count($invoice->seller) > 0)
-                                                 {{$invoice->seller->name}}
-                                        @endif</h4>                                 
+
+                                    <span><strong>Observaciones: </strong>  
+                                      {{$creditnote->observations}}
                                     </span><br/>
+                                    
                                     
                                      <span><strong>Lista de precios: </strong>  
-                                        @if (count($invoice->list_price) > 0)
-                                            {{$invoice->list_price->name}}
+                                        @if (count($creditnote->list_price) > 0)
+                                            {{$creditnote->list_price->name}}
                                         @endif
                                      </span><br/>
-                                     
-                                      <span><strong>Total: $</strong>  
-                                        {{$invoice->total}}
-                                    </span><br/>
+                                
                                       <span><strong>Moneda: </strong>  
-                                        {{$invoice->currency_code}}
+                                        {{$creditnote->currency_code}}
                                     </span><br/>
-                                    <span><strong>Observaciones: </strong>  
-                                      {{$invoice->observations}}
-                                    </span><br/>
-                                    
-
                                 </div>
                                     
                                 <div class="col-sm-6 text-right">                                                                   
                                     <p>
-                                        <span><strong>Fecha de creación:</strong>  {{$invoice->date}} </span><br/>
-                                        <span><strong>Fecha de vencimiento:</strong> {{$invoice->due_date}}      </span>
-                                        @if ($invoice->status_id==1)                                    
-                                           <p>Estado: <span class='label label-primary'>ABIERTA</span></p>                                        
-                                        @else
-                                            <p>Estado: <span class='label label-warning'>ANULADA</span></p>
-                                        @endif
-                
+                                        <span><strong>Fecha de creación:</strong>  {{$creditnote->date}} </span><br/>                                        
                                     </p>
                                 </div>
                             </div>
@@ -105,16 +81,16 @@
                                     <tr>
                                         <th>PRODUCTO</th>                                       
                                         <th>PRECIO</th>
-                                        <th>REFERENCIA</th> 
+                                        <th>REFERENCIA</th>
                                         <th>CANTIDAD</th>
-                                        <th>DESCUENTO</th>
-                                        <th>IMPUESTO</th>           
+                                        <th>DESC %</th>
+                                        <th>IMPUESTO %</th>           
                                         <th>TOTAL</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                      
-                                        @foreach($invoice->detail as $prod)
+                                        @foreach($creditnote->detail as $prod)
                                             <tr>
                                                 <td class="table-product_id">
                                                     <div><strong>{{$prod->product->name}}</strong></div>
@@ -122,10 +98,10 @@
                                                 </td>                                                
                                               
                                                 <td class="table-price">$ {{$prod->unit_price  }}</td>
-                                                <td class="table-REF"> {{$prod->reference  }}</td>
+                                                <td class="table-ref"> {{$prod->reference  }}</td>
                                                 <td class="table-qty">{{$prod->quantity}}</td>
-                                                <td class="table-discount">{{$prod->discount}}%</td>
-                                                <td class="table-taxes">{{$prod->tax_amount}}%</td>
+                                                <td class="table-discount">{{$prod->discount}}</td>
+                                                <td class="table-taxes">{{$prod->tax_amount}}</td>
                                                 <td class="table-total text-right">$ {{$prod->total}}</td>
                                             </tr>
                                         @endforeach                                   
@@ -138,11 +114,11 @@
                                 <tbody>
                                 <tr>
                                     <td><strong>Sub Total :</strong></td>
-                                    <td>$ {{$invoice->sub_total}}</td>
+                                    <td>$ {{$creditnote->sub_total}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Descuentos :</strong></td>
-                                    <td>$ {{$invoice->total_discounts}}</td>
+                                    <td>$ {{$creditnote->total_discounts}}</td>
                                 </tr>
                                  @foreach($taxes as $tax)
                                     <tr>
@@ -152,13 +128,13 @@
                                 @endforeach
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
-                                    <td>$ {{$invoice->total}}</td>                                    
+                                    <td>$ {{$creditnote->total}}</td>                                    
                                 </tr>                                
                                 </tbody>
                             </table>                           
 
                             <div class="well m-t"><strong>Notas: </strong>
-                                {{$invoice->notes}}
+                                {{$creditnote->notes}}
                             </div>
                         </div>                     
                 </div>         
@@ -166,11 +142,11 @@
 
 <script>
 
- var appInvoiceShow = new Vue({
-  el: '#invoice_show',
+ var appEstimateShow = new Vue({
+  el: '#creditnote_show',
   methods: {
        printPdf: function(val){
-        window.open('/invoice/'+val+'/pdf', '_blank');
+        window.open('/credit-note/'+val+'/pdf', '_blank');
     },
     goShow: function(val){
           alert();

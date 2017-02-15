@@ -11,18 +11,19 @@ use App\Utilities\DatesTranslator;
 use Auth;
 use App\Events\RecordActivity;
 
-class Estimate extends Model
+class CreditNote extends Model
 {
 	
 	use DatesTranslator;
 	
 	
-	protected $table = 'estimate';
+	protected $table = 'credit_note';
 	
 	
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
-	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id'
+	'currency_code','observations','notes','date','list_price_id','total','isDeleted','resolution_id',
+	'amount_pending_to_apply','exchange_rate'
 	];
 	
 	protected $dates = ['deleted_at'];
@@ -31,7 +32,7 @@ class Estimate extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(EstimateDetail::class)->with('product');
+		return $this->hasMany(CreditNoteDetail::class)->with('product','taxes');
 		
 	}
 	
@@ -43,14 +44,7 @@ class Estimate extends Model
 		
 	}
 	
-	
-	public function seller()
-	{
-		
-		return $this->hasOne(Seller::class, 'id', 'seller_id')->select(array('id', 'name'));
-		
-	}
-	
+
 	
 	public function list_price()
 	{
@@ -61,15 +55,14 @@ class Estimate extends Model
 	
 	
 	public function currency()
-	{
-		
-		return $this->hasOne(Currency::class, 'code_id','currency_code')->select(array('code_id as code', 'code_id'));
-		
+	{		
+		return $this->hasOne(Currency::class, 'code_id','currency_code')->select(array('code_id as code', 'code_id'));		
 	}
 	
 	public function account()
 	{
-		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo'));
+		return $this->hasOne(Account::class,'id','account_id')->with('account_regime')
+		->select(array('id','name','address','phone','identification','city','logo','regime_id'));
 	}
 	
 	public function scopeGetAll($query,$isDeleted)
@@ -88,8 +81,8 @@ class Estimate extends Model
 
 	 public function scopeGetSelectedFields($query)
     {
-        return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
-                    'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
+        return $query->select('id','account_id','public_id','amount_pending_to_apply','list_price_id','customer_id','currency_code',
+                    'sub_total','total_discounts','total_taxes','total','date','notes','observations','exchange_rate',
                     'created_at','updated_at','resolution_id');
 	}
 
