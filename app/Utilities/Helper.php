@@ -79,7 +79,7 @@ class Helper
     }
     public static function taxes()
     {
-       return Tax::select(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value')
+       return Tax::select(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value','id')
        ->where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)
                ->orderBy('created_at', 'asc')
@@ -152,6 +152,15 @@ class Helper
         $model_in['date']=Carbon::parse($model_in['date'])->toFormattedDateString(); 
         $model_in['due_date']=Carbon::parse($model_in['due_date'])->toFormattedDateString(); 
 
+        return $model_in;
+    }
+
+    public static function _taxesFormatter($model_in)
+    {
+        foreach($model_in as $item) 
+        {           
+            $item->total=Helper::formatMoney($item->total);
+        }
         return $model_in;
     }
 

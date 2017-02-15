@@ -75,6 +75,7 @@
             total:'',           
             detail: [{
                 product_id: '',
+                tax_id:'',
                 product:null,
                 description:'',
                 unit_price: 0,

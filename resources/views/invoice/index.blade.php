@@ -18,7 +18,7 @@
 
     <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2>Invoicees</h2>
+                    <h2>Facturas de venta</h2>
                   
                     <ol class="breadcrumb">
                         <li class="active">
@@ -83,8 +83,7 @@
                          $('#invoice-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                     }
                 })
-                .catch(function(error) {                   
-                    console.log(error.response.data);
+                .catch(function(error) {  
                     Vue.set(vm.$data, 'errors', error.response.data);
                 })
             }

@@ -33,7 +33,7 @@ class InvoiceSaleOrder extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(InvoiceSaleOrderDetail::class)->with('product');
+		return $this->hasMany(InvoiceSaleOrderDetail::class)->with('product','taxes');
 		
 	}
 	
@@ -71,7 +71,8 @@ class InvoiceSaleOrder extends Model
 	
 	public function account()
 	{
-		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo'));
+		return $this->hasOne(Account::class,'id','account_id')->with('account_regime')
+		->select(array('id','name','address','phone','identification','city','logo','regime_id'));
 	}
 
 	public function payment_terms()

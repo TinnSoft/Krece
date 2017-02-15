@@ -7,7 +7,7 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2 >Invoice No: <span class="text-navy">{{$invoice->resolution_id}}</span></h2>
+                <h2 >Factura de venta No: <span class="text-navy">{{$invoice->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
                     <a href="{{route('invoice.index')}}">Inicio</a>
@@ -34,9 +34,12 @@
 
                                                 <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Clonar</a> 
+
+                                                <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <span ></span>&nbsp;Anular</a> 
                                            @endif 
                                                 <a href="{{route('invoice.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
+                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a> 
 
                                                 <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$invoice->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
@@ -87,9 +90,9 @@
                                         <span><strong>Fecha de creación:</strong>  {{$invoice->date}} </span><br/>
                                         <span><strong>Fecha de vencimiento:</strong> {{$invoice->due_date}}      </span>
                                         @if ($invoice->status_id==1)                                    
-                                           <p>Estado: <span class='label label-primary'>ACTIVO</span></p>                                        
+                                           <p>Estado: <span class='label label-primary'>ABIERTA</span></p>                                        
                                         @else
-                                            <p>Estado: <span class='label label-warning'>ANULADO</span></p>
+                                            <p>Estado: <span class='label label-warning'>ANULADA</span></p>
                                         @endif
                 
                                     </p>
@@ -103,8 +106,8 @@
                                         <th>PRODUCTO</th>                                       
                                         <th>PRECIO</th>
                                         <th>CANTIDAD</th>
-                                        <th>DESC %</th>
-                                        <th>IMPUESTO %</th>           
+                                        <th>DESCUENTO</th>
+                                        <th>IMPUESTO</th>           
                                         <th>TOTAL</th>
                                     </tr>
                                     </thead>
@@ -119,8 +122,8 @@
                                               
                                                 <td class="table-price">$ {{$prod->unit_price  }}</td>
                                                 <td class="table-qty">{{$prod->quantity}}</td>
-                                                <td class="table-discount">{{$prod->discount}}</td>
-                                                <td class="table-taxes">{{$prod->tax_amount}}</td>
+                                                <td class="table-discount">{{$prod->discount}}%</td>
+                                                <td class="table-taxes">{{$prod->tax_amount}}%</td>
                                                 <td class="table-total text-right">$ {{$prod->total}}</td>
                                             </tr>
                                         @endforeach                                   
@@ -139,10 +142,12 @@
                                     <td><strong>Descuentos :</strong></td>
                                     <td>$ {{$invoice->total_discounts}}</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Impuestos :</strong></td>
-                                    <td>$ {{$invoice->total_taxes}}</td>
-                                </tr>
+                                 @foreach($taxes as $tax)
+                                    <tr>
+                                        <td><strong>{{$tax->name}}</strong></td>
+                                        <td>${{$tax->total}}</td>
+                                    </tr>
+                                @endforeach
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
                                     <td>$ {{$invoice->total}}</td>                                    

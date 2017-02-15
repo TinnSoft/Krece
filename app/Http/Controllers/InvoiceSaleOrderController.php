@@ -22,6 +22,7 @@ use App\Models\{
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceSaleOrderController extends Controller
 {
@@ -46,7 +47,7 @@ class InvoiceSaleOrderController extends Controller
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
     public function BaseInfo()
     {
-
+        
         $resolutionID=Resolution::select('next_invoice_number')
                                 ->where('isDefault',1)
                                 ->where('account_id',Auth::user()->account_id)
@@ -200,8 +201,9 @@ class InvoiceSaleOrderController extends Controller
         }
        
         $invoice=Helper::_InvoiceFormatter($invoice);
+        $taxes=$this->getTotalTaxes($invoice->public_id);
 
-        return view('invoice.show', compact('invoice'));
+        return view('invoice.show', compact('invoice','taxes'));
     }
 
     public function edit($id)
@@ -262,6 +264,7 @@ class InvoiceSaleOrderController extends Controller
             $totalDiscount= $baseprice*($detail['discount']/100);
             $detail['total'] = $baseprice- $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
+            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100); 
             return new InvoiceSaleOrderDetail($detail);
         });
         
@@ -282,7 +285,7 @@ class InvoiceSaleOrderController extends Controller
         InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();
         $invoice->detail()->saveMany($products);
 
-        event(new RecordActivity('Update','Se actualizó la remisión número: ' 
+        event(new RecordActivity('Update','Se actualizó la factura de venta número: ' 
 			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
 			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
@@ -303,7 +306,7 @@ class InvoiceSaleOrderController extends Controller
             $invoice['deleted_at']=$now = Carbon::now();
             $invoice->save();
             
-            event(new RecordActivity('Delete','Se eliminó la remisión número: ' 
+            event(new RecordActivity('Delete','Se eliminó la factura de venta número: ' 
 			.$invoice->resolution_id,
 			'InvoiceSaleOrder',null));	
 
@@ -321,17 +324,17 @@ class InvoiceSaleOrderController extends Controller
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
-                
+  
         $invoice=Helper::_InvoiceFormatter($invoice);
         
-        $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice]);
+        $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice,'taxes' => $this->getTotalTaxes($invoice->public_id)]);
         $filename = "InvoiceSaleOrder_"."{$invoice->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
         }
         
-        event(new RecordActivity('Print','Se ha impreso el pdf de la invoice No: ' 
+        event(new RecordActivity('Print','Se ha impreso el pdf de la factura de venta No: ' 
 			.$invoice->resolution_id,
 			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
 
@@ -348,9 +351,9 @@ class InvoiceSaleOrderController extends Controller
               
             $item->update($data);
 
-            event(new RecordActivity('Update','Se actualizó el estado de la remisión número: ' 
-			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
+            event(new RecordActivity('Update','Se actualizó el estado de la factura de venta número: ' 
+			.$item->resolution_id.' para el cliente '.$item->contact->name,
+			'InvoiceSaleOrder','/invoice/'.$item->public_id));	
 
             return response()
             ->json([
@@ -358,4 +361,20 @@ class InvoiceSaleOrderController extends Controller
             ]);
     }
 
+    public static function getTotalTaxes($invoice_id)
+    {
+        $taxes=
+        DB::table('invoice_sale_order')
+            ->join('invoice_sale_order_detail', 'invoice_sale_order.id', '=', 'invoice_sale_order_detail.invoice_sale_order_id')
+             ->join('tax', 'invoice_sale_order_detail.tax_id', '=', 'tax.id')
+            ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
+             ->where('invoice_sale_order.public_id',$invoice_id)  
+              ->where('invoice_sale_order_detail.tax_amount','>',0)             
+            ->select(DB::raw("CONCAT(tax.name,' (',invoice_sale_order_detail.tax_amount,'%)') AS name"), 
+            DB::raw('SUM(invoice_sale_order_detail.total_tax) as total'))
+            ->groupBy('tax.name','invoice_sale_order_detail.tax_amount')
+            ->get();
+
+            return  Helper::_taxesFormatter($taxes);
+    }
 }

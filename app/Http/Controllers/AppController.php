@@ -16,7 +16,7 @@ class AppController extends Controller
     public function index()
     {
         if(Auth::check()) {                       
-            return view('home');
+            return view('home',['title'=>'Bienvenido']);
         }
       
         return view('auth/login');

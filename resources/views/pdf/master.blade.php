@@ -8,8 +8,8 @@
     
   <style>     
     table.total th,  table.total td, table.total header {
-        padding: 3px;
-        text-align: left; 
+        padding: 4px;
+        text-align: right; 
         
     }
     table.total{

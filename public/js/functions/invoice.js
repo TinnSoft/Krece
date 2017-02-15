@@ -130,12 +130,14 @@ var app = new Vue({
       },
       onInputTax:function(val)
       {
-        if (val.tax_value)
+        if (val.taxes)
         {
-          val.tax_amount=val.tax_value.value;
+          val.tax_amount=val.taxes.value;
+          val.tax_id=val.taxes.id;
         }
         else{ 
           val.tax_amount="";
+           val.tax_id='';
           }  
       },
       onInputlistprice:function(val)
@@ -160,6 +162,7 @@ var app = new Vue({
           val.unit_price=val.product.sale_price;
           val.product_id=val.product.id;
           val.reference=val.product.reference;
+          val.name=val.product.name;
         }
         else{ 
           val.product_id="";
@@ -167,6 +170,7 @@ var app = new Vue({
           val.unit_price=0;
           val.product_id='';
           val.reference='';
+          val.name='';
           }
       },
       currencyLabel({

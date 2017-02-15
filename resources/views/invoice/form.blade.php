@@ -232,7 +232,7 @@
             <th>PRECIO</th>
             <th>CANTIDAD</th>
             <th>DESC %</th>
-            <th>IMPUESTO %</th>           
+            <th>IMPUESTO</th>           
             <th colspan="2">TOTAL</th>
         </tr>
     </thead>
@@ -276,7 +276,7 @@
             <td class="form-tax"  style="width: 5em">
                   <multiselect 
                             :options="taxes" 
-                            v-model="_detail.tax_value"
+                            v-model="_detail.taxes"
                             label="text"         
                             track-by="value"
                             placeholder="Impuesto"
