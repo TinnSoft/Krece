@@ -23,9 +23,9 @@ var app = new Vue({
       onInputType:function(val)
       {
         if(val)
-        {this.form.bank_account_type=val.id; }
+        {this.form.bank_account_type_id=val.id; }
         else
-        {this.form.bank_account_type=''; }      
+        {this.form.bank_account_type_id=''; }      
       },
       fetchData: function()
       {    

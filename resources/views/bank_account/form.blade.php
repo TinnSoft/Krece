@@ -25,7 +25,7 @@
                         >
                         </multiselect>
 
-                        <span v-if="errors.bank_account_type" class="error is-danger  text-danger">
+                        <span v-if="errors.bank_account_type_id" class="error is-danger  text-danger">
                            Debe especificar un tipo de cuenta válido.
                         </span>                             
                     </td>                 

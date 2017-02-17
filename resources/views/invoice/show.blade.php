@@ -81,7 +81,9 @@
                                     <span><strong>Observaciones: </strong>  
                                       {{$invoice->observations}}
                                     </span><br/>
-                                    
+                                    <span><strong>Notas: </strong>  
+                                      {{$invoice->notes}}
+                                    </span><br/>
 
                                 </div>
                                     
@@ -132,8 +134,9 @@
 
                                     </tbody>
                                 </table>
-                            </div><!-- /table-responsive -->
+                            </div>
 
+                            
                             <table class="table invoice-total">
                                 <tbody>
                                 <tr>
@@ -155,14 +158,39 @@
                                     <td>$ {{$invoice->total}}</td>                                    
                                 </tr>                                
                                 </tbody>
-                            </table>                           
-
-                            <div class="well m-t"><strong>Notas: </strong>
-                                {{$invoice->notes}}
-                            </div>
-                        </div>                     
-                </div>         
+                            </table>
+                                <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#tab-1">PAGOS ASOCIADOS</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="panel-body">
+                                            <div class="table-responsive m-t">
+                                                <table class="table invoice-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Fecha</th>                                       
+                                                            <th>Recibo de Caja #</th>
+                                                            <th>Estado</th> 
+                                                            <th>Método de pago</th>
+                                                            <th>Monto</th>
+                                                            <th>Observaciones</th>     
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                        </div>        
+                </div>
         </div>
+
+
+
 
 <script>
 

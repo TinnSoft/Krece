@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~86 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~97 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -237,7 +237,22 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(94, 1, 1, '2017-02-14 20:11:26', 'Se ha impreso el pdf de la factura de venta No: 1', '/invoice/6', 'InvoiceSaleOrder', 'Print'),
 	(95, 1, 1, '2017-02-14 20:11:45', 'Se ha impreso el pdf de la factura de venta No: 1', '/invoice/6', 'InvoiceSaleOrder', 'Print'),
 	(96, 1, 1, '2017-02-14 20:11:56', 'Se ha impreso el pdf de la factura de venta No: 1', '/invoice/6', 'InvoiceSaleOrder', 'Print'),
-	(97, 1, 1, '2017-02-14 20:13:49', 'Se ha impreso el pdf de la factura de venta No: 1', '/invoice/6', 'InvoiceSaleOrder', 'Print');
+	(97, 1, 1, '2017-02-14 20:13:49', 'Se ha impreso el pdf de la factura de venta No: 1', '/invoice/6', 'InvoiceSaleOrder', 'Print'),
+	(98, 1, 1, '2017-02-15 09:42:06', 'Se actualizó el estado de la remisión número: 1 para el cliente cliente 2', '/remision/1', 'Remision', 'Update'),
+	(99, 1, 1, '2017-02-15 09:42:08', 'Se actualizó el estado de la remisión número: 1 para el cliente cliente 2', '/remision/1', 'Remision', 'Update'),
+	(100, 1, 1, '2017-02-15 09:42:10', 'Se actualizó el estado de la remisión número: 3 para el cliente Fernando Ardila', '/remision/3', 'Remision', 'Update'),
+	(101, 1, 1, '2017-02-15 10:16:28', 'Se creó la factura de venta número: 8 para el cliente cliente 2', '/invoice/7', 'InvoiceSaleOrder', 'Create'),
+	(102, 1, 1, '2017-02-15 10:16:32', 'Se ha impreso el pdf de la factura de venta No: 8', '/invoice/7', 'InvoiceSaleOrder', 'Print'),
+	(103, 1, 1, '2017-02-15 12:28:37', 'Se creó la Nota Crédito número: 1 para el cliente cliente 2', '/credit-note/1', 'CreditNote', 'Create'),
+	(104, 1, 1, '2017-02-15 12:35:23', 'Se actualizó la factura de venta número: 1 para el cliente cliente 2', '/invoice/7', 'InvoiceSaleOrder', 'Update'),
+	(105, 1, 1, '2017-02-15 13:02:54', 'Se actualizó la Nota Crédito número: 1 para el cliente cliente 2', '/credit-note/1', 'CreditNote', 'Update'),
+	(106, 1, 1, '2017-02-15 13:23:42', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(107, 1, 1, '2017-02-15 13:24:05', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(108, 1, 1, '2017-02-15 13:24:22', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(109, 1, 1, '2017-02-15 13:24:35', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(110, 1, 1, '2017-02-15 13:26:03', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(111, 1, 1, '2017-02-15 13:27:47', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(112, 1, 1, '2017-02-15 13:28:10', 'Se creó la Nota Crédito número: 2 para el cliente cliente 2', '/credit-note/2', 'CreditNote', 'Create');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -624,82 +639,85 @@ CREATE TABLE IF NOT EXISTS `credit_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `document_number` int(11) DEFAULT NULL,
-  `seller_id` int(11) DEFAULT NULL,
+  `public_id` int(11) DEFAULT NULL,
+  `resolution_id` int(11) DEFAULT NULL,
   `list_price_id` int(11) DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `currency_code` varchar(3) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `date` int(11) DEFAULT NULL,
-  `due_date` int(11) DEFAULT NULL,
-  `notes` int(11) DEFAULT NULL,
-  `observations` int(11) DEFAULT NULL,
-  `exchange_rate` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `notes` varchar(255) DEFAULT NULL,
+  `observations` varchar(255) DEFAULT NULL,
+  `exchange_rate` float DEFAULT NULL,
+  `sub_total` float DEFAULT NULL,
+  `total` float DEFAULT NULL,
+  `total_discounts` float DEFAULT NULL,
+  `total_taxes` float DEFAULT NULL,
+  `amount_pending_to_apply` float DEFAULT NULL,
+  `isDeleted` bit(1) DEFAULT b'0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_public_account` (`public_id`,`account_id`),
   KEY `FK_credit_note_company` (`account_id`),
-  KEY `FK_credit_note_seller` (`seller_id`),
   KEY `FK_credit_note_list_price` (`list_price_id`),
   KEY `FK_credit_note_customer` (`customer_id`),
   KEY `FK_credit_note_currency` (`currency_code`),
-  KEY `FK_credit_note_status` (`status_id`),
   KEY `FK_credit_note_user` (`user_id`),
   CONSTRAINT `FK_credit_note_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_credit_note_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_credit_note_customer` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_credit_note_list_price` FOREIGN KEY (`list_price_id`) REFERENCES `list_price` (`id`),
-  CONSTRAINT `FK_credit_note_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
-  CONSTRAINT `FK_credit_note_status` FOREIGN KEY (`status_id`) REFERENCES `credit_note_status` (`id`),
   CONSTRAINT `FK_credit_note_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.credit_note: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.credit_note: ~2 rows (aproximadamente)
 DELETE FROM `credit_note`;
 /*!40000 ALTER TABLE `credit_note` DISABLE KEYS */;
+INSERT INTO `credit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `list_price_id`, `customer_id`, `currency_code`, `date`, `notes`, `observations`, `exchange_rate`, `sub_total`, `total`, `total_discounts`, `total_taxes`, `amount_pending_to_apply`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 1, 4, 'COP', '2017-02-15', 'as', 'as', NULL, 8000, 9163, 300, 1463, NULL, b'0', '2017-02-15 12:28:37', '2017-02-15 13:02:53', NULL),
+	(2, 1, 1, 2, 2, 1, 4, 'COP', '2017-02-15', NULL, NULL, NULL, 9000, 9840, 300, 1140, NULL, b'1', '2017-02-15 13:28:09', '2017-02-15 13:28:25', '2017-02-15 13:28:25');
 /*!40000 ALTER TABLE `credit_note` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.credit_note_detail
 CREATE TABLE IF NOT EXISTS `credit_note_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `credit_note_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `reference` varchar(50) DEFAULT NULL,
   `unit_price` float NOT NULL,
   `discount` float DEFAULT NULL,
-  `tax_type_id` int(11) DEFAULT NULL,
+  `tax_id` int(11) DEFAULT NULL,
   `tax_amount` float DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `gross_total` float DEFAULT NULL,
+  `total_tax` float DEFAULT NULL,
   `total` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `FK_credit_note_detail_credit_note_id` (`credit_note_id`),
   KEY `FK_credit_note_detail_item` (`product_id`),
-  KEY `FK_credit_note_detail_tax` (`tax_type_id`),
+  KEY `FK_credit_note_detail_tax` (`tax_id`),
   KEY `FK_credit_note:user` (`user_id`),
   CONSTRAINT `FK_credit_note:user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_credit_note_detail_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_credit_note_detail_remision_id` FOREIGN KEY (`credit_note_id`) REFERENCES `credit_note` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.credit_note_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.credit_note_detail: ~4 rows (aproximadamente)
 DELETE FROM `credit_note_detail`;
 /*!40000 ALTER TABLE `credit_note_detail` DISABLE KEYS */;
+INSERT INTO `credit_note_detail` (`id`, `credit_note_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(3, 1, 1, 4, '1234', 5000, 0, 3, 19, 'productoprueba', 'producto para pruebas', 1, 950, 5000, '2017-02-15 13:02:53', '2017-02-15 13:02:53', NULL),
+	(4, 1, 1, 3, 'ref2', 3000, 10, 4, 19, 'producto 2', 'descripcion producto 2', 1, 513, 2700, '2017-02-15 13:02:53', '2017-02-15 13:02:53', NULL),
+	(5, 2, 1, 3, 'ref2', 3000, 0, 3, 19, 'producto 2', 'descripcion producto 2', 1, 570, 3000, '2017-02-15 13:28:10', '2017-02-15 13:28:10', NULL),
+	(6, 2, 1, 3, 'ref2', 3000, 10, NULL, 0, 'producto 2', 'descripcion producto 2', 1, 0, 2700, '2017-02-15 13:28:10', '2017-02-15 13:28:10', NULL),
+	(7, 2, 1, 3, 'ref2', 3000, 0, 4, 19, 'producto 2', 'descripcion producto 2', 1, 570, 3000, '2017-02-15 13:28:10', '2017-02-15 13:28:10', NULL);
 /*!40000 ALTER TABLE `credit_note_detail` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.credit_note_status
-CREATE TABLE IF NOT EXISTS `credit_note_status` (
-  `id` int(11) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Volcando datos para la tabla krece.credit_note_status: ~0 rows (aproximadamente)
-DELETE FROM `credit_note_status`;
-/*!40000 ALTER TABLE `credit_note_status` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_note_status` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.credit_note_transaction
 CREATE TABLE IF NOT EXISTS `credit_note_transaction` (
@@ -986,7 +1004,7 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `gross_total` float NOT NULL DEFAULT '0',
+  `total_tax` float NOT NULL DEFAULT '0',
   `total` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1005,7 +1023,7 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
 -- Volcando datos para la tabla krece.estimate_detail: ~39 rows (aproximadamente)
 DELETE FROM `estimate_detail`;
 /*!40000 ALTER TABLE `estimate_detail` DISABLE KEYS */;
-INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_type_id`, `tax_amount`, `name`, `description`, `quantity`, `gross_total`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_type_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(4, 23, 1, 2, NULL, 2222, 0, NULL, 0, NULL, 'descripcion', 2, 0, 4444, '2017-01-03 21:49:24', '2017-01-03 21:49:24', NULL),
 	(5, 24, 1, 2, NULL, 2222, 0, NULL, 0, NULL, 'descripcion', 2, 0, 4444, '2017-01-03 21:53:19', '2017-01-03 21:53:19', NULL),
 	(6, 24, 1, 2, NULL, 30000, 0, NULL, 0, NULL, 'desc2', 1, 0, 30000, '2017-01-03 21:53:19', '2017-01-03 21:53:19', NULL),
@@ -1113,7 +1131,7 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
 -- Volcando datos para la tabla krece.invoice_sale_order: ~6 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
@@ -1124,7 +1142,8 @@ INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `r
 	(13, 3, 1, 1, 4, 4, '2017-02-14', '2017-02-22', '3', 2, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 15:28:09', '2017-02-14 15:52:18', NULL),
 	(14, 4, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 15:28:21', '2017-02-14 16:44:15', NULL),
 	(15, 5, 1, 1, 1, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 17:22:54', '2017-02-14 17:24:15', NULL),
-	(16, 6, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL);
+	(16, 6, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL),
+	(17, 7, 1, 1, 1, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-15 10:16:28', '2017-02-15 12:35:23', NULL);
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_credit_note
@@ -1169,9 +1188,9 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.invoice_sale_order_detail: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order_detail: ~17 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
 /*!40000 ALTER TABLE `invoice_sale_order_detail` DISABLE KEYS */;
 INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id`, `reference`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `product_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
@@ -1188,7 +1207,10 @@ INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id
 	(18, 15, 1, 'ref2', 3000, 0, 19, 4, 3, NULL, 'descripcion producto 2', 1, 3000, NULL, '2017-02-14 17:24:15', '2017-02-14 17:24:15'),
 	(37, 16, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-14 18:12:17', '2017-02-14 18:12:17'),
 	(38, 16, 1, 'ref2', 3000, 0, 0, 5, 3, NULL, 'descripcion producto 2', 1, 3000, 0, '2017-02-14 18:12:17', '2017-02-14 18:12:17'),
-	(39, 16, 1, '1234', 5000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 5000, 950, '2017-02-14 18:12:17', '2017-02-14 18:12:17');
+	(39, 16, 1, '1234', 5000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 5000, 950, '2017-02-14 18:12:17', '2017-02-14 18:12:17'),
+	(42, 17, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
+	(43, 17, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
+	(44, 17, 1, 'ref2', 3000, 0, 19, 4, 3, NULL, 'descripcion producto 2', 1, 3000, 570, '2017-02-15 12:35:23', '2017-02-15 12:35:23');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_estimate
@@ -1952,9 +1974,9 @@ CREATE TABLE IF NOT EXISTS `remision` (
 DELETE FROM `remision`;
 /*!40000 ALTER TABLE `remision` DISABLE KEYS */;
 INSERT INTO `remision` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `document_type_id`, `status_id`, `date`, `due_date`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `deleted_at`, `updated_at`) VALUES
-	(6, 1, 1, 1, 1, 4, 1, 4, 'COP', 1, 2, '2017-02-10', '2017-03-10', 10000, 0, 950, 10950, 'asas', NULL, NULL, b'0', '2017-02-10 16:28:02', NULL, '2017-02-10 17:38:12'),
+	(6, 1, 1, 1, 1, 4, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-10', 10000, 0, 950, 10950, 'asas', NULL, NULL, b'0', '2017-02-10 16:28:02', NULL, '2017-02-15 09:42:07'),
 	(7, 1, 1, 2, 2, NULL, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-12', 55000, 0, 950, 55950, 'remision clonada', NULL, NULL, b'1', '2017-02-10 16:57:58', '2017-02-13 13:21:36', '2017-02-13 13:21:36'),
-	(8, 1, 1, 3, 3, 4, 1, 18, 'COP', 2, 2, '2017-02-10', '2017-03-10', 10000, 0, 570, 10570, 'prueba remision 2', NULL, NULL, b'0', '2017-02-10 17:01:08', NULL, '2017-02-10 17:01:08');
+	(8, 1, 1, 3, 3, 4, 1, 18, 'COP', 2, 2, '2017-02-10', '2017-03-10', 10000, 0, 570, 10570, 'prueba remision 2', NULL, NULL, b'0', '2017-02-10 17:01:08', NULL, '2017-02-15 09:42:09');
 /*!40000 ALTER TABLE `remision` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision_detail
@@ -2063,7 +2085,7 @@ CREATE TABLE IF NOT EXISTS `resolution` (
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, '1', '', '8', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-14 17:26:14', NULL),
+	(1, 1, 1, 1, '1', '', '9', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-15 10:16:28', NULL),
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
@@ -2091,7 +2113,7 @@ DELETE FROM `resolution_numbers`;
 INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
 	(8, 1, 'estimate', NULL, 38, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-02-12 14:18:38'),
 	(9, 1, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-02-10 13:24:58'),
-	(10, 1, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-02-10 13:24:58'),
+	(10, 1, 'credit_note', NULL, 3, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-02-15 13:28:10'),
 	(11, 1, 'remision', NULL, 4, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-02-10 17:01:08'),
 	(12, 1, 'test', NULL, 1, 'Siguiente número de orden de compra', NULL, NULL);
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;

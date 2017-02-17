@@ -11,6 +11,7 @@ use App\Models\{
     BankAccount
     };
 use Illuminate\Support\Facades\DB;
+use App\Utilities\Helper;
 
 class BankAccountController extends Controller
 {
@@ -23,10 +24,10 @@ class BankAccountController extends Controller
                  ->where('isDeleted',  0)
                ->orderBy('created_at', 'desc')
                ->select('id', 'account_id','public_id',
-               'user_id','bank_account_type','bank_account_name','bank_account_number',
+               'user_id','bank_account_type_id','bank_account_name','bank_account_number',
                'initial_balance',
                'description','id'
-               )->get();    
+               )->get(); 
 
         return view('bank_account.index',compact('accountlist'));
   
@@ -49,10 +50,8 @@ class BankAccountController extends Controller
         
     public function store(Request $request)
     {   
-            
-
         $this->validate($request, [     
-            'bank_account_type' => 'required',              
+            'bank_account_type_id' => 'required',              
             'bank_account_name' => 'required',
             'initial_balance' => 'required'  
         ]);
@@ -115,7 +114,7 @@ class BankAccountController extends Controller
     {        
               
        $this->validate($request, [     
-            'bank_account_type' => 'required',              
+            'bank_account_type_id' => 'required',              
             'bank_account_name' => 'required',
             'initial_balance' => 'required'  
         ]);

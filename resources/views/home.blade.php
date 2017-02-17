@@ -27,11 +27,11 @@
 
 </head>
 
-<body  class="fixed-sidebar fixed-navbar md-skin">
+<body ng-controller="MainCtrl as main" class="fixed-sidebar fixed-navbar md-skin fixed-footer" landing-scrollspy id="page-top">
 
     <div id="wrapper">
     
-        <nav class="navbar-default navbar-static-side" role="navigation">
+        <nav class="navbar-default navbar-static-side " role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
@@ -61,7 +61,7 @@
                         </div>
                     </li>
                         <li>
-                        <a href=""><i class="fa fa-windows"></i> <span class="nav-label">Inicio</span> </a>
+                        <a href="{{url('/')}}"><i class="fa fa-windows"></i> <span class="nav-label">Inicio</span> </a>
                         
                        </li>
                          <li>
@@ -70,7 +70,7 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{route('invoice.index')}}">Factura de venta</a></li>
                             <li><a href="">Factura recurrente</a></li>
-                            <li><a href="">Pagos recibidos</a></li>
+                            <li><a href="{{route('payment.index')}}">Pagos recibidos</a></li>
                             <li><a href="{{route('credit-note.index')}}">Notas credito</a></li>       
                             <li><a href="{{route('estimate.index')}}">Cotizaciones</a></li>
                             <li><a href="{{route('remision.index')}}">Remisiones</a></li>

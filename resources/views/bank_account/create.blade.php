@@ -50,7 +50,7 @@
             bank_account_number: '',
             initial_balance:'0',
             description: '',
-            bank_account_type: '',
+            bank_account_type_id: '',
             bank_account:null
         };
 

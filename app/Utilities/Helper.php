@@ -7,7 +7,9 @@ use App\Models\{
     Contact,
     Product,
     ResolutionNumber,
-    PaymentTerms
+    PaymentTerms,
+    BankAccount,
+    BankAccountType
 };
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -45,6 +47,13 @@ class Helper
                ->get()
                 ->toArray();
     }
+     public static function bank_account()
+    {
+         return BankAccountType::with('bank') 
+                ->select('id','description')
+                ->get(); 
+    }
+
     public static function contacts()
     {
          return Contact::with('seller')
