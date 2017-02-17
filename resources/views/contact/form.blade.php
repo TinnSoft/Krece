@@ -232,7 +232,7 @@
 		</tr>
 </table>
 
-
+<pre><code>@{{$data.errors | json}}</code></pre>
 
 <!--
 

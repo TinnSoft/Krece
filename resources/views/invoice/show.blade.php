@@ -13,7 +13,7 @@
                     <a href="{{route('invoice.index')}}">Inicio</a>
                 </li>
                 <li class="active">
-                    <strong>Inicio</strong>                            
+                    <strong>Ver</strong>                            
                 </li>
             </ol>
         </div>                
@@ -91,10 +91,14 @@
                                     <p>
                                         <span><strong>Fecha de creación:</strong>  {{$invoice->date}} </span><br/>
                                         <span><strong>Fecha de vencimiento:</strong> {{$invoice->due_date}}      </span>
+                                       
+
                                         @if ($invoice->status_id==1)                                    
-                                           <p>Estado: <span class='label label-primary'>ABIERTA</span></p>                                        
-                                        @else
+                                           <p>Estado: <span class='label label-primary'>ABIERTA</span></p>                                         
+                                        @elseif ($invoice->status_id==2) 
                                             <p>Estado: <span class='label label-warning'>ANULADA</span></p>
+                                         @elseif ($invoice->status_id==6) 
+                                            <p>Estado: <span class='label label-info'>CERRADA</span></p>
                                         @endif
                 
                                     </p>
@@ -178,7 +182,28 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+                                                        @foreach($paymentHistorical as $item)
+                                                            <tr>
+                                                                <td> {{$item->date  }}</td>
+                                                                <td > <a href="{{route('payment.show', $item->public_id)}}">
+                                                                {{$item->resolution_id  }}</a></td>                                                               
+                                                               
+                                                                <td class="">
+                                                                @if ($item->status_id==1)                                    
+                                                                <p><span class='label label-primary'>{{$item->status}}</span></p>                                         
+                                                                @elseif ($item->status_id==2) 
+                                                                    <p><span class='label label-warning'>{{$item->status}}</span></p>                                                              
+                                                                @else
+                                                                    {{$item->status}}
+                                                                @endif
+                                                                </td>
+
+                                                                <td class="">{{$item->payment_method}}</td>
+                                                                <td class="text-info">${{$item->total_payed}}</td>
+                                                                 <td>{{$item->observations}}</td>
+                                                                
+                                                            </tr>
+                                                        @endforeach      
                                                     </tbody>
                                                 </table>
                                             </div>

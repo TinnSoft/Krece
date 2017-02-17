@@ -236,11 +236,19 @@
                                             </div>  
                                             @yield('payment_warning1')    
                                             @yield('payment_warning2') 
-                                              <template  v-if="errors.payment_empty" >
+                                            <template  v-if="errors.payment_empty" >
                                                     <div class="alert alert-danger">         
                                                         Asegurese que el cliente seleccionado tenga pagos pendientes
                                                 </div>
                                             </template>
+                                             <template  v-if="errors.amount_error" >
+                                                    <div class="alert alert-danger">         
+                                                       Los montos que ha ingresado <strong>son mayores a los habilitados 
+                                                       por pagar</strong>, revise nuevamente
+                                                </div>
+                                            </template>
+
+                                            
                                         </div>
                                 </div>
                             </div>
@@ -260,8 +268,6 @@
             </div>
   
 
-<pre><code>@{{$data.errors | json}}</code></pre>
-<pre><code>@{{$data.form | json}}</code></pre>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

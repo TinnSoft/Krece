@@ -10,6 +10,7 @@ var app = new Vue({
     return {
     hasPendingPayment:1,
     isProcessing: false,
+    kindOfProcess: {},
     form: {},
     errors: {},
     customer_list:[],
@@ -23,6 +24,8 @@ var app = new Vue({
   created: function () {  
       this.fetchData();
       Vue.set(this.$data, 'form', _form); 
+      Vue.set(this.$data, 'kindOfProcess', _kindOfProcess); 
+      this.getInvoiceSale();
     },
   beforeMount() {
              this.getCurrentDate();
@@ -35,12 +38,23 @@ var app = new Vue({
       //obtener el listado de facturas de venta pendientes por pagar
       getInvoiceSale:function()
       {
-         var vm=this;   
+          var vm=this;   
+          var procedure_path='';
+          if (vm.kindOfProcess=="edit")
+          {
+            procedure_path='/getInvoicePendingtoPay_edit/'
+          }
+          else
+          {
+            procedure_path='/getInvoicePendingtoPay/'
+          }
+
+         
           vm.hasPendingPayment=1;   
         if ( vm.form.isInvoice==1 && vm.form.customer_id!='')
         {
              var vm = this
-                  axios.get('/getInvoicePendingtoPay/'+vm.form.customer_id)
+                  axios.get(procedure_path +vm.form.customer_id)
                       .then(function(response) {                                                    
                           Vue.set(vm.$data.form, 'pending_payment_in', response.data.PendingByPayment);
                           
@@ -58,9 +72,15 @@ var app = new Vue({
       DisplayPendingInvoiceSale:function()
       { 
         var vm=this;      
-        if ( vm.form.isInvoice==1 && vm.form.customer_id!='' && vm.form.pending_payment_in.length>0)
+        if ( vm.form.isInvoice==1 && vm.form.customer_id!='')
         {
-          return true;
+          if(vm.form.pending_payment_in)
+          {
+            if  (vm.form.pending_payment_in.length>0)
+            {
+              return true;
+            }
+          }
         }        
         return false;
       },

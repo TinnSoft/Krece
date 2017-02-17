@@ -18,15 +18,6 @@
     </style>
 
         <div id="payment_index" class="jqGrid_wrapper">            
-           <!-- activar buscador 
-            <div class="ibox-content">
-                <ul class="todo-list m-t small-list  col-sm-5 pull-right">
-                    <li>
-                        <div  class="input-group"><input id="search_cells" type="text" placeholder="Buscar" class="input-sm form-control"> <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button> </span></div>
-                    </li>
-                </ul>                      
-            </div>-->
            <div class="ibox-content">  
                 <table id="payment-grid"></table>
                 <div id="pager_list_2"></div>     
@@ -48,13 +39,13 @@
                 emptyrecords:  "",
                 colModel: [                   
                     { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 140, sorttype: "text" },
-                    { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
-                     { label: 'Vence en', name: 'due_date', width: 50, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
-                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     { label: 'Pagado', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     { label: 'Por Pagar', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    { label: 'Cliente', name: 'contact',  width: 140, sorttype: "text" },
+                    { label: 'Fecha', name: 'date', width: 60, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Cuenta', name: 'payment_method', width: 100},
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
+                     { label: 'Monto', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+            
+                     
                     
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
@@ -82,14 +73,6 @@
                 pager:"#pager_list_2"
             });
             
-      
-
-            function refreshgrid(filter, caption)
-            {
-                 $("#payment-grid").setGridParam({url:"getpaymentlist/"+filter});
-                $('#payment-grid').jqGrid('setCaption', caption);
-                 $('#payment-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
-            }
 
              jQuery('#payment-grid').jqGrid('navGrid','#pager_list_2',
                 {
@@ -142,9 +125,7 @@
                     var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=paymentApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
                     return goTo;
             }
-             function diffForHumans(cellValue, options, rowObject) {
-                    return paymentApp.moment(cellValue);
-            }
+         
 
              $(window).bind('resize', function () {
                resizewidth();

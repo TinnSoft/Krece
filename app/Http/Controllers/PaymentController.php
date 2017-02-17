@@ -36,15 +36,27 @@ class PaymentController extends Controller
     }
 
     public function getPaymentList()
-    {
-        //Obtener las cotizaciones creadas hasta la fecha       
-        $invoice = Payment::with('contact')
-               ->GetAll(0)
-               ->orderBy('created_at', 'desc')
-                ->GetSelectedFields()
-               ->get();
+    {     
+        $payment =  DB::table('invoice_sale_order')            
+            ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
+            ->Join('contact', 'contact.id', '=', 'payment.customer_id')
+            ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
+            ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')  
+            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
+              ->where('invoice_sale_order.isDeleted',0)   
+              ->where('payment.isDeleted',0)   
+            ->select('payment.date','payment.resolution_id','payment.status_id',
+            'payment_method.name as payment_method', 'contact.name as contact',
+                 DB::raw('SUM(payment_history.amount) as total'),'payment.observations','payment.public_id'
+                 )
+            ->groupBy('payment.date','payment.resolution_id','payment_method.name','contact.name', 
+               'payment.observations','payment.public_id','payment.status_id')
+            ->orderby('invoice_sale_order.resolution_id','desc')
+            ->get();
 
-         return response()->json($invoice);
+
+         return response()->json($payment);
     }
 
     public function getInvoicePendingtoPay_data($customer_id)
@@ -56,21 +68,26 @@ class PaymentController extends Controller
             ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
              ->where('invoice_sale_order.customer_id',$customer_id)  
               ->where('invoice_sale_order.isDeleted',0)           
-            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id',
+            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
             'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
-            DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'))
-            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id',
-            'invoice_sale_order.public_id','total','payment_history.amount')
+            DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
+            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
+            'invoice_sale_order.public_id','total','total_pending_by_payment')
             ->orderby('invoice_sale_order.resolution_id','desc')
             ->get();
 
         foreach($PendingByPayment as $item) 
-        {      
+        {  
+            $item->total_pending_by_payment2=  $item->total - $item->total_payed;     
             $item->total_pending_by_payment=Helper::formatMoney($item->total - $item->total_payed);   
             $item->total_payed=Helper::formatMoney($item->total_payed);
             $item->total=Helper::formatMoney($item->total);
-            
         }
+        
+       
+        $PendingByPayment = $PendingByPayment->filter(function ($item) {
+            return $item->total_pending_by_payment2>0;
+        })->values();
 
         $dataToReturn=['PendingByPayment'=> $PendingByPayment,
                         'crediNote'=>'0'];
@@ -78,6 +95,40 @@ class PaymentController extends Controller
         return response()->json($dataToReturn); 
 
     }
+
+     public function getInvoicePendingtoPay_data_edit($customer_id)
+    {
+       
+
+           $PendingByPayment=   DB::table('invoice_sale_order')
+            ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+            ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
+             ->where('invoice_sale_order.customer_id',$customer_id)  
+              ->where('invoice_sale_order.isDeleted',0)           
+            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
+            'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
+            DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
+            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
+            'invoice_sale_order.public_id','total','total_pending_by_payment')
+            ->orderby('invoice_sale_order.resolution_id','desc')
+            ->get();
+
+        foreach($PendingByPayment as $item) 
+        {  
+            $item->total_pending_by_payment2=  $item->total - $item->total_payed;     
+            $item->total_pending_by_payment=Helper::formatMoney($item->total - $item->total_payed);   
+            $item->total_payed=Helper::formatMoney($item->total_payed);
+            $item->total=Helper::formatMoney($item->total);
+        }
+        
+
+        $dataToReturn=['PendingByPayment'=> $PendingByPayment,
+                        'crediNote'=>'0'];
+
+        return response()->json($dataToReturn); 
+
+    }
+
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
     public function BaseInfo()
     {
@@ -99,25 +150,40 @@ class PaymentController extends Controller
     {
         return view('payment.create');        
     }
-        
+    
+
     public function store(Request $request)
     {   
         $this->validate($request, [     
             'customer_id' => 'required',              
             'date' => 'required',
             'payment_method_id' => 'required',
-            'bank_account_id' => 'required',     
-            //'pending_payment_in.*.amount_receipt' => 'max:total2'
+            'bank_account_id' => 'required',                 
         ]);
 
-       
-        $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account');  
-        
+     
+        $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');  
+      
+
+        //validar que los montos ingresados no sean mayores a los del total habilitado
+        $historical = [];
+         foreach($data['pending_payment_in'] as $item) {
+            if(isset($item['amount_receipt'])) {
+                if ($item['amount_receipt']>$item['total_pending_by_payment2'])
+                {
+                     return response()
+                        ->json([
+                            'amount_error' =>  ['revise los valores ingresados']
+                        ], 422);
+                }
+            }
+         }
+
        
          if(!$data['pending_payment_in']) {
             return response()
             ->json([
-                'payment_empty' => ['']
+                'payment_empty' => ['seleccione un cliente que tenga un pago']
             ], 422);
         };
       
@@ -134,29 +200,31 @@ class PaymentController extends Controller
         {
             $data['currency_code']="COP";
         }
-        
-        $payment = Payment::create($data);
-     
+               
+        $payment = Payment::create($data);       
+
          $historical = [];
-         $items=[];
+       
+        $invoice_id=null;          
          foreach($data['pending_payment_in'] as $item) {
-            if(isset($item['id'])) {
-                $historical['amount']=$item['total2'];
+            if(isset($item['amount_receipt'])) {
+                $historical['amount']=$item['amount_receipt'];
                 $historical['invoice_sale_order_id']=$item['id'];
+                $invoice_id=$item['id'];
                 $historical['account_id']=Auth::user()->account_id;
                 $historical['user_id']=Auth::user()->id;
-                PaymentHistory::create($historical);
-                $items[]= new PaymentHistory($historical);
-
+                $historical['payment_id']=$payment->id;
+              
+                if($historical['amount']>0)
+                {
+                    PaymentHistory::create($historical);
+                }
             }
         }
-   
-           
-        //$paymenthistory = PaymentHistory::create($items);
+        
+        //cuando una factura tiene un pao asociado, esta debe pasar a estado cerrado
+        $this->update_invoice_status($invoice_id,6);
 
-     
-
-     
         //Incrementa el numero de resolución
        ResolutionNumber::where('key', 'in-come')
                 ->increment('number');
@@ -174,59 +242,48 @@ class PaymentController extends Controller
 
     public function show($id)
     {
-          $invoice = InvoiceSaleOrder::with('detail','list_price','seller','payment_terms')
+          $payment = Payment::with('contact','payment_method','bank_account')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
-                    ->first();     
+                    ->first();    
 
-        if (!$invoice)
+        if (!$payment)
         {
             $notification = array(
-                'message' => 'No se encontró ninguna referencia de invoice creadas!', 
+                'message' => 'No se encontró ninguna referencia de pago creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/invoice')->with($notification);
+          return redirect('/payment')->with($notification);
         }
        
-        $invoice=Helper::_InvoiceFormatter($invoice);
-        $taxes=$this->getTotalTaxes($invoice->public_id);
+        $detail=$this->getPaymentDetail($payment->customer_id);
 
-        return view('invoice.show', compact('invoice','taxes'));
+         $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
+
+        return view('payment.show', compact('payment','detail','total'));
     }
 
     public function edit($id)
     {
         
-        $invoice = InvoiceSaleOrder::with(['detail','contact','list_price','currency','seller','payment_terms'])
-        ->GetByPublicId(0,$id)
-        ->GetSelectedFields()
-        ->first();
+       $payment = Payment::with('contact','payment_method','bank_account')
+                    ->GetByPublicId(0,$id)
+                    ->GetSelectedFields()
+                    ->first();  
 
-        
-         if (!$invoice)
+         if (!$payment)
         {
             $notification = array(
                 'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/invoice')->with($notification);
+          return redirect('/payment')->with($notification);
         }
-
-
-        $invoice['date']= Helper::setCustomDateFormat(Carbon::parse($invoice['date']));
-        $invoice['due_date']= Helper::setCustomDateFormat(Carbon::parse($invoice['due_date']));
+        $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         
-        if (request()->get('convert')=='clone')
-        {
-            $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
-            $invoice['public_id']= $PublicId;
-            $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
-            $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
-            $invoice['notes']=null;
-            return view('invoice.clone', compact('invoice'));
-        }
+        $detail=$this->getPaymentDetail($payment->customer_id);
 
-         return view('invoice.edit', compact('invoice'));
+        return view('payment.edit', compact('payment','detail'));
     }
 
     
@@ -234,69 +291,61 @@ class PaymentController extends Controller
     {        
               
         $this->validate($request, [     
-             'customer_id' => 'required',              
+            'customer_id' => 'required',              
             'date' => 'required',
-            'due_date' => 'required',
-            'notes' => 'required',
-            'payment_terms_id' => 'required',
-            'resolution_number'   =>'required_if:ResolutionIsAutoNumeric,false',         
-            'detail.*.unit_price' => 'required|numeric|min:0',
-            'detail.*.quantity' => 'required|integer|min:1',
-            'detail.*.product_id' => 'required',    
+            'payment_method_id' => 'required',
+            'bank_account_id' => 'required',                 
         ]);
        
-        $invoice = InvoiceSaleOrder::findOrFail($id);
-
-        $products = collect($request->detail)->transform(function($detail) {
-            $baseprice=$detail['quantity'] * $detail['unit_price'];
-            $totalDiscount= $baseprice*($detail['discount']/100);
-            $detail['total'] = $baseprice- $totalDiscount;
-            $detail['user_id'] =  Auth::user()->id;
-            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100); 
-            return new InvoiceSaleOrderDetail($detail);
-        });
+        $payment = Payment::findOrFail($id);
         
-        if($products->isEmpty()) {
-            return response()
-            ->json([
-                'products_empty' => ['Uno o mas productos son requeridos.']
-            ], 422);
-        };
-        
-       $data = $request->except('detail');       
-
-        $data['user_id'] = Auth::user()->id;       
+        $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');  
+        $data['user_id'] = Auth::user()->id;  
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
-        $invoice->update($data);
-       
-        InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();
-        $invoice->detail()->saveMany($products);
+        $payment->update($data);
+      
+         foreach($data['pending_payment_in'] as $item) {
+            if(isset($item['amount_receipt'])) {
+                if($item['amount_receipt']>0)
+                {
+                     PaymentHistory::where('payment_id', $payment->id)        
+                         ->update(
+                             [
+                                'account_id' =>Auth::user()->account_id,                                
+                                'user_id' => Auth::user()->id,
+                                'invoice_sale_order_id' =>$item['id'],
+                                 'amount' =>$item['amount_receipt'],
+                             ]);
+                }
+            }
+        }
 
-        event(new RecordActivity('Update','Se actualizó la factura de venta número: ' 
-			.$invoice->resolution_id.' para el cliente '.$invoice->contact->name,
-			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
+      
+       event(new RecordActivity('Update','Se actualizó el pago número: ' 
+			.$payment->resolution_id.' para el cliente '.$payment->contact->name,
+			'Payment','/payment/'.$payment->public_id));	
 
         return response()
             ->json([
                 'updated' => true,
-                'id' => $invoice->public_id              
+                'id' => $payment->public_id              
             ]);
     }
     
     public function destroy($id)
     {
 
-            $invoice = InvoiceSaleOrder::GetByPublicId(0,$id)
+            $payment = Payment::GetByPublicId(0,$id)
                 ->firstOrFail();   
             
-            $invoice['isDeleted']=1;
-            $invoice['deleted_at']=$now = Carbon::now();
-            $invoice->save();
+
+            $payment['isDeleted']=1;
+            $payment['deleted_at']=$now = Carbon::now();
+            $payment->save();
             
-            event(new RecordActivity('Delete','Se eliminó la factura de venta número: ' 
-			.$invoice->resolution_id,
-			'InvoiceSaleOrder',null));	
+            event(new RecordActivity('Delete','Se eliminó el pago número: ' 
+			.$payment->resolution_id,
+			'Payment',null));	
 
             return response()
             ->json([
@@ -329,40 +378,43 @@ class PaymentController extends Controller
         return $mypdf->stream();
     }
     
-    public function update_state(Request $request,$id)
+    public static function update_invoice_status($invoice_id, $status_id)
     {
-        
-            $data = $request->all(); 
-            $data['status_id']= (int)$data['status_id'];             
-
-            $item = InvoiceSaleOrder::findOrFail($id);
-              
-            $item->update($data);
-
-            event(new RecordActivity('Update','Se actualizó el estado de la factura de venta número: ' 
-			.$item->resolution_id.' para el cliente '.$item->contact->name,
-			'InvoiceSaleOrder','/invoice/'.$item->public_id));	
-
-            return response()
-            ->json([
-                'updated' => true                           
-            ]);
+        InvoiceSaleOrder::where('id', $invoice_id)        
+          ->update(['status_id' => $status_id]);
     }
+   
 
-    public static function getTotalTaxes($invoice_id)
+    public static function getPaymentDetail($customer_id)
     {
-        $taxes=
-        DB::table('invoice_sale_order')
-            ->join('invoice_sale_order_detail', 'invoice_sale_order.id', '=', 'invoice_sale_order_detail.invoice_sale_order_id')
-             ->join('tax', 'invoice_sale_order_detail.tax_id', '=', 'tax.id')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
-             ->where('invoice_sale_order.public_id',$invoice_id)  
-              ->where('invoice_sale_order_detail.tax_amount','>',0)             
-            ->select(DB::raw("CONCAT(tax.name,' (',invoice_sale_order_detail.tax_amount,'%)') AS name"), 
-            DB::raw('SUM(invoice_sale_order_detail.total_tax) as total'))
-            ->groupBy('tax.name','invoice_sale_order_detail.tax_amount')
+        //se llama desde la funcion view
+        $payment_historical=
+       DB::table('invoice_sale_order')            
+            ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
+            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
+              ->where('invoice_sale_order.isDeleted',0) 
+              ->where('payment.isDeleted',0)    
+              ->where('payment.customer_id',$customer_id)          
+            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
+            'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
+            'invoice_sale_order.date','invoice_sale_order.due_date',
+            DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'))
+            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
+            'invoice_sale_order.public_id','total','total_pending_by_payment','invoice_sale_order.date','invoice_sale_order.due_date')
+            ->orderby('invoice_sale_order.resolution_id','desc')
             ->get();
 
-            return  Helper::_taxesFormatter($taxes);
+            foreach($payment_historical as $item) 
+            {  
+                $item->total_pending_by_payment2=  $item->total - $item->total_payed;     
+                $item->total_pending_by_payment=Helper::formatMoney($item->total - $item->total_payed);   
+                $item->total_payed=Helper::formatMoney($item->total_payed);
+                $item->total=Helper::formatMoney($item->total);
+                $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
+                 $item->due_date= Helper::setCustomDateFormat(Carbon::parse( $item->due_date));
+            }
+
+            return  $payment_historical;
     }
 }

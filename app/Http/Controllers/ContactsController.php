@@ -111,6 +111,7 @@ class ContactsController extends Controller
 
         $items=[];
         
+        
         foreach($request->contact_others as $item) {
               if($item['name'])
               {
@@ -131,6 +132,8 @@ class ContactsController extends Controller
           
         $data = $request->except('contact_others');  
 
+         
+
         $currentPublicId = Contact::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
         $data['account_id'] = Auth::user()->account_id;
@@ -144,10 +147,30 @@ class ContactsController extends Controller
         {
             $data['isCustomer']=1;
         }
-        
-       $contact = Contact::create($data);
-        $contact->contact_others()->saveMany($items);
 
+        if ($data['isProvider']==null)
+        {
+            $data['isProvider']=0;
+        }
+        
+        if ($data['isCustomer']==null)
+        {
+            $data['isCustomer']=0;
+        }
+         $data['include_account_state']=0; 
+         
+        try
+        {
+       $contact = Contact::create($data);
+        }
+        catch(\exception $e){
+               return response()
+            ->json([
+                '2' => [$e]
+            ], 422);
+        }
+     
+        $contact->contact_others()->saveMany($items);
      
         return response()
             ->json([

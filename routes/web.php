@@ -104,3 +104,4 @@ Route::resource('payment', 'PaymentController');
 Route::get('getPaymentList','PaymentController@getPaymentList');
 Route::get('getPaymentBaseInfo','PaymentController@BaseInfo');
 Route::get('getInvoicePendingtoPay/{customer_id}','PaymentController@getInvoicePendingtoPay_data');
+Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentController@getInvoicePendingtoPay_data_edit');

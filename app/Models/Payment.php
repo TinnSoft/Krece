@@ -5,8 +5,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Contact;
-use App\Models\Seller;
-use App\Models\ListPrice;
+use App\Models\PaymentMethod;
+use App\Models\PaymentHistory;
 use App\Utilities\DatesTranslator;
 use Auth;
 use App\Events\RecordActivity;
@@ -22,18 +22,11 @@ class Payment extends Model
 	
 	protected $fillable=[
 	'public_id','customer_id','account_id','user_id','isInvoice','status_id','bank_account_id','type_id',
-	'currency_code','observations','notes','date','isDeleted','resolution_id','payment_method_id'
+	'currency_code','observations','notes','date','isDeleted','resolution_id','payment_method_id','payment_id','deleted_at'
 	];
 	
 	protected $dates = ['deleted_at'];
 	
-	
-	public function detail()
-	{
-		
-		return $this->hasMany(EstimateDetail::class)->with('product');
-		
-	}
 	
 	
 	public function contact()
@@ -41,14 +34,13 @@ class Payment extends Model
 		
 		return $this->hasOne(Contact::class, 'id', 'customer_id')->select(array('id', 'name','address','city','nit','phone1','public_id'));
 		
-	}
+	}	
 	
 	
-	
-	public function list_price()
+	public function payment_method()
 	{
 		
-		return $this->hasOne(ListPrice::class, 'id', 'list_price_id')->select(array('id', 'name'));
+		return $this->hasOne(PaymentMethod::class, 'id', 'payment_method_id')->select(array('id', 'name'));
 		
 	}
 	
@@ -59,6 +51,14 @@ class Payment extends Model
 		return $this->hasOne(Currency::class, 'code_id','currency_code')->select(array('code_id as code', 'code_id'));
 		
 	}
+
+	public function bank_account()
+	{
+		
+		return $this->hasOne(BankAccount::class, 'id','bank_account_id')->select(array('id', 'bank_account_name'));
+		
+	}
+	 
 	
 	public function account()
 	{
@@ -82,7 +82,7 @@ class Payment extends Model
 	 public function scopeGetSelectedFields($query)
     {
         return $query->select('public_id','customer_id','account_id','user_id','isInvoice','status_id','bank_account_id',
-	'currency_code','observations','notes','date','isDeleted','resolution_id','payment_method_id');
+	'currency_code','observations','notes','date','isDeleted','resolution_id','payment_method_id','id');
 	}
 
 }
