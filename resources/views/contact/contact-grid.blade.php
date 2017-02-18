@@ -57,7 +57,9 @@
                      {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
+                autowidth: true,
+                shrinkToFit: true,
+
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -75,6 +77,10 @@
                         $("#contact-grid").show();
                         emptyMsgDiv.hide();
                     };
+                   // resizewidth();
+                },  
+                 beforeRequest:function()
+                {
                     resizewidth();
                 },         
                 pager:"#pager_list_2"

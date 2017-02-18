@@ -49,13 +49,14 @@
                 emptyrecords:  "",
                 colModel: [                   
                     { label: 'No', name: 'public_id', index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 170, sorttype: "text" },
+                    { label: 'Cliente', name: 'contact.name',  width: 150, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      {name:'public_id', search:false, keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
+                autowidth: true,
+                shrinkToFit: true,
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -73,8 +74,12 @@
                         $("#estimate-grid").show();
                         emptyMsgDiv.hide();
                     };
+                    //resizewidth();
+                },       
+                 beforeRequest:function()
+                {
                     resizewidth();
-                },         
+                },        
                 pager:"#pager_list_2"
             });
             
@@ -148,6 +153,7 @@
 
              $(window).bind('resize', function () {
                resizewidth();
+
             });
                 //resize on load
             function resizewidth()

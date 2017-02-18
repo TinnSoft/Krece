@@ -47,7 +47,8 @@
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
+                 autowidth: true,
+                shrinkToFit: true,
                 height: 350,
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -65,7 +66,7 @@
                         $("#payment-grid").show();
                         emptyMsgDiv.hide();
                     };
-                    resizewidth();
+                   // resizewidth();
                 },         
                 pager:"#pager_list_2"
             });
@@ -123,7 +124,7 @@
                     return goTo;
             }
          
-
+            
              $(window).bind('resize', function () {
                resizewidth();
             });
@@ -152,6 +153,10 @@
 			});
 
         });
+
+         setTimeout(function(){
+                $('.wrapper-content').removeClass('animated fadeInRight');
+            },700);
 
 
     </script>

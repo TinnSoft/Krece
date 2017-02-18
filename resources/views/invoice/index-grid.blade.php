@@ -57,13 +57,13 @@
                      {name:'public_id', search:false, keys: true,"width":150, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
+                autowidth: true,
+                shrinkToFit: true,
                 height: 350,
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
                 caption:" ",
                 loadonce:true,
-                navOptions: { reloadGridOptions: { fromServer: true } },
                 loadComplete: function () {
                     var count = $("#invoice-grid").getGridParam();
                     var ts = $("#invoice-grid")[0];
@@ -74,9 +74,13 @@
                     } else {
                         $("#invoice-grid").show();
                         emptyMsgDiv.hide();
-                    };
+                    };  
+                                     
+                }, 
+                 beforeRequest:function()
+                {
                     resizewidth();
-                },         
+                },           
                 pager:"#pager_list_2"
             });
             
@@ -150,7 +154,7 @@
                     return invoiceApp.moment(cellValue);
             }
 
-             $(window).bind('resize', function () {
+            $(window).bind('resize', function () {
                resizewidth();
             });
                 //resize on load
@@ -159,6 +163,7 @@
                 var width = $('.jqGrid_wrapper').width();
                 $('#invoice-grid').setGridWidth(width); 
             }  
+         
 
             	// activate the toolbar searching
 			$('#invoice-grid').jqGrid('navGrid',"#pager_list_2", {                

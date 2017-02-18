@@ -26,20 +26,29 @@
                 </div>                
             </div>           
 
-   <div id="contact2"  class="row  border-bottom white-bg dashboard-header">
-        <div class="panel-body">
-                <div class="ibox-content">   
-                    <div class="row">
+
+    <div id="contact2"  class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="ibox">
+                        <div class="ibox-content">  
                             <a href="{{route('contact.create')}}" class="btn btn-primary btn-sm pull-right"> 
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Contacto</a>                     
-                    </div>                    
-                </div>  
-               <div class="ibox-content">                                
-                    @include('contact.contact-grid')                     
-                </div>  
-        </div>   
+                        </div>                    
+                     
+                        <div class="ibox-content">      
+                             <div class="tab-content">
+                                  <div id="tab-1" class="tab-pane active">
+                                    
+                                        
 
-    </div>
+                                 @include('contact.contact-grid') 
+                              </div>  </div>                
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
