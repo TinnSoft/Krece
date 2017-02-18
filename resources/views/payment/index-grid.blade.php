@@ -44,9 +44,6 @@
                      { label: 'Cuenta', name: 'payment_method', width: 100},
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
                      { label: 'Monto', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-            
-                     
-                    
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar

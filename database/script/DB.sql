@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~97 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~124 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -252,7 +252,31 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(109, 1, 1, '2017-02-15 13:24:35', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
 	(110, 1, 1, '2017-02-15 13:26:03', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
 	(111, 1, 1, '2017-02-15 13:27:47', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
-	(112, 1, 1, '2017-02-15 13:28:10', 'Se creó la Nota Crédito número: 2 para el cliente cliente 2', '/credit-note/2', 'CreditNote', 'Create');
+	(112, 1, 1, '2017-02-15 13:28:10', 'Se creó la Nota Crédito número: 2 para el cliente cliente 2', '/credit-note/2', 'CreditNote', 'Create'),
+	(113, 1, 1, '2017-02-16 20:39:08', 'Se creó el pago número: 2 para el cliente cliente 1', '/payment/2', 'Payment', 'Create'),
+	(114, 1, 1, '2017-02-16 20:41:30', 'Se creó el pago número: 3 para el cliente cliente 2', '/payment/3', 'Payment', 'Create'),
+	(115, 1, 1, '2017-02-16 21:08:25', 'Se creó el pago número: 4 para el cliente cliente 2', '/payment/1', 'Payment', 'Create'),
+	(116, 1, 1, '2017-02-16 21:09:46', 'Se creó el pago número: 5 para el cliente cliente 2', '/payment/2', 'Payment', 'Create'),
+	(117, 1, 1, '2017-02-16 21:21:50', 'Se creó el pago número: 6 para el cliente cliente 2', '/payment/3', 'Payment', 'Create'),
+	(118, 1, 1, '2017-02-16 21:22:36', 'Se creó el pago número: 7 para el cliente cliente 2', '/payment/4', 'Payment', 'Create'),
+	(119, 1, 1, '2017-02-17 09:59:35', 'Se creó el pago número: 8 para el cliente cliente 1', '/payment/5', 'Payment', 'Create'),
+	(120, 1, 1, '2017-02-17 10:05:44', 'Se creó el pago número: 9 para el cliente cliente 1', '/payment/6', 'Payment', 'Create'),
+	(121, 1, 1, '2017-02-17 11:26:44', 'Se creó el pago número: 10 para el cliente cliente 1', '/payment/11', 'Payment', 'Create'),
+	(122, 1, 1, '2017-02-17 11:59:58', 'Se creó el pago número: 12 para el cliente cliente 2', '/payment/12', 'Payment', 'Create'),
+	(123, 1, 1, '2017-02-17 13:49:13', 'Se creó el pago número: 13 para el cliente cliente 1', '/payment/13', 'Payment', 'Create'),
+	(124, 1, 1, '2017-02-17 15:29:28', 'Se creó el pago número: 14 para el cliente cliente 1', '/payment/14', 'Payment', 'Create'),
+	(125, 1, 1, '2017-02-17 16:11:53', 'Se actualizó el pago número: 14 para el cliente cliente 1', '/payment/14', 'Payment', 'Update'),
+	(126, 1, 1, '2017-02-17 16:12:50', 'Se actualizó el pago número: 14 para el cliente cliente 1', '/payment/14', 'Payment', 'Update'),
+	(127, 1, 1, '2017-02-17 16:13:14', 'Se actualizó el pago número: 14 para el cliente cliente 1', '/payment/14', 'Payment', 'Update'),
+	(128, 1, 1, '2017-02-17 16:23:49', 'Se creó la factura de venta número: 8 para el cliente distribuciones IDRD', '/invoice/8', 'InvoiceSaleOrder', 'Create'),
+	(129, 1, 1, '2017-02-17 16:25:50', 'Se creó el pago número: 15 para el cliente distribuciones IDRD', '/payment/15', 'Payment', 'Create'),
+	(130, 1, 1, '2017-02-17 16:27:07', 'Se actualizó el pago número: 15 para el cliente distribuciones IDRD', '/payment/15', 'Payment', 'Update'),
+	(131, 1, 1, '2017-02-17 16:28:47', 'Se actualizó el pago número: 15 para el cliente distribuciones IDRD', '/payment/15', 'Payment', 'Update'),
+	(132, 1, 1, '2017-02-17 16:31:25', 'Se creó la factura de venta número: 9 para el cliente distribuciones IDRD', '/invoice/9', 'InvoiceSaleOrder', 'Create'),
+	(133, 1, 1, '2017-02-17 16:34:29', 'Se creó el pago número: 16 para el cliente distribuciones IDRD', '/payment/16', 'Payment', 'Create'),
+	(134, 1, 1, '2017-02-17 17:13:02', 'Se actualizó el pago número: 16 para el cliente distribuciones IDRD', '/payment/16', 'Payment', 'Update'),
+	(135, 1, 1, '2017-02-17 18:13:08', 'Se eliminó el pago número: 14', NULL, 'Payment', 'Delete'),
+	(136, 1, 1, '2017-02-17 18:38:40', 'Se eliminó el pago número: 14', NULL, 'Payment', 'Delete');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -261,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   `user_id` int(11) NOT NULL,
   `public_id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
-  `bank_account_type` int(11) NOT NULL,
+  `bank_account_type_id` int(11) NOT NULL,
   `bank_account_name` varchar(100) NOT NULL,
   `bank_account_number` varchar(100) DEFAULT NULL,
   `initial_balance` float NOT NULL,
@@ -272,18 +296,18 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_BA_public_id_account_id` (`public_id`,`account_id`),
-  KEY `FK_banks_accounttype` (`bank_account_type`),
+  KEY `FK_banks_accounttype` (`bank_account_type_id`),
   KEY `FK_banks_company` (`user_id`),
   KEY `FK_banks_account` (`account_id`),
   CONSTRAINT `FK_banks_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
-  CONSTRAINT `FK_banks_accounttype` FOREIGN KEY (`bank_account_type`) REFERENCES `bank_account_type` (`id`),
+  CONSTRAINT `FK_banks_accounttype` FOREIGN KEY (`bank_account_type_id`) REFERENCES `bank_account_type` (`id`),
   CONSTRAINT `FK_banks_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
 
 -- Volcando datos para la tabla krece.bank_account: ~3 rows (aproximadamente)
 DELETE FROM `bank_account`;
 /*!40000 ALTER TABLE `bank_account` DISABLE KEYS */;
-INSERT INTO `bank_account` (`id`, `user_id`, `public_id`, `account_id`, `bank_account_type`, `bank_account_name`, `bank_account_number`, `initial_balance`, `description`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
+INSERT INTO `bank_account` (`id`, `user_id`, `public_id`, `account_id`, `bank_account_type_id`, `bank_account_name`, `bank_account_number`, `initial_balance`, `description`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
 	(1, 1, 1, 1, 1, 'Banco 1', '', 0, '', '2017-01-18 14:20:49', '2017-01-19 08:17:26', '2017-01-19 08:17:11', b'0'),
 	(2, 1, 2, 1, 2, 'Tarjeta de crédito 1', '', 0, '', '2017-01-18 15:42:26', '2017-01-18 15:42:26', NULL, b'0'),
 	(3, 1, 3, 1, 3, 'Caja General', '', 0, '', '2017-01-18 15:43:04', '2017-01-18 15:43:04', NULL, b'0');
@@ -572,9 +596,9 @@ CREATE TABLE IF NOT EXISTS `contact` (
   CONSTRAINT `FK_contacts_payment_term` FOREIGN KEY (`payment_terms_id`) REFERENCES `payment_terms` (`id`),
   CONSTRAINT `FK_contacts_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
 
--- Volcando datos para la tabla krece.contact: ~19 rows (aproximadamente)
+-- Volcando datos para la tabla krece.contact: ~20 rows (aproximadamente)
 DELETE FROM `contact`;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`, `address`, `city`, `email`, `phone1`, `phone2`, `fax`, `phone_mobile`, `list_price_id`, `seller_id`, `payment_terms_id`, `observation`, `include_account_state`, `isProvider`, `isCustomer`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -596,7 +620,8 @@ INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`
 	(18, 1, 1, 16, 'Fernando Ardila', '80810419', 'Calle 12 # 2-49', 'Bogota', 'fernando2684@gmail.com', '3123633753', 'phone2', '', '3123633753', 1, 2, 2, 'Observaciones', b'0', b'1', b'1', b'0', '2017-01-24 11:44:45', '2017-01-24 13:29:53', NULL),
 	(19, 1, 1, 17, 'test', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:44:45', '2017-01-25 13:57:38', '2017-01-25 13:57:38'),
 	(20, 2, 2, 1, 'contacto1', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:44:53', '2017-01-24 16:44:53', NULL),
-	(21, 2, 2, 2, 'contacto 2', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:45:19', '2017-01-24 16:45:19', NULL);
+	(21, 2, 2, 2, 'contacto 2', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:45:19', '2017-01-24 16:45:19', NULL),
+	(22, 1, 1, 18, 'distribuciones IDRD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2017-02-17 16:21:28', '2017-02-17 16:21:28', NULL);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.contact_others
@@ -1103,9 +1128,6 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   `total_discounts` float DEFAULT NULL,
   `total_taxes` float DEFAULT NULL,
   `total` float DEFAULT NULL,
-  `total_payed` float DEFAULT NULL,
-  `total_pending_byPayment` float DEFAULT NULL,
-  `balance` float DEFAULT NULL,
   `currency_code_multicurrency` varchar(3) DEFAULT NULL,
   `exchange_rate` float DEFAULT NULL,
   `isRecurring` bit(1) NOT NULL DEFAULT b'0',
@@ -1131,19 +1153,21 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
--- Volcando datos para la tabla krece.invoice_sale_order: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order: ~9 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
 /*!40000 ALTER TABLE `invoice_sale_order` DISABLE KEYS */;
-INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `payment_terms_id`, `status_id`, `notes`, `observations`, `seller_id`, `list_price_id`, `category_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `total_payed`, `total_pending_byPayment`, `balance`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(11, 1, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asas', NULL, 4, 1, 34, 'COP', 7000, 400, 380, 6980, NULL, NULL, NULL, NULL, NULL, b'0', b'1', '2017-02-14 14:11:36', '2017-02-14 15:23:31', '2017-02-14 15:23:31'),
-	(12, 2, 1, 1, 3, 1, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'as', 4, 1, 34, 'COP', 3000, 0, 0, 3000, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 14:22:03', '2017-02-14 15:53:00', NULL),
-	(13, 3, 1, 1, 4, 4, '2017-02-14', '2017-02-22', '3', 2, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 15:28:09', '2017-02-14 15:52:18', NULL),
-	(14, 4, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 15:28:21', '2017-02-14 16:44:15', NULL),
-	(15, 5, 1, 1, 1, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 17:22:54', '2017-02-14 17:24:15', NULL),
-	(16, 6, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL),
-	(17, 7, 1, 1, 1, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, NULL, NULL, NULL, b'0', b'0', '2017-02-15 10:16:28', '2017-02-15 12:35:23', NULL);
+INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `payment_terms_id`, `status_id`, `notes`, `observations`, `seller_id`, `list_price_id`, `category_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(11, 1, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asas', NULL, 4, 1, 34, 'COP', 7000, 400, 380, 6980, NULL, NULL, b'0', b'1', '2017-02-14 14:11:36', '2017-02-14 15:23:31', '2017-02-14 15:23:31'),
+	(12, 2, 1, 1, 2, 1, '2017-02-14', '2017-02-14', '2', 6, 'asa', 'as', 4, 1, 34, 'COP', 3000, 0, 0, 3000, NULL, NULL, b'0', b'0', '2017-02-14 14:22:03', '2017-02-17 15:29:28', NULL),
+	(13, 3, 1, 1, 3, 4, '2017-02-14', '2017-02-22', '3', 2, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, b'0', b'0', '2017-02-14 15:28:09', '2017-02-14 15:52:18', NULL),
+	(14, 4, 1, 1, 4, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, b'0', b'0', '2017-02-14 15:28:21', '2017-02-14 16:44:15', NULL),
+	(15, 5, 1, 1, 5, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, b'0', b'0', '2017-02-14 17:22:54', '2017-02-14 17:24:15', NULL),
+	(16, 6, 1, 1, 6, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL),
+	(17, 7, 1, 1, 7, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, b'0', b'0', '2017-02-15 10:16:28', '2017-02-15 12:35:23', NULL),
+	(18, 8, 1, 1, 8, 22, '2017-02-17', '2017-02-17', '2', 6, 'Notas', 'observaciones', 4, 1, 34, 'COP', 32000, 500, 4750, 36250, NULL, NULL, b'0', b'0', '2017-02-17 16:23:49', '2017-02-17 16:34:29', NULL),
+	(19, 9, 1, 1, 9, 22, '2017-02-17', '2017-02-17', '2', 1, 'nota', NULL, 4, 1, 34, 'COP', 6000, 400, 380, 5980, NULL, NULL, b'0', b'0', '2017-02-17 16:31:24', '2017-02-17 16:31:24', NULL);
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_credit_note
@@ -1188,9 +1212,9 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.invoice_sale_order_detail: ~17 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order_detail: ~23 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
 /*!40000 ALTER TABLE `invoice_sale_order_detail` DISABLE KEYS */;
 INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id`, `reference`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `product_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
@@ -1210,7 +1234,13 @@ INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id
 	(39, 16, 1, '1234', 5000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 5000, 950, '2017-02-14 18:12:17', '2017-02-14 18:12:17'),
 	(42, 17, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
 	(43, 17, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
-	(44, 17, 1, 'ref2', 3000, 0, 19, 4, 3, NULL, 'descripcion producto 2', 1, 3000, 570, '2017-02-15 12:35:23', '2017-02-15 12:35:23');
+	(44, 17, 1, 'ref2', 3000, 0, 19, 4, 3, NULL, 'descripcion producto 2', 1, 3000, 570, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
+	(45, 18, 1, '1234', 2000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 2000, 0, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
+	(46, 18, 1, '1234', 5000, 10, 0, NULL, 4, NULL, 'producto para pruebas', 1, 4500, 0, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
+	(47, 18, 1, '1234', 25000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 25000, 4750, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
+	(48, 19, 1, 'ref', 2000, 20, 0, NULL, 2, NULL, 'producto 1', 1, 1600, 0, '2017-02-17 16:31:24', '2017-02-17 16:31:24'),
+	(49, 19, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-17 16:31:25', '2017-02-17 16:31:25'),
+	(50, 19, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-17 16:31:25', '2017-02-17 16:31:25');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_estimate
@@ -1465,21 +1495,6 @@ DELETE FROM `invoice_supplier_purchase_order`;
 /*!40000 ALTER TABLE `invoice_supplier_purchase_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice_supplier_purchase_order` ENABLE KEYS */;
 
--- Volcando estructura para tabla krece.invoice_type
-CREATE TABLE IF NOT EXISTS `invoice_type` (
-  `id` tinyint(4) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='kind of invoice or invoice source: pucharse order, Sale order';
-
--- Volcando datos para la tabla krece.invoice_type: ~2 rows (aproximadamente)
-DELETE FROM `invoice_type`;
-/*!40000 ALTER TABLE `invoice_type` DISABLE KEYS */;
-INSERT INTO `invoice_type` (`id`, `description`) VALUES
-	(1, 'Factura de Venta'),
-	(2, 'Factura de Compra');
-/*!40000 ALTER TABLE `invoice_type` ENABLE KEYS */;
-
 -- Volcando estructura para tabla krece.invoice_withholding_tax
 CREATE TABLE IF NOT EXISTS `invoice_withholding_tax` (
   `withholding_tax_values_id` int(11) NOT NULL,
@@ -1487,7 +1502,7 @@ CREATE TABLE IF NOT EXISTS `invoice_withholding_tax` (
   `invoice_type_id` tinyint(4) NOT NULL,
   KEY `FK_iwt_tax_values` (`withholding_tax_values_id`),
   KEY `FK_iwt_invoice_type` (`invoice_type_id`),
-  CONSTRAINT `FK_iwt_invoice_type` FOREIGN KEY (`invoice_type_id`) REFERENCES `invoice_type` (`id`),
+  CONSTRAINT `FK_iwt_invoice_type` FOREIGN KEY (`invoice_type_id`) REFERENCES `todelete_invoice_type` (`id`),
   CONSTRAINT `FK_iwt_tax_values` FOREIGN KEY (`withholding_tax_values_id`) REFERENCES `invoice_withholding_tax_values` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='set the join between the with holding tax and the invoices tables (that could be ingresos and egresos)';
 
@@ -1633,45 +1648,86 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 -- Volcando estructura para tabla krece.payment
 CREATE TABLE IF NOT EXISTS `payment` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `payment_id` int(11) NOT NULL,
+  `resolution_id` int(11) NOT NULL,
   `public_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `payment_date` date DEFAULT NULL,
-  `bank_id` int(11) NOT NULL,
-  `amount` float DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `bank_account_id` int(11) NOT NULL,
   `observations` text,
+  `notes` text,
   `payment_method_id` tinyint(4) NOT NULL,
-  `currency_code` varchar(3) NOT NULL,
+  `currency_code` varchar(3) DEFAULT NULL,
   `type_id` char(2) NOT NULL,
   `status_id` tinyint(4) NOT NULL,
-  `anotations` varchar(255) DEFAULT NULL,
+  `isInvoice` bit(1) NOT NULL,
+  `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `payment_id_company_id_type_id` (`payment_id`,`account_id`,`type_id`),
+  UNIQUE KEY `payment_id_company_id_type_id` (`resolution_id`,`account_id`,`type_id`),
   KEY `FK_payment_customer` (`customer_id`),
   KEY `FK_payment_type` (`type_id`),
   KEY `FK_payment_status` (`status_id`),
   KEY `FK_payment_payment_method_id` (`payment_method_id`),
-  KEY `FK_payment_bank` (`bank_id`),
+  KEY `FK_payment_bank` (`bank_account_id`),
   KEY `FK_payment_account` (`account_id`),
   KEY `FK_payment_user` (`user_id`),
   CONSTRAINT `FK_payment_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
-  CONSTRAINT `FK_payment_bank` FOREIGN KEY (`bank_id`) REFERENCES `bank_account` (`id`),
+  CONSTRAINT `FK_payment_bank` FOREIGN KEY (`bank_account_id`) REFERENCES `bank_account` (`id`),
   CONSTRAINT `FK_payment_customer` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_payment_payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_method` (`id`),
   CONSTRAINT `FK_payment_status` FOREIGN KEY (`status_id`) REFERENCES `payment_status` (`id`),
   CONSTRAINT `FK_payment_type` FOREIGN KEY (`type_id`) REFERENCES `payment_type` (`type`),
   CONSTRAINT `FK_payment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment: ~6 rows (aproximadamente)
 DELETE FROM `payment`;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` (`id`, `resolution_id`, `public_id`, `user_id`, `account_id`, `customer_id`, `date`, `bank_account_id`, `observations`, `notes`, `payment_method_id`, `currency_code`, `type_id`, `status_id`, `isInvoice`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(31, 10, 11, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 11:26:44', '2017-02-17 11:26:44', NULL),
+	(32, 12, 12, 1, 1, 4, '2017-02-24', 1, 'Mis observaciones', 'Notas del recibo', 2, 'COP', 'in', 1, b'1', b'0', '2017-02-17 11:59:58', '2017-02-17 11:59:58', NULL),
+	(33, 13, 13, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 13:49:13', '2017-02-17 13:49:13', NULL),
+	(34, 14, 14, 1, 1, 1, '2017-02-17', 2, NULL, NULL, 3, 'COP', 'in', 1, b'1', b'1', '2017-02-17 15:29:28', '2017-02-17 18:38:40', '2017-02-17 18:38:40'),
+	(35, 15, 15, 1, 1, 22, '2017-02-17', 1, NULL, 'pago ejemplo', 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 16:25:49', '2017-02-17 16:28:47', NULL),
+	(36, 16, 16, 1, 1, 22, '2017-02-23', 1, NULL, NULL, 4, 'COP', 'in', 1, b'1', b'0', '2017-02-17 16:34:29', '2017-02-17 17:13:02', NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.payment_history
+CREATE TABLE IF NOT EXISTS `payment_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account_id` int(11) NOT NULL,
+  `payment_id` bigint(20),
+  `user_id` int(11) NOT NULL,
+  `invoice_sale_order_id` int(11) NOT NULL,
+  `amount` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `FK_payment_history_account_id` (`account_id`),
+  KEY `FK_payment_history_user` (`user_id`),
+  KEY `FK_payment_history_payment` (`payment_id`),
+  CONSTRAINT `FK_payment_history_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
+  CONSTRAINT `FK_payment_history_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
+  CONSTRAINT `FK_payment_history_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla krece.payment_history: ~8 rows (aproximadamente)
+DELETE FROM `payment_history`;
+/*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
+INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `invoice_sale_order_id`, `amount`, `created_at`, `updated_at`) VALUES
+	(18, 1, 31, 1, 12, 2000, '2017-02-17 11:26:44', '2017-02-17 11:26:44'),
+	(19, 1, 32, 1, 16, 10000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(20, 1, 32, 1, 14, 1000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(21, 1, 32, 1, 13, 5000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(22, 1, 33, 1, 12, 20, '2017-02-17 13:49:13', '2017-02-17 13:49:13'),
+	(23, 1, 34, 1, 12, 980, '2017-02-17 15:29:28', '2017-02-17 15:29:28'),
+	(24, 1, 35, 1, 18, 5000, '2017-02-17 16:28:47', '2017-02-17 16:28:47'),
+	(25, 1, 36, 1, 19, 4000, '2017-02-17 17:13:02', '2017-02-17 17:13:02');
+/*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_method
 CREATE TABLE IF NOT EXISTS `payment_method` (
@@ -1704,10 +1760,10 @@ CREATE TABLE IF NOT EXISTS `payment_status` (
 DELETE FROM `payment_status`;
 /*!40000 ALTER TABLE `payment_status` DISABLE KEYS */;
 INSERT INTO `payment_status` (`id`, `description`) VALUES
-	(1, 'Pendiente'),
-	(2, 'Completado'),
+	(1, 'Aplicado'),
+	(2, 'Anulado'),
 	(3, 'Devuelto'),
-	(4, 'Anulado');
+	(4, 'Completo');
 /*!40000 ALTER TABLE `payment_status` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_terms
@@ -2085,7 +2141,7 @@ CREATE TABLE IF NOT EXISTS `resolution` (
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, '1', '', '9', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-15 10:16:28', NULL),
+	(1, 1, 1, 1, '1', '', '10', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-17 16:31:25', NULL),
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
@@ -2115,7 +2171,7 @@ INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`,
 	(9, 1, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-02-10 13:24:58'),
 	(10, 1, 'credit_note', NULL, 3, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-02-15 13:28:10'),
 	(11, 1, 'remision', NULL, 4, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-02-10 17:01:08'),
-	(12, 1, 'test', NULL, 1, 'Siguiente número de orden de compra', NULL, NULL);
+	(12, 1, 'in-come', NULL, 17, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-02-17 16:34:29');
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
@@ -2265,12 +2321,28 @@ INSERT INTO `tax_type` (`id`, `name`) VALUES
 	(3, 'Otro');
 /*!40000 ALTER TABLE `tax_type` ENABLE KEYS */;
 
+-- Volcando estructura para tabla krece.todelete_invoice_type
+CREATE TABLE IF NOT EXISTS `todelete_invoice_type` (
+  `id` tinyint(4) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='kind of invoice or invoice source: pucharse order, Sale order';
+
+-- Volcando datos para la tabla krece.todelete_invoice_type: ~2 rows (aproximadamente)
+DELETE FROM `todelete_invoice_type`;
+/*!40000 ALTER TABLE `todelete_invoice_type` DISABLE KEYS */;
+INSERT INTO `todelete_invoice_type` (`id`, `description`) VALUES
+	(1, 'Factura de Venta'),
+	(2, 'Factura de Compra');
+/*!40000 ALTER TABLE `todelete_invoice_type` ENABLE KEYS */;
+
 -- Volcando estructura para tabla krece.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account_id` int(11) DEFAULT NULL,
+  `account_id` int(11) NOT NULL,
+  `public_id` int(11) NOT NULL,
   `bank_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `type_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `amount` float DEFAULT NULL,

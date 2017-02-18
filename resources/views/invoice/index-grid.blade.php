@@ -11,11 +11,7 @@
     </script>
     
 
- <style>
-          .green {color: green;}
-        .red {color: red;}
 
-    </style>
 
         <div id="invoice_index" class="jqGrid_wrapper">            
            <!-- activar buscador 
@@ -49,15 +45,16 @@
                 emptyrecords:  "",
                 colModel: [                   
                     { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 140, sorttype: "text" },
+                    { label: 'Cliente', name: 'contact.name',  width: 120, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                      { label: 'Vence en', name: 'due_date', width: 50, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
                      { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      { label: 'Pagado', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      { label: 'Por Pagar', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
+                      { name: 'contact.id', hidden:true },
                     
-                     {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                     {name:'public_id', search:false, keys: true,"width":150, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 780,
@@ -94,24 +91,7 @@
 				})
 			})
 
-             $("#refresh_all").on("click", function(){             
-                 refreshgrid('a','invoiceos (todos)');
-			})
-
-            $("#refresh_client").on("click", function(){              
-                refreshgrid('c','invoiceos (Clientes)');
-			})
-
-            $("#refresh_providers").on("click", function(){             
-                 refreshgrid('p','invoiceos (Proveedores)');
-			})
-
-            function refreshgrid(filter, caption)
-            {
-                 $("#invoice-grid").setGridParam({url:"getinvoicelist/"+filter});
-                $('#invoice-grid').jqGrid('setCaption', caption);
-                 $('#invoice-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
-            }
+         
 
              jQuery('#invoice-grid').jqGrid('navGrid','#pager_list_2',
                 {
@@ -145,19 +125,21 @@
             }
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-pencil fa-2x green' style='cursor: pointer' onClick=invoiceApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-eye fa-2x green' style='cursor: pointer'  onClick=invoiceApp.goShow(\""+cellvalue+"\")></div><span > </span>",
-                    Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer'  onClick=invoiceApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
+                var edit = "<div  title= 'editar'  class='fa fa-pencil fa-2x ' style='cursor: pointer;color:#1ABC9C' onClick=invoiceApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'ver' class='fa fa-eye fa-2x ' style='cursor: pointer;color:#1ABC9C'  onClick=invoiceApp.goShow(\""+cellvalue+"\")></div><span > </span>",
+                    Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer;color:#1ABC9C'  onClick=invoiceApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove fa-2x red'  style='cursor: pointer' onclick=invoiceApp.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
+                    Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
+                    Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact.id+"\")/></div><span > </span>";
                     if (rowObject.status_id==2)
                     {                    
                         edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
                         Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
                         Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
-                        Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='color:#F3D8D5' /></div><span > </span>";
+                        Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='color:#ABEBC6' /></div><span > </span>";
+                        Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#ABEBC6'/></div><span > </span>";
                     }
-                return Lock + Details + Print +  edit+ Delete;
+                return Lock + Details + Print + Payment+  edit+ Delete;
             }   
 
             function formatpublicID(cellValue, options, rowObject) {

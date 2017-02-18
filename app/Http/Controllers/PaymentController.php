@@ -43,15 +43,15 @@ class PaymentController extends Controller
             ->Join('contact', 'contact.id', '=', 'payment.customer_id')
             ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
             ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')  
+            ->where('payment.isDeleted',0)  
+             ->where('invoice_sale_order.isDeleted',0)  
             ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-              ->where('invoice_sale_order.isDeleted',0)   
-              ->where('payment.isDeleted',0)   
             ->select('payment.date','payment.resolution_id','payment.status_id',
-            'payment_method.name as payment_method', 'contact.name as contact',
+            'payment_method.name as payment_method', 'contact.name as contact','contact.id',
                  DB::raw('SUM(payment_history.amount) as total'),'payment.observations','payment.public_id'
                  )
             ->groupBy('payment.date','payment.resolution_id','payment_method.name','contact.name', 
-               'payment.observations','payment.public_id','payment.status_id')
+               'payment.observations','payment.public_id','payment.status_id','contact.id')
             ->orderby('invoice_sale_order.resolution_id','desc')
             ->get();
 

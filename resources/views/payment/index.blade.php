@@ -109,11 +109,7 @@
                         if(response.data.deleted) {
                             $('#payment-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
                             swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
-                        }
-                        else
-                        {
-                            console.log(response)
-                        }
+                        }                       
                     })
                     .catch(function(error) {
                          swal("Error!", "El registro no se ha eliminado correctamente, intente de nuevo!!.", "error");

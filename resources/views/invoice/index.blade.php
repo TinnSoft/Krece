@@ -59,6 +59,9 @@
       printPdf: function(val){
         window.open('/invoice/'+val+'/pdf', '_blank');
     },
+    AddPayment: function(val){
+        window.location='/payment/create?in='+val;     
+    },
        goShow: function(val){
         window.location = '/invoice/'+val;
     },
