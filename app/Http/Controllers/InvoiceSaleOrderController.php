@@ -34,13 +34,29 @@ class InvoiceSaleOrderController extends Controller
 
     public function getInvoiceList()
     {
-        //Obtener las cotizaciones creadas hasta la fecha       
-        $invoice = InvoiceSaleOrder::with('contact')
-               ->GetAll(0)
-               ->orderBy('created_at', 'desc')
-                ->GetSelectedFields()
-               ->get();
 
+         $invoice = DB::table('invoice_sale_order')   
+                    ->Join('contact', 'invoice_sale_order.customer_id', '=', 'contact.id')
+                    ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')  
+                    ->leftjoin('payment', function ($join) {
+                        $join->on('payment.id', '=', 'payment_history.payment_id')
+                            ->where('payment.isDeleted',0);
+                    })         
+                    ->where('invoice_sale_order.account_id',Auth::user()->account_id)
+                    ->where('invoice_sale_order.isDeleted',0)   
+                    ->select('invoice_sale_order.resolution_id','invoice_sale_order.status_id', 
+                    'invoice_sale_order.due_date', 'contact.name as contact_name','contact.id as contact_id',
+                    DB::raw('SUM(payment_history.amount) as total_payed'),'invoice_sale_order.created_at',
+                    'invoice_sale_order.public_id','invoice_sale_order.total',
+                    DB::raw('invoice_sale_order.total - SUM(payment_history.amount) as pending_to_pay')
+                    )
+                    ->groupBy('invoice_sale_order.resolution_id','invoice_sale_order.status_id', 
+                    'invoice_sale_order.due_date', 'contact.name',
+                    'invoice_sale_order.created_at','contact.id',
+                    'invoice_sale_order.public_id','invoice_sale_order.total')
+                    ->orderby('invoice_sale_order.resolution_id','desc')
+                    ->get();
+            
          return response()->json($invoice);
     }
 
@@ -383,7 +399,7 @@ class InvoiceSaleOrderController extends Controller
      public static function getPaymentHistorical($public_id)
     {
         $payment_historical=
-       DB::table('invoice_sale_order')            
+            DB::table('invoice_sale_order')            
             ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
             ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
             ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')

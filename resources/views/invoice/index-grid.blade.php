@@ -44,15 +44,15 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 120, sorttype: "text" },
-                    { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
+                    { label: 'No', name: 'public_id',align:"center", index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
+                    { label: 'Cliente', name: 'contact_name',  width: 120, sorttype: "text" },
+                    { label: 'Creación', name: 'created_at', width: 70, formatter:diffForHumans},
                      { label: 'Vence en', name: 'due_date', width: 50, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
                      { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     { label: 'Pagado', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     { label: 'Por Pagar', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Pagado', name: 'total_payed', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Por Pagar', name: 'pending_to_pay', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
-                      { name: 'contact.id', hidden:true },
+                      { name: 'contact_id', hidden:true },
                     
                      {name:'public_id', search:false, keys: true,"width":150, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
@@ -134,7 +134,8 @@
                     Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer;color:#1ABC9C'  onClick=invoiceApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove fa-2x red'  style='cursor: pointer' onclick=invoiceApp.remove(\""+cellvalue+"\")/></div><span > </span>";
                     Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
-                    Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact.id+"\")/></div><span > </span>";
+                    Payment="";
+                    Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact_id+"\")/></div><span > </span>";
                     if (rowObject.status_id==2)
                     {                    
                         edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
@@ -147,7 +148,7 @@
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=invoiceApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=invoiceApp.goShow(\""+rowObject.public_id+"\") >"+rowObject.resolution_id+"</a></p>";
                     return goTo;
             }
              function diffForHumans(cellValue, options, rowObject) {
