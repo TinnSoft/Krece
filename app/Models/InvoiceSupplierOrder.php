@@ -80,7 +80,7 @@ class InvoiceSupplierOrder extends Model
 		return $this->hasOne(PaymentTerms::class,'id','payment_terms_id')->select(array('id','name','days'));
 	}
 	
-	public function scopeGetAll($query,$isDeleted)
+	public function scopeAccountID($query,$isDeleted)
 	{
 		
 		return $query->where('account_id',  Auth::user()->account_id)

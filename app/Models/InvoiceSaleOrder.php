@@ -80,7 +80,7 @@ class InvoiceSaleOrder extends Model
 		return $this->hasOne(PaymentTerms::class,'id','payment_terms_id')->select(array('id','name','days'));
 	}
 	
-	public function scopeGetAll($query,$isDeleted)
+	public function scopeAccountID($query,$isDeleted)
 	{
 		
 		return $query->where('account_id',  Auth::user()->account_id)
@@ -100,5 +100,6 @@ class InvoiceSaleOrder extends Model
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
                     'created_at','updated_at','resolution_id','status_id','payment_terms_id');
 	}
+
 }
 

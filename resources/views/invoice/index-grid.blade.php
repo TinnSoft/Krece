@@ -44,7 +44,7 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id',align:"center", index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
+                    { label: 'No', name: 'resolution_id',align:"center", sortable:"false", width: 30, sorttype: "text",formatter:formatpublicID },
                     { label: 'Cliente', name: 'contact_name',  width: 120, sorttype: "text" },
                     { label: 'Creación', name: 'created_at', width: 70, formatter:diffForHumans},
                      { label: 'Vence en', name: 'due_date', width: 50, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
@@ -148,7 +148,7 @@
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=invoiceApp.goShow(\""+rowObject.public_id+"\") >"+rowObject.resolution_id+"</a></p>";
+                    var goTo = "<div><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=invoiceApp.goShow(\""+rowObject.public_id+"\") >"+rowObject.resolution_id+"</a></div>";
                     return goTo;
             }
              function diffForHumans(cellValue, options, rowObject) {

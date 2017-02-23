@@ -151,7 +151,9 @@
             </form>
         </div>
             <ul class="nav navbar-top-links navbar-right">
-               
+               <li>
+                    @yield('historical_bar')
+                </li>
                  <li>
                     <a>
                      <i class="fa fa-comments"></i> Soporte
@@ -163,32 +165,7 @@
                      <i class="fa fa-exclamation-circle"></i> Ayuda
                     </a>                    
                 </li>       
-                              
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="">
-                        <i class="fa fa-bell"></i>  <span class="label label-primary">0</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Tienes notificaciones pendientes por leer
-                                    <span class="pull-right text-muted small">Hace 1 minuto</span>
-                                </div>
-                            </a>
-                        </li>                        
-                        <li class="divider"></li>
-                        <li>
-                            <div class="text-center link-block">
-                                <a href="notifications.html">
-                                    <strong>Ver todas las alertas</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-
+           
 
                 <li>
                     <a  href="{{ url('/logout') }}"  onclick="event.preventDefault();
@@ -200,7 +177,7 @@
                                             {{ csrf_field() }}
                                         </form>
                 </li>
-
+                
             </ul>
 
         </nav>
