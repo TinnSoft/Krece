@@ -6,8 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\{
-    Category,
-    Category2
+    Category
 };
 
 
@@ -86,10 +85,6 @@ class CategoryController extends Controller
             ]);
     }
 
-    public function show($id)
-    {
-        
-    }
 
     public function update(Request $request, $id)
     {      

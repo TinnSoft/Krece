@@ -9,7 +9,8 @@ use App\Models\{
     ResolutionNumber,
     PaymentTerms,
     BankAccount,
-    BankAccountType
+    BankAccountType,
+    Category
 };
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -59,11 +60,21 @@ class Helper
          return Contact::with('seller')
                 ->select('id', 'name','seller_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
-                ->where('isDeleted',  0)
                ->orderBy('created_at', 'asc')
                ->get()
                 ->toArray();
     }
+
+    public static function providers()
+    {
+         return Contact::with('seller')
+                ->select('id', 'name','seller_id')
+                ->where('account_id',  Auth::user()->account_id)->where('isProvider', '=', 1)
+               ->orderBy('created_at', 'asc')
+               ->get()
+                ->toArray();
+    }
+
 
     public static function sellers()
     {
@@ -100,6 +111,18 @@ class Helper
         return Product::select('id', 'name','description','sale_price','reference')
                     ->where('account_id',  Auth::user()->account_id)
                     ->where('isDeleted',  0)
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->toArray();
+    }
+
+     public static function category_outcome()
+    {
+        return Category::select('id', 'name')
+                    ->where('account_id',  Auth::user()->account_id)
+                    ->where('isDeleted',  0)
+                    ->where('type_id',2)
+                     ->where('parent_id',"!=",  null)
                 ->orderBy('created_at', 'asc')
                 ->get()
                 ->toArray();

@@ -84,7 +84,7 @@
                             <li><a href="">Factura proveedores</a></li>
                             <li><a href="">Pagos recurrentes</a></li>
                             <li><a href="">Notas débito</a></li>
-                            <li><a href="">Ordenes de compra</a></li>
+                            <li><a href="{{route('purchase-order.index')}}">Ordenes de compra</a></li>
                         </ul>
                     </li>
 

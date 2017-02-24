@@ -11,6 +11,7 @@
 <link href="/css/style_tables.css" rel="stylesheet">
 {!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
   {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
+{!!Html::style('/themes/krece/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css')!!}
 
     <div class="row">        
         <div class="col-lg-5">
@@ -30,7 +31,9 @@
 					<td><span >Numeración automática</span></td>
 					<td>                       
                         <span>
-                            <label> <input type="checkbox" v-model="form.auto_increment"> </label>
+                               <div class="checkbox checkbox-success"> 
+                             <input type="checkbox" class="styled" v-model="form.auto_increment"><label class="checkbox-inline"></label>
+                             </div>
                         </span>
                     </td>
 				</tr>
@@ -68,11 +71,16 @@
 					<td>
                         <span>
                             <body>
+                                
+                                   <div class="radio radio-success radio-inline">
                                   <input type="radio" id="percentaje" value="1" v-model="form.isDefault">
                                     <label for="p">Si</label>
+                                </div>
                                     <br>
+                                <div class="radio radio-success radio-inline">
                                 <input type="radio" id="value" value="0" v-model="form.isDefault">
-                                    <label for="v">No</label>   
+                                    <label for="v">No</label>  
+                                </div> 
                             </body>
                         
                         </span>

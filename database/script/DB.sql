@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~124 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~120 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -276,7 +276,13 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(133, 1, 1, '2017-02-17 16:34:29', 'Se creó el pago número: 16 para el cliente distribuciones IDRD', '/payment/16', 'Payment', 'Create'),
 	(134, 1, 1, '2017-02-17 17:13:02', 'Se actualizó el pago número: 16 para el cliente distribuciones IDRD', '/payment/16', 'Payment', 'Update'),
 	(135, 1, 1, '2017-02-17 18:13:08', 'Se eliminó el pago número: 14', NULL, 'Payment', 'Delete'),
-	(136, 1, 1, '2017-02-17 18:38:40', 'Se eliminó el pago número: 14', NULL, 'Payment', 'Delete');
+	(136, 1, 1, '2017-02-17 18:38:40', 'Se eliminó el pago número: 14', NULL, 'Payment', 'Delete'),
+	(137, 1, 1, '2017-02-20 15:05:57', 'Se actualizó la factura de venta número: 1 para el cliente distribuciones IDRD', '/invoice/8', 'InvoiceSaleOrder', 'Update'),
+	(138, 1, 1, '2017-02-20 19:06:14', 'Se creó la factura de venta número: 10 para el cliente cliente 2', '/invoice/10', 'InvoiceSaleOrder', 'Create'),
+	(139, 1, 1, '2017-02-21 19:37:24', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(140, 1, 1, '2017-02-22 13:30:50', 'Se creó la factura de venta número: 11 para el cliente cliente 1', '/invoice/11', 'InvoiceSaleOrder', 'Create'),
+	(141, 1, 1, '2017-02-22 21:20:17', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(142, 1, 1, '2017-02-23 12:01:06', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -598,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   CONSTRAINT `FK_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
 
--- Volcando datos para la tabla krece.contact: ~20 rows (aproximadamente)
+-- Volcando datos para la tabla krece.contact: ~19 rows (aproximadamente)
 DELETE FROM `contact`;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`, `address`, `city`, `email`, `phone1`, `phone2`, `fax`, `phone_mobile`, `list_price_id`, `seller_id`, `payment_terms_id`, `observation`, `include_account_state`, `isProvider`, `isCustomer`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1153,7 +1159,7 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
 -- Volcando datos para la tabla krece.invoice_sale_order: ~9 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
@@ -1163,11 +1169,13 @@ INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `r
 	(12, 2, 1, 1, 2, 1, '2017-02-14', '2017-02-14', '2', 6, 'asa', 'as', 4, 1, 34, 'COP', 3000, 0, 0, 3000, NULL, NULL, b'0', b'0', '2017-02-14 14:22:03', '2017-02-17 15:29:28', NULL),
 	(13, 3, 1, 1, 3, 4, '2017-02-14', '2017-02-22', '3', 2, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, b'0', b'0', '2017-02-14 15:28:09', '2017-02-14 15:52:18', NULL),
 	(14, 4, 1, 1, 4, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, b'0', b'0', '2017-02-14 15:28:21', '2017-02-14 16:44:15', NULL),
-	(15, 5, 1, 1, 5, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, b'0', b'0', '2017-02-14 17:22:54', '2017-02-14 17:24:15', NULL),
+	(15, 5, 1, 1, 5, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, b'0', b'0', '2017-01-14 17:22:54', '2017-02-14 17:24:15', NULL),
 	(16, 6, 1, 1, 6, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL),
-	(17, 7, 1, 1, 7, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, b'0', b'0', '2017-02-15 10:16:28', '2017-02-15 12:35:23', NULL),
-	(18, 8, 1, 1, 8, 22, '2017-02-17', '2017-02-17', '2', 6, 'Notas', 'observaciones', 4, 1, 34, 'COP', 32000, 500, 4750, 36250, NULL, NULL, b'0', b'0', '2017-02-17 16:23:49', '2017-02-17 16:34:29', NULL),
-	(19, 9, 1, 1, 9, 22, '2017-02-17', '2017-02-17', '2', 1, 'nota', NULL, 4, 1, 34, 'COP', 6000, 400, 380, 5980, NULL, NULL, b'0', b'0', '2017-02-17 16:31:24', '2017-02-17 16:31:24', NULL);
+	(17, 7, 1, 1, 7, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, b'0', b'0', '2017-01-15 10:16:28', '2017-02-15 12:35:23', NULL),
+	(18, 8, 1, 1, 1, 22, '2017-02-17', '2017-02-17', '2', 6, 'Notas', 'observaciones', 4, 1, 34, 'COP', 32000, 500, 4750, 36250, NULL, NULL, b'0', b'0', '2017-02-17 16:23:49', '2017-02-20 15:05:57', NULL),
+	(19, 9, 1, 1, 9, 22, '2017-02-17', '2017-02-17', '2', 1, 'nota', NULL, 4, 1, 34, 'COP', 6000, 400, 380, 5980, NULL, NULL, b'0', b'0', '2017-02-17 16:31:24', '2017-02-17 16:31:24', NULL),
+	(20, 10, 1, 1, 10, 4, '2017-02-20', '2017-02-20', '1', 1, 'test', NULL, 4, 1, 34, 'COP', 15000, 0, 0, 15000, NULL, NULL, b'0', b'0', '2017-02-20 19:06:13', '2017-02-20 19:06:13', NULL),
+	(21, 11, 1, 1, 11, 1, '2017-02-22', '2017-02-22', '1', 1, 'asas', NULL, 4, 1, 34, 'COP', 5000, 0, 0, 5000, NULL, NULL, b'0', b'0', '2017-02-22 13:30:50', '2017-02-22 13:30:50', NULL);
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_credit_note
@@ -1212,9 +1220,9 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.invoice_sale_order_detail: ~23 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order_detail: ~24 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
 /*!40000 ALTER TABLE `invoice_sale_order_detail` DISABLE KEYS */;
 INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id`, `reference`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `product_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
@@ -1235,12 +1243,17 @@ INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id
 	(42, 17, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
 	(43, 17, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
 	(44, 17, 1, 'ref2', 3000, 0, 19, 4, 3, NULL, 'descripcion producto 2', 1, 3000, 570, '2017-02-15 12:35:23', '2017-02-15 12:35:23'),
-	(45, 18, 1, '1234', 2000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 2000, 0, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
-	(46, 18, 1, '1234', 5000, 10, 0, NULL, 4, NULL, 'producto para pruebas', 1, 4500, 0, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
-	(47, 18, 1, '1234', 25000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 25000, 4750, '2017-02-17 16:23:49', '2017-02-17 16:23:49'),
 	(48, 19, 1, 'ref', 2000, 20, 0, NULL, 2, NULL, 'producto 1', 1, 1600, 0, '2017-02-17 16:31:24', '2017-02-17 16:31:24'),
 	(49, 19, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-17 16:31:25', '2017-02-17 16:31:25'),
-	(50, 19, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-17 16:31:25', '2017-02-17 16:31:25');
+	(50, 19, 1, 'ref', 2000, 0, 19, 3, 2, NULL, 'producto 1', 1, 2000, 380, '2017-02-17 16:31:25', '2017-02-17 16:31:25'),
+	(51, 18, 1, '1234', 2000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 2000, 0, '2017-02-20 15:05:57', '2017-02-20 15:05:57'),
+	(52, 18, 1, '1234', 5000, 10, 0, NULL, 4, NULL, 'producto para pruebas', 1, 4500, 0, '2017-02-20 15:05:57', '2017-02-20 15:05:57'),
+	(53, 18, 1, '1234', 25000, 0, 19, 4, 4, NULL, 'producto para pruebas', 1, 25000, 4750, '2017-02-20 15:05:57', '2017-02-20 15:05:57'),
+	(54, 20, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-20 19:06:13', '2017-02-20 19:06:13'),
+	(55, 20, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-20 19:06:13', '2017-02-20 19:06:13'),
+	(56, 20, 1, 'ref2', 3000, 0, 0, NULL, 3, NULL, 'descripcion producto 2', 1, 3000, 0, '2017-02-20 19:06:13', '2017-02-20 19:06:13'),
+	(57, 20, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-20 19:06:14', '2017-02-20 19:06:14'),
+	(58, 21, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-22 13:30:50', '2017-02-22 13:30:50');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_estimate
@@ -1371,8 +1384,8 @@ CREATE TABLE IF NOT EXISTS `invoice_supplier_order` (
   `balance` float DEFAULT NULL,
   `currency_code_multicurrency` varchar(3) DEFAULT NULL,
   `exchange_rate` float DEFAULT NULL,
-  `is_recurring` bit(1) NOT NULL DEFAULT b'0',
-  `is_deleted` bit(1) NOT NULL DEFAULT b'0',
+  `isRecurring` bit(1) NOT NULL DEFAULT b'0',
+  `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1911,7 +1924,7 @@ CREATE TABLE IF NOT EXISTS `purchase_order` (
   `account_id` int(11) NOT NULL COMMENT 'related with client that will receive the invoice',
   `public_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `document_number` int(11) NOT NULL COMMENT 'resolution DIAN #',
+  `resolution_id` int(11) NOT NULL COMMENT 'resolution DIAN #',
   `customer_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `due_date` date NOT NULL,
@@ -1919,12 +1932,18 @@ CREATE TABLE IF NOT EXISTS `purchase_order` (
   `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
   `notes` text COMMENT 'vissible inf the supplier invoice',
   `observations` text COMMENT 'for customer tracking , just internal',
+  `terms` text,
   `exchange_rate` float DEFAULT NULL,
+  `sub_total` float DEFAULT NULL,
+  `total_discounts` float DEFAULT NULL,
+  `total_taxes` float DEFAULT NULL,
+  `total` float DEFAULT NULL,
+  `isDeleted` bit(1) DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`document_number`),
+  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`resolution_id`),
   KEY `FK_purchase_order_currency` (`currency_code`),
   KEY `FK_purchase_order_customerID` (`customer_id`),
   KEY `FK_purchase_order_status` (`status_id`),
@@ -1946,21 +1965,26 @@ CREATE TABLE IF NOT EXISTS `purchase_order_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
   `purchase_order_id` bigint(20) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
-  `reference` varchar(50) NOT NULL,
   `unit_price` float NOT NULL,
   `discount` float DEFAULT NULL,
   `tax_amount` float DEFAULT NULL,
-  `taxt_type_id` int(11) DEFAULT NULL,
+  `tax_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `gross_total` float NOT NULL,
-  `amount` float NOT NULL,
+  `total` float NOT NULL,
+  `total_tax` float NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_purchase_order_detail_company` (`user_id`),
   KEY `FK_purchase_order_purchase_order_detail` (`purchase_order_id`),
-  KEY `FK_purchase_order_detail_tax_id` (`taxt_type_id`),
+  KEY `FK_purchase_order_detail_tax_id` (`tax_id`),
+  KEY `FK_PO_detail_category` (`category_id`),
+  CONSTRAINT `FK_PO_detail_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_purchase_order_detail_po` FOREIGN KEY (`purchase_order_id`) REFERENCES `purchase_order` (`id`),
+  CONSTRAINT `FK_purchase_order_detail_tax_id` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_purchase_order_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
@@ -2141,7 +2165,7 @@ CREATE TABLE IF NOT EXISTS `resolution` (
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, '1', '', '10', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-17 16:31:25', NULL),
+	(1, 1, 1, 1, '1', '', '12', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-22 13:30:50', NULL),
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
@@ -2417,7 +2441,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
-	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'hzgzsf0Sw15EmqIu9fXXFOSzGetJtVbNG0PMsK0j2u1eGwafcWj3EUMJ0b3w', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-02-13 12:56:13', '2017-02-13 12:56:13', NULL, NULL, 1, NULL, NULL, b'1'),
+	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'jo351ZeTgt6t2UUjO7AwUJY6eQg2d57dZsCpKgQSiK5hwzUHnDOmNghmZi0u', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-02-23 12:01:06', '2017-02-23 12:01:06', NULL, NULL, 1, NULL, NULL, b'1'),
 	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'FcregiMVfdO3B65QJkXKuELvAVo9VO41bZVsKq27s22fDwJDqK79DWs92VmN', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
 	(3, 3, 1, NULL, NULL, 'fernandwo2684@gmail.com', '$2y$10$u6v0vfdvla3xCyD7HJLkVeFS/Q6Ozhf.I1AIv9nnUCqDuPDCUe1XW', 'j7WUKqHUUhp5uBiAZKAg9fWmTvKYEgEq9kk9PGGiwf1ax3DE2H5oSjoau79P', NULL, NULL, 1, '2016-12-07 17:22:30', NULL, '2016-12-07 17:22:35', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
 	(4, 4, 1, NULL, NULL, 'fernando268422@gmail.com', '$2y$10$n..GzUA79THtAPd2Y/J8N.7nZiFzeHcdCEIH3emPIM98k4Yp9/z7u', 'O67MhIiFYyJkgNi3AkvJsI1UL7fJf8cYE4depxK7Kmk3WvI50zYWoh2u0aRJ', NULL, NULL, 1, '2016-12-07 17:23:24', NULL, '2016-12-07 17:24:15', NULL, NULL, NULL, 1, NULL, NULL, b'1'),

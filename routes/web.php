@@ -105,3 +105,9 @@ Route::get('getPaymentList','PaymentController@getPaymentList');
 Route::get('getPaymentBaseInfo','PaymentController@BaseInfo');
 Route::get('getInvoicePendingtoPay/{customer_id}','PaymentController@getInvoicePendingtoPay_data');
 Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentController@getInvoicePendingtoPay_data_edit');
+
+//purchase order
+Route::resource('purchase-order', 'PurchaseOrderController');
+Route::get('getPOBaseInfo','PurchaseOrderController@BaseInfo');
+Route::get('getPOList','PurchaseOrderController@getPOList');
+Route::get('purchase-order/{id}/pdf', 'PurchaseOrderController@pdf');

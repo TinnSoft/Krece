@@ -8,6 +8,7 @@
 
 
 {!!Html::style('/css/style_tables.css')!!}
+{!!Html::style('/themes/krece/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css')!!}
 
 
     <div class="row">        
@@ -142,18 +143,22 @@
 
                     </td>
 				</tr>
+              
+
                 <tr>
 					<th><span >Cliente</span></th>
 					<td>
-                         <input type="checkbox" value="" v-model="form.isCustomer"></label> <label class="checkbox-inline">
-                          
+                        <div class="checkbox checkbox-success">
+                         <input type="checkbox" class="styled" value="" v-model="form.isCustomer"> <label class="checkbox-inline">
+                        </div>
                     </td>
 				</tr>
                 <tr>
 					<th><span >Proveedor</span></th>
 					<td>
-                         <input type="checkbox" value="" v-model="form.isProvider"></label> <label class="checkbox-inline">
-                          
+                        <div class="checkbox checkbox-success">
+                         <input type="checkbox" class="styled" value="" v-model="form.isProvider"> <label class="checkbox-inline">
+                         </div>  
                     </td>
 				</tr>
                  <tr>
@@ -210,10 +215,13 @@
             <td  style="width: 7em">
                 <input type="text" class="form-control " v-model="_contact_others.phone_mobile">
             </td>
-             <td  style="width: 2em; text-align:center;">                
-                <input type="checkbox" value="" class="" v-model="_contact_others.notify"></label> <label class="checkbox-inline">
-                 
+             <td  style="width: 2em; text-align:center;">   
+                 <div class="checkbox checkbox-success">             
+                    <input type="checkbox" value="" class="styled" v-model="_contact_others.notify"> <label class="checkbox-inline"></label>
+                 </div>  
             </td>
+                         
+
         </tr>        
     </tbody>
     
