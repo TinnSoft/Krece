@@ -155,6 +155,7 @@
                                 </tr>                                
                                 </tbody>
                             </table>
+
                                 <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#tab-1">FACTURAS DE COMPRA ASOCIADAS</a></li>
                                 </ul>

@@ -17,18 +17,10 @@
 
     </style>
 
-        <div id="po_index" class="jqGrid_wrapper">            
-           <!-- activar buscador 
-            <div class="ibox-content">
-                <ul class="todo-list m-t small-list  col-sm-5 pull-right">
-                    <li>
-                        <div  class="input-group"><input id="search_cells" type="text" placeholder="Buscar" class="input-sm form-control"> <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button> </span></div>
-                    </li>
-                </ul>                      
-            </div>-->
+        <div id="debitnote_index" class="jqGrid_wrapper">            
+       
            <div class="ibox-content">  
-                <table id="po-grid"></table>
+                <table id="debitnote-grid"></table>
                 <div id="pager_list_2"></div>     
             </div>        
         <div>
@@ -37,25 +29,25 @@
         
         $(document).ready(function () {       
              var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
-            "<h3><i class='fa fa-exclamation'></i> No tienes órdenes de compra creadas!</h3>" +
-            " <div class='ibox-content ibox-heading'><a href='{{route('purchase-order.create')}}' class='btn btn-primary btn-outline btn-sm '>" +
-            "<span class='fa fa-plus '></span>&nbsp;Crear Orden de Compra</a> </div></div> '");
+            "<h3><i class='fa fa-exclamation'></i> No tienes Notas débito creadas!</h3>" +
+            " <div class='ibox-content ibox-heading'><a href='{{route('debit-note.create')}}' class='btn btn-primary btn-outline btn-sm '>" +
+            "<span class='fa fa-plus '></span>&nbsp;Crear Nota Débito</a> </div></div> '");
          
-            $("#po-grid").jqGrid({
-                url: "getPOList",
+            $("#debitnote-grid").jqGrid({
+                url: "getDebitNoteList",
                 datatype: "json",
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', align:"center",index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 150, sorttype: "text" },
+                    { label: 'No', name: 'public_id',align:"center", index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
+                    { label: 'Proveedor', name: 'contact.name',  width: 170, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    { label: 'Por aplicar', name: 'amount_pending_to_apply', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      {name:'public_id', search:false, keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                autowidth: true,
-                shrinkToFit: true,
+                width: 780,
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -63,38 +55,23 @@
                 loadonce:true,
                 navOptions: { reloadGridOptions: { fromServer: true } },
                 loadComplete: function () {
-                    var count = $("#po-grid").getGridParam();
-                    var ts = $("#po-grid")[0];
+                    var count = $("#debitnote-grid").getGridParam();
+                    var ts = $("#debitnote-grid")[0];
                     if (ts.p.reccount === 0) {
-                        $("#po-grid").hide();
-                        emptyMsgDiv.insertAfter($("#po-grid").parent());
+                        $("#debitnote-grid").hide();
+                        emptyMsgDiv.insertAfter($("#debitnote-grid").parent());
                         emptyMsgDiv.show();
                     } else {
-                        $("#po-grid").show();
+                        $("#debitnote-grid").show();
                         emptyMsgDiv.hide();
                     };
-                },       
-                 beforeRequest:function()
-                {
                     resizewidth();
-                },        
+                },         
                 pager:"#pager_list_2"
             });
-            
-      
-          $("#export").on("click", function(){
-				$("#po-grid").jqGrid("exportToExcel",{
-					includeLabels : true,
-					includeGroupHeader : true,
-					includeFooter: true,
-					fileName : "jqGridExport.xlsx",
-					maxlength : 40 
-				})
-			})
+    
 
-          
-
-             jQuery('#po-grid').jqGrid('navGrid','#pager_list_2',
+             jQuery('#debitnote-grid').jqGrid('navGrid','#pager_list_2',
                 {
                     "edit":false,
                     "add":false,
@@ -116,35 +93,34 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=POApp.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=POApp.goEdit(\""+cellvalue+"\")></div><span > </span>",
-                    Print = "<div title= 'Imprimir' class='fa fa-print' style='cursor: pointer'  onClick=POApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=POApp.remove(\""+cellvalue+"\")/></div><span > </span>";
+                var edit = "<div  title= 'editar'  class='fa fa-eye green' style='cursor: pointer' onClick=debitnoteApp.goShow(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'ver' class='fa fa-pencil green' style='cursor: pointer'  onClick=debitnoteApp.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                    Print = "<div title= 'Imprimir' class='fa fa-print' style='cursor: pointer'  onClick=debitnoteApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=debitnoteApp.remove(\""+cellvalue+"\")/></div><span > </span>";
                 
                 return Details + Print + edit+ Delete;
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=POApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=debitnoteApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
                     return goTo;
             }
              function diffForHumans(cellValue, options, rowObject) {
-                    return POApp.moment(cellValue);
+                    return debitnoteApp.moment(cellValue);
             }
 
              $(window).bind('resize', function () {
                resizewidth();
-
             });
                 //resize on load
             function resizewidth()
             {
                 var width = $('.jqGrid_wrapper').width();
-                $('#po-grid').setGridWidth(width); 
+                $('#debitnote-grid').setGridWidth(width); 
             }  
 
             	// activate the toolbar searching
-			$('#po-grid').jqGrid('navGrid',"#pager_list_2", {                
+			$('#debitnote-grid').jqGrid('navGrid',"#pager_list_2", {                
                 search: false, // show search button on the toolbar
                 add: false,
                 edit: false,
@@ -156,7 +132,7 @@
 				var self = this;
 				if(timer) { clearTimeout(timer); }
 				timer = setTimeout(function(){
-					$("#po-grid").jqGrid('filterInput', self.value);
+					$("#debitnote-grid").jqGrid('filterInput', self.value);
 				},0);
 			});
 

@@ -263,9 +263,9 @@ class PurchaseOrderController extends Controller
                     ->first();
            
        $po=Helper::_InvoiceFormatter($po);
-    
+        $taxes=$this->getTotalTaxes($po->public_id);
         
-        $mypdf = PDF::loadView('pdf.purchase-order', ['po' => $po]);
+        $mypdf = PDF::loadView('pdf.purchase-order', ['po' => $po, 'taxes' => $taxes]);
         
         $filename = "PO_"."{$po->public_id}.pdf";
 

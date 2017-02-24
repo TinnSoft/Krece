@@ -9,11 +9,9 @@
 
 <link href="/css/style_tables.css" rel="stylesheet">
 
-
-
         <div class="row">
             <div class="col-lg-5">
-                 <h2>Orden de Compra No: @{{form.resolution_id}}</h2>
+                 <h2>NOTA CRÉDITO No: @{{form.resolution_id}}</h2>
             </div>
             <div class="col-lg-5 text-right">
                  <span> MONTO </span>
@@ -40,38 +38,25 @@
                             track-by="name"
                             placeholder="Seleccione..." 
                             @input="onInputContact"
-                             :show-labels="false"
-                             :allow-empty="false"
                              :allow-empty="false"
                         >
                         </multiselect>
 
                         <span v-if="errors.customer_id" class="error is-danger  text-danger">
-                            Olvidaste seleccionar un cliente.
+                            Olvidaste seleccionar un proveedor.
                         </span>   </span>                           
                     </td>                 
 				</tr>
                 <tr>
 					<th><span >Observaciones</span></th>
 					<td>
+                        <span id="prefix1" ></span>
                         <span>
                             <textarea class="form-control" 
-                            placeholder="Estas observaciones no serán visibles el documento impreso"
                             v-model="form.observations"></textarea>
                         </span>
                     </td>
-				</tr>
-				<tr>
-					<th><span >Notas</span></th>
-					<td>
-                        <span>                        
-                            <textarea 
-                            class="form-control has-icon has-icon-right form-control" 
-                            placeholder="Estas notas serán visibles en el documento impreso" 
-                            v-model="form.notes"></textarea>                             
-                        </span>
-                    </td>
-				</tr>
+				</tr>				
 			</table>
         </div> 
 
@@ -87,39 +72,12 @@
                              </datepicker-vue>
                                              
                             <span v-if="errors.date" class="error is-danger  text-danger">
-                            Ingrese una fecha para la orden de compra</span>  
+                            Ingrese una fecha para la nota debito</span>  
                         </span>
                     </td>                 
-				</tr>
-                <tr>
-					<th><span >Vencimiento</span><a class="text-danger"><strong> *</strong></a></th>
-					<td><span id="prefix" ></span>
-                        <span>
-                           
-                            <div class="form-group" >
-                            <datepicker-vue class="form-control" 
-                                v-model="form.due_date" 
-                                value='@{{form.due_date}}' 
-                                >
-                             </datepicker-vue>
-                            </div>
-                            <span v-if="errors.due_date" class="error is-danger  text-danger">
-                            Adiciona una fecha final</span>  
-                        </span>
-                    </td>
-				</tr>
+				</tr>              
 
-				<tr>
-					<th><span >Términos y condiciones</span></th>
-					<td>                       
-                        <span>                        
-                            <textarea 
-                            class="form-control has-icon has-icon-right form-control" 
-                            placeholder="Visibles en la orden de compra" 
-                            v-model="form.terms"></textarea>                             
-                        </span>
-                    </td>
-				</tr>
+               
                 <tr>
 					<th><span >Moneda</span></th>
 					<td>
@@ -149,13 +107,12 @@
 <table class="table-hover">
     <thead>
         <tr>
-         
-            <th style="width: 2em">CATEGORÍA/ÍTEM</th>
-             <th>OBSERVACIONES</th>
+            <th >CATEGORÍA</th>            
+            <th>OBSERVACIONES</th>
             <th>PRECIO</th>
             <th>CANTIDAD</th>
             <th>DESC %</th>
-            <th>IMPUESTO %</th>           
+            <th>IMPUESTO</th>           
             <th colspan="2">TOTAL</th>
         </tr>
     </thead>
@@ -173,10 +130,10 @@
                             v-model="_detail.category"
                             label="name"         
                             track-by="name"
-                            :show-labels="false"
-                             :allow-empty="false"
                             placeholder="Buscar ítem..." 
                             @input="onInputProduct(_detail)"
+                             :show-labels="false"
+                             :allow-empty="false"
                         >
                         </multiselect>
 
@@ -238,7 +195,7 @@
 </table>
 
   <div v-if="errors.products_empty" class="alert alert-danger">      
-     Debe ingresar por lo menos un producto en la cotización
+     Debe ingresar por lo menos un producto en la nota debito
  </div>
 
 
@@ -266,7 +223,6 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
-
 
 
 

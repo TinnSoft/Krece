@@ -111,3 +111,9 @@ Route::resource('purchase-order', 'PurchaseOrderController');
 Route::get('getPOBaseInfo','PurchaseOrderController@BaseInfo');
 Route::get('getPOList','PurchaseOrderController@getPOList');
 Route::get('purchase-order/{id}/pdf', 'PurchaseOrderController@pdf');
+
+//Nota Debito
+Route::resource('debit-note', 'DebitNoteController');
+Route::get('getDebitNoteBaseInfo','DebitNoteController@BaseInfo');
+Route::get('getDebitNoteList','DebitNoteController@getDebitNoteList');
+Route::get('debit-note/{id}/pdf', 'DebitNoteController@pdf');
