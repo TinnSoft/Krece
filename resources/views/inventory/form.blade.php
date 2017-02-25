@@ -13,10 +13,10 @@
         <div class="col-lg-5">
             <table class="table table-responsive">				
 				<tr> 
-					<td style="width: 10em"><span>Nombre</span><a class="text-danger"><strong> *</strong></a></td>
+					<td style="width: 10em"><small>Nombre</small><a class="text-danger"><strong> *</strong></a></td>
 					<td>  
                         <span>                              
-                            <input type="text" class="form-control" v-model="form.name">    
+                            <input type="text" class="form-control input-sm" v-model="form.name">    
                             <small v-if="errors.name" class="error is-danger  text-danger">
                                 Adiciona un nombre de ítem válido
                             </small>   
@@ -24,27 +24,27 @@
                     </td>                 
 				</tr>
                 <tr>
-					<td><span >Referencia</span></td>
+					<td><small >Referencia</small></td>
 					<td>                       
                         <span>
-                           <input type="text" class="form-control" v-model="form.reference">  
+                           <input type="text" class="form-control input-sm" v-model="form.reference">  
                         </span>
                     </td>
 				</tr>
 				               
                 <tr> 
-					 <td><span >Descripción</span></td>
+					 <td><small >Descripción</small></td>
 					<td>
                         <span>
-                           <textarea class="form-control" v-model="form.description"></textarea>  
+                           <textarea class="form-control input-sm" v-model="form.description"></textarea>  
                         </span>
                     </td>
 				</tr>   
                 <tr>
-					<td><span >Precio de venta</span><a class="text-danger"><strong> *</strong></a></td>
+					<td><small >Precio de venta</small><a class="text-danger"><strong> *</strong></a></td>
 					<td>
                         <span>
-                           <input type="number" class="form-control" v-model="form.sale_price"> 
+                           <input type="number" class="form-control input-sm" v-model="form.sale_price"> 
                             <template v-if="toUseListPrice == false">
                                  <p><a class="text-info" @click="toggleLListPrice" ><span class="fa fa-plus-circle"></span><small>  Usar lista de precios</small></a> </p>
                             </template>
@@ -59,7 +59,7 @@
 				</tr>
                  <tr>
                  <template v-if="toUseListPrice == true">
-                        <td style="width: 10em"><span>Lista de precios</span><a class="text-danger"><strong> *</strong></a></td>
+                        <td style="width: 10em"><small>Lista de precios</small><a class="text-danger"><strong> *</strong></a></td>
 					    <td>
                             <span>
                                 <multiselect 
@@ -82,7 +82,7 @@
          <div class="col-lg-5">
             <table class="table table-responsive">	
 				<tr>
-					<td><span >Impuesto</span><a class="text-danger"><strong> *</strong></a></td>
+					<td><small >Impuesto</small><a class="text-danger"><strong> *</strong></a></td>
 					<td>
                         <span>                     
                              <multiselect 
@@ -101,7 +101,7 @@
                     </td>
 				</tr>
                <tr>
-					<td><span >Item inventariable?</span></td>
+					<td><small >Item inventariable?</small></td>
 					<td>
                         <span>                     
                              <span>
@@ -141,7 +141,7 @@
                             <td><small>Cantidad inicial</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                 <span>                              
-                                    <input type="number" class="form-control" v-model="form.inv_quantity_initial">  
+                                    <input type="number" class="form-control input-sm" v-model="form.inv_quantity_initial">  
                                     <small v-if="errors.inv_quantity_initial" class="error is-danger  text-danger">
                                     La cantidad inicial debe ser mayor a 0
                                 </small>         
@@ -152,7 +152,7 @@
                             <td><small>Precio de compra</small><a class="text-danger"><strong> *</strong></a></td>
                             <td>  
                                 <span>                              
-                                    <input type="number" class="form-control" v-model="form.inv_unit_cost">   
+                                    <input type="number" class="form-control input-sm" v-model="form.inv_unit_cost">   
                                 </span> 
                                 <small v-if="errors.inv_unit_cost" class="error is-danger  text-danger">
                                     El precio de compra debe ser mayor a 0

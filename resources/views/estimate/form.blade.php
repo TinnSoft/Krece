@@ -52,7 +52,7 @@
 					<td>
                         <span id="prefix1" ></span>
                         <span>
-                            <textarea class="form-control" v-model="form.observations"></textarea>
+                            <textarea class="form-control input-sm" v-model="form.observations"></textarea>
                         </span>
                     </td>
 				</tr>
@@ -62,7 +62,7 @@
                         <span id="prefix2" ></span>
                         <span>
                         
-                            <textarea class="form-control has-icon has-icon-right form-control" placeholder="Estas notas no serán visibles en la cotización" v-model="form.notes"></textarea> 
+                            <textarea class="form-control has-icon has-icon-right" placeholder="Estas notas no serán visibles en la cotización" v-model="form.notes"></textarea> 
                             
                         </span>
                          <span v-if="errors.notes" class="error is-danger  text-danger">
@@ -209,13 +209,13 @@
                 <textarea rows="1" class="form-control input_number" v-model="_detail.description"></textarea>
             </td>
             <td class="form-unit_price" style="width: 8em">
-                <input type="number" class="form-control input_number"  v-model.number="_detail.unit_price">
+                <input type="number" class="form-control input-sm input_number"  v-model.number="_detail.unit_price">
             </td>
             <td class="form-quantity"  style="width: 7em">
-                <input type="number" class="form-control input_number" v-model.number="_detail.quantity">
+                <input type="number" class="form-control input-sm input_number" v-model.number="_detail.quantity">
             </td>            
             <td class="form-discount" style="width: 5em">
-                <input type="number" class="form-control input_number" v-model.number="_detail.discount">
+                <input type="number" class="form-control input-sm input_number" v-model.number="_detail.discount">
             </td>
             <td class="form-tax"  style="width: 5em">
                   <multiselect 

@@ -20,7 +20,7 @@
 					<td style="width: 10em"><span>Nombre</span><a class="text-danger"><strong> *</strong></a></td>
 					<td>  
                         <span>                              
-                            <input type="text" class="form-control" v-model="form.name">    
+                            <input type="text" class="form-control input-sm" v-model="form.name">    
                             <small v-if="errors.name" class="error is-danger  text-danger">
                                 Adiciona un nombre válido
                             </small>   
@@ -42,7 +42,7 @@
 					 <td><span >Prefijo</span></td>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.prefix"></input>  
+                           <input type="text" class="form-control input-sm" v-model="form.prefix"></input>  
                         </span>
                     </td>
 				</tr>   
@@ -50,7 +50,7 @@
 					<td style="width: 10em"><span>Número inicial</span><a class="text-danger"><strong> *</strong></a></td>
 					<td>  
                         <span>                              
-                            <input type="text" class="form-control" v-model="form.initial_number">    
+                            <input type="text" class="form-control input-sm" v-model="form.initial_number">    
                             <small v-if="errors.initial_number" class="error is-danger  text-danger">
                                 Debe adicionar un número inicial
                             </small>   
@@ -61,7 +61,7 @@
 					 <td><span >Número final</span></td>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.final_number"></input>  
+                           <input type="text" class="form-control input-sm" v-model="form.final_number"></input>  
                         </span>
                     </td>
 				</tr>  

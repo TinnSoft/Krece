@@ -15,7 +15,7 @@
 				<tr> 
 					<th style="width: 10em"><label><a class="text-danger"><strong>* </strong></a>Nombre:</label></th>
 					<td>  <span>  
-                         <input type="text" class="form-control" v-model="form.name">    
+                         <input type="text" class="form-control input-sm" v-model="form.name">    
                             <small v-if="errors.name" class="error is-danger  text-danger">
                                 Adiciona un nombre 
                             </small>  
@@ -25,7 +25,7 @@
 					<th><label >NIT</label></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.identification">    
+                           <input type="text" class="form-control input-sm" v-model="form.identification">    
                         </span>
                     </td>
 				</tr>
@@ -33,7 +33,7 @@
 					<th><label >Dirección</label></th>
 					<td>
                         <smll>
-                            <input type="text" class="form-control" v-model="form.address">    
+                            <input type="text" class="form-control input-sm" v-model="form.address">    
                         </small>
                     </td>
 				</tr>
@@ -41,7 +41,7 @@
 					<th><label >Ciudad</label></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.city">    
+                            <input type="text" class="form-control input-sm" v-model="form.city">    
                         </span>
                     </td>
 				</tr>
@@ -49,7 +49,7 @@
 					<th><label >Teléfono</label></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.phone">    
+                            <input type="text" class="form-control input-sm" v-model="form.phone">    
                         </span>
                     </td>
 				</tr>
@@ -57,7 +57,7 @@
 					<th><span >Sitio Web</span></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.website">    
+                            <input type="text" class="form-control input-sm" v-model="form.website">    
                         </span>
                     </td>
 				</tr>
@@ -72,7 +72,7 @@
 					<th><span >Email</span></th>
 					<td>
                         <span>
-                            <input type="text" class="form-control" v-model="form.email">    
+                            <input type="text" class="form-control input-sm" v-model="form.email">    
                         </span>
                           <small v-if="errors.email" class="error is-danger  text-danger">
                                 Este correo ya existe en nuestra base de datos, intenta uno diferente.

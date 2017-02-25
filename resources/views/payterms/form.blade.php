@@ -11,17 +11,17 @@
         <div class="col-lg-5">
             <table class="table table-responsive">				
 				<tr> 
-					<th style="width: 10em"><span>Nombre</span></th>
+					<th style="width: 10em"><small>Nombre</small></th>
 					<td>  <span>            
-                        <input type="text" class="form-control" v-model="form.name"></text>         
+                        <input type="text" class="form-control input-sm" v-model="form.name"></text>         
                     </td>                 
 				</tr>
                 <tr>
-					<th><span >Días</span></th>
+					<th><small >Días</small></th>
 					<td>
                         <span id="prefix1" ></span>
                         <span>
-                            <input type="number" class="form-control" v-model="form.days"></text>
+                            <input type="number" class="form-control input-sm" v-model="form.days"></text>
                             <span v-if="errors.days" class="error is-danger  text-danger">
                            Ingresa un valor aquí
                         </span>   </span>       

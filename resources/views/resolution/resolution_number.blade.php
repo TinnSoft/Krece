@@ -9,7 +9,7 @@
 
 
     <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-5">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><strong>Numeración</strong><small><br>  Indica el número con el cual debe crearse cada uno de tus documentos. 
@@ -27,7 +27,7 @@
                                      <td style="width: 20em"><small>@{{item.text}}</small><a class="text-danger"><strong> *</strong></a></td>
                                      <td>  
                                         <span>                              
-                                            <input type="number" class="form-control" min="0"  
+                                            <input type="number" class="form-control input-sm" min="0"  
                                             :value=item.number v-on:input="item.number = $event.target.value">
                                         </span>                           
                                     </td>    

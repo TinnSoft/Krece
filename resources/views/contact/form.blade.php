@@ -13,79 +13,77 @@
 
     <div class="row">        
         <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <table class="table table-responsive" >				
 				<tr> 
-					<th style="width: 10em"><span>Nombre</span></th>
-					<td>  
-                        <span>                              
-                            <input type="text" class="form-control" v-model="form.name">    
-                            <span v-if="errors.name" class="error is-danger  text-danger">
+					<th style="width: 10em"><small>Nombre</small></th>
+					<td>                  
+                            <input type="text" class="form-control input-sm" v-model="form.name">    
+                            <small v-if="errors.name" class="error is-danger  text-danger">
                                 Adiciona un nombre válido
-                            </span>   
-                        </span>                           
+                            </small>            
                     </td>                 
 				</tr>
                 <tr>
-					<th><span >NIT</span></th>
+					<th><small >NIT</small></th>
 					<td>                       
-                        <span>
-                           <input type="text" class="form-control" v-model="form.nit">  
-                        </span>
+                        <small>
+                           <input type="text" class="form-control input-sm" v-model="form.nit">  
+                        </small>
                     </td>
 				</tr>
 				<tr>
-					<th><span >Dirección</span></th>
+					<th><small >Dirección</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.address">  
+                           <input type="text" class="form-control input-sm" v-model="form.address">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Ciudad</span></th>
+					<th><small >Ciudad</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.city">  
+                           <input type="text" class="form-control input-sm" v-model="form.city">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Email</span></th>
+					<th><small >Email</small></th>
 					<td>
                         <span>
-                           <input type="email" class="form-control" v-model="form.email">  
+                           <input type="email" class="form-control input-sm" v-model="form.email">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Teléfono 1</span></th>
+					<th><small >Teléfono 1</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.phone1">  
+                           <input type="text" class="form-control input-sm" v-model="form.phone1">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Teléfono 2</span></th>
+					<th><small >Teléfono 2</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.phone2">  
+                           <input type="text" class="form-control input-sm" v-model="form.phone2">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Fax</span></th>
+					<th><small >Fax</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.fax">  
+                           <input type="text" class="form-control input-sm" v-model="form.fax">  
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Celular</span></th>
+					<th><small >Celular</small></th>
 					<td>
                         <span>
-                           <input type="text" class="form-control" v-model="form.phone_mobile">  
+                           <input type="text" class="form-control input-sm" v-model="form.phone_mobile">  
                         </span>
                     </td>
 				</tr>
@@ -95,7 +93,7 @@
          <div class="col-lg-5">
             <table class="table table-responsive">				
 				<tr> 
-					<th style="width: 10em"><span>Lista de precios</span></th>
+					<th style="width: 10em"><small>Lista de precios</small></th>
 					<td>
                          <span>
                             <multiselect 
@@ -112,7 +110,7 @@
 				</tr>
                
 				<tr>
-					<th><span >Vendedor</span></th>
+					<th><small >Vendedor</small></th>
 					<td>
                         <span>                     
                              <multiselect 
@@ -129,7 +127,7 @@
                     </td>
 				</tr>
                 <tr>
-					<th><span >Terminos de pago</span></th>
+					<th><small >Terminos de pago</small></th>
 					<td>                        
                          <multiselect 
                                 :options="paymentterms" 
@@ -146,7 +144,7 @@
               
 
                 <tr>
-					<th><span >Cliente</span></th>
+					<th><small >Cliente</small></th>
 					<td>
                         <div class="checkbox checkbox-success">
                          <input type="checkbox" class="styled" value="" v-model="form.isCustomer"> <label class="checkbox-inline">
@@ -154,7 +152,7 @@
                     </td>
 				</tr>
                 <tr>
-					<th><span >Proveedor</span></th>
+					<th><small >Proveedor</small></th>
 					<td>
                         <div class="checkbox checkbox-success">
                          <input type="checkbox" class="styled" value="" v-model="form.isProvider"> <label class="checkbox-inline">
@@ -162,9 +160,9 @@
                     </td>
 				</tr>
                  <tr>
-					<th><span >Observaciones</span></th>
+					<th><small >Observaciones</small></th>
 					<td>
-                         <textarea v-model="form.observation" class="form-control"></textarea>
+                         <textarea v-model="form.observation" class="form-control input-sm"></textarea>
                           
                     </td>
 				</tr>
@@ -201,19 +199,19 @@
                 </a>
             </td>           
             <td style="width: 10em" class="form-product_id"  >
-                     <input type="text" class="form-control"  v-model="_contact_others.name"> 
+                     <input type="text" class="form-control input-sm"  v-model="_contact_others.name"> 
             </td>     
             <td style="width: 10em" >
-                <input type="text" class="form-control" v-model="_contact_others.last_name">
+                <input type="text" class="form-control input-sm" v-model="_contact_others.last_name">
             </td>
             <td style="width: 8em">
-                <input type="email" class="form-control"  v-model="_contact_others.email">
+                <input type="email" class="form-control input-sm"  v-model="_contact_others.email">
             </td>
             <td  style="width: 7em">
-                <input type="text" class="form-control " v-model="_contact_others.phone">
+                <input type="text" class="form-control input-sm " v-model="_contact_others.phone">
             </td>            
             <td  style="width: 7em">
-                <input type="text" class="form-control " v-model="_contact_others.phone_mobile">
+                <input type="text" class="form-control input-sm " v-model="_contact_others.phone_mobile">
             </td>
              <td  style="width: 2em; text-align:center;">   
                  <div class="checkbox checkbox-success">             

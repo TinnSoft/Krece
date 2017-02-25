@@ -12,7 +12,7 @@
         <div class="col-lg-5">
             <table class="table table-responsive">				
 				<tr> 
-					<th style="width: 10em"><span>Tipo de Cuenta</span></th>
+					<th style="width: 10em"><small>Tipo de Cuenta</small></th>
 					<td>  <span>  
                     
                           <multiselect 
@@ -25,48 +25,48 @@
                         >
                         </multiselect>
 
-                        <span v-if="errors.bank_account_type_id" class="error is-danger  text-danger">
+                        <small v-if="errors.bank_account_type_id" class="error is-danger  text-danger">
                            Debe especificar un tipo de cuenta válido.
-                        </span>                             
+                        </small>                             
                     </td>                 
 				</tr>
                 <tr>
-					<th><span >Nombre de la cuenta</span></th>
+					<th><small >Nombre de la cuenta</small></th>
 					<td>                       
-                        <span>
-                            <input type="text" class="form-control" v-model="form.bank_account_name"></input>
-                        </span>
-                        <span v-if="errors.bank_account_name" class="error is-danger  text-danger">
+                        <small>
+                            <input type="text" class="form-control input-sm" v-model="form.bank_account_name"></input>
+                        </small>
+                        <small v-if="errors.bank_account_name" class="error is-danger  text-danger">
                            Debe especificar un nombre de cuenta válido.
-                        </span>
+                        </small>
                     </td>
 				</tr>
 				<tr>
-					<th><span >Número de la cuenta</span></th>
+					<th><small >Número de la cuenta</small></th>
 					<td>                       
                         <span>
                         
-                            <input type="text" class="form-control" 
+                            <input type="text" class="form-control input-sm" 
                             v-model="form.bank_account_number"></input> 
                             
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Saldo Inicial</span></th>
+					<th><small >Saldo Inicial</small></th>
 					<td>                       
                         <span>
                         
-                            <input type="number" class="form-control" 
+                            <input type="number" class="form-control input-sm" 
                             v-model="form.initial_balance"></input> 
-                             <span v-if="errors.initial_balance" class="error is-danger  text-danger">
+                             <small v-if="errors.initial_balance" class="error is-danger  text-danger">
                                 Debe especificar un valor para el balance válido.
-                            </span>
+                            </small>
                         </span>
                     </td>
 				</tr>
                 <tr>
-					<th><span >Descripción</span></th>
+					<th><small >Descripción</small></th>
 					<td>                       
                         <span>                        
                             <textarea class="form-control" v-model="form.description"></textarea>                             

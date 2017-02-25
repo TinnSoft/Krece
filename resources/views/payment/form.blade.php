@@ -188,7 +188,7 @@
                 $@{{_pend.total_pending_by_payment}}
             </td> 
              <td class="form-ref" style="width: 7em" >
-                 <input type="number" class="form-control input_number" v-model.number="_pend.amount_receipt">
+                 <input type="number" class="form-control input-sm input_number" v-model.number="_pend.amount_receipt">
             </td> 
         <tr>
     </tbody>
