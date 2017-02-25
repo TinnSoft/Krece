@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~120 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~229 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -282,7 +282,115 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(139, 1, 1, '2017-02-21 19:37:24', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
 	(140, 1, 1, '2017-02-22 13:30:50', 'Se creó la factura de venta número: 11 para el cliente cliente 1', '/invoice/11', 'InvoiceSaleOrder', 'Create'),
 	(141, 1, 1, '2017-02-22 21:20:17', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
-	(142, 1, 1, '2017-02-23 12:01:06', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn');
+	(142, 1, 1, '2017-02-23 12:01:06', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(143, 1, 1, '2017-02-23 18:12:19', 'Se creó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Create'),
+	(144, 1, 1, '2017-02-23 19:09:38', 'Se actualizó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Update'),
+	(145, 1, 1, '2017-02-23 19:25:03', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(146, 1, 1, '2017-02-23 19:25:21', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(147, 1, 1, '2017-02-23 19:25:32', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(148, 1, 1, '2017-02-23 19:26:21', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(149, 1, 1, '2017-02-23 19:26:41', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(150, 1, 1, '2017-02-23 19:27:34', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(151, 1, 1, '2017-02-24 07:05:41', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(152, 1, 1, '2017-02-24 12:26:55', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(153, 1, 1, '2017-02-24 12:27:10', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(154, 1, 1, '2017-02-24 12:37:42', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(155, 1, 1, '2017-02-24 12:38:16', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(156, 1, 1, '2017-02-24 12:39:03', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(157, 1, 1, '2017-02-24 12:39:33', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(158, 1, 1, '2017-02-24 12:39:51', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(159, 1, 1, '2017-02-24 12:41:06', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(160, 1, 1, '2017-02-24 12:41:29', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(161, 1, 1, '2017-02-24 12:42:33', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(162, 1, 1, '2017-02-24 12:42:47', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(163, 1, 1, '2017-02-24 12:43:01', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(164, 1, 1, '2017-02-24 12:43:16', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(165, 1, 1, '2017-02-24 12:44:12', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(166, 1, 1, '2017-02-24 12:45:01', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(167, 1, 1, '2017-02-24 12:45:12', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(168, 1, 1, '2017-02-24 12:45:30', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(169, 1, 1, '2017-02-24 12:45:39', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(170, 1, 1, '2017-02-24 12:45:51', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(171, 1, 1, '2017-02-24 12:47:39', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(172, 1, 1, '2017-02-24 12:47:57', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(173, 1, 1, '2017-02-24 12:48:23', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(174, 1, 1, '2017-02-24 12:48:44', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(175, 1, 1, '2017-02-24 12:49:01', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(176, 1, 1, '2017-02-24 12:49:42', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(177, 1, 1, '2017-02-24 12:50:37', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(178, 1, 1, '2017-02-24 12:51:36', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(179, 1, 1, '2017-02-24 12:52:10', 'Se actualizó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Update'),
+	(180, 1, 1, '2017-02-24 12:52:17', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(181, 1, 1, '2017-02-24 12:52:41', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(182, 1, 1, '2017-02-24 12:53:29', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(183, 1, 1, '2017-02-24 12:54:09', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(184, 1, 1, '2017-02-24 12:54:35', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(185, 1, 1, '2017-02-24 12:54:55', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(186, 1, 1, '2017-02-24 12:55:17', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(187, 1, 1, '2017-02-24 12:55:24', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(188, 1, 1, '2017-02-24 12:55:37', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(189, 1, 1, '2017-02-24 12:55:49', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(190, 1, 1, '2017-02-24 12:56:37', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(191, 1, 1, '2017-02-24 12:57:46', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(192, 1, 1, '2017-02-24 12:58:40', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(193, 1, 1, '2017-02-24 12:58:55', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(194, 1, 1, '2017-02-24 13:00:04', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(195, 1, 1, '2017-02-24 13:00:15', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(196, 1, 1, '2017-02-24 13:00:30', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(197, 1, 1, '2017-02-24 13:00:51', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(198, 1, 1, '2017-02-24 13:00:58', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(199, 1, 1, '2017-02-24 13:01:15', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(200, 1, 1, '2017-02-24 13:01:25', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(201, 1, 1, '2017-02-24 13:01:35', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(202, 1, 1, '2017-02-24 13:01:46', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(203, 1, 1, '2017-02-24 13:02:07', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(204, 1, 1, '2017-02-24 13:02:15', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(205, 1, 1, '2017-02-24 13:02:25', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(206, 1, 1, '2017-02-24 13:02:43', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(207, 1, 1, '2017-02-24 13:03:48', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(208, 1, 1, '2017-02-24 13:04:03', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(209, 1, 1, '2017-02-24 13:04:14', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(210, 1, 1, '2017-02-24 13:04:30', 'Se actualizó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Update'),
+	(211, 1, 1, '2017-02-24 13:04:33', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(212, 1, 1, '2017-02-24 13:04:50', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(213, 1, 1, '2017-02-24 13:05:38', 'Se actualizó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Update'),
+	(214, 1, 1, '2017-02-24 13:05:41', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(215, 1, 1, '2017-02-24 13:06:02', 'Se actualizó la Orden de Compra número: 1 para el cliente Proveedor 1', '/purchase-order/1', 'PurchaseOrder', 'Update'),
+	(216, 1, 1, '2017-02-24 13:06:05', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(217, 1, 1, '2017-02-24 13:06:32', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(218, 1, 1, '2017-02-24 13:06:43', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(219, 1, 1, '2017-02-24 13:10:27', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(220, 1, 1, '2017-02-24 13:11:15', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(221, 1, 1, '2017-02-24 13:12:04', 'Se ha impreso el pdf de la Orden de Compra No: 1', '/purchase-order/1', 'PurchaseOrder', 'Print'),
+	(222, 1, 1, '2017-02-24 15:12:13', 'Se creó la Nota Débito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Create'),
+	(223, 1, 1, '2017-02-24 15:24:48', 'Se actualizó la Nota Debito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Update'),
+	(224, 1, 1, '2017-02-24 15:26:14', 'Se actualizó la Nota Debito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Update'),
+	(225, 1, 1, '2017-02-24 15:26:36', 'Se actualizó la Nota Debito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Update'),
+	(226, 1, 1, '2017-02-24 15:27:10', 'Se actualizó la Nota Debito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Update'),
+	(227, 1, 1, '2017-02-24 15:27:33', 'Se actualizó la Nota Debito número: 1 para el cliente Proveedor 1', '/debit-note/1', 'DebitNote', 'Update'),
+	(228, 1, 1, '2017-02-24 15:28:39', 'Se creó la Nota Débito número: 2 para el cliente Fernando Ardila', '/debit-note/2', 'DebitNote', 'Create'),
+	(229, 1, 1, '2017-02-24 15:38:26', 'Se ha impreso el pdf de la Nota Débito No: 1', '/debit-note/1', 'DebitNote', 'Print'),
+	(230, 1, 1, '2017-02-24 15:39:06', 'Se ha impreso el pdf de la Nota Débito No: 1', '/debit-note/1', 'DebitNote', 'Print'),
+	(231, 1, 1, '2017-02-24 17:13:48', 'Se creó la factura de proveedor número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Create'),
+	(232, 1, 1, '2017-02-24 17:25:46', 'Se actualizó la factura de proveedores número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(233, 1, 1, '2017-02-24 17:28:37', 'Se actualizó la factura de proveedores número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(234, 1, 1, '2017-02-24 17:29:02', 'Se actualizó la factura de proveedores número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(235, 1, 1, '2017-02-24 18:15:40', 'Se ha impreso el pdf de la factura de venta No: 1', '/bill/1', 'Bill', 'Print'),
+	(236, 1, 1, '2017-02-24 18:16:11', 'Se ha impreso el pdf de la factura de venta No: 1', '/bill/1', 'Bill', 'Print'),
+	(237, 1, 1, '2017-02-24 18:16:30', 'Se ha impreso el pdf de la factura de venta No: 1', '/bill/1', 'Bill', 'Print'),
+	(238, 1, 1, '2017-02-24 18:17:06', 'Se actualizó la factura de proveedores número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(239, 1, 1, '2017-02-24 18:17:08', 'Se ha impreso el pdf de la factura de venta No: 1', '/bill/1', 'Bill', 'Print'),
+	(240, 1, 1, '2017-02-24 18:17:23', 'Se ha impreso el pdf de la factura de venta No: 1', '/bill/1', 'Bill', 'Print'),
+	(241, 1, 1, '2017-02-24 18:22:39', 'Se creó la factura de proveedor número: 2 para el cliente Proveedor 1', '/bill/2', 'Bill', 'Create'),
+	(242, 1, 1, '2017-02-24 18:23:11', 'Se ha impreso el pdf de la factura de venta No: 2', '/bill/2', 'Bill', 'Print'),
+	(243, 1, 1, '2017-02-24 18:26:58', 'Se actualizó el estado de la factura de venta número: 2 para el cliente Proveedor 1', '/bill/2', 'Bill', 'Update'),
+	(244, 1, 1, '2017-02-24 18:27:38', 'Se actualizó el estado de la factura de venta número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(245, 1, 1, '2017-02-24 18:27:40', 'Se actualizó el estado de la factura de venta número: 2 para el cliente Proveedor 1', '/bill/2', 'Bill', 'Update'),
+	(246, 1, 1, '2017-02-24 18:27:42', 'Se actualizó el estado de la factura de venta número: 1 para el cliente Proveedor 1', '/bill/1', 'Bill', 'Update'),
+	(247, 1, 1, '2017-02-24 18:28:20', 'Se eliminó la factura de venta número: 1', NULL, 'Bill', 'Delete'),
+	(248, 1, 1, '2017-02-24 18:28:25', 'Se actualizó el estado de la factura de venta número: 2 para el cliente Proveedor 1', '/bill/2', 'Bill', 'Update'),
+	(249, 1, 1, '2017-02-24 18:28:28', 'Se actualizó el estado de la factura de venta número: 2 para el cliente Proveedor 1', '/bill/2', 'Bill', 'Update'),
+	(250, 1, 1, '2017-02-24 18:49:46', 'Se creó la factura de proveedor número: 3 para el cliente proveedor 5', '/bill/3', 'Bill', 'Create');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -334,6 +442,182 @@ INSERT INTO `bank_account_type` (`id`, `description`) VALUES
 	(2, 'Tarjeta de Crédito'),
 	(3, 'Efectivo');
 /*!40000 ALTER TABLE `bank_account_type` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill
+CREATE TABLE IF NOT EXISTS `bill` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `account_id` int(11) NOT NULL COMMENT 'related with client that will receive the invoice',
+  `user_id` int(11) NOT NULL,
+  `public_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `resolution_id` int(11) DEFAULT NULL,
+  `date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
+  `observations` text COMMENT 'for customer tracking , just internal',
+  `currency_code` varchar(3) NOT NULL,
+  `total` float DEFAULT NULL,
+  `sub_total` float DEFAULT NULL,
+  `total_discounts` float DEFAULT NULL,
+  `total_taxes` float DEFAULT NULL,
+  `currency_code_multicurrency` varchar(3) DEFAULT NULL,
+  `exchange_rate` float DEFAULT NULL,
+  `isRecurring` bit(1) NOT NULL DEFAULT b'0',
+  `isDeleted` bit(1) NOT NULL DEFAULT b'0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`public_id`),
+  KEY `FK_invoice_supplier_currency` (`currency_code`),
+  KEY `FK_invoice_supplier_customerID` (`customer_id`),
+  KEY `FK_invoice_supplier_status` (`status_id`),
+  KEY `FK_invoice_supplier_user` (`user_id`),
+  CONSTRAINT `FK_invoice_supplier_company` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
+  CONSTRAINT `FK_invoice_supplier_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
+  CONSTRAINT `FK_invoice_supplier_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
+  CONSTRAINT `FK_invoice_supplier_status` FOREIGN KEY (`status_id`) REFERENCES `bill_status` (`id`),
+  CONSTRAINT `FK_invoice_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+
+-- Volcando datos para la tabla krece.bill: ~1 rows (aproximadamente)
+DELETE FROM `bill`;
+/*!40000 ALTER TABLE `bill` DISABLE KEYS */;
+INSERT INTO `bill` (`id`, `account_id`, `user_id`, `public_id`, `customer_id`, `resolution_id`, `date`, `due_date`, `status_id`, `observations`, `currency_code`, `total`, `sub_total`, `total_discounts`, `total_taxes`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(4, 1, 1, 1, 6, 1, '2017-02-24', '2017-02-24', 1, 'descripciones', 'COP', 13853.2, 13379, 399.2, 873.392, NULL, NULL, b'0', b'1', '2017-02-24 17:13:48', '2017-02-24 18:28:20', '2017-02-24 18:28:20'),
+	(9, 1, 1, 2, 6, 2, '2017-02-24', '2017-02-24', 1, 'asas', 'COP', 1212, 1212, 0, 0, NULL, NULL, b'0', b'0', '2017-02-24 18:22:39', '2017-02-24 18:28:27', NULL),
+	(10, 1, 1, 3, 9, 3, '2017-02-24', '2017-02-24', 1, 'asa', 'COP', 49824.1, 48903, 0, 921.12, NULL, NULL, b'0', b'0', '2017-02-24 18:49:45', '2017-02-24 18:49:45', NULL);
+/*!40000 ALTER TABLE `bill` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_debit_note
+CREATE TABLE IF NOT EXISTS `bill_debit_note` (
+  `debit_note_id` bigint(20) NOT NULL,
+  `bill_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`debit_note_id`,`bill_id`),
+  KEY `FK_isdn_invoice_supplier_order` (`bill_id`),
+  CONSTRAINT `FK_isdn_debit_note` FOREIGN KEY (`debit_note_id`) REFERENCES `debit_note` (`id`),
+  CONSTRAINT `FK_isdn_invoice_supplier` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='link between the debit note and the transaction table, a user can add a payment that is stored in transaction table.';
+
+-- Volcando datos para la tabla krece.bill_debit_note: ~0 rows (aproximadamente)
+DELETE FROM `bill_debit_note`;
+/*!40000 ALTER TABLE `bill_debit_note` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_debit_note` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_detail
+CREATE TABLE IF NOT EXISTS `bill_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
+  `bill_id` bigint(20) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL,
+  `unit_price` float NOT NULL,
+  `discount` float DEFAULT NULL,
+  `tax_amount` float DEFAULT NULL,
+  `tax_id` float DEFAULT NULL,
+  `category_id` int(10) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `total_tax` float NOT NULL,
+  `total` float NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_supplier_order_company` (`user_id`),
+  KEY `FK_supplier_order_category` (`category_id`),
+  KEY `FK_supplier_order_invoice_supplier_order` (`bill_id`),
+  CONSTRAINT `FK_soi_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  CONSTRAINT `FK_supplier_order_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_supplier_order_invoice_supplier_order` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+
+-- Volcando datos para la tabla krece.bill_detail: ~4 rows (aproximadamente)
+DELETE FROM `bill_detail`;
+/*!40000 ALTER TABLE `bill_detail` DISABLE KEYS */;
+INSERT INTO `bill_detail` (`id`, `bill_id`, `user_id`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `category_id`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(11, 4, 1, 1996, 20, 19, 3, 54, 'Alquiler de equipos y licencias', NULL, 1, 303.392, 1596.8, '2017-02-24 18:17:06', '2017-02-24 18:17:06', NULL),
+	(12, 4, 1, 3000, 0, 19, 4, 65, 'Egresos no operacionales', NULL, 1, 570, 3000, '2017-02-24 18:17:06', '2017-02-24 18:17:06', NULL),
+	(13, 4, 1, 1212, 0, 0, NULL, 64, 'Devoluciones en compras de ítem', NULL, 5, 0, 6060, '2017-02-24 18:17:06', '2017-02-24 18:17:06', NULL),
+	(14, 4, 1, 2323, 0, 0, 5, 63, 'Cuentas incobrables', 'desc1', 1, 0, 2323, '2017-02-24 18:17:06', '2017-02-24 18:17:06', NULL),
+	(15, 9, 1, 1212, 0, 0, NULL, 54, 'Alquiler de equipos y licencias', NULL, 1, 0, 1212, '2017-02-24 18:22:39', '2017-02-24 18:22:39', NULL),
+	(16, 10, 1, 1212, 0, 19, 3, 65, 'Egresos no operacionales', NULL, 4, 921.12, 4848, '2017-02-24 18:49:45', '2017-02-24 18:49:45', NULL),
+	(17, 10, 1, 4005, 0, 0, NULL, 65, 'Egresos no operacionales', NULL, 11, 0, 44055, '2017-02-24 18:49:45', '2017-02-24 18:49:45', NULL);
+/*!40000 ALTER TABLE `bill_detail` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_payment
+CREATE TABLE IF NOT EXISTS `bill_payment` (
+  `bill_id` bigint(20) DEFAULT NULL,
+  `payment_id` bigint(20) DEFAULT NULL,
+  KEY `FK_isopa_payment` (`payment_id`),
+  KEY `FK_isopa_invoice_supplier_order` (`bill_id`),
+  CONSTRAINT `FK_isopa_invoice_supplier_order` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`),
+  CONSTRAINT `FK_isopa_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='set the relation between the payments and invoice supplier order, and put the amount payed.';
+
+-- Volcando datos para la tabla krece.bill_payment: ~0 rows (aproximadamente)
+DELETE FROM `bill_payment`;
+/*!40000 ALTER TABLE `bill_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_payment` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_purchase_order
+CREATE TABLE IF NOT EXISTS `bill_purchase_order` (
+  `bill_id` bigint(20) NOT NULL,
+  `purchase_order_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`purchase_order_id`,`bill_id`),
+  UNIQUE KEY `UK_SO_PO_link` (`bill_id`,`purchase_order_id`),
+  CONSTRAINT `FK_POSO_PO_id` FOREIGN KEY (`purchase_order_id`) REFERENCES `purchase_order` (`id`),
+  CONSTRAINT `FK_POSO_SO_id` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='link between invoice supplier orders and PO orders, so user decides when a PO belongs to a Supp Order.';
+
+-- Volcando datos para la tabla krece.bill_purchase_order: ~0 rows (aproximadamente)
+DELETE FROM `bill_purchase_order`;
+/*!40000 ALTER TABLE `bill_purchase_order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_purchase_order` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_status
+CREATE TABLE IF NOT EXISTS `bill_status` (
+  `id` int(11) NOT NULL,
+  `description` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla krece.bill_status: ~7 rows (aproximadamente)
+DELETE FROM `bill_status`;
+/*!40000 ALTER TABLE `bill_status` DISABLE KEYS */;
+INSERT INTO `bill_status` (`id`, `description`) VALUES
+	(1, 'Abierta'),
+	(2, 'Anulada'),
+	(3, 'Aprobada'),
+	(4, 'Pagada'),
+	(5, 'Borrador'),
+	(6, 'Cerrada'),
+	(7, 'Enviada');
+/*!40000 ALTER TABLE `bill_status` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.bill_tax
+CREATE TABLE IF NOT EXISTS `bill_tax` (
+  `id` bigint(20) NOT NULL,
+  `bill_id` bigint(20) NOT NULL,
+  `tax_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `tax_type` varchar(50) DEFAULT NULL,
+  `tax_rate` float DEFAULT NULL,
+  `tax_amount` float DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_invoice_supplier_order_tax` (`tax_id`),
+  KEY `FK_invoice_supplier_order_invoice` (`bill_id`),
+  KEY `FK_invocie_supplier_user` (`user_id`),
+  CONSTRAINT `FK_invocie_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_invoice_supplier_ider_id` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla krece.bill_tax: ~0 rows (aproximadamente)
+DELETE FROM `bill_tax`;
+/*!40000 ALTER TABLE `bill_tax` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_tax` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category
 CREATE TABLE IF NOT EXISTS `category` (
@@ -611,7 +895,7 @@ INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`
 	(1, 1, 1, 1, 'cliente 1', '1234506', NULL, 'Bogotá', 'test@example.com', NULL, NULL, NULL, NULL, 1, 4, NULL, 'este contacto es primordpial', b'0', b'0', b'1', b'0', '2016-12-13 15:01:44', '2017-02-10 15:12:24', NULL),
 	(4, 1, 1, 2, 'cliente 2', '80810419', 'Calle 12 # 2-49', 'Bogotá', NULL, '3629222', NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2016-12-15 16:43:30', '2017-02-09 10:07:24', NULL),
 	(5, 1, 1, 3, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:43:37', '2017-01-31 15:24:11', '2017-01-31 15:24:11'),
-	(6, 1, 1, 4, 'Proveedor 1', NULL, NULL, NULL, 'prov1@gmail.com', NULL, NULL, NULL, NULL, 1, 2, 2, NULL, b'0', b'1', b'0', b'0', '2017-01-19 20:44:14', '2017-01-31 12:22:50', '2017-01-31 11:39:53'),
+	(6, 1, 1, 4, 'Proveedor 1', '123456', 'Calle 58 bogota', 'Bogota', 'prov1@gmail.com', NULL, NULL, NULL, NULL, 1, 2, 2, NULL, b'0', b'1', b'0', b'0', '2017-01-19 20:44:14', '2017-02-24 13:11:59', '2017-01-31 11:39:53'),
 	(7, 1, 1, 5, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:44:32', '2017-01-31 12:23:03', '2017-01-31 12:23:03'),
 	(8, 1, 1, 6, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:44:48', '2017-01-31 12:24:57', '2017-01-31 12:24:57'),
 	(9, 1, 1, 7, 'proveedor 5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'0', b'0', '2017-01-19 20:44:56', '2017-01-31 12:24:50', '2017-01-31 11:17:36'),
@@ -875,18 +1159,23 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
   `account_id` int(11) NOT NULL COMMENT 'related with client that will receive the invoice',
   `user_id` int(11) NOT NULL,
   `public_id` int(11) NOT NULL,
-  `document_number` int(11) NOT NULL COMMENT 'resolution DIAN #',
+  `resolution_id` int(11) NOT NULL COMMENT 'resolution DIAN #',
   `customer_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `currency_code` varchar(3) NOT NULL,
-  `notes` text COMMENT 'vissible inf the supplier invoice',
   `observations` text COMMENT 'for customer tracking , just internal',
   `exchange_rate` float DEFAULT NULL,
+  `amount_pending_to_apply` float DEFAULT NULL,
+  `sub_total` float DEFAULT NULL,
+  `total_taxes` float DEFAULT NULL,
+  `total_discounts` float DEFAULT NULL,
+  `total` float DEFAULT NULL,
+  `isDeleted` bit(1) DEFAULT b'0',
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`document_number`),
+  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`resolution_id`),
   KEY `FK_debit_note_currency` (`currency_code`),
   KEY `FK_debit_note_customerID` (`customer_id`),
   KEY `FK_debit_note_user` (`user_id`),
@@ -894,11 +1183,14 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
   CONSTRAINT `FK_debit_note_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_debit_note_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_debit_note_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
--- Volcando datos para la tabla krece.debit_note: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.debit_note: ~2 rows (aproximadamente)
 DELETE FROM `debit_note`;
 /*!40000 ALTER TABLE `debit_note` DISABLE KEYS */;
+INSERT INTO `debit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `customer_id`, `date`, `currency_code`, `observations`, `exchange_rate`, `amount_pending_to_apply`, `sub_total`, `total_taxes`, `total_discounts`, `total`, `isDeleted`, `updated_at`, `created_at`, `deleted_at`) VALUES
+	(5, 1, 1, 1, 1, 6, '2017-02-24', 'COP', 'observations', NULL, NULL, 4000, 752.4, 40, 4712.4, b'0', '2017-02-24 15:27:33', '2017-02-24 15:12:13', NULL),
+	(6, 1, 1, 2, 2, 18, '2017-02-24', 'COP', 'esta es una nota credito de prueba', NULL, NULL, 5086250, 966388, 0, 6052640, b'1', '2017-02-24 15:31:28', '2017-02-24 15:28:39', '2017-02-24 15:31:28');
 /*!40000 ALTER TABLE `debit_note` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.debit_note_detail
@@ -907,29 +1199,36 @@ CREATE TABLE IF NOT EXISTS `debit_note_detail` (
   `debit_note_id` bigint(20) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `reference` varchar(50) NOT NULL,
-  `unit_price` float NOT NULL,
-  `discount` float DEFAULT NULL,
-  `taxt_type_id` int(11) DEFAULT NULL,
-  `tax_amount` float DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `unit_price` float NOT NULL,
+  `discount` float DEFAULT NULL,
+  `tax_id` int(11) DEFAULT NULL,
+  `tax_amount` float DEFAULT NULL,
+  `total_tax` float DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `gross_total` float NOT NULL,
   `total` float NOT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_debit_note_detail_company` (`user_id`),
   KEY `FK_debit_note_detail_id` (`debit_note_id`),
-  KEY `FK_debit_note_detail_tax_id` (`taxt_type_id`),
+  KEY `FK_debit_note_detail_tax_id` (`tax_id`),
   KEY `FK_category_id` (`category_id`),
   CONSTRAINT `FK_category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_debit_note_detail_po` FOREIGN KEY (`debit_note_id`) REFERENCES `debit_note` (`id`),
+  CONSTRAINT `FK_debit_note_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_debit_note_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.debit_note_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.debit_note_detail: ~4 rows (aproximadamente)
 DELETE FROM `debit_note_detail`;
 /*!40000 ALTER TABLE `debit_note_detail` DISABLE KEYS */;
+INSERT INTO `debit_note_detail` (`id`, `debit_note_id`, `user_id`, `category_id`, `name`, `description`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `total_tax`, `quantity`, `total`, `updated_at`, `created_at`) VALUES
+	(12, 5, 1, 54, 'Alquiler de equipos y licencias', 'equipos para mi', 2000, 2, 4, 19, 372.4, 1, 1960, '2017-02-24 15:27:33', '2017-02-24 15:27:33'),
+	(13, 5, 1, 65, 'Egresos no operacionales', NULL, 0, 0, NULL, 0, 0, 1, 0, '2017-02-24 15:27:33', '2017-02-24 15:27:33'),
+	(14, 5, 1, 66, 'Descuento financiero', NULL, 2000, 0, 3, 19, 380, 1, 2000, '2017-02-24 15:27:33', '2017-02-24 15:27:33'),
+	(15, 6, 1, 66, 'Descuento financiero', 'test', 5086250, 0, 3, 19, 966388, 1, 5086250, '2017-02-24 15:28:39', '2017-02-24 15:28:39');
 /*!40000 ALTER TABLE `debit_note_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.debit_note_transaction
@@ -1346,168 +1645,6 @@ DELETE FROM `invoice_sale_order_tax`;
 /*!40000 ALTER TABLE `invoice_sale_order_tax` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice_sale_order_tax` ENABLE KEYS */;
 
--- Volcando estructura para tabla krece.invoice_supplier_debit_note
-CREATE TABLE IF NOT EXISTS `invoice_supplier_debit_note` (
-  `debit_note_id` bigint(20) NOT NULL,
-  `invoice_supplier_order_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`debit_note_id`,`invoice_supplier_order_id`),
-  KEY `FK_isdn_invoice_supplier_order` (`invoice_supplier_order_id`),
-  CONSTRAINT `FK_isdn_debit_note` FOREIGN KEY (`debit_note_id`) REFERENCES `debit_note` (`id`),
-  CONSTRAINT `FK_isdn_invoice_supplier` FOREIGN KEY (`invoice_supplier_order_id`) REFERENCES `invoice_supplier_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='link between the debit note and the transaction table, a user can add a payment that is stored in transaction table.';
-
--- Volcando datos para la tabla krece.invoice_supplier_debit_note: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_debit_note`;
-/*!40000 ALTER TABLE `invoice_supplier_debit_note` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_debit_note` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_order
-CREATE TABLE IF NOT EXISTS `invoice_supplier_order` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `account_id` int(11) NOT NULL COMMENT 'related with client that will receive the invoice',
-  `user_id` int(11) NOT NULL,
-  `document_number` int(11) NOT NULL COMMENT 'resolution DIAN #',
-  `public_id` int(11) NOT NULL,
-  `revision_number` int(11) DEFAULT NULL,
-  `customer_id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `due_date` date NOT NULL,
-  `payment_terms` varchar(20) NOT NULL,
-  `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
-  `notes` text COMMENT 'vissible inf the supplier invoice',
-  `observations` text COMMENT 'for customer tracking , just internal',
-  `category_id` int(11) DEFAULT NULL,
-  `currency_code` varchar(3) NOT NULL,
-  `total` float DEFAULT NULL,
-  `total_payed` float DEFAULT NULL,
-  `total_pending_byPayment` float DEFAULT NULL,
-  `balance` float DEFAULT NULL,
-  `currency_code_multicurrency` varchar(3) DEFAULT NULL,
-  `exchange_rate` float DEFAULT NULL,
-  `isRecurring` bit(1) NOT NULL DEFAULT b'0',
-  `isDeleted` bit(1) NOT NULL DEFAULT b'0',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_supp_company_id_document_number` (`account_id`,`document_number`),
-  KEY `FK_invoice_supplier_currency` (`currency_code`),
-  KEY `FK_invoice_supplier_customerID` (`customer_id`),
-  KEY `FK_invoice_supplier_status` (`status_id`),
-  KEY `FK_invoice_supplier_category` (`category_id`),
-  KEY `FK_invoice_supplier_user` (`user_id`),
-  CONSTRAINT `FK_invoice_supplier_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `FK_invoice_supplier_company` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
-  CONSTRAINT `FK_invoice_supplier_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
-  CONSTRAINT `FK_invoice_supplier_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
-  CONSTRAINT `FK_invoice_supplier_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_supplier_order_status` (`id`),
-  CONSTRAINT `FK_invoice_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
-
--- Volcando datos para la tabla krece.invoice_supplier_order: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_order`;
-/*!40000 ALTER TABLE `invoice_supplier_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_order` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_order_detail
-CREATE TABLE IF NOT EXISTS `invoice_supplier_order_detail` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
-  `invoice_supplier_order_id` bigint(20) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL,
-  `reference` varchar(50) NOT NULL,
-  `unit_price` float NOT NULL,
-  `discount` float DEFAULT NULL,
-  `tax_amount` float DEFAULT NULL,
-  `category_id` int(10) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `quantity` int(11) NOT NULL,
-  `gross_total` float NOT NULL,
-  `total` float NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_supplier_order_company` (`user_id`),
-  KEY `FK_supplier_order_category` (`category_id`),
-  KEY `FK_supplier_order_invoice_supplier_order` (`invoice_supplier_order_id`),
-  CONSTRAINT `FK_soi_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `FK_supplier_order_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_supplier_order_invoice_supplier_order` FOREIGN KEY (`invoice_supplier_order_id`) REFERENCES `invoice_supplier_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
-
--- Volcando datos para la tabla krece.invoice_supplier_order_detail: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_order_detail`;
-/*!40000 ALTER TABLE `invoice_supplier_order_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_order_detail` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_order_payment
-CREATE TABLE IF NOT EXISTS `invoice_supplier_order_payment` (
-  `invoice_supplier_order_id` bigint(20) DEFAULT NULL,
-  `payment_id` bigint(20) DEFAULT NULL,
-  KEY `FK_isopa_payment` (`payment_id`),
-  KEY `FK_isopa_invoice_supplier_order` (`invoice_supplier_order_id`),
-  CONSTRAINT `FK_isopa_invoice_supplier_order` FOREIGN KEY (`invoice_supplier_order_id`) REFERENCES `invoice_supplier_order` (`id`),
-  CONSTRAINT `FK_isopa_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='set the relation between the payments and invoice supplier order, and put the amount payed.';
-
--- Volcando datos para la tabla krece.invoice_supplier_order_payment: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_order_payment`;
-/*!40000 ALTER TABLE `invoice_supplier_order_payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_order_payment` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_order_status
-CREATE TABLE IF NOT EXISTS `invoice_supplier_order_status` (
-  `id` int(11) NOT NULL,
-  `description` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Volcando datos para la tabla krece.invoice_supplier_order_status: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_order_status`;
-/*!40000 ALTER TABLE `invoice_supplier_order_status` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_order_status` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_order_tax
-CREATE TABLE IF NOT EXISTS `invoice_supplier_order_tax` (
-  `id` bigint(20) NOT NULL,
-  `invoice_supplier_order_id` bigint(20) NOT NULL,
-  `tax_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `tax_type` varchar(50) DEFAULT NULL,
-  `tax_rate` float DEFAULT NULL,
-  `tax_amount` float DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_invoice_supplier_order_tax` (`tax_id`),
-  KEY `FK_invoice_supplier_order_invoice` (`invoice_supplier_order_id`),
-  KEY `FK_invocie_supplier_user` (`user_id`),
-  CONSTRAINT `FK_invocie_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_invoice_supplier_ider_id` FOREIGN KEY (`invoice_supplier_order_id`) REFERENCES `invoice_supplier_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Volcando datos para la tabla krece.invoice_supplier_order_tax: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_order_tax`;
-/*!40000 ALTER TABLE `invoice_supplier_order_tax` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_order_tax` ENABLE KEYS */;
-
--- Volcando estructura para tabla krece.invoice_supplier_purchase_order
-CREATE TABLE IF NOT EXISTS `invoice_supplier_purchase_order` (
-  `invoice_supplier_order_id` bigint(20) NOT NULL,
-  `purchase_order_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`purchase_order_id`,`invoice_supplier_order_id`),
-  UNIQUE KEY `UK_SO_PO_link` (`invoice_supplier_order_id`,`purchase_order_id`),
-  CONSTRAINT `FK_POSO_PO_id` FOREIGN KEY (`purchase_order_id`) REFERENCES `purchase_order` (`id`),
-  CONSTRAINT `FK_POSO_SO_id` FOREIGN KEY (`invoice_supplier_order_id`) REFERENCES `invoice_supplier_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='link between invoice supplier orders and PO orders, so user decides when a PO belongs to a Supp Order.';
-
--- Volcando datos para la tabla krece.invoice_supplier_purchase_order: ~0 rows (aproximadamente)
-DELETE FROM `invoice_supplier_purchase_order`;
-/*!40000 ALTER TABLE `invoice_supplier_purchase_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_supplier_purchase_order` ENABLE KEYS */;
-
 -- Volcando estructura para tabla krece.invoice_withholding_tax
 CREATE TABLE IF NOT EXISTS `invoice_withholding_tax` (
   `withholding_tax_values_id` int(11) NOT NULL,
@@ -1715,7 +1852,8 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   `account_id` int(11) NOT NULL,
   `payment_id` bigint(20),
   `user_id` int(11) NOT NULL,
-  `invoice_sale_order_id` int(11) NOT NULL,
+  `invoice_sale_order_id` int(11) DEFAULT NULL,
+  `bill_id` int(11) DEFAULT NULL,
   `amount` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1731,15 +1869,15 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
 -- Volcando datos para la tabla krece.payment_history: ~8 rows (aproximadamente)
 DELETE FROM `payment_history`;
 /*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
-INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `invoice_sale_order_id`, `amount`, `created_at`, `updated_at`) VALUES
-	(18, 1, 31, 1, 12, 2000, '2017-02-17 11:26:44', '2017-02-17 11:26:44'),
-	(19, 1, 32, 1, 16, 10000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
-	(20, 1, 32, 1, 14, 1000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
-	(21, 1, 32, 1, 13, 5000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
-	(22, 1, 33, 1, 12, 20, '2017-02-17 13:49:13', '2017-02-17 13:49:13'),
-	(23, 1, 34, 1, 12, 980, '2017-02-17 15:29:28', '2017-02-17 15:29:28'),
-	(24, 1, 35, 1, 18, 5000, '2017-02-17 16:28:47', '2017-02-17 16:28:47'),
-	(25, 1, 36, 1, 19, 4000, '2017-02-17 17:13:02', '2017-02-17 17:13:02');
+INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `invoice_sale_order_id`, `bill_id`, `amount`, `created_at`, `updated_at`) VALUES
+	(18, 1, 31, 1, 12, NULL, 2000, '2017-02-17 11:26:44', '2017-02-17 11:26:44'),
+	(19, 1, 32, 1, 16, NULL, 10000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(20, 1, 32, 1, 14, NULL, 1000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(21, 1, 32, 1, 13, NULL, 5000, '2017-02-17 11:59:58', '2017-02-17 11:59:58'),
+	(22, 1, 33, 1, 12, NULL, 20, '2017-02-17 13:49:13', '2017-02-17 13:49:13'),
+	(23, 1, 34, 1, 12, NULL, 980, '2017-02-17 15:29:28', '2017-02-17 15:29:28'),
+	(24, 1, 35, 1, 18, NULL, 5000, '2017-02-17 16:28:47', '2017-02-17 16:28:47'),
+	(25, 1, 36, 1, 19, NULL, 4000, '2017-02-17 17:13:02', '2017-02-17 17:13:02');
 /*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_method
@@ -1885,7 +2023,7 @@ INSERT INTO `product` (`id`, `public_id`, `user_id`, `account_id`, `name`, `desc
 	(2, 1, 1, 1, 'producto 1', 'producto 1', 'ref', 2000, 5, NULL, 34, 50, NULL, 1, 1500, b'1', b'0', b'1', '2017-02-01 16:22:28', '2017-02-01 16:22:28', '0000-00-00 00:00:00'),
 	(3, 2, 1, 1, 'producto 2', 'descripcion producto 2', 'ref2', 3000, 4, NULL, 30, 50, NULL, 2, 2500, b'0', b'0', b'1', '2017-02-02 21:04:43', '2017-02-02 21:04:43', '0000-00-00 00:00:00'),
 	(4, 3, 1, 1, 'productoprueba', 'producto para pruebas', '1234', 5000, 3, NULL, 30, NULL, NULL, NULL, 0, b'0', b'0', b'0', '2017-02-01 15:55:07', '2017-02-01 15:55:07', '2017-01-31 15:25:02'),
-	(5, 4, 1, 1, 'test', NULL, NULL, 0, 4, NULL, 30, 2, NULL, 1, 3, b'0', b'0', b'1', '2017-02-12 15:05:23', '2017-02-12 15:05:23', NULL);
+	(5, 4, 1, 1, 'test', 'esta es una descripcion del producto pruena', NULL, 2000, 4, NULL, 30, 2, NULL, 1, 300, b'1', b'0', b'1', '2017-02-24 19:06:38', '2017-02-24 19:06:38', NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.product_inventory_type
@@ -1953,11 +2091,13 @@ CREATE TABLE IF NOT EXISTS `purchase_order` (
   CONSTRAINT `FK_purchase_order_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_purchase_order_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_purchase_order_status` FOREIGN KEY (`status_id`) REFERENCES `purchase_order_status` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
 -- Volcando datos para la tabla krece.purchase_order: ~0 rows (aproximadamente)
 DELETE FROM `purchase_order`;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
+INSERT INTO `purchase_order` (`id`, `account_id`, `public_id`, `user_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `currency_code`, `status_id`, `notes`, `observations`, `terms`, `exchange_rate`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 6, '2017-02-23', '2017-03-25', 'COP', 1, 'esta es una nota de prueba', NULL, 'estos son terminos y condiciones de la orden', NULL, 125408, 12340.8, 21482.8, 134550, b'0', '2017-02-23 18:12:19', '2017-02-24 13:06:02', NULL);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.purchase_order_detail
@@ -1974,7 +2114,7 @@ CREATE TABLE IF NOT EXISTS `purchase_order_detail` (
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
   `total` float NOT NULL,
-  `total_tax` float NOT NULL,
+  `total_tax` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1986,11 +2126,14 @@ CREATE TABLE IF NOT EXISTS `purchase_order_detail` (
   CONSTRAINT `FK_purchase_order_detail_po` FOREIGN KEY (`purchase_order_id`) REFERENCES `purchase_order` (`id`),
   CONSTRAINT `FK_purchase_order_detail_tax_id` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_purchase_order_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.purchase_order_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.purchase_order_detail: ~2 rows (aproximadamente)
 DELETE FROM `purchase_order_detail`;
 /*!40000 ALTER TABLE `purchase_order_detail` DISABLE KEYS */;
+INSERT INTO `purchase_order_detail` (`id`, `purchase_order_id`, `user_id`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `category_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
+	(11, 1, 1, 2000, 0, 19, 3, 54, 'Alquiler de equipos y licencias', NULL, 1, 2000, 380, '2017-02-24 13:06:02', '2017-02-24 13:06:02'),
+	(12, 1, 1, 123408, 10, 19, 4, 65, 'Egresos no operacionales', NULL, 1, 111067, 21102.8, '2017-02-24 13:06:02', '2017-02-24 13:06:02');
 /*!40000 ALTER TABLE `purchase_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.purchase_order_status
@@ -2000,9 +2143,13 @@ CREATE TABLE IF NOT EXISTS `purchase_order_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.purchase_order_status: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.purchase_order_status: ~3 rows (aproximadamente)
 DELETE FROM `purchase_order_status`;
 /*!40000 ALTER TABLE `purchase_order_status` DISABLE KEYS */;
+INSERT INTO `purchase_order_status` (`id`, `description`) VALUES
+	(1, 'Borrador'),
+	(2, 'Anulada'),
+	(3, 'Facturada');
 /*!40000 ALTER TABLE `purchase_order_status` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision
@@ -2185,17 +2332,19 @@ CREATE TABLE IF NOT EXISTS `resolution_numbers` (
   PRIMARY KEY (`id`),
   KEY `FK_resonumb_account_id` (`account_id`),
   CONSTRAINT `FK_resonumb_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.resolution_numbers: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla krece.resolution_numbers: ~7 rows (aproximadamente)
 DELETE FROM `resolution_numbers`;
 /*!40000 ALTER TABLE `resolution_numbers` DISABLE KEYS */;
 INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
 	(8, 1, 'estimate', NULL, 38, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-02-12 14:18:38'),
-	(9, 1, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-02-10 13:24:58'),
+	(9, 1, 'purchase_order', NULL, 2, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-02-23 18:12:19'),
 	(10, 1, 'credit_note', NULL, 3, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-02-15 13:28:10'),
 	(11, 1, 'remision', NULL, 4, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-02-10 17:01:08'),
-	(12, 1, 'in-come', NULL, 17, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-02-17 16:34:29');
+	(12, 1, 'in-come', NULL, 17, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-02-17 16:34:29'),
+	(13, 1, 'debit_note', NULL, 4, 'Siguiente número de nota debito', '2017-02-24 14:07:27', '2017-02-24 17:13:48'),
+	(14, 1, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', '2017-02-24 16:13:59', '2017-02-24 18:49:46');
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
