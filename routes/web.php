@@ -117,3 +117,10 @@ Route::resource('debit-note', 'DebitNoteController');
 Route::get('getDebitNoteBaseInfo','DebitNoteController@BaseInfo');
 Route::get('getDebitNoteList','DebitNoteController@getDebitNoteList');
 Route::get('debit-note/{id}/pdf', 'DebitNoteController@pdf');
+
+//Bill
+Route::resource('bill', 'BillController');
+Route::get('getBillBaseInfo','BillController@BaseInfo');
+Route::get('getBillList','BillController@getBillList');
+Route::get('bill/{id}/pdf', 'BillController@pdf');
+Route::put('bill_update_state/{req}','BillController@update_state');

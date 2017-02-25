@@ -174,5 +174,3 @@
         </div>  
 
    @include('partials.category_modal')
-
-<pre>@{{$data.form}}</pre>

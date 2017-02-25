@@ -81,7 +81,7 @@
                         <a href=""><i class="fa fa-money"></i> <span class="nav-label">Mis Gastos </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="">Pagos</a></li>
-                            <li><a href="">Factura proveedores</a></li>
+                            <li><a href="{{route('bill.index')}}">Factura proveedores</a></li>
                             <li><a href="">Pagos recurrentes</a></li>
                             <li><a href="{{route('debit-note.index')}}">Notas débito</a></li>
                             <li><a href="{{route('purchase-order.index')}}">Ordenes de compra</a></li>
@@ -112,8 +112,7 @@
                     <li>
                         <a href=""><i class="fa fa-book"></i> <span class="nav-label">Categorias</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="{{route('category.index')}}">Categorias</a></li>
-                            <li><a href="">Ajustes</a></li>
+                            <li><a href="{{route('category.index')}}">Gestion de categorias</a></li>
                         </ul>
                     </li>
 

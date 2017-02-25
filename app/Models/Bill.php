@@ -12,19 +12,19 @@ use Auth;
 
 
 
-class InvoiceSupplierOrder extends Model
+class Bill extends Model
 {
 	
 	use DatesTranslator;
 	
 	
-	protected $table = 'invoice_supplier_order';
+	protected $table = 'bill';
 	
 	
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
-	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id',
-	'status_id','payment_terms_id','category_id','total_payed','balance'
+	'currency_code','observations','date','due_date','list_price_id','total','isDeleted','resolution_id',
+	'status_id'
 	];
 	
 	protected $dates = ['deleted_at'];
@@ -33,7 +33,7 @@ class InvoiceSupplierOrder extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(InvoiceSaleOrderDetail::class)->with('product','taxes');
+		return $this->hasMany(BillDetail::class)->with('category','taxes');
 		
 	}
 	
@@ -42,22 +42,6 @@ class InvoiceSupplierOrder extends Model
 	{
 		
 		return $this->hasOne(Contact::class, 'id', 'customer_id')->select(array('id', 'name','address','city','nit','phone1','public_id'));
-		
-	}
-	
-	
-	public function seller()
-	{
-		
-		return $this->hasOne(Seller::class, 'id', 'seller_id')->select(array('id', 'name'));
-		
-	}
-	
-	
-	public function list_price()
-	{
-		
-		return $this->hasOne(ListPrice::class, 'id', 'list_price_id')->select(array('id', 'name'));
 		
 	}
 	
@@ -73,11 +57,6 @@ class InvoiceSupplierOrder extends Model
 	{
 		return $this->hasOne(Account::class,'id','account_id')->with('account_regime')
 		->select(array('id','name','address','phone','identification','city','logo','regime_id'));
-	}
-
-	public function payment_terms()
-	{
-		return $this->hasOne(PaymentTerms::class,'id','payment_terms_id')->select(array('id','name','days'));
 	}
 	
 	public function scopeAccountID($query,$isDeleted)
@@ -96,9 +75,9 @@ class InvoiceSupplierOrder extends Model
 
 	 public function scopeGetSelectedFields($query)
     {
-        return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
-                    'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
-                    'created_at','updated_at','resolution_id','status_id','payment_terms_id');
+        return $query->select('id','account_id','public_id','customer_id','currency_code',
+                    'sub_total','total_discounts','total_taxes','total','date','due_date','observations','exchange_rate',
+                    'created_at','updated_at','resolution_id','status_id');
 	}
 }
 

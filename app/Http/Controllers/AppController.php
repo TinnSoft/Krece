@@ -9,7 +9,7 @@ use Session;
 use Response;
 use App\Models\Account;
 use App\Models\InvoiceSaleOrder;
-use App\Models\InvoiceSupplierOrder;
+use App\Models\Bill;
 use App\Models\ActivityLog;
 use App\Events\UserLoggedIn;
 use App\Events\SettingsChanged;
@@ -133,19 +133,19 @@ class AppController extends Controller
 
     public static function outcome_consolidate()
     {
-        $totalMonth= InvoiceSupplierOrder::AccountID(0)
+        $totalMonth= Bill::AccountID(0)
                                 ->whereMonth('created_at', '=', date('m'))
                                 ->sum('total');
         
-         $totalYear= InvoiceSupplierOrder::AccountID(0)
+         $totalYear= Bill::AccountID(0)
                                 ->whereYear('created_at', '=', date('Y'))
                                 ->sum('total');
 
-        $totalDay= InvoiceSupplierOrder::AccountID(0)
+        $totalDay= Bill::AccountID(0)
                                 ->whereDay('created_at', '=', date('d'))
                                 ->sum('total');
 
-        $totalWeek= InvoiceSupplierOrder::AccountID(0)
+        $totalWeek= Bill::AccountID(0)
                                 ->where(DB::Raw('week(created_at)'), '=', Carbon::now()->weekOfYear)
                                 ->sum('total');                     
 
@@ -167,7 +167,7 @@ class AppController extends Controller
                                 ->groupBy('day')                       
                                 ->get();    
      
-         $dtabyWeek_outcome=InvoiceSupplierOrder::AccountID(0)
+         $dtabyWeek_outcome=Bill::AccountID(0)
                                  ->where(DB::Raw('week(created_at)'), '=', Carbon::now()->weekOfYear)
                                 ->select(DB::raw('day(created_at) as day'),DB::raw('sum(total) as total'))   
                                 ->groupBy('day')                       
@@ -179,7 +179,7 @@ class AppController extends Controller
                                  ->groupBy('day')                       
                                 ->get();
 
-        $totalbyday_permonth_out= InvoiceSupplierOrder::AccountID(0)
+        $totalbyday_permonth_out= Bill::AccountID(0)
                                 ->whereMonth('created_at', '=', date('m'))
                                 ->select(DB::raw('day(created_at) as day'),DB::raw('sum(total) as total'))   
                                  ->groupBy('day')                       
@@ -191,7 +191,7 @@ class AppController extends Controller
                                  ->groupBy('month')                       
                                 ->get();
 
-        $totalbyMonth_perYear_out= InvoiceSupplierOrder::AccountID(0)
+        $totalbyMonth_perYear_out= Bill::AccountID(0)
                                 ->whereYear('created_at', '=', date('Y'))
                                ->select(DB::raw('month(created_at) as month'),DB::raw('sum(total) as total'))   
                                  ->groupBy('month')                       

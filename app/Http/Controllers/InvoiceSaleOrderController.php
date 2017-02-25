@@ -48,7 +48,7 @@ class InvoiceSaleOrderController extends Controller
                     'invoice_sale_order.due_date', 'contact.name as contact_name','contact.id as contact_id',
                     DB::raw('SUM(payment_history.amount) as total_payed'),'invoice_sale_order.created_at',
                     'invoice_sale_order.public_id','invoice_sale_order.total',
-                    DB::raw('invoice_sale_order.total - SUM(payment_history.amount) as pending_to_pay')
+                    DB::raw('invoice_sale_order.total - sum(IFNULL(payment_history.amount,0)) as pending_to_pay')
                     )
                     ->groupBy('invoice_sale_order.resolution_id','invoice_sale_order.status_id', 
                     'invoice_sale_order.due_date', 'contact.name',

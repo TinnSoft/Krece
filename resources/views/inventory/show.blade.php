@@ -44,11 +44,11 @@
                     <div class="ibox-content p-xxl">
                             <div class="row">
                                 
-                                <div class="col-sm-6">
-                                    <table class="table">
+                                <div class="col-sm-5">
+                                    <table class="table" style="width: 100%;font-size:90%;height: 0px">
                                         
                                          <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Código</td>
+                                            <td  class="bg-muted p-xxs b-r-sm" >Código</td>
                                             <td>{{$products->public_id}}</td>                                             
                                         </tr>
                                          <tr>
@@ -56,7 +56,7 @@
                                             <td>{{$products->reference}}</td>                                             
                                         </tr>
                                           <tr>
-                                            <td class="bg-muted p-xxs b-r-sm">Nonbre</td>
+                                            <td class="bg-muted p-xxs b-r-sm">Nombre</td>
                                             <td >  
                                                {{$products->name}}
                                             </td>                                             
