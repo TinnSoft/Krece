@@ -13,7 +13,7 @@
 				<tr> 
 					<th style="width: 10em"><span>Nombre</span></th>
 					<td>  <span>            
-                        <input type="text" class="form-control input-sm" v-model="form.name"></text>
+                        <input type="text" class="form-control input-sm" v-model="form.name">
                         <span v-if="errors.name" class="error is-danger  text-danger">
                            Ingresa un nombre de impuesto
                         </span>   </span>                           
@@ -24,10 +24,10 @@
 					<td>
                         <span id="prefix1" ></span>
                         <span>
-                            <input type="number" class="form-control input-sm" v-model="form.amount"></text>
+                            <input type="number" class="form-control input-sm" v-model="form.amount">
                             <span v-if="errors.amount" class="error is-danger  text-danger">
                            Ingresa un porcentaje de impuesto
-                        </span>   </span>       
+                        </span>   
                         </span>
                     </td>
 				</tr>
@@ -49,7 +49,7 @@
                             <span v-if="errors.type_id" class="error is-danger  text-danger">
                             Seleccione un tipo de impuesto válido
                             </span>   
-                        </span> 
+                       
                     </td>
 				</tr>
                 <tr>

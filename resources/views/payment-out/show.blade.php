@@ -1,4 +1,4 @@
-@extends('home',['title' =>  'Pagos de facturas'])
+@extends('home',['title' =>  'Pagos a proveedores'])
 
 
 
@@ -6,8 +6,8 @@
  {!!Html::script('/js/vue-library/vue.min.js')!!}
  
     <div  class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-7">
-                <h2 >Pagos a Facturas de venta: <span class="text-navy">
+            <div class="col-sm-8">
+                <h2 >Pagos a Facturas de proveedor: <span class="text-navy">
                 @foreach($detail as $prod)
                  {{$prod->resolution_id}},
                 @endforeach

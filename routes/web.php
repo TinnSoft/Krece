@@ -112,6 +112,8 @@ Route::get('getPaymentOut_List','PaymentOut_Controller@getPaymentList');
 Route::get('getPaymentOut_BaseInfo','PaymentOut_Controller@BaseInfo');
 Route::get('getInvoicePendingtoPay_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data');
 Route::get('getInvoicePendingtoPay_edit_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data_edit');
+Route::get('payment_out_ToCategorySection','PaymentOut_Controller@getBaseInfoToCategorySection');
+
 
 //purchase order
 Route::resource('purchase-order', 'PurchaseOrderController');

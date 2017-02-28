@@ -27,7 +27,7 @@
 
 </head>
 
-<body ng-controller="MainCtrl as main" class="fixed-sidebar fixed-navbar md-skin fixed-footer" landing-scrollspy id="page-top">
+<body class="fixed-sidebar fixed-navbar md-skin fixed-footer" landing-scrollspy id="page-top">
 
     <div id="wrapper">
     
@@ -150,7 +150,7 @@
             </form>
         </div>
             <ul class="nav navbar-top-links navbar-right">
-               <li>
+                <li>
                     @yield('historical_bar')
                 </li>
                  <li>
@@ -188,7 +188,7 @@
         </div>
       
        
-    </div>
+    </div>  
 
 
     @stack('scripts')

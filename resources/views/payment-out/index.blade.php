@@ -1,5 +1,5 @@
 
-@extends('home',['title' =>  'Factura de venta'])
+@extends('home',['title' =>  'Pagos a proveedores'])
 
    
 

@@ -29,7 +29,7 @@
             <table class="table table-responsive">				
 				<tr> 
 					<th style="width: 10em"><span>Cliente</span><a class="text-danger"><strong> *</strong></a></th>
-					<td>  <span>  
+					<td>  
                      
                           <multiselect 
                             :options="customer_list" 
@@ -44,13 +44,12 @@
 
                         <span v-if="errors.customer_id" class="error is-danger  text-danger">
                             Olvidaste seleccionar un cliente.
-                        </span>   </span>                           
+                        </span>                          
                     </td>                 
 				</tr>
                 <tr>
 					<th><span >Observaciones</span></th>
 					<td>
-                        <span id="prefix1" ></span>
                         <span>
                             <textarea class="form-control input-sm" v-model="form.observations"></textarea>
                         </span>
@@ -59,16 +58,13 @@
 				<tr>
 					<th><span >Notas de la cotización</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>
-                        <span id="prefix2" ></span>
-                        <span>
-                        
+                        <span>                        
                             <textarea class="form-control has-icon has-icon-right" placeholder="Estas notas no serán visibles en la cotización" v-model="form.notes"></textarea> 
                             
                         </span>
                          <span v-if="errors.notes" class="error is-danger  text-danger">
                             No olvides ingresar una nota aquí.
-                        </span>   </span> 
-
+                        </span>   
                     </td>
 				</tr>
 			</table>
@@ -92,15 +88,14 @@
 				</tr>
                 <tr>
 					<th><span >Vencimiento</span><a class="text-danger"><strong> *</strong></a></th>
-					<td><span id="prefix" ></span>
-                        <span>
-                           
+					<td>
+                        <span>                           
                             <div class="form-group" >
-                            <datepicker-vue class="form-control" 
-                                v-model="form.due_date" 
-                                value='@{{form.due_date}}' 
-                                >
-                             </datepicker-vue>
+                                <datepicker-vue class="form-control" 
+                                    v-model="form.due_date" 
+                                    value='@{{form.due_date}}' 
+                                    >
+                                </datepicker-vue>
                             </div>
                             <span v-if="errors.due_date" class="error is-danger  text-danger">
                             Adiciona una fecha final</span>  
@@ -129,8 +124,6 @@
                 <tr>
 					<th><span >Lista de precios</span></th>
 					<td>
-                        <span id="prefix" ></span>                      
-                      
                          <multiselect 
                                 :options="listPrice" 
                                 v-model="form.list_price"

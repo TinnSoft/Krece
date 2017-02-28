@@ -39,7 +39,7 @@
 
                                              <li>
                                                  <div class="media-body">          
-                                                <div v-if="!history.route"class="media-body">
+                                                <div v-if="!history.route" class="media-body">
                                                     @{{history.detail}}
                                                 </div>
                                                 <div v-else class="media-body">
@@ -64,7 +64,7 @@
             <a>
                     <div class="btn-group">                    
                         <button  class="btn btn-outline btn-primary" @click="setIndicator('d')" type="button">Hoy</button>
-                        <button  class="btn btn-outline btn-primary"  @click="setIndicator('w')"type="button">Esta semana</button>
+                        <button  class="btn btn-outline btn-primary"  @click="setIndicator('w')" type="button">Esta semana</button>
                         <button  class="btn btn-outline btn-primary" @click="setIndicator('m')" type="button">Este mes</button>
                         <button  class="btn btn-outline btn-primary"  @click="setIndicator('y')" type="button">Este año</button>
                     </div>

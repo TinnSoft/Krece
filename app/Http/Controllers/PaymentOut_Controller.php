@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
-    InvoiceSaleOrderDetail,
-    InvoiceSaleOrder,
+    BillDetail,
+    Bill,
     Payment,
     Seller,
     Tax,
@@ -20,7 +20,8 @@ use App\Models\{
     Resolution,
     Category,
     PaymentMethod,
-    PaymentHistory
+    PaymentHistory,
+    CategoryPayment
 };
 use App\Utilities\Helper;
 use PDF;
@@ -37,23 +38,23 @@ class PaymentOut_Controller extends Controller
 
     public function getPaymentList()
     {     
-        $payment =  DB::table('invoice_sale_order')            
-            ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+        $payment =  DB::table('bill')            
+            ->Join('payment_history', 'bill.id', '=', 'payment_history.bill_id')
             ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
             ->Join('contact', 'contact.id', '=', 'payment.customer_id')
             ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
             ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')  
             ->where('payment.isDeleted',0)  
-             ->where('invoice_sale_order.isDeleted',0)  
+             ->where('bill.isDeleted',0)  
              ->where('payment.type_id','=','eg')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
+            ->where('bill.account_id',Auth::user()->account_id)
             ->select('payment.date','payment.resolution_id','payment.status_id',
             'payment_method.name as payment_method', 'contact.name as contact','contact.id',
                  DB::raw('SUM(payment_history.amount) as total'),'payment.observations','payment.public_id'
                  )
             ->groupBy('payment.date','payment.resolution_id','payment_method.name','contact.name', 
                'payment.observations','payment.public_id','payment.status_id','contact.id')
-            ->orderby('invoice_sale_order.resolution_id','desc')
+            ->orderby('bill.resolution_id','desc')
             ->get();
                 
            
@@ -61,20 +62,20 @@ class PaymentOut_Controller extends Controller
     }
 
     public function getInvoicePendingtoPay_data($customer_id)
-    {
-       
+    {       
 
-           $PendingByPayment=   DB::table('invoice_sale_order')
-            ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
-             ->where('invoice_sale_order.customer_id',$customer_id)  
-              ->where('invoice_sale_order.isDeleted',0)           
-            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
-            DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
-            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.public_id','total','total_pending_by_payment')
-            ->orderby('invoice_sale_order.resolution_id','desc')
+           $PendingByPayment=   DB::table('bill')
+            ->leftJoin('payment_history', 'bill.id', '=', 'payment_history.bill_id')
+            ->where('bill.account_id',Auth::user()->account_id) 
+             ->where('bill.customer_id',$customer_id)  
+              ->where('bill.isDeleted',0)           
+            ->select('bill.id','bill.resolution_id', 
+            'bill.total','bill.public_id','bill.total as total2',
+            DB::raw('SUM(payment_history.amount) as total_payed'),
+            DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
+            ->groupBy('bill.id','bill.resolution_id',
+            'bill.public_id','total','total_pending_by_payment')
+            ->orderby('bill.resolution_id','desc')
             ->get();
 
         foreach($PendingByPayment as $item) 
@@ -91,7 +92,7 @@ class PaymentOut_Controller extends Controller
         })->values();
 
         $dataToReturn=['PendingByPayment'=> $PendingByPayment,
-                        'crediNote'=>'0'];
+                        'debitNote'=>'0'];
 
         return response()->json($dataToReturn); 
 
@@ -101,17 +102,17 @@ class PaymentOut_Controller extends Controller
     {
        
 
-           $PendingByPayment=   DB::table('invoice_sale_order')
-            ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id) 
-             ->where('invoice_sale_order.customer_id',$customer_id)  
-              ->where('invoice_sale_order.isDeleted',0)           
-            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
+           $PendingByPayment=   DB::table('bill')
+            ->leftJoin('payment_history', 'bill.id', '=', 'payment_history.bill_id')
+            ->where('bill.account_id',Auth::user()->account_id) 
+             ->where('bill.customer_id',$customer_id)  
+              ->where('bill.isDeleted',0)           
+            ->select('bill.id','bill.resolution_id', 'payment_history.bill_id',
+            'bill.total','bill.public_id','bill.total as total2',
             DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
-            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.public_id','total','total_pending_by_payment')
-            ->orderby('invoice_sale_order.resolution_id','desc')
+            ->groupBy('bill.id','bill.resolution_id', 'payment_history.bill_id',
+            'bill.public_id','total','total_pending_by_payment')
+            ->orderby('bill.resolution_id','desc')
             ->get();
 
         foreach($PendingByPayment as $item) 
@@ -136,9 +137,9 @@ class PaymentOut_Controller extends Controller
         $paymentmethod=PaymentMethod::select('id','name')->where('isActive',1)->get();
         $baseInfo=[
                 'public_id' =>Helper::PublicId(Payment::class),
-                'contacts' => Helper::contacts(),
+                'contacts' => Helper::providers(),
                'currency'=>Helper::currencylist(),
-               'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'in-come'), 
+               'resolution_id'=>Helper::ResolutionId(ResolutionNumber::class,'out-come'), 
                'paymentmethod'=> $paymentmethod,
                'bank'=>Helper::bank_account()
             ];
@@ -147,6 +148,14 @@ class PaymentOut_Controller extends Controller
 
     }
 
+    public function getBaseInfoToCategorySection(){
+             $baseInfo=[              
+                'category' => Helper::category_outcome(),
+               'taxes'=>Helper::taxes(),              
+            ];
+
+     return response()->json($baseInfo);
+    }
     public function create()
     {
         return view('payment-out.create');        
@@ -162,38 +171,70 @@ class PaymentOut_Controller extends Controller
             'bank_account_id' => 'required',                 
         ]);
 
-     
+        
         $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');  
-      
-
+        
+        
         //validar que los montos ingresados no sean mayores a los del total habilitado
-        $historical = [];
-         foreach($data['pending_payment_in'] as $item) {
-            if(isset($item['amount_receipt'])) {
-                if ($item['amount_receipt']>$item['total_pending_by_payment2'])
-                {
-                     return response()
-                        ->json([
-                            'amount_error' =>  ['revise los valores ingresados']
-                        ], 422);
+        $PaymentCounter=0;
+        //Determina el tipo de proceso, 
+        //1. si el array pending_payment_out se encuentra, entonces es una operación de asociación a una factura existente
+        //2. Si se encuentra el array payment_out_to_category, entonces es una operación de asociación de pagos a categorias
+        $isCategory=false;
+        if(isset($data['pending_payment_out'])) {
+            $isCategory=false;
+            foreach($data['pending_payment_out'] as $item) {
+                if(isset($item['amount_receipt'])) {
+                    if ($item['amount_receipt']>$item['total_pending_by_payment2'])
+                    {
+                        return response()
+                            ->json([
+                                'amount_error' =>  ['revise los valores ingresados']
+                            ], 422);
+                    }
+                    $PaymentCounter= $PaymentCounter+1;
                 }
+            }
+        }
+
+       
+        //operación de categoría
+        $categoryListInput=[];
+         if(isset($data['payment_out_to_category'])) {            
+             $isCategory=true;
+              foreach($data['payment_out_to_category'] as $item) {               
+                    if ($item['unit_price']>0 && $item['category_id']>0)
+                    {
+                        $categoryListInput[]=$item;
+                       $PaymentCounter= $PaymentCounter+1;
+                    }  
             }
          }
 
-       
-         if(!$data['pending_payment_in']) {
-            return response()
-            ->json([
-                'payment_empty' => ['seleccione un cliente que tenga un pago']
-            ], 422);
-        };
-      
- 
+       if ( $isCategory==false)
+       {
+            if(!$data['pending_payment_out']) {
+                return response()
+                ->json([
+                    'payment_empty' => ['seleccione un cliente que tenga un pago']
+                ], 422);
+            };
+       }
+        
+         if ( $PaymentCounter==0)
+         {
+              return response()
+                        ->json([
+                            'amount_empty' =>  ['revise los valores ingresados']
+                        ], 422);
+         }
+           
+
         $data['public_id'] = Helper::PublicId(Payment::class);     
         $data['resolution_id'] = (int)$data['resolution_id'];     
         $data['isInvoice'] = (int)$data['isInvoice'];       
         $data['status_id'] = 1;     
-        $data['type_id'] = 'in';    
+        $data['type_id'] = 'eg';    
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
@@ -201,38 +242,74 @@ class PaymentOut_Controller extends Controller
         {
             $data['currency_code']="COP";
         }
-               
-        $payment = Payment::create($data);       
 
-         $historical = [];
        
-        $invoice_id=null;          
-         foreach($data['pending_payment_in'] as $item) {
-            if(isset($item['amount_receipt'])) {
-                $historical['amount']=$item['amount_receipt'];
-                $historical['invoice_sale_order_id']=$item['id'];
-                $invoice_id=$item['id'];
-                $historical['account_id']=Auth::user()->account_id;
-                $historical['user_id']=Auth::user()->id;
-                $historical['payment_id']=$payment->id;
-              
-                if($historical['amount']>0)
-                {
-                    PaymentHistory::create($historical);
+
+        $payment = Payment::create($data);   
+
+        $historical = [];       
+        $invoice_id=null;    
+        if ( $isCategory==false)
+        {      
+            foreach($data['pending_payment_out'] as $item) {
+                if(isset($item['amount_receipt'])) {
+                    $historical['amount']=$item['amount_receipt'];
+                    $historical['bill_id']=$item['id'];
+                    $invoice_id=$item['id'];
+                    $historical['account_id']=Auth::user()->account_id;
+                    $historical['user_id']=Auth::user()->id;
+                    $historical['payment_id']=$payment->id;
+                
+                    if($historical['amount']>0)
+                    {
+                        PaymentHistory::create($historical);
+                    }
                 }
             }
+            //cuando una factura de compra tiene un pago asociado, esta debe pasar a estado cerrado
+            $this->update_bill_status($invoice_id,6);
         }
-        
-        //cuando una factura tiene un pao asociado, esta debe pasar a estado cerrado
-        $this->update_invoice_status($invoice_id,6);
 
-        //Incrementa el numero de resolución
-       ResolutionNumber::where('key', 'in-come')
+
+         if ( $isCategory==true)
+         {
+             if ($categoryListInput!=null)
+             {
+                 $categoryList_save= collect($categoryListInput)->transform(function($categoryListInput) { 
+                        $baseprice=$categoryListInput['quantity'] * $categoryListInput['unit_price'];   
+                        $taxTotal=null;  
+                        if(isset($categoryListInput['tax_amount'])) {
+                            if($categoryListInput['tax_amount']>0)
+                            {                                
+                                $taxTotal=($baseprice * $categoryListInput['tax_amount'])/100; 
+                            };
+                        };
+            
+                        $categoryListInput['total'] = $baseprice;
+                        $categoryListInput['account_id']=Auth::user()->account_id;
+                        $categoryListInput['user_id']=Auth::user()->id;
+                        $categoryListInput['tax_total']=$taxTotal;
+                        $categoryListInput['payment_id']=0;                      
+                        
+                        return new CategoryPayment($categoryListInput);
+                    });
+                    foreach($categoryList_save as $item) {
+                         $item['payment_id']=$payment->id;
+                    }
+                    
+                    $payment->category_payment()->saveMany($categoryList_save);                   
+            }
+         }
+         
+
+        //Incrementa el numero de resolución para los gastos
+       ResolutionNumber::where('key', 'out-come')
                 ->increment('number');
-       
-       event(new RecordActivity('Create','Se creó el pago número: ' 
-			.$payment->resolution_id.' para el cliente '.$payment->contact->name,
-			'Payment','/payment/'.$payment->public_id));	
+
+       event(new RecordActivity('Create','Se creó el comprobante de pago número: ' 
+			.$payment->resolution_id.' para el proveedor '.$payment->contact->name,
+			'Payment-out','/payment-out/'.$payment->public_id));
+
 
         return response()
             ->json([
@@ -305,7 +382,7 @@ class PaymentOut_Controller extends Controller
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
         $payment->update($data);
       
-         foreach($data['pending_payment_in'] as $item) {
+         foreach($data['pending_payment_out'] as $item) {
             if(isset($item['amount_receipt'])) {
                 if($item['amount_receipt']>0)
                 {
@@ -314,7 +391,7 @@ class PaymentOut_Controller extends Controller
                              [
                                 'account_id' =>Auth::user()->account_id,                                
                                 'user_id' => Auth::user()->id,
-                                'invoice_sale_order_id' =>$item['id'],
+                                'bill_id' =>$item['id'],
                                  'amount' =>$item['amount_receipt'],
                              ]);
                 }
@@ -322,9 +399,9 @@ class PaymentOut_Controller extends Controller
         }
 
       
-       event(new RecordActivity('Update','Se actualizó el pago número: ' 
+       event(new RecordActivity('Update','Se actualizó el comprobante de pago número: ' 
 			.$payment->resolution_id.' para el cliente '.$payment->contact->name,
-			'Payment','/payment-out/'.$payment->public_id));	
+			'Payment-out','/payment-out/'.$payment->public_id));	
 
         return response()
             ->json([
@@ -358,7 +435,7 @@ class PaymentOut_Controller extends Controller
     {
         Carbon::setLocale('es');
 
-         $invoice = InvoiceSaleOrder::with('account','detail','list_price','seller')
+         $invoice = Bill::with('account','detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
@@ -366,7 +443,7 @@ class PaymentOut_Controller extends Controller
         $invoice=Helper::_InvoiceFormatter($invoice);
         
         $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice,'taxes' => $this->getTotalTaxes($invoice->public_id)]);
-        $filename = "InvoiceSaleOrder_"."{$invoice->public_id}.pdf";
+        $filename = "Bill_"."{$invoice->public_id}.pdf";
 
          if($request->get('opt') === 'download') {
             return $pdf->download($filename);            
@@ -374,14 +451,14 @@ class PaymentOut_Controller extends Controller
         
         event(new RecordActivity('Print','Se ha impreso el pdf de la factura de venta No: ' 
 			.$invoice->resolution_id,
-			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
+			'Bill','/invoice/'.$invoice->public_id));	
 
         return $mypdf->stream();
     }
     
-    public static function update_invoice_status($invoice_id, $status_id)
+    public static function update_bill_status($invoice_id, $status_id)
     {
-        InvoiceSaleOrder::where('id', $invoice_id)        
+        Bill::where('id', $invoice_id)        
           ->update(['status_id' => $status_id]);
     }
    
@@ -390,20 +467,20 @@ class PaymentOut_Controller extends Controller
     {
         //se llama desde la funcion view
         $payment_historical=
-       DB::table('invoice_sale_order')            
-            ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+       DB::table('bill')            
+            ->Join('payment_history', 'bill.id', '=', 'payment_history.bill_id')
             ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-              ->where('invoice_sale_order.isDeleted',0) 
+            ->where('bill.account_id',Auth::user()->account_id)
+              ->where('bill.isDeleted',0) 
               ->where('payment.isDeleted',0)    
               ->where('payment.customer_id',$customer_id)          
-            ->select('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.total','invoice_sale_order.public_id','invoice_sale_order.total as total2',
-            'invoice_sale_order.date','invoice_sale_order.due_date',
+            ->select('bill.id','bill.resolution_id', 'payment_history.bill_id',
+            'bill.total','bill.public_id','bill.total as total2',
+            'bill.date','bill.due_date',
             DB::raw('SUM(payment_history.amount) as total_payed'),DB::raw('"" as total_pending_by_payment'))
-            ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id', 'payment_history.invoice_sale_order_id',
-            'invoice_sale_order.public_id','total','total_pending_by_payment','invoice_sale_order.date','invoice_sale_order.due_date')
-            ->orderby('invoice_sale_order.resolution_id','desc')
+            ->groupBy('bill.id','bill.resolution_id', 'payment_history.bill_id',
+            'bill.public_id','total','total_pending_by_payment','bill.date','bill.due_date')
+            ->orderby('bill.resolution_id','desc')
             ->get();
 
             foreach($payment_historical as $item) 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Contact;
 use App\Models\PaymentMethod;
 use App\Models\PaymentHistory;
+use App\Models\CategoryPayment;
 use App\Utilities\DatesTranslator;
 use Auth;
 use App\Events\RecordActivity;
@@ -27,7 +28,12 @@ class Payment extends Model
 	
 	protected $dates = ['deleted_at'];
 	
-	
+	public function category_payment()
+	{
+		
+		return $this->hasMany(CategoryPayment::class);
+		
+	}
 	
 	public function contact()
 	{

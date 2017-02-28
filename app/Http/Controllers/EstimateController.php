@@ -20,6 +20,7 @@ use App\Models\{
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
+use Jenssegers\Date\Date;
 
 class EstimateController extends Controller
 {
@@ -101,26 +102,8 @@ class EstimateController extends Controller
         $data['public_id'] = Helper::PublicId(Estimate::class);
         $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'estimate')['number'];
         $data['account_id'] = Auth::user()->account_id;
-        $data['user_id'] = Auth::user()->id;         
-       
-       
-        $mydate=$data['date'];
-          return response()
-            ->json([
-                'test' =>   Carbon::createFromFormat('d/m/Y', '27/02/2017'),$data['date']
-            ], 422);
-
-        try
-        {
+        $data['user_id'] = Auth::user()->id;    
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        }
-        catch(\exception $e){
-              return response()
-            ->json([
-                'products_empty' =>  $e->getMessage(), $data['date']
-            ], 422);
-        }
-        
         $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
         
          if (!$data['currency_code'])
