@@ -7,7 +7,7 @@
                    <h2 > Editar Pago de Factura de venta</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="{{route('payment.index')}}">Inicio</a>
+                            <a href="{{route('payment.in.index')}}">Inicio</a>
                         </li>                       
                          <li class="active">
                             <strong>Editar</strong>
@@ -17,15 +17,15 @@
                 
             </div> 
  <div class="row  border-bottom white-bg dashboard-header">
-    <div id="payment">   
+    <div id="payment-out">   
         <div class="panel" v-cloak>           
             <div class="panel-body">
-                @include('payment.form')
+                @include('payment.in.form')
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
                     <button class="btn btn-primary pull-right" @click="update" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Actualizar</button>                   
-                    <a href="{{route('payment.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
+                    <a href="{{route('payment.in.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>
         </div>

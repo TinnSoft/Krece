@@ -27,12 +27,12 @@ use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
 
-class PaymentController extends Controller
+class PaymentIn_Controller extends Controller
 {
 
     public function index()
     {
-        return view('payment.index');  
+        return view('payment-in.index');  
     }
 
     public function getPaymentList()
@@ -148,7 +148,7 @@ class PaymentController extends Controller
 
     public function create()
     {
-        return view('payment.create');        
+        return view('payment-in.create');        
     }
     
 
@@ -253,14 +253,14 @@ class PaymentController extends Controller
                 'message' => 'No se encontró ninguna referencia de pago creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/payment')->with($notification);
+          return redirect('/payment/in')->with($notification);
         }
        
         $detail=$this->getPaymentDetail($payment->customer_id);
 
          $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
 
-        return view('payment.show', compact('payment','detail','total'));
+        return view('payment-in.show', compact('payment','detail','total'));
     }
 
     public function edit($id)
@@ -277,13 +277,13 @@ class PaymentController extends Controller
                 'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
                 'alert-type' => 'error'
             );
-          return redirect('/payment')->with($notification);
+          return redirect('/payment-in')->with($notification);
         }
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         
         $detail=$this->getPaymentDetail($payment->customer_id);
 
-        return view('payment.edit', compact('payment','detail'));
+        return view('payment-in.edit', compact('payment','detail'));
     }
 
     
@@ -373,7 +373,7 @@ class PaymentController extends Controller
         
         event(new RecordActivity('Print','Se ha impreso el pdf de la factura de venta No: ' 
 			.$invoice->resolution_id,
-			'InvoiceSaleOrder','/invoice/'.$invoice->public_id));	
+			'InvoiceSaleOrder','/payment-in/'.$invoice->public_id));	
 
         return $mypdf->stream();
     }

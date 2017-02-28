@@ -70,7 +70,7 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{route('invoice.index')}}">Factura de venta</a></li>
                             <li><a href="">Factura recurrente</a></li>
-                            <li><a href="{{route('payment.index')}}">Pagos recibidos</a></li>
+                            <li><a href="{{route('payment-in.index')}}">Pagos recibidos</a></li>
                             <li><a href="{{route('credit-note.index')}}">Notas credito</a></li>       
                             <li><a href="{{route('estimate.index')}}">Cotizaciones</a></li>
                             <li><a href="{{route('remision.index')}}">Remisiones</a></li>
@@ -80,7 +80,7 @@
                      <li>
                         <a href=""><i class="fa fa-money"></i> <span class="nav-label">Mis Gastos </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">Pagos</a></li>
+                            <li><a href="{{route('payment-out.index')}}">Pagos</a></li>
                             <li><a href="{{route('bill.index')}}">Factura proveedores</a></li>
                             <li><a href="">Pagos recurrentes</a></li>
                             <li><a href="{{route('debit-note.index')}}">Notas débito</a></li>

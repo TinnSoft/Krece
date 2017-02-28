@@ -5,10 +5,10 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nuevo Ingreso</h2>
+                    <h2 >Nuevo gasto</h2>
                     <ol class="breadcrumb">                       
                         <li>
-                            <a href="{{route('payment.index')}}">Inicio</a>
+                            <a href="{{route('payment-out.index')}}">Inicio</a>
                         </li>
                          <li class="active">
                             <strong>Crear</strong>
@@ -19,15 +19,15 @@
             </div>           
 
  <div class="row  border-bottom white-bg dashboard-header">
-    <div id="payment">   
+    <div id="payment-out">   
         <div class="panel" v-cloak>           
             <div class="panel-body">
-                @include('payment.form')
+                @include('payment-out.form')
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
                     <button class="btn btn-primary pull-right" @click="create" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear</button>                   
-                    <a href="{{route('payment.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
+                    <a href="{{route('payment-out.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>
         </div>
@@ -67,13 +67,13 @@
             bank_account:null,
             currency_code:'',
             currency:null,              
-            pending_payment_in:[]
+            pending_payment_out:[]
         };
 
     </script>
    
        
    {!!Html::script('/js/components/datepicker/datepicker-vue.js')!!} 
-    {!!Html::script('/js/functions/payment.js')!!}
+    {!!Html::script('/js/functions/payment-out.js')!!}
    
 @endpush

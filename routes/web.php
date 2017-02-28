@@ -99,12 +99,19 @@ Route::get('getCreditNoteBaseInfo','CreditNoteController@BaseInfo');
 Route::get('getCreditNoteList','CreditNoteController@getCreditNoteList');
 Route::get('credit-note/{id}/pdf', 'CreditNoteController@pdf');
 
-//payment
-Route::resource('payment', 'PaymentController');
-Route::get('getPaymentList','PaymentController@getPaymentList');
-Route::get('getPaymentBaseInfo','PaymentController@BaseInfo');
-Route::get('getInvoicePendingtoPay/{customer_id}','PaymentController@getInvoicePendingtoPay_data');
-Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentController@getInvoicePendingtoPay_data_edit');
+//payment received
+Route::resource('payment-in', 'PaymentIn_Controller');
+Route::get('getPaymentList','PaymentIn_Controller@getPaymentList');
+Route::get('getPaymentBaseInfo','PaymentIn_Controller@BaseInfo');
+Route::get('getInvoicePendingtoPay/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data');
+Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data_edit');
+
+//payment made
+Route::resource('payment-out', 'PaymentOut_Controller');
+Route::get('getPaymentOut_List','PaymentOut_Controller@getPaymentList');
+Route::get('getPaymentOut_BaseInfo','PaymentOut_Controller@BaseInfo');
+Route::get('getInvoicePendingtoPay_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data');
+Route::get('getInvoicePendingtoPay_edit_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data_edit');
 
 //purchase order
 Route::resource('purchase-order', 'PurchaseOrderController');

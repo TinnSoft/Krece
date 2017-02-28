@@ -14,7 +14,7 @@
                 </span></h2>
                 <ol class="breadcrumb">
                 <li>
-                    <a href="{{route('payment.index')}}">Inicio</a>
+                    <a href="{{route('payment-out.index')}}">Inicio</a>
                 </li>
                 <li class="active">
                     <strong>Ver</strong>                            
@@ -27,17 +27,17 @@
             
                                        <div class="ibox-title">                                       
                                             <p>                                          
-                                                <a href="{{route('payment.index')}}" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('payment-out.index')}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-cog"></span>&nbsp;Enviar por correo</a> 
                                                 
                                                 
-                                                <a href="{{route('payment.edit', $payment->public_id)}}" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('payment-out.edit', $payment->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('payment.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Eliminar</a> 
 
-                                                <a href="{{route('payment.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Anular</a> 
 
                                                 <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$payment->public_id}})"> 
@@ -158,7 +158,7 @@
   el: '#payment_show',
   methods: {
        printPdf: function(val){
-        window.open('/payment/'+val+'/pdf', '_blank');
+        window.open('/payment-out/'+val+'/pdf', '_blank');
     },
     goShow: function(val){
           alert();

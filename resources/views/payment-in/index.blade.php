@@ -32,12 +32,12 @@
         <div class="panel-body">
                 <div class="ibox-content">   
                     <div class="row">
-                            <a href="{{route('payment.create')}}" class="btn btn-primary btn-sm pull-right"> 
+                            <a href="{{route('payment-in.create')}}" class="btn btn-primary btn-sm pull-right"> 
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Ingreso</a>                     
                     </div>                    
                 </div>  
                <div class="ibox-content">                                
-                    @include('payment.index-grid')                           
+                    @include('payment-in.index-grid')                           
                 </div>  
         </div>   
 
@@ -57,13 +57,13 @@
   }},
   methods: {
       printPdf: function(val){
-        window.open('/payment/'+val+'/pdf', '_blank');
+        window.open('/payment-in/'+val+'/pdf', '_blank');
     },
        goShow: function(val){
-        window.location = '/payment/'+val;
+        window.location = '/payment-in/'+val;
     },
     goEdit: function(val){
-        window.location = '/payment/'+val+'/edit';
+        window.location = '/payment-in/'+val+'/edit';
     },
     moment: function (date) {
         return moment(date).fromNow();
@@ -104,7 +104,7 @@
       }, function(isConfirm) {
         if (isConfirm) {
              var vm = this
-                axios.delete('/payment/' + val)
+                axios.delete('/payment-in/' + val)
                     .then(function(response) {
                         if(response.data.deleted) {
                             $('#payment-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');

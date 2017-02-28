@@ -28,12 +28,12 @@
         
         $(document).ready(function () {       
              var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
-            "<h3><i class='fa fa-exclamation'></i> No tienes pagos creados!</h3>" +
-            " <div class='ibox-content ibox-heading'><a href='{{route('payment.create')}}' class='btn btn-primary btn-outline btn-sm '>" +
-            "<span class='fa fa-plus '></span>&nbsp;Adicionar nuevo pago</a> </div></div> '");
+            "<h3><i class='fa fa-exclamation'></i> No tienes gastos referenciados!</h3>" +
+            " <div class='ibox-content ibox-heading'><a href='{{route('payment-out.create')}}' class='btn btn-primary btn-outline btn-sm '>" +
+            "<span class='fa fa-plus '></span>&nbsp;Adicionar nuevo gasto</a> </div></div> '");
          
             $("#payment-grid").jqGrid({
-                url: "getPaymentList",
+                url: "getPaymentOut_List",
                 datatype: "json",
                 mtype: 'GET',
                 emptyrecords:  "",
