@@ -41,7 +41,7 @@
 
             <div id="sweetalert"  class="ibox-content">
                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover dataTables-data">
+                    <table class="table table-striped table-bordered table-hover dataTables-data display compact nowrap" cellspacing="0">
                    
                     <thead>
                     <tr>

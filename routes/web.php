@@ -105,6 +105,7 @@ Route::get('getPaymentList','PaymentIn_Controller@getPaymentList');
 Route::get('getPaymentBaseInfo','PaymentIn_Controller@BaseInfo');
 Route::get('getInvoicePendingtoPay/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data');
 Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data_edit');
+Route::put('payment_in_update_state/{req}','PaymentIn_Controller@payment_in_update_state');
 
 //payment made
 Route::resource('payment-out', 'PaymentOut_Controller');
@@ -113,6 +114,9 @@ Route::get('getPaymentOut_BaseInfo','PaymentOut_Controller@BaseInfo');
 Route::get('getInvoicePendingtoPay_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data');
 Route::get('getInvoicePendingtoPay_edit_out/{customer_id}','PaymentOut_Controller@getInvoicePendingtoPay_data_edit');
 Route::get('payment_out_ToCategorySection','PaymentOut_Controller@getBaseInfoToCategorySection');
+Route::put('payment_out_update_state/{req}','PaymentOut_Controller@update_state');
+Route::get('payment-out/{id}/pdf', 'PaymentOut_Controller@pdf');
+
 
 
 //purchase order

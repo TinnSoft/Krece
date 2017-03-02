@@ -7,10 +7,14 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-8">
-                <h2 >Pagos a Facturas de proveedor: <span class="text-navy">
-                @foreach($detail as $prod)
-                 {{$prod->resolution_id}},
-                @endforeach
+                @if($isCategory==0)
+                    <h2 >Pagos a Facturas de proveedor: <span class="text-navy">
+                    @foreach($detail as $prod)
+                    {{$prod->resolution_id}},
+                    @endforeach
+                @else
+                    <h2 >Egresos por concepto de categorías <span class="text-navy">
+                @endif
                 </span></h2>
                 <ol class="breadcrumb">
                 <li>
@@ -36,9 +40,13 @@
 
                                                 <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Eliminar</a> 
-
-                                                <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Anular</a> 
+                                                @if ($payment->status_id==1)               
+                                                    <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=tonull" class="btn btn-info btn-sm "> 
+                                                    <span ></span>&nbsp;Anular</a> 
+                                                @else
+                                                    <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=toopen" class="btn btn-info btn-sm "> 
+                                                    <span ></span>&nbsp;Convertir a abierta</a> 
+                                                @endif
 
                                                 <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$payment->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
@@ -59,16 +67,16 @@
                                      <ul class="stat-list">
                                         <li>
                                             <h2  class="text-info" class="no-margins "><a class="fa fa-money text-info"></a>  ${{$total}}</h2>
-                                            <small>Total Pagado</small>
+                                            <small>Total</small>
 
                                         </li>    
                                         <li>
                                             <h2  class="text-navy" class="no-margins ">
                                                 @if (count($payment->contact) > 0)
-                                                 <a href="{{route('contact.show', $payment->contact->public_id)}}" class="fa fa-user text-navy">
+                                                 <span class="fa fa-user"></span><a href="{{route('contact.show', $payment->contact->public_id)}}" class=" text-navy">
                                                  {{$payment->contact->name}} </a>
                                                 @endif</h4>
-                                                 <small>Cliente</small>
+                                                 <small>Beneficiario</small>
                                             </h2>
                                         
                                         </li>                                       
@@ -96,7 +104,7 @@
                                     <p>
                                      <ul class="stat-list">
                                         <li>
-                                            <h2 class="no-margins">Recibo de caja # <a class="text-navy">{{$payment->resolution_id}}</a>  </h2>
+                                            <h2 class="no-margins">Comprobante de egreso # <a class="text-navy">{{$payment->resolution_id}}</a>  </h2>
                                         </li>
                                     </ul><br>
                                         <span><strong>Fecha de creación:</strong>  {{$payment->date}} </span><br/>
@@ -114,33 +122,55 @@
                                 <table class="table payment-table">
                                     <thead>
                                     <tr>
-                                        <th>NÚMERO</th>                                       
-                                        <th>FECHA</th>
-                                        <th>VENCIMIENTO</th> 
-                                        <th>TOTAL</th>
-                                        <th>PAGADO</th>
-                                        <th>POR PAGAR</th>  
+                                        @if($isCategory==0)
+                                            <th>NÚMERO</th>                                       
+                                            <th>FECHA</th>
+                                            <th>VENCIMIENTO</th> 
+                                            <th>TOTAL</th>
+                                            <th>PAGADO</th>
+                                            <th>POR PAGAR</th> 
+                                        @else
+                                            <th>CATEGORÍA</th>                                       
+                                            <th>PRECIO UNITARIO</th>
+                                            <th>IMPUESTO</th> 
+                                            <th>CANTIDAD</th>
+                                            <th>OBSERVACIONES</th>
+                                            <th>TOTAL</th> 
+                                        @endif 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                     
-                                        @foreach($detail as $prod)
-                                            <tr>
-                                                <td class=""> <a href="{{route('invoice.show', $prod->public_id)}}">
-                                                {{$prod->resolution_id  }}</a></td>
-                                                <td class=""> {{$prod->date  }}</td>
-                                                <td class="">{{$prod->due_date}}</td>
-                                                <td class="">${{$prod->total}}</td>
-                                                <td class="text-info">${{$prod->total_payed}}</td>
-                                                @if ($prod->total_pending_by_payment2==0)
-                                                    <td >${{$prod->total_pending_by_payment}}</td>
-                                                @else
-                                                    <td class=" text-danger">${{$prod->total_pending_by_payment}}</td>
-                                                @endif
-                                                
-                                            </tr>
-                                        @endforeach                                   
-
+                                        @if($isCategory==0)
+                                            @foreach($detail as $prod)
+                                                <tr>
+                                                    <td class=""> <a href="{{route('invoice.show', $prod->public_id)}}">
+                                                    {{$prod->resolution_id  }}</a></td>
+                                                    <td class=""> {{$prod->date  }}</td>
+                                                    <td class="">{{$prod->due_date}}</td>
+                                                    <td class="">${{$prod->total}}</td>
+                                                    <td class="text-info">${{$prod->total_payed}}</td>
+                                                    @if ($prod->total_pending_by_payment2==0)
+                                                        <td >${{$prod->total_pending_by_payment}}</td>
+                                                    @else
+                                                        <td class=" text-danger">${{$prod->total_pending_by_payment}}</td>
+                                                    @endif
+                                                    
+                                                </tr>
+                                            @endforeach                                   
+                                        @else
+                                             @foreach($detail as $prod)
+                                                <tr>
+                                                    <td class=""> <a href="{{route('category.show', $prod->public_id)}}">
+                                                    {{$prod->category->name  }}</a></td>
+                                                    <td class="">${{$prod->unit_price  }}</td>
+                                                    <td class="">{{$prod->tax_amount}}%</td>
+                                                    <td class="">{{$prod->quantity}}</td>
+                                                    <td class="">{{$prod->observations}}</td>
+                                                    <td class="">${{$prod->total}}</td>
+                                                    
+                                                </tr>
+                                            @endforeach          
+                                        @endif 
                                     </tbody>
                                 </table>
                             </div>

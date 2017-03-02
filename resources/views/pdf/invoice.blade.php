@@ -147,11 +147,7 @@
                                         comercio. Autorizo que en caso de incumplimiento de esta obligación sea reportado a las centrales de riesgo, se
                                         cobraran intereses por mora.
                                     </small>   
-                                </div>                                           
-                            <div>             
-                               <small class="text-muted">Cotización generada en el sistema <strong> www.krece.co</strong></small>
-
-                            </div>
+                                </div>
                         </div>
                         
 @endsection

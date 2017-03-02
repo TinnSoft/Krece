@@ -67,13 +67,13 @@
 					if(rowid) 
 					{
 						var rdata = $('#category-grid').jqGrid('getRowData', rowid);
-                        app.setCategoryId(rdata.id);
+                        categoryApp.setCategoryId(rdata.id);
 					} 
 				}     
             });            
 
              function displayButtons(cellvalue, options, rowObject) {
-            
+            console.log(options);
                 
                 var edit = '<div  title= "editar"  class="fa fa-pencil" style="cursor: pointer; color:green" onClick="categoryApp.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
                     Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=categoryApp.updateNode(\""+options+"\")></div><span > </span>",

@@ -138,12 +138,7 @@
                                     </tbody>
                                 </table>                           
                             </div>
-                         <div class="footer">                                                     
-                            <div>             
-                               <small class="text-muted">Cotización generada en el sistema <strong> www.krece.co</strong></small>
-
-                            </div>
-                        </div>
+                       
                         
 @endsection
 

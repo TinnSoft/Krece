@@ -25,10 +25,32 @@ var app = new Vue({
   //similar on load event
 
   created: function () {
-    this.fetchData();
-    Vue.set(this.$data, 'form', _form);
-    Vue.set(this.$data, 'kindOfProcess', _kindOfProcess);
+    var vm=this;
+    vm.fetchData();
+    Vue.set(vm.$data, 'form', _form);
+    Vue.set(vm.$data, 'kindOfProcess', _kindOfProcess);
+    
     this.getInvoice_list();
+
+    if (_categorylist.length>0)
+    {
+      Vue.set(vm.$data.form, 'payment_out_to_category', []);
+      _categorylist.forEach(function(entry){  
+           vm.form.payment_out_to_category.push({
+            category_id: entry.category_id,
+            category:entry.category,
+            tax_value:entry.taxes,
+            unit_price: entry.unit_price,
+            tax_id: entry.tax_id,
+            quantity: entry.quantity,
+            observations: entry.observations,
+            tax_amount:vm.getTaxAmount(entry),           
+          });
+        
+      })
+    };    
+    
+    
   },
   beforeMount() {
     this.getCurrentDate();
@@ -46,8 +68,15 @@ var app = new Vue({
         tax_id: '',
         quantity: 1,
         tax_value:null,
-        observations:''
+        observations:'',
+        tax_amount:''
       });
+    },
+     getTaxAmount: function (val) {
+      if (val.taxes) {      
+       return val.taxes.value;
+      }
+     return 0;
     },
      onInputCategory: function (val) {
       if (val.category) {       
@@ -99,7 +128,7 @@ var app = new Vue({
           axios.get(procedure_path + vm.form.customer_id)
           .then(function (response) {
             Vue.set(vm.$data.form, 'pending_payment_out', response.data.PendingByPayment);
-
+            //Vue.set(vm.$data.form, 'payment_out_to_category', response.data.categoryList);
             if (response.data.PendingByPayment.length == 0) {
               vm.hasPendingPayment = 0;
             }

@@ -1,4 +1,4 @@
-@extends('pdf.master',['id_file' =>  $po->public_id])
+@extends('pdf.master',['id_file' =>  $po->public_id, 'document_type'=>'Orden de Compra'])
 
 @section('content')
 
@@ -157,10 +157,6 @@
                                 </div>
                             </div>
 
-                         <div class="footer">                 
-                            <div>
-                               <small> Orden de Compra generada en el sistema <strong> www.krece.co</strong></small>
-                            </div>
-                        </div>
+                         
 
 @endsection
