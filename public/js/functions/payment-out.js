@@ -22,7 +22,6 @@ var app = new Vue({
       taxes:[]
     }
   },
-  //similar on load event
 
   created: function () {
     var vm=this;
@@ -30,25 +29,28 @@ var app = new Vue({
     Vue.set(vm.$data, 'form', _form);
     Vue.set(vm.$data, 'kindOfProcess', _kindOfProcess);
     
-    this.getInvoice_list();
-
-    if (_categorylist.length>0)
+    vm.getInvoice_list();
+    if(typeof _categorylist=='object')
     {
-      Vue.set(vm.$data.form, 'payment_out_to_category', []);
-      _categorylist.forEach(function(entry){  
-           vm.form.payment_out_to_category.push({
-            category_id: entry.category_id,
-            category:entry.category,
-            tax_value:entry.taxes,
-            unit_price: entry.unit_price,
-            tax_id: entry.tax_id,
-            quantity: entry.quantity,
-            observations: entry.observations,
-            tax_amount:vm.getTaxAmount(entry),           
-          });
-        
-      })
-    };    
+      //procesa el objeto  cuando selecciona la opción Categorias
+      if (_categorylist.length>0)
+      {
+        Vue.set(vm.$data.form, 'payment_out_to_category', []);
+        _categorylist.forEach(function(entry){  
+            vm.form.payment_out_to_category.push({
+              category_id: entry.category_id,
+              category:entry.category,
+              tax_value:entry.taxes,
+              unit_price: entry.unit_price,
+              tax_id: entry.tax_id,
+              quantity: entry.quantity,
+              observations: entry.observations,
+              tax_amount:vm.getTaxAmount(entry),           
+            });
+          
+        })
+      };    
+    }
     
     
   },

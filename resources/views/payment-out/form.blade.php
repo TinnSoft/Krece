@@ -358,7 +358,7 @@
                                 </div>
 
                                 <div class="vertical-timeline-content">
-                                    <h2>Seleccione la Categoría a la que pertenece el gasto</h2>
+                                    <h2>Seleccione la Categoría a la que pertenece el ingreso</h2>
                                     @yield('payment_to_category')
                                 </div>
                             </div>
@@ -368,7 +368,6 @@
                     </div>
             </div>
   
-<pre><code>@{{$data.errors | json}}</code></pre>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

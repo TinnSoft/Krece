@@ -40,6 +40,7 @@
                 colModel: [                   
                     { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
                     { label: 'Cliente', name: 'contact',  width: 140, sorttype: "text" },
+                    { label: 'Tipo de Proceso', name: 'IsCategory', width: 100,align:"left", formatter:processtype_mask },
                     { label: 'Fecha', name: 'date', width: 60, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
                      { label: 'Cuenta', name: 'payment_method', width: 100},
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
@@ -103,16 +104,26 @@
                 }
             }
 
+            function processtype_mask(cellvalue, options, rowObject) {
+                if (cellvalue==1)
+                {
+                    return "<p class='text-primary'>Categoría</p>"
+                }
+                else{
+                      return "<p class='text-success'>Factura de proveedor</p>"
+                }
+            }
+
              function displayButtons(cellvalue, options, rowObject) {
                 var edit = "<div  title= 'editar'  class='fa fa-pencil fa-2x green' style='cursor: pointer' onClick=paymentApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
                     Details = "<div title= 'ver' class='fa fa-eye fa-2x green' style='cursor: pointer'  onClick=paymentApp.goShow(\""+cellvalue+"\")></div><span > </span>",
                     Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer'  onClick=paymentApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove fa-2x red'  style='cursor: pointer' onclick=paymentApp.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=paymentApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
+                    Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=paymentApp.updateItemStatus(\""+rowObject.payment_id+"\",'2')/></div><span > </span>";
                     if (rowObject.status_id==2)
                     {                    
                         edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
-                        Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=paymentApp.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
+                        Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=paymentApp.updateItemStatus(\""+rowObject.payment_id+"\",'1')/></div><span > </span>";
                         Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
                         Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='color:#F3D8D5' /></div><span > </span>";
                     }

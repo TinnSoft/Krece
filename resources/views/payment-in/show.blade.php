@@ -7,10 +7,14 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-7">
-                <h2 >Pagos a Facturas de venta: <span class="text-navy">
-                @foreach($detail as $prod)
-                 {{$prod->resolution_id}},
-                @endforeach
+                @if($isCategory==0)
+                    <h2 >Pagos a Facturas de venta: <span class="text-navy">
+                    @foreach($detail as $prod)
+                    {{$prod->resolution_id}},
+                    @endforeach
+                @else
+                    <h2 >Egresos por concepto de categorías <span class="text-navy">
+                @endif
                 </span></h2>
                 <ol class="breadcrumb">
                 <li>
@@ -114,33 +118,55 @@
                                 <table class="table payment-table">
                                     <thead>
                                     <tr>
-                                        <th>NÚMERO</th>                                       
-                                        <th>FECHA</th>
-                                        <th>VENCIMIENTO</th> 
-                                        <th>TOTAL</th>
-                                        <th>PAGADO</th>
-                                        <th>POR PAGAR</th>  
+                                       @if($isCategory==0)
+                                            <th>NÚMERO</th>                                       
+                                            <th>FECHA</th>
+                                            <th>VENCIMIENTO</th> 
+                                            <th>TOTAL</th>
+                                            <th>PAGADO</th>
+                                            <th>POR PAGAR</th> 
+                                        @else
+                                            <th>CATEGORÍA</th>                                       
+                                            <th>PRECIO UNITARIO</th>
+                                            <th>IMPUESTO</th> 
+                                            <th>CANTIDAD</th>
+                                            <th>OBSERVACIONES</th>
+                                            <th>TOTAL</th> 
+                                        @endif 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                     
-                                        @foreach($detail as $prod)
-                                            <tr>
-                                                <td class=""> <a href="{{route('invoice.show', $prod->public_id)}}">
-                                                {{$prod->resolution_id  }}</a></td>
-                                                <td class=""> {{$prod->date  }}</td>
-                                                <td class="">{{$prod->due_date}}</td>
-                                                <td class="">${{$prod->total}}</td>
-                                                <td class="text-info">${{$prod->total_payed}}</td>
-                                                @if ($prod->total_pending_by_payment2==0)
-                                                    <td >${{$prod->total_pending_by_payment}}</td>
-                                                @else
-                                                    <td class=" text-danger">${{$prod->total_pending_by_payment}}</td>
-                                                @endif
-                                                
-                                            </tr>
-                                        @endforeach                                   
-
+                                      @if($isCategory==0)
+                                            @foreach($detail as $prod)
+                                                <tr>
+                                                    <td class=""> <a href="{{route('invoice.show', $prod->public_id)}}">
+                                                    {{$prod->resolution_id  }}</a></td>
+                                                    <td class=""> {{$prod->date  }}</td>
+                                                    <td class="">{{$prod->due_date}}</td>
+                                                    <td class="">${{$prod->total}}</td>
+                                                    <td class="text-info">${{$prod->total_payed}}</td>
+                                                    @if ($prod->total_pending_by_payment2==0)
+                                                        <td >${{$prod->total_pending_by_payment}}</td>
+                                                    @else
+                                                        <td class=" text-danger">${{$prod->total_pending_by_payment}}</td>
+                                                    @endif
+                                                    
+                                                </tr>
+                                            @endforeach                                   
+                                        @else
+                                             @foreach($detail as $prod)
+                                                <tr>
+                                                    <td class=""> <a href="{{route('category.show', $prod->public_id)}}">
+                                                    {{$prod->category->name  }}</a></td>
+                                                    <td class="">${{$prod->unit_price  }}</td>
+                                                    <td class="">{{$prod->tax_amount}}%</td>
+                                                    <td class="">{{$prod->quantity}}</td>
+                                                    <td class="">{{$prod->observations}}</td>
+                                                    <td class="">${{$prod->total}}</td>
+                                                    
+                                                </tr>
+                                            @endforeach          
+                                        @endif 
                                     </tbody>
                                 </table>
                             </div>

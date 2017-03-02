@@ -31,6 +31,7 @@
                             v-model="form.contact"
                             label="name"         
                             track-by="name"
+                            :show-labels="false"
                             placeholder="Seleccione..." 
                             @input="onInputContact"
                         >
@@ -193,9 +194,90 @@
         <tr>
     </tbody>
     
-</table>
+    </table>
  
 @endsection
+
+
+@section('payment_to_category')
+
+    <table class="table-hover">
+    <thead>
+        <tr>           
+            <th >Categoría</th>
+            <th>Valor</th>
+            <th>Impuesto</th>
+            <th>Cantidad</th>
+            <th>Observaciones</th>
+            <th colspan=2>Total</th>
+        </tr>
+    </thead>
+       
+    <tbody>
+        
+        <tr v-for="_data in form.payment_in_to_category">                       
+            
+             <td style="width: 18em" class="form-category_id"  >
+               <span> 
+                    <multiselect 
+                            :options="category_list"
+                            v-model="_data.category"
+                            label="name"         
+                            track-by="name"
+                            :show-labels="false"
+                            placeholder="Buscar Categoría..." 
+                            @input="onInputCategory(_data)"
+                        >
+                        </multiselect>
+                </span>  
+            </td>     
+            
+             <td class="form-ref" style="width: 7em" >
+               <input type="number" min=0 class="form-control input-sm input_number"  v-model.number="_data.unit_price">
+            </td> 
+             <td class="form-ref" style="width: 8em" >
+               <multiselect 
+                            :options="taxes" 
+                            v-model="_data.tax_value"
+                            label="text"         
+                            track-by="value"
+                            placeholder=""
+                            ShowLabels="false"
+                            @input="onInputTax(_data)"
+                            :show-labels="false"
+                        >
+                        </multiselect>
+            </td> 
+             <td class="form-ref" style="width: 5em" >
+                <input type="number" min=0 class="form-control input-sm input_number" v-model.number="_data.quantity">
+            </td> 
+             <td class="form-ref" style="width: 7em" >
+                 <textarea rows="1" class="form-control input_number" v-model="_data.observations"></textarea>
+            </td>              
+             <td class="form-ref" style="width: 7em" >
+               <span class="form-number">@{{_data.quantity * _data.unit_price  | formatCurrency}}</span>
+            </td> 
+            <td style="width: 1em">
+               <a @click="removeItem(_data)">
+                    <span id="icon-detail" class="fa fa-remove fa-2x" style="color:red">
+                    </span>
+                </a>
+            </td>      
+        <tr>
+    </tbody>    
+    </table>
+    <template id="mtemplate">
+    </template>
+
+
+    <table class="table2">
+            <tr>					
+                <span class="fa fa-plus-circle" style="color:green">&nbsp;&nbsp;</span><a @click="addLine" ><u>Agregar nuevo ítem</u></a>
+            </tr>
+    </table>
+ 
+@endsection
+
             <div class="row animated fadeInRight">
                         <div id="vertical-timeline" class="vertical-container dark-timeline left-orientation">
                             <div class="vertical-timeline-block">
@@ -252,22 +334,34 @@
                                         </div>
                                 </div>
                             </div>
-                             <template v-if="DisplayPendingInvoiceSale()==true">
+                            <template v-if="DisplayPendingInvoiceSale()==true">
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon lazur-bg">
+                                        <i class="fa fa-paste"></i>
+                                    </div>
+
+                                    <div class="vertical-timeline-content">
+                                        <h2>Facturas de venta pendientes</h2>
+                                        @yield('payment_pending_to_pay')
+                                    </div>
+                                </div>
+                            </template>
+                             <template v-if="form.isInvoice==0">
                             <div class="vertical-timeline-block">
                                 <div class="vertical-timeline-icon lazur-bg">
-                                    <i class="fa fa-paste"></i>
+                                    <i class="fa fa-th"></i>
                                 </div>
 
                                 <div class="vertical-timeline-content">
-                                    <h2>Facturas de venta pendientes</h2>
-                                    @yield('payment_pending_to_pay')
+                                    <h2>Seleccione la Categoría a la que pertenece el gasto</h2>
+                                    @yield('payment_to_category')
                                 </div>
                             </div>
                             </template>
                     </div>
             </div>
   
-
+<pre><code>@{{$data.errors | json}}</code></pre>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

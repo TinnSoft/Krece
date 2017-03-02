@@ -7,15 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
-    BillDetail,
     Bill,
     Payment,
-    Seller,
     Tax,
-    Currency,
-    ListPrice,
-    Contact,
-    Product,
     ResolutionNumber,
     Resolution,
     Category,
@@ -46,10 +40,17 @@ class PaymentOut_Controller extends Controller
         ->where('payment.isDeleted',0)
         ->where('payment.type_id','=','eg')
         ->where('category_payment.account_id',Auth::user()->account_id)
-        ->select('payment.id as payment_id','payment.date','payment.resolution_id','payment.status_id',
-        'payment_method.name as payment_method', 'contact.name as contact','contact.id as contact_id',
+        ->select('payment.id as payment_id',
+        'payment.date',
+        'payment.resolution_id',
+        'payment.status_id',
+        'payment_method.name as payment_method', 
+        'contact.name as contact',
+        'contact.id as contact_id',
         DB::raw('SUM((category_payment.unit_price * category_payment.quantity)+IFNULL(category_payment.tax_total,0)) as total'),
-        'payment.observations','payment.public_id',DB::raw('1 as IsCategory')
+        'payment.observations',
+        'payment.public_id',
+        DB::raw('1 as IsCategory')
         )
         ->groupBy('payment.id','payment.date','payment.resolution_id','payment_method.name','contact.name',
         'payment.observations','payment.public_id','payment.status_id','contact.id')
@@ -66,13 +67,27 @@ class PaymentOut_Controller extends Controller
         ->where('bill.isDeleted',0)
         ->where('payment.type_id','=','eg')
         ->where('bill.account_id',Auth::user()->account_id)
-        ->select('payment.id as payment_id','payment.date','payment.resolution_id','payment.status_id',
-        'payment_method.name as payment_method', 'contact.name as contact','contact.id',
-        DB::raw('SUM(payment_history.amount) as total'),'payment.observations','payment.public_id',
+        ->select('payment.id as payment_id',
+        'payment.date',
+        'payment.resolution_id',
+        'payment.status_id',
+        'payment_method.name as payment_method', 
+        'contact.name as contact',
+        'contact.id',
+        DB::raw('SUM(payment_history.amount) as total'),
+        'payment.observations',
+        'payment.public_id',
         DB::raw('0 as IsCategory')
         )
-        ->groupBy('payment.id','payment.date','payment.resolution_id','payment_method.name','contact.name',
-        'payment.observations','payment.public_id','payment.status_id','contact.id')
+        ->groupBy('payment.id',
+        'payment.date',
+        'payment.resolution_id',
+        'payment_method.name',
+        'contact.name',
+        'payment.observations',
+        'payment.public_id',
+        'payment.status_id',
+        'contact.id')
         ->orderby('bill.resolution_id','desc')
         ->union($categoryPayment)
         ->get();
@@ -338,7 +353,7 @@ class PaymentOut_Controller extends Controller
     
     public function show($id)
     {
-
+        
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -350,33 +365,33 @@ class PaymentOut_Controller extends Controller
             'message' => 'No se encontró ninguna referencia de pago creadas!',
             'alert-type' => 'error'
             );
-            return redirect('/payment/in')->with($notification);
+            return redirect('/payment-out')->with($notification);
         }
         $isCategory=false;
-        $detail=$this->getPaymentDetail($payment->customer_id);
+        $detail=$this->getPaymentDetail($payment->id);
         $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
-
+        
         if ($detail->isEmpty())
-        {            
+        {
             $detail=$this->getCategoryPayment($payment->id);
             if (! $detail->isEmpty())
-            {  
+            {
                 foreach($detail as $item)
-                {           
+                {
                     $item->unit_price=Helper::formatMoney($item->unit_price);
                     $item->total=Helper::formatMoney($item->total);
                 }
-                $isCategory=true;   
-                $total=Helper::formatMoney($detail->sum('total'));            
+                $isCategory=true;
+                $total=Helper::formatMoney($detail->sum('total'));
             }
-        }        
+        }
         
         return view('payment-out.show', compact('payment','detail','total','isCategory'));
     }
     
     public function edit($id)
     {
-
+        
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -392,18 +407,17 @@ class PaymentOut_Controller extends Controller
         }
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         $isCategory=false;
-        $detail=$this->getPaymentDetail($payment->customer_id);
-        $categoryList=[];
-          if ($detail->isEmpty())
-            {            
-                $categoryList=$this->getCategoryPayment($payment->id);
-                if (! $categoryList->isEmpty())
-                {  
-                    $isCategory=true;             
-                }
-               
-            }      
-            
+        $detail=$this->getPaymentDetail($payment->id);
+        $categoryList=collect([]);
+        if ($detail->isEmpty())
+        {
+            $categoryList=$this->getCategoryPayment($payment->id);
+            if (! $categoryList->isEmpty())
+            {
+                $isCategory=true;
+            }            
+        }
+        //dd($categoryList);
         return view('payment-out.edit', compact('payment','detail','isCategory','categoryList'));
     }
     
@@ -417,14 +431,14 @@ class PaymentOut_Controller extends Controller
         'payment_method_id' => 'required',
         'bank_account_id' => 'required',
         ]);
-
-       
+        
+        
         $payment = Payment::findOrFail($id);
         
         $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');
         $data['user_id'] = Auth::user()->id;
         $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-
+        
         $payment->update($data);
         if(isset($data['pending_payment_out'])) {
             foreach($data['pending_payment_out'] as $item) {
@@ -446,15 +460,15 @@ class PaymentOut_Controller extends Controller
         
         $categoryListInput=[];
         if(isset($data['payment_out_to_category'])) {
-             
-             foreach($data['payment_out_to_category'] as $item) {
+            
+            foreach($data['payment_out_to_category'] as $item) {
                 if ($item['unit_price']>0 && $item['category_id']>0)
-                {  
+                {
                     $categoryListInput[]=$item;
                 }
             }
-                          
-
+            
+            
             if ($categoryListInput!=null)
             {
                 $categoryList_save= collect($categoryListInput)->transform(function($categoryListInput) {
@@ -478,14 +492,14 @@ class PaymentOut_Controller extends Controller
                 foreach($categoryList_save as $item) {
                     $item['payment_id']=$payment->id;
                 }
-
-                 CategoryPayment::where('payment_id', $payment->id)->delete();
+                
+                CategoryPayment::where('payment_id', $payment->id)->delete();
                 $payment->category_payment()->saveMany($categoryList_save);
             }
-          
+            
         }
-
-         
+        
+        
         
         event(new RecordActivity('Update','Se actualizó el comprobante de pago número: '
         .$payment->resolution_id.' para el cliente '.$payment->contact->name,
@@ -522,65 +536,80 @@ class PaymentOut_Controller extends Controller
     public function pdf($id, Request $request)
     {
         
-          $payment = Payment::with('contact','payment_method','bank_account')
+        $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
-       
+        
+        $subtotal=0;
+        $total=0;
+        $taxes=[];
         $isCategory=false;
-        $payment_detail=$this->getPaymentDetail($payment->customer_id);
         $detail=[];
-     
 
+        //1. buscar si tiene pagos asociados por factura
+        $payment_detail=$this->getPaymentDetail($payment->id);
+       
         foreach($payment_detail as $item)
         {
-             $detail = collect([
-            ['total' => ($item->total2) - ($item ->total_pending_by_payment2)
-            , 'quantity' => 1,
+            $detail = collect([
+            ['total' => Helper::formatMoney( ($item ->total_pending_by_payment2)),
+            'total2' =>  ($item ->total_pending_by_payment2),
+            'quantity' => 1,
             'concept'=>'Pago a factura de proveedor']
             ]);
         }
-
-                
-        $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
-        $taxes=[];
-        $subtotal=0;
+        
+        if(!collect($detail)->isEmpty())
+        {
+            $total=Helper::formatMoney($detail->sum('total2'));
+        }
+        
+        $subtotal=$total;
+        
+        //2. Si no tiene pagos asociados por factura entonces buscar si tiene pagos a categorias
         if ($payment_detail->isEmpty())
-        {            
+        {
             $payment_detail=$this->getCategoryPayment($payment->id);
             if (! $payment_detail->isEmpty())
-            {  
+            {
                 $taxes=$this->getTotalTaxes($payment->id);
                 $subtotal=Helper::formatMoney($payment_detail->sum('total'));
-                $isCategory=true;   
-                $total=Helper::formatMoney($payment_detail->sum('total') + $payment_detail->sum('tax_total'));  
-            
+                $isCategory=true;
+                $total=Helper::formatMoney($payment_detail->sum('total') + $payment_detail->sum('tax_total'));
+                
+               
+
                 foreach($payment_detail as $item)
-                {           
-                    $item->unit_price=Helper::formatMoney($item->unit_price);
-                    $item->total=Helper::formatMoney($item->total);
+                {
+                    //$item->unit_price=Helper::formatMoney($item->unit_price);
+                    //$item->total=Helper::formatMoney($item->total);
+                    $detail[] =collect( 
+                    ['total' => Helper::formatMoney($item->total)
+                    , 'quantity' =>  $item->quantity,
+                    'concept'=> $item->category->name
+                    ]);
                 }
-                         
+                $detail = collect($detail);
+                          
             }
-        }        
+        }
         
-
-        $detail=$payment_detail;
         $mypdf = PDF::loadView('pdf.payment-out', ['payment' => $payment,
-                                                'detail' => $detail,
-                                                'taxes' => $taxes,
-                                                'isCategory'=>$isCategory,
-                                                'total'=>$total,
-                                                'subtotal'=>$subtotal
-                                              ]);
-
+        'detail' => $detail,
+        'taxes' => $taxes,
+        'isCategory'=>$isCategory,
+        'total'=>$total,
+        'subtotal'=>$subtotal
+        ]);
+        
         $filename = "Payment-out_"."{$payment->public_id}.pdf";
         
         if($request->get('opt') === 'download') {
             return $pdf->download($filename);
         }
         
-        event(new RecordActivity('Print','Se ha impreso el pdf para el pago No: '
+        event(new RecordActivity('Print','Se ha impreso el pdf para el comprobante de egreso No: '
         .$payment->resolution_id,
         'Payment-out','/Payment-out/'.$payment->public_id));
         
@@ -589,40 +618,40 @@ class PaymentOut_Controller extends Controller
     
     public static function update_state(Request $request,$id)
     {
-         
-            $data = $request->all();
-            $data['status_id']= (int)$data['status_id'];
-            
-            $item = Payment::findOrFail($id);
-            
-            $item->update($data);
-            
-            event(new RecordActivity('Update','Se actualizó el estado del pago número: '
-            .$item->resolution_id.' para el cliente '.$item->contact->name,
-            'Payment-out','/Payment-out/'.$item->public_id));
-            
-            return response()
-            ->json([
-            'updated' => true
-            ]);
+        
+        $data = $request->all();
+        $data['status_id']= (int)$data['status_id'];
+        
+        $item = Payment::findOrFail($id);
+        
+        $item->update($data);
+        
+        event(new RecordActivity('Update','Se actualizó el estado del pago número: '
+        .$item->resolution_id.' para el cliente '.$item->contact->name,
+        'Payment-out','/Payment-out/'.$item->public_id));
+        
+        return response()
+        ->json([
+        'updated' => true
+        ]);
     }
     
     public static function getCategoryPayment($payment_id)
     {
         $categoryPayment=CategoryPayment::with('category','taxes')
-                    ->select('id','payment_id','category_id','unit_price','tax_id',DB::raw('IFNULL(tax_amount,0) as tax_amount'),
-                           DB::raw('IFNULL(tax_total,0) as tax_total'), 'quantity','observations',
-                            DB::raw('SUM(unit_price * quantity) as total'))
-                    ->where('account_id',Auth::user()->account_id)
-                    ->where('payment_id',$payment_id)
-                    ->groupBy('id','payment_id','category_id','unit_price','tax_id','tax_total','tax_amount',
-                            'quantity','observations','tax_total')
-                    ->get();
-
-         return  $categoryPayment;
+        ->select('id','payment_id','category_id','unit_price','tax_id',DB::raw('IFNULL(tax_amount,0) as tax_amount'),
+        DB::raw('IFNULL(tax_total,0) as tax_total'), 'quantity','observations',
+        DB::raw('SUM(unit_price * quantity) as total'))
+        ->where('account_id',Auth::user()->account_id)
+        ->where('payment_id',$payment_id)
+        ->groupBy('id','payment_id','category_id','unit_price','tax_id','tax_total','tax_amount',
+        'quantity','observations','tax_total')
+        ->get();
+        
+        return  $categoryPayment;
         
     }
-    public static function getPaymentDetail($customer_id)
+    public static function getPaymentDetail($payment_id)
     {
         //se llama desde la funcion view
         $payment_historical=
@@ -632,7 +661,7 @@ class PaymentOut_Controller extends Controller
         ->where('bill.account_id',Auth::user()->account_id)
         ->where('bill.isDeleted',0)
         ->where('payment.isDeleted',0)
-        ->where('payment.customer_id',$customer_id)
+        ->where('payment.id',$payment_id)
         ->select('bill.id','bill.resolution_id', 'payment_history.bill_id',
         'bill.total','bill.public_id','bill.total as total2',
         'bill.date','bill.due_date',
@@ -654,20 +683,27 @@ class PaymentOut_Controller extends Controller
         
         return  $payment_historical;
     }
+    
+    public static function getTotalTaxes($payment_id)
+    {
+        $taxes=
+        DB::table('category_payment')
+        ->join('tax', 'category_payment.tax_id', '=', 'tax.id')
+        ->where('category_payment.account_id',Auth::user()->account_id)
+        ->where('category_payment.payment_id',$payment_id)
+        ->where('category_payment.tax_amount','>',0)
+        ->select(DB::raw("CONCAT(tax.name,' (',category_payment.tax_amount,'%)') AS name"),
+        DB::raw('SUM(category_payment.tax_total) as total'))
+        ->groupBy('tax.name','category_payment.tax_amount')
+        ->get();
+        
+        return  Helper::_taxesFormatter($taxes);
+    }
 
-     public static function getTotalTaxes($payment_id)
-        {
-            $taxes=
-            DB::table('category_payment')
-            ->join('tax', 'category_payment.tax_id', '=', 'tax.id')
-            ->where('category_payment.account_id',Auth::user()->account_id)
-            ->where('category_payment.payment_id',$payment_id)
-            ->where('category_payment.tax_amount','>',0)
-            ->select(DB::raw("CONCAT(tax.name,' (',category_payment.tax_amount,'%)') AS name"),
-            DB::raw('SUM(category_payment.tax_total) as total'))
-            ->groupBy('tax.name','category_payment.tax_amount')
-            ->get();
-            
-            return  Helper::_taxesFormatter($taxes);
-        }
+     public static function update_bill_status($invoice_id, $status_id)
+    {
+        Bill::where('id', $invoice_id)
+        ->update(['status_id' => $status_id]);
+    }
+    
 }

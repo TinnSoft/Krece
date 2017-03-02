@@ -74,6 +74,6 @@
    
        
    {!!Html::script('/js/components/datepicker/datepicker-vue.js')!!} 
-    {!!Html::script('/js/functions/payment.js')!!}
+    {!!Html::script('/js/functions/payment-in.js')!!}
    
 @endpush

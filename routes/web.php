@@ -105,7 +105,8 @@ Route::get('getPaymentList','PaymentIn_Controller@getPaymentList');
 Route::get('getPaymentBaseInfo','PaymentIn_Controller@BaseInfo');
 Route::get('getInvoicePendingtoPay/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data');
 Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data_edit');
-Route::put('payment_in_update_state/{req}','PaymentIn_Controller@payment_in_update_state');
+Route::put('payment_in_update_state/{req}','PaymentIn_Controller@update_state');
+Route::get('payment_in_ToCategorySection','PaymentIn_Controller@getBaseInfoToCategorySection');
 
 //payment made
 Route::resource('payment-out', 'PaymentOut_Controller');

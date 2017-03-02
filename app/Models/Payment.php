@@ -68,7 +68,7 @@ class Payment extends Model
 	
 	public function account()
 	{
-		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo'));
+		return $this->hasOne(Account::class,'id','account_id')->select(array('id','name','address','phone','identification','city','logo','email'));
 	}
 	
 	public function scopeGetAll($query,$isDeleted)

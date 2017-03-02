@@ -30,7 +30,7 @@
         @yield('content')
          <div class="footer">                         
              <div align="center">             
-               <small class="text-muted">{{$document_type}} en el sistema <strong> www.krece.co</strong></small>
+               <small class="text-muted">Generado en el sistema <strong> www.krece.co</strong></small>
              </div>
          </div>
 </body>

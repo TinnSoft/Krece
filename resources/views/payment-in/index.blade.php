@@ -77,7 +77,7 @@
                 var vm = this; 
               
                 Vue.set(vm.$data.status, 'status_id', status);                 
-                axios.put('/payment_update_state/' + item, vm.status)
+                axios.put('/payment_in_update_state/' + item, vm.status)
                 .then(function(response) {
                     if(response.data.updated) {   
                          $('#payment-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');

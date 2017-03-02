@@ -1,4 +1,4 @@
-@extends('pdf.master',['id_file' =>  $po->public_id, 'document_type'=>'Orden de Compra'])
+@extends('pdf.master',['id_file' =>  $po->public_id])
 
 @section('content')
 

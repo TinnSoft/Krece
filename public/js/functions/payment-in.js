@@ -17,16 +17,39 @@ var app = new Vue({
       paymentmethod: [],
       currency: [],
       bank: [],
-      redirect: '/payment/',
+      redirect: '/payment-in/',
+      category_list:[],
+      taxes:[]
     }
   },
-  //similar on load event
-
   created: function () {
-    this.fetchData();
-    Vue.set(this.$data, 'form', _form);
-    Vue.set(this.$data, 'kindOfProcess', _kindOfProcess);
-    this.getInvoiceSale();
+    var vm=this;
+    vm.fetchData();
+    Vue.set(vm.$data, 'form', _form);
+    Vue.set(vm.$data, 'kindOfProcess', _kindOfProcess);
+    vm.getInvoiceSale();
+
+    if(typeof _categorylist=='object')
+    {
+      //procesa el objeto  cuando selecciona la opción Categorias
+      if (_categorylist.length>0)
+      {
+        Vue.set(vm.$data.form, 'payment_in_to_category', []);
+        _categorylist.forEach(function(entry){  
+            vm.form.payment_in_to_category.push({
+              category_id: entry.category_id,
+              category:entry.category,
+              tax_value:entry.taxes,
+              unit_price: entry.unit_price,
+              tax_id: entry.tax_id,
+              quantity: entry.quantity,
+              observations: entry.observations,
+              tax_amount:vm.getTaxAmount(entry),           
+            });
+          
+        })
+      };    
+    }
   },
   beforeMount() {
     this.getCurrentDate();
@@ -36,15 +59,68 @@ var app = new Vue({
     goShow: function (val) {
       window.location = '/invoice/' + val;
     },
+    addLine: function () {
+      this.form.payment_in_to_category.push({
+        category_id: '',
+        category:null,
+        unit_price: '',
+        tax_id: '',
+        quantity: 1,
+        tax_value:null,
+        observations:'',
+        tax_amount:''
+      });
+    },
+     removeItem: function (detail) {
+      var index = this.form.payment_in_to_category.indexOf(detail)
+      this.form.payment_in_to_category.splice(index, 1);
+    },
+     onInputCategory: function (val) {
+      if (val.category) {       
+        val.category_id = val.category.id;
+      }
+      else {
+        val.category_id = "";
+      }
+    },
+    getTaxAmount: function (val) {
+      if (val.taxes) {      
+       return val.taxes.value;
+      }
+     return 0;
+    },
+    onInputTax: function (val) {
+      if (val.tax_value) {
+        val.tax_amount = val.tax_value.value;
+        val.tax_id=val.tax_value.id;
+      }
+      else {
+        val.tax_amount = "";
+        val.tax_id="";
+      }
+    },
     //obtener el listado de facturas de venta pendientes por pagar
     getInvoiceSale: function () {
       var vm = this;
       var procedure_path = '';
-      if (vm.kindOfProcess == "edit") {
-        procedure_path = '/getInvoicePendingtoPay_edit/'
+     
+
+      if(vm.form.isInvoice == 1) //Pago asociado a factura de compra
+      {
+        Vue.delete(vm.$data.form, 'payment_in_to_category', []);
+
+        if (vm.kindOfProcess == "edit") {
+          procedure_path = '/getInvoicePendingtoPay_edit/'
+        }
+        else {
+          procedure_path = '/getInvoicePendingtoPay/'
+        }
       }
-      else {
-        procedure_path = '/getInvoicePendingtoPay/'
+      else{ //pago asociado a categoría
+        Vue.delete(vm.$data.form, 'pending_payment_in', []);
+        Vue.set(vm.$data.form, 'payment_in_to_category', []);
+        this.addLine();
+         procedure_path = '/payment_in_ToCategorySection/'
       }
 
 
@@ -63,6 +139,17 @@ var app = new Vue({
           .catch(function (error) {
             Vue.set(vm.$data, 'errors', error);
           })
+      }
+        else if(vm.form.isInvoice == 0){
+        axios.get(procedure_path)
+          .then(function (response) {
+             Vue.set(vm.$data, 'category_list', response.data.category);
+              Vue.set(vm.$data, 'taxes', response.data.taxes);
+          })
+          .catch(function (error) {
+            Vue.set(vm.$data, 'errors', error);
+          })
+        
       }
     },
     DisplayPendingInvoiceSale: function () {

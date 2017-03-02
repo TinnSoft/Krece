@@ -21,5 +21,6 @@ class CategoryPayment extends Model
     {
         return $this->hasOne(Tax::class, 'id', 'tax_id')->select(array(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value','id'));        
     }
+
     
 }

@@ -48,9 +48,8 @@
    
     <script type="text/javascript">
       
-        Vue.prototype.$http = axios;
-       
-        window._form = {!! $payment->toJson() !!};
+        Vue.prototype.$http = axios;       
+        window._form = {!! $payment->toJson() !!}; 
         window._categorylist = {!! $categoryList->toJson() !!};
         window._kindOfProcess ="edit";
        
