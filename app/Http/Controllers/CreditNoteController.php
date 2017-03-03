@@ -100,7 +100,7 @@ class CreditNoteController extends Controller
         $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'credit_note')['number'];
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
+        $data['date']=Helper::dateFormatter($data['date']);
        
          if (!$data['currency_code'])
         {
@@ -206,7 +206,7 @@ class CreditNoteController extends Controller
        $data = $request->except('detail','contact','list_price','currency');
 
         $data['user_id'] = Auth::user()->id;       
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
+        $data['date']=Helper::dateFormatter($data['date']);
         $creditnote->update($data);
        
         CreditNoteDetail::where('credit_note_id', $creditnote->id)->delete();
@@ -241,8 +241,6 @@ class CreditNoteController extends Controller
 
     public function pdf($id, Request $request)
     {
-        Carbon::setLocale('es');
-
          $creditnote = CreditNote::with('account','detail','list_price')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()

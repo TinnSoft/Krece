@@ -38,7 +38,7 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
+                    { label: 'No', name: 'resolution_id', index: 'resolution_id',align:"center", width: 30, sorttype: "int",formatter:formatpublicID },
                     { label: 'Cliente', name: 'contact',  width: 140, sorttype: "text" },
                     { label: 'Tipo de Proceso', name: 'IsCategory', width: 100,align:"left", formatter:processtype_mask },
                     { label: 'Fecha', name: 'date', width: 60, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},

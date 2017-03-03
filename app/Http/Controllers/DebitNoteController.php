@@ -101,11 +101,11 @@ class DebitNoteController extends Controller
         $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'debit_note')['number'];
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
+        $data['date']=Helper::dateFormatter($data['date']);
        
          if (!$data['currency_code'])
         {
-            $data['currency_code']="COP";
+            $data['currency_code']=CURRENCY_CODE_DEFAULT;
         }
         
 
@@ -207,7 +207,7 @@ class DebitNoteController extends Controller
        $data = $request->except('detail','contact','list_price','currency');
 
         $data['user_id'] = Auth::user()->id;       
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
+        $data['date']=Helper::dateFormatter($data['date']);
         $debitnote->update($data);
        
         DebitNoteDetail::where('debit_note_id', $debitnote->id)->delete();

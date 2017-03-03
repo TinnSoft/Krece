@@ -159,6 +159,7 @@
         </template> 
 @endsection
 
+
 @section('payment_pending_to_pay')
 
     <table class="table-hover">
@@ -335,6 +336,18 @@
                                                        Debes ingresar por lo menos un valor en el campo <strong>Valor recibido</strong>, e intente nuevamente
                                                 </div>
                                             </template>
+
+                                             <template  v-if="errors.category_empty" >
+                                                    <div class="alert alert-danger">         
+                                                       Debes seleccionar por lo menos una  <strong>categoría</strong>, junto a su precio correspondiente
+                                                </div>
+                                            </template>
+                                            
+                                             <template  v-if="errors.transaction_error" >
+                                                    <div class="alert alert-danger">         
+                                                       Debes seleccionar un <strong>tipo de transacción</strong> antes de continuar
+                                                </div>
+                                            </template>
                                             
                                         </div>
                                 </div>
@@ -372,5 +385,5 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
-
+<pre><code>@{{$data.errors | json}}</code></pre>
 

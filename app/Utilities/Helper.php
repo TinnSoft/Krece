@@ -163,8 +163,8 @@ class Helper
     public static function default_currency()
     {
          return [
-            'code_id' => 'COP',
-           'code' => 'COP',
+            'code_id' => CURRENCY_CODE_DEFAULT,
+           'code' => CURRENCY_CODE_DEFAULT,
            'symbol' => '$'];
     }
     //realiza el formato de mneda y fecha para los arreglos tipo factura (nvoice, remision, estimate, etc..)
@@ -194,6 +194,11 @@ class Helper
             $item->total=Helper::formatMoney($item->total);
         }
         return $model_in;
+    }
+
+    public static function dateFormatter($date)
+    {
+        return Carbon::createFromFormat('d/m/Y', $date);
     }
 
 }

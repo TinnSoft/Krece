@@ -103,12 +103,12 @@ class EstimateController extends Controller
             $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'estimate')['number'];
             $data['account_id'] = Auth::user()->account_id;
             $data['user_id'] = Auth::user()->id;
-            $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-            $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+            $data['date']=Helper::dateFormatter($data['date']);
+            $data['due_date']= Helper::dateFormatter($data['due_date']);
             
             if (!$data['currency_code'])
             {
-                $data['currency_code']="COP";
+                $data['currency_code']=CURRENCY_CODE_DEFAULT;
             }
             
             
@@ -222,8 +222,8 @@ class EstimateController extends Controller
             $data = $request->except('detail');
             
             $data['user_id'] = Auth::user()->id;
-            $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-            $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+            $data['date']=Helper::dateFormatter($data['date']);
+            $data['due_date']= Helper::dateFormatter($data['due_date']);
             $estimate->update($data);
             
             EstimateDetail::where('estimate_id', $estimate->id)->delete();

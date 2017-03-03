@@ -329,7 +329,17 @@
                                                        por pagar</strong>, revise nuevamente
                                                 </div>
                                             </template>
+                                            <template  v-if="errors.category_empty" >
+                                                    <div class="alert alert-danger">         
+                                                       Debes seleccionar por lo menos una  <strong>categoría</strong>, junto a su precio correspondiente
+                                                </div>
+                                            </template>
 
+                                            <template  v-if="errors.transaction_error" >
+                                                    <div class="alert alert-danger">         
+                                                       Debes seleccionar un <strong>tipo de transacción</strong> antes de continuar
+                                                </div>
+                                            </template>
                                             
                                         </div>
                                 </div>

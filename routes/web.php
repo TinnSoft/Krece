@@ -2,10 +2,10 @@
 
 
 /*Route::get('/', function () {
-         if(Auth::check()) {
-            return view('home');
-        }
-        return view('welcome');
+if(Auth::check()) {
+return view('home');
+}
+return view('welcome');
 });
 */
 Route::get('/', 'AppController@index');
@@ -18,7 +18,7 @@ Route::get('getLogo','AppController@getLogo');
 /*
 Route::group(['middleware'=>['api']],function()
 {
-    Route::post('validate/user',['uses'=>'Validation\UserController@user',]);
+Route::post('validate/user',['uses'=>'Validation\UserController@user',]);
 });
 */
 //Auth::routes();
@@ -107,6 +107,7 @@ Route::get('getInvoicePendingtoPay/{customer_id}','PaymentIn_Controller@getInvoi
 Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentIn_Controller@getInvoicePendingtoPay_data_edit');
 Route::put('payment_in_update_state/{req}','PaymentIn_Controller@update_state');
 Route::get('payment_in_ToCategorySection','PaymentIn_Controller@getBaseInfoToCategorySection');
+Route::get('payment-in/{id}/pdf', 'PaymentIn_Controller@pdf');
 
 //payment made
 Route::resource('payment-out', 'PaymentOut_Controller');
@@ -138,3 +139,45 @@ Route::get('getBillBaseInfo','BillController@BaseInfo');
 Route::get('getBillList','BillController@getBillList');
 Route::get('bill/{id}/pdf', 'BillController@pdf');
 Route::put('bill_update_state/{req}','BillController@update_state');
+
+define('INVOICE_STATUS_OPEN', 1);
+define('INVOICE_STATUS_VOIDED', 2);//=>NULL
+define('INVOICE_STATUS_APPROVED', 3);
+define('INVOICE_STATUS_PAID',4);
+define('INVOICE_STATUS_DRAFT', 5);
+define('INVOICE_STATUS_CLOSE', 6);
+define('INVOICE_STATUS_SENT', 7);
+
+define('BILL_STATUS_OPEN', 1);
+define('BILL_STATUS_VOIDED', 2);
+define('BILL_STATUS_APPROVED', 3);
+define('BILL_STATUS_PAID',4);
+define('BILL_STATUS_DRAFT', 5);
+define('BILL_STATUS_CLOSE', 6);
+define('BILL_STATUS_SENT', 7);
+
+define('PAYMENT_STATUS_APPLIED', 1);
+define('PAYMENT_STATUS_VOIDED', 2);
+define('PAYMENT_STATUS_RETURNED', 3);
+define('PAYMENT_STATUS_COMPLETE',4);
+
+define('PAYMENT_INCOME_TYPE', 'in');
+define('PAYMENT_OUTCOME_TYPE', 'eg');
+
+define('CURRENCY_CODE_DEFAULT', 'COP');
+
+define('CATEGORY_TYPE_INCOME', 1);
+define('CATEGORY_TYPE_OUTCOME', 2);
+define('CATEGORY_TYPE_ASSETS', 3); //ACTIVOS
+define('CATEGORY_TYPE_LIABILITIES',4); //pasivos
+define('CATEGORY_TYPE_PATRIMONY',5);
+define('CATEGORY_TYPE_TRANSFERENCE',6);
+
+define('CONTACT_IS_PROVIDER','p');
+define('CONTACT_IS_CUSTOMER','c');
+
+define('PAYMENT_LOCAL_VIEW_EVENT_OUT','/Payment-out/');
+define('PAYMENT_LOCAL_VIEW_OUT','payment-out');
+define('PAYMENT_LOCAL_VIEW_EVENT_IN','/Payment-in/');
+define('PAYMENT_LOCAL_VIEW_IN','payment-in');
+

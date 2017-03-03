@@ -23,7 +23,7 @@ class CategoryController extends Controller
         //$parent = Category2::find(10);
         //$node->appendToNode($parent)->save();
        
-        $income = Category::where('type_id',  1)
+        $income = Category::where('type_id',  CATEGORY_TYPE_INCOME)
                 ->where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)
                 ->where('parent_id',"!=",  null)

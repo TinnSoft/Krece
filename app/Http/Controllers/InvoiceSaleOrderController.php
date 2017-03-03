@@ -158,33 +158,23 @@ class InvoiceSaleOrderController extends Controller
             
             $data['public_id'] = Helper::PublicId(InvoiceSaleOrder::class);
             $data['resolution_id'] = (int)$data['resolution_number'];
-            $data['status_id'] = 1;
+            $data['status_id'] = INVOICE_STATUS_OPEN;
             $data['category_id'] = $categoryId['id'];
             $data['account_id'] = Auth::user()->account_id;
             $data['user_id'] = Auth::user()->id;
-            $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-            $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+            $data['date']=Helper::dateFormatter($data['date']);
+            $data['due_date']= Helper::dateFormatter($data['due_date']);
             
             //Default
             if (!$data['currency_code'])
             {
-                $data['currency_code']="COP";
+                $data['currency_code']=CURRENCY_CODE_DEFAULT;
             }
             
             $invoice = InvoiceSaleOrder::create($data);
-            
-            try
-            {
-                $invoice->detail()->saveMany($products);
-            }
-            catch(\exception $e){
-                return response()
-                ->json([
-                'asasa' => [$e]
-                ], 422);
-                
-            }
-            
+                       
+            $invoice->detail()->saveMany($products);
+      
             //Incrementa el numero de cotización
             Resolution::where('account_id', Auth::user()->account_id)
             ->where('id',$request['resolution_id'])
@@ -296,8 +286,8 @@ class InvoiceSaleOrderController extends Controller
             $data = $request->except('detail');
             
             $data['user_id'] = Auth::user()->id;
-            $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-            $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+            $data['date']=Helper::dateFormatter($data['date']);
+            $data['due_date']= Helper::dateFormatter($data['due_date']);
             $invoice->update($data);
             
             InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();
@@ -336,8 +326,6 @@ class InvoiceSaleOrderController extends Controller
         
         public function pdf($id, Request $request)
         {
-            Carbon::setLocale('es');
-            
             $invoice = InvoiceSaleOrder::with('account','detail','list_price','seller')
             ->GetByPublicId(0,$id)
             ->GetSelectedFields()

@@ -40,7 +40,6 @@
                     @include('payment-out.index-grid')                           
                 </div>  
         </div>   
-<pre>@{{$data}}<pre>
     </div>
 
 
@@ -104,7 +103,7 @@
       }, function(isConfirm) {
         if (isConfirm) {
              var vm = this
-                axios.delete('/payment/in/' + val)
+                axios.delete('/payment-out/' + val)
                     .then(function(response) {
                         if(response.data.deleted) {
                             $('#payment-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');

@@ -100,8 +100,8 @@ class PurchaseOrderController extends Controller
         $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'purchase_order')['number'];
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+        $data['date']=Helper::dateFormatter($data['date']);
+        $data['due_date']= Helper::dateFormatter($data['due_date']);
         $data['status_id'] = 1;
          if (!$data['currency_code'])
         {
@@ -213,8 +213,8 @@ class PurchaseOrderController extends Controller
        $data = $request->except('detail','contact','currency');       
 
         $data['user_id'] = Auth::user()->id;       
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+        $data['date']=Helper::dateFormatter($data['date']);
+        $data['due_date']= Helper::dateFormatter($data['due_date']);
 
         $po->update($data);
        

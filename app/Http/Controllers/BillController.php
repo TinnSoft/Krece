@@ -113,16 +113,16 @@ class BillController extends Controller
         };        
 
         $data['public_id'] = Helper::PublicId(Bill::class);              
-        $data['status_id'] = 1;               
+        $data['status_id'] = BILL_STATUS_OPEN;               
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;         
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+        $data['date']=Helper::dateFormatter($data['date']);
+        $data['due_date']= Helper::dateFormatter($data['due_date']);
 
         //Default
         if (!$data['currency_code'])
         {
-            $data['currency_code']="COP";
+            $data['currency_code']=CURRENCY_CODE_DEFAULT;
         }
         
         
@@ -225,8 +225,8 @@ class BillController extends Controller
        $data = $request->except('detail','currency','contact');  
 
         $data['user_id'] = Auth::user()->id;       
-        $data['date']=Carbon::createFromFormat('d/m/Y', $data['date']);
-        $data['due_date']= Carbon::createFromFormat('d/m/Y', $data['due_date']);
+        $data['date']=Helper::dateFormatter($data['date']);
+        $data['due_date']= Helper::dateFormatter($data['due_date']);
         $bill->update($data);
        
         BillDetail::where('bill_id', $bill->id)->delete();

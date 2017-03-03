@@ -30,7 +30,7 @@ class ContactsController extends Controller
 
         $contacts=null;
 
-         if ($condition=="c")
+         if ($condition==CONTACT_IS_CUSTOMER)
         {
             $contacts = Contact::where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted', 0)     
@@ -40,7 +40,7 @@ class ContactsController extends Controller
                     'isProvider','isCustomer'
                )->get();    
         }
-         elseif ($condition=="p")
+         elseif ($condition==CONTACT_IS_PROVIDER)
         {
             $contacts = Contact::where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)    
