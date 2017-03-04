@@ -8,6 +8,7 @@ var app = new Vue({
   },
   data: function () {
     return {
+      defaultCustomerID:null,
       hasPendingPayment: 1,
       isProcessing: false,
       kindOfProcess: {},
@@ -28,7 +29,15 @@ var app = new Vue({
     Vue.set(vm.$data, 'form', _form);
     Vue.set(vm.$data, 'kindOfProcess', _kindOfProcess);
     vm.getInvoiceSale();
-
+    
+    //verifica si tiene una variable como parametro perteneciente al codigo de cliente
+    //indica que requiere seleccionarse automáticamente del dropdown
+    vm.defaultCustomerID = window.location.search.substr(1);
+    if (vm.defaultCustomerID)
+    {
+      vm.defaultCustomerID=parseInt(vm.defaultCustomerID);
+    }
+    
     if(typeof _categorylist=='object')
     {
       //procesa el objeto  cuando selecciona la opción Categorias
@@ -56,6 +65,19 @@ var app = new Vue({
   },
 
   methods: {
+    selectCustomerbyDefault: function (val) {
+      var vm=this;
+       vm.customer_list.forEach(function (item) {
+            if (item.public_id == val) {
+              Vue.set(vm.$data.form, 'isInvoice', '1');
+              Vue.set(vm.$data.form, 'contact', item);
+              Vue.set(vm.$data.form, 'customer_id', item.id);  
+              vm.getInvoiceSale();         
+            };
+            
+          });
+         
+    },
     goShow: function (val) {
       window.location = '/invoice/' + val;
     },
@@ -211,10 +233,17 @@ var app = new Vue({
           Vue.set(vm.$data, 'customer_list', response.data.contacts);
           Vue.set(vm.$data, 'paymentmethod', response.data.paymentmethod);
           Vue.set(vm.$data, 'bank', response.data.bank);
-
+          
           if (vm.$data.form.resolution_id == "") {
             vm.$data.form.resolution_id = response.data.resolution_id.number;
-          }
+          }         
+          
+          //selecciona por defecto el cliente solo si tiene el id del cliente como parametro en la ruta
+          if (vm.defaultCustomerID)
+            {
+              vm.selectCustomerbyDefault(vm.defaultCustomerID);
+               
+            }
 
         })
         .catch(function (error) {

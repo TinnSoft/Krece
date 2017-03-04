@@ -34,6 +34,7 @@ class PaymentIn_Controller extends Controller
 
     public function index()
     {
+        //dd($this->paymentRepo->amountPendingToPay('invoice_sale_order',105));
         return view(PAYMENT_LOCAL_VIEW_IN.'.index');
     }
     
@@ -168,6 +169,7 @@ class PaymentIn_Controller extends Controller
     
     public function show($id)
     {
+        
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -231,7 +233,7 @@ class PaymentIn_Controller extends Controller
                 $isCategory=true;
             }            
         }
-        return view(PAYMENT_LOCAL_VIEW_IN.'edit', compact('payment','detail','isCategory','categoryList'));
+        return view(PAYMENT_LOCAL_VIEW_IN.'.edit', compact('payment','detail','isCategory','categoryList'));
     }
     
     

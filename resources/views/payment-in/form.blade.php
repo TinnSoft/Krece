@@ -371,7 +371,7 @@
                     </div>
             </div>
   
-<pre><code>@{{$data.errors | json}}</code></pre>
+
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

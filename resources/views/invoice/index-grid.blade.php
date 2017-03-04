@@ -121,10 +121,13 @@
              function state_mask(cellvalue, options, rowObject) {
                 if (cellvalue==1)
                 {
-                    return "<div><p><span class='label label-primary'>Abierta</span></p>"
+                    return "<p><span class='label label-primary'>Abierta</span></p>"
                 }
-                else{
+                else if(cellvalue==2){
                       return "<p><span class='label label-warning'>Anulada</span></p>"
+                }
+                else if(cellvalue==6){
+                      return "<p><span class='label label-default'>Cerrada</span></p>"
                 }
             }
 
@@ -136,12 +139,19 @@
                     Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
                     Payment="";
                     Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact_id+"\")/></div><span > </span>";
-                    if (rowObject.status_id==2)
+                    if (rowObject.status_id==2 )
                     {                    
                         edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
                         Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
                         Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
                         Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='color:#ABEBC6' /></div><span > </span>";
+                        Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#ABEBC6'/></div><span > </span>";
+                    }
+                     if ( rowObject.status_id==6)
+                    {                    
+                        edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
+                        Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:#ABEBC6'/></div><span > </span>";
+                        Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";                        
                         Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#ABEBC6'/></div><span > </span>";
                     }
                 return Lock + Details + Print + Payment+  edit+ Delete;

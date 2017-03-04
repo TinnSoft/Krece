@@ -58,7 +58,7 @@ class Helper
     public static function contacts()
     {
          return Contact::with('seller')
-                ->select('id', 'name','seller_id')
+                ->select('id', 'name','seller_id','public_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
                ->orderBy('created_at', 'asc')
                ->get()
@@ -68,7 +68,7 @@ class Helper
     public static function providers()
     {
          return Contact::with('seller')
-                ->select('id', 'name','seller_id')
+                ->select('id', 'name','seller_id','public_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isProvider', '=', 1)
                ->orderBy('created_at', 'asc')
                ->get()

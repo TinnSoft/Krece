@@ -48,7 +48,8 @@
     {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
     {!!Html::script('/js/libraries/accounting.js')!!}
     <script type="text/javascript">
-        //Vue.http.headers.common['X-CSRF-TOKEN'] = '{{csrf_token()}}';
+        
+
         Vue.prototype.$http = axios;
         window._kindOfProcess ="create";
         window._form = {

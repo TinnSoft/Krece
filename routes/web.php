@@ -176,8 +176,8 @@ define('CATEGORY_TYPE_TRANSFERENCE',6);
 define('CONTACT_IS_PROVIDER','p');
 define('CONTACT_IS_CUSTOMER','c');
 
-define('PAYMENT_LOCAL_VIEW_EVENT_OUT','/Payment-out/');
+define('PAYMENT_LOCAL_VIEW_EVENT_OUT','/payment-out/');
 define('PAYMENT_LOCAL_VIEW_OUT','payment-out');
-define('PAYMENT_LOCAL_VIEW_EVENT_IN','/Payment-in/');
+define('PAYMENT_LOCAL_VIEW_EVENT_IN','/payment-in/');
 define('PAYMENT_LOCAL_VIEW_IN','payment-in');
 

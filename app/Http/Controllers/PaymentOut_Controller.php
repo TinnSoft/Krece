@@ -179,12 +179,13 @@ class PaymentOut_Controller extends Controller
     
     public function show($id)
     {
+       
         
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
-        
+       
         if (!$payment)
         {
             $notification = array(
@@ -234,6 +235,7 @@ class PaymentOut_Controller extends Controller
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         $isCategory=false;
         $detail=$this->paymentRepo->PaymentHistoryById('bill',$payment->id);
+     
         $categoryList=collect([]);
         if ($detail->isEmpty())
         {

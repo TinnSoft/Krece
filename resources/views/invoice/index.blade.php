@@ -62,7 +62,7 @@
     AddPayment: function(val){
         window.location='/payment/create?in='+val;     
     },
-       goShow: function(val){
+    goShow: function(val){
         window.location = '/invoice/'+val;
     },
     goEdit: function(val){

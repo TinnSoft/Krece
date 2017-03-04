@@ -415,13 +415,14 @@ class PaymentRepository
         }
         
         $payment = $model::create($data);
-        
+        $tablename=with(new $modelToStatus)->getTable();
         $historical = [];
         $invoice_id=null;
             foreach($detailPayment as $item) {
                 if(isset($item['amount_receipt'])) {
                     $historical['amount']=$item['amount_receipt'];
-                    $historical['bill_id']=$item['id'];
+                    //$historical['invoice_sale_order_id']=$item['id'];
+                     $historical[$tablename.'_id']=$item['id'];
                     $invoice_id=$item['id'];
                     $historical['account_id']=Auth::user()->account_id;
                     $historical['user_id']=Auth::user()->id;
@@ -434,15 +435,39 @@ class PaymentRepository
                 }
             }
             //cuando una factura de compra tiene un pago asociado, esta debe pasar a estado cerrado
-            $this->updateModelStatus($invoice_id,$status_id,$modelToStatus);        
+            $this->updateModelStatus($invoice_id,$status_id,$modelToStatus,$tablename,$payment->id);        
         
         return $payment;
     }
 
     //Actualiza el estado de la factura respectiva
-     public static function updateModelStatus($invoice_id, $status_id,$model)
+    //Lo actualiza a cerrado solo cuando el total de la deuda ha sido saldado
+     public function updateModelStatus($invoice_id, $status_id,$model,$tablename, $payment_id)
     {
-        $model::where('id', $invoice_id)
-        ->update(['status_id' => $status_id]);
+        $amount=$this->amountPendingToPay($tablename,$payment_id);
+
+        if ($amount==0)
+        {
+            $model::where('id', $invoice_id)
+            ->update(['status_id' => $status_id]);
+        }
+    }
+
+    public function amountPendingToPay($tablename,$payment_id)
+    {
+         
+        $totalAmount=0;
+        $totalpending=($this->PaymentHistoryById($tablename,$payment_id));
+         if (! $totalpending->isEmpty())
+            {
+                foreach($totalpending as $item)
+                {
+                    if ($item->total_pending_by_payment2>0)
+                    {
+                    $totalAmount=$item->total_pending_by_payment2;
+                    }
+                }
+            }
+        return $totalAmount;
     }
 }

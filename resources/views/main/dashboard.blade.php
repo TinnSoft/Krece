@@ -43,7 +43,7 @@
                                                     @{{history.detail}}
                                                 </div>
                                                 <div v-else class="media-body">
-                                                    @{{history.detail}} <strong><a href="@{{history.route}}">Ver...</a></strong>
+                                                    @{{history.detail}} <strong><a :href="history.route"><br>ver...</a></strong>
                                                 </div>
                                                 <small class="text-muted">Usuario: @{{history.user.email}} </small><br>
                                                 <small class="text-navy"> <i class="fa fa-clock-o"></i> @{{history.created_at}}</small>
@@ -278,7 +278,7 @@
                 this.graph.datasets[1].data=this.graph_data.weekData_outcome;
                 this.graph.rowlabels=this.WeekLabels;
             },
-            methods: {   
+            methods: { 
                 setIndicator: function(val){
                    
                     if(val=='d')

@@ -4,6 +4,7 @@
 
 @section('content')
  {!!Html::script('/js/vue-library/vue.min.js')!!}
+ {!!Html::script('/js/components/vue-spinner/vue-spinner.min.js')!!}
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
@@ -22,12 +23,10 @@
             <div id="invoice_show" class="row wrapper wrapper-content">
             
                                        <div class="ibox-title">
-                                       
                                             <p>
                                             @if($invoice->status_id==1)
-                                                <a href="{{route('invoice.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
-                                                
+                                                <a href="{{route('payment-in.create')}}?{{$invoice->contact->public_id}}" class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-money "></span>&nbsp;Agregar pago</a> 
                                                 
                                                 <a href="{{route('invoice.edit', $invoice->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
@@ -35,14 +34,19 @@
                                                 <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Clonar</a> 
 
-                                                <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
+                                                <a @click="updateItemStatus({{$invoice->id}},2)" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Anular</a> 
-                                           @endif 
+                                           @else
+                                                <a @click="updateItemStatus({{$invoice->id}},1)" class="btn btn-info btn-sm "> 
+                                                <span ></span>&nbsp;Habilitar</a>
+                                           @endif
                                                 <a href="{{route('invoice.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a> 
 
                                                 <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$invoice->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
+
+                                                
                                             </p>                                     
                                         </div>                            
                  </div>
@@ -185,7 +189,7 @@
                                                         @foreach($paymentHistorical as $item)
                                                             <tr>
                                                                 <td> {{$item->date  }}</td>
-                                                                <td > <a href="{{route('payment.show', $item->public_id)}}">
+                                                                <td > <a href="{{route('payment-in.show', $item->public_id)}}">
                                                                 {{$item->resolution_id  }}</a></td>                                                               
                                                                
                                                                 <td class="">
@@ -219,16 +223,41 @@
 
 <script>
 
+//<pulse-loader :loading="loading" ></pulse-loader>
+//var PulseLoader = VueSpinner.PulseLoader
+
  var appInvoiceShow = new Vue({
   el: '#invoice_show',
+   data: function()  {
+    return { 
+    status:{status_id:null,},
+  }},
+ // components: {
+	//	PulseLoader},
   methods: {
        printPdf: function(val){
         window.open('/invoice/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
-      },
+    updateItemStatus: function(item,status)
+    {          
+        if (item)
+        {
+            if (status)
+            {
+                var vm = this; 
+                Vue.set(vm.$data.status, 'status_id', status);                 
+                axios.put('/invoice_update_state/' + item, vm.status)
+                .then(function(response) {
+                    if(response.data.updated) {   
+                         location.reload();
+                    }
+                })
+                .catch(function(error) {  
+                    Vue.set(vm.$data, 'errors', error.response.data);
+                })
+            }
+        }
+    },
   }
 })
 </script>

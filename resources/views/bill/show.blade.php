@@ -26,14 +26,18 @@
                                             <p>
                                             @if($bill->status_id==1)                                                 
                                                 
-                                                <a href="{{route('bill.edit', $bill->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+                                                <a href="{{route('payment-out.create')}}?{{$bill->contact->public_id}}" class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-money"></span>&nbsp;Agregar Pago</a>
 
                                                 <a href="{{route('bill.edit', $bill->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="fa fa-money"></span>&nbsp;Agregar Pago</a>
+                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a>                                                 
 
                                                 <a href="{{route('bill.edit', $bill->public_id)}}?convert=clone" class="btn btn-warning btn-sm btn-outline"> 
                                                 <span ></span>&nbsp;Anular</a> 
+                                           @endif 
+                                           @if($bill->status_id==2)
+                                            <a href="{{route('bill.edit', $bill->public_id)}}?convert=clone" class="btn btn-warning btn-sm btn-outline"> 
+                                                <span ></span>&nbsp;Volver a abrir</a>
                                            @endif 
                                                 <a href="{{route('bill.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de Proveedores</a> 
@@ -165,7 +169,7 @@
                                                         @foreach($paymentHistorical as $item)
                                                             <tr>
                                                                 <td> {{$item->date  }}</td>
-                                                                <td > <a href="{{route('payment.show', $item->public_id)}}">
+                                                                <td > <a href="{{route('payment-out.show', $item->public_id)}}">
                                                                 {{$item->resolution_id  }}</a></td>                                                               
                                                                
                                                                 <td class="">

@@ -123,8 +123,11 @@
                 {
                     return "<div><p><span class='label label-primary'>Abierta</span></p>"
                 }
-                else{
+                else if(cellvalue==2){
                       return "<p><span class='label label-warning'>Anulada</span></p>"
+                }
+                else if(cellvalue==6){
+                      return "<p><span class='label label-default'>Cerrada</span></p>"
                 }
             }
 

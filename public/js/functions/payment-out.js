@@ -30,6 +30,15 @@ var app = new Vue({
     Vue.set(vm.$data, 'kindOfProcess', _kindOfProcess);
     
     vm.getInvoice_list();
+
+     //verifica si tiene una variable como parametro perteneciente al codigo de cliente
+    //indica que requiere seleccionarse automáticamente del dropdown
+    vm.defaultCustomerID = window.location.search.substr(1);
+    if (vm.defaultCustomerID)
+    {
+      vm.defaultCustomerID=parseInt(vm.defaultCustomerID);
+    }
+
     if(typeof _categorylist=='object')
     {
       //procesa el objeto  cuando selecciona la opción Categorias
@@ -59,6 +68,19 @@ var app = new Vue({
   },
 
   methods: {
+     selectCustomerbyDefault: function (val) {
+      var vm=this;
+       vm.customer_list.forEach(function (item) {
+            if (item.public_id == val) {
+              Vue.set(vm.$data.form, 'isInvoice', '1');
+              Vue.set(vm.$data.form, 'contact', item);
+              Vue.set(vm.$data.form, 'customer_id', item.id);  
+              vm.getInvoice_list();         
+            };
+            
+          });
+         
+    },
     goShow: function (val) {
       window.location = '/bill/' + val;
     },
@@ -215,6 +237,12 @@ var app = new Vue({
           if (vm.$data.form.resolution_id == "") {
             vm.$data.form.resolution_id = response.data.resolution_id.number;
           }
+
+           //selecciona por defecto el cliente solo si tiene el id del cliente como parametro en la ruta
+          if (vm.defaultCustomerID)
+            {
+              vm.selectCustomerbyDefault(vm.defaultCustomerID);               
+            }
 
         })
         .catch(function (error) {
