@@ -14,13 +14,20 @@ use App\Models\{
     ListPrice,
     Product
 };
-
-
+use App\Utilities\Helper;
+use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
+    protected $productRepo;
 
+     public function __construct(ProductRepository $productRepo)
+     {
+        $this->productRepo = $productRepo;
+    }
+    
+    
     public function index()
     {
         return view('inventory.index');  
@@ -66,18 +73,11 @@ class InventoryController extends Controller
                 'measure' =>  $measure_type
             );
         }
-
-        $listPrice = ListPrice::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-                ->where('isEnabled',  1)
-               ->orderBy('created_at', 'asc')
-               ->get();
         
         $baseInfo=[                
                 'taxes' => $taxes,
                'measure_unit'=>$measure,
-               'listprice'=>$listPrice              
+               'listprice'=>Helper::listPrice()              
             ];
              
      return response()->json($baseInfo);
@@ -90,17 +90,16 @@ class InventoryController extends Controller
     }
         
     public function store(Request $request)
-    {        
-        
+    {                
 
           $this->validate($request, [     
             'name' => 'required',
             'sale_price' => 'required',
             'tax_id' => 'required',
             'category_id' => 'required',
-            'inv_type_id'=>'required_if:inv_inStock,true',
-            'inv_unit_cost'=>'required_if:inv_inStock,true',
-            'inv_quantity_initial'=>'required_if:inv_inStock,true'
+            'inv_type_id'=>'required_if:inv_inStock,1',
+            'inv_unit_cost'=>'required_if:inv_inStock,1',
+            'inv_quantity_initial'=>'required_if:inv_inStock,1'
             ]);        
         
         $data = $request->except('tax','list_price');  
@@ -134,17 +133,32 @@ class InventoryController extends Controller
             ]);
     }
 
+    public function getInventoryReports($process_type, $product_id)
+    {
+        switch ($process_type)
+        {
+            case 'remision';
+                return $this->productRepo->getRemisionList($product_id);
+                break;
+
+        };
+    }
+
     public function show($id)
     {
-         $products = Product::with(['tax','list_price','measure_unit'])
+         
+
+         $products = Product::with(['tax','list_price','measure_unit','category'])
                 ->where('account_id',  Auth::user()->account_id)
                 ->where('public_id',  $id)
                 ->where('isDeleted',  0)
                 ->orderBy('created_at', 'desc')
                 ->select( 'id','name','reference','sale_price','description','tax_id','public_id','inv_type_id',
-                'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive','inv_quantity_actual'
+                'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive','inv_quantity_actual','category_id'
                 )->first();    
          
+   
+
         if (!$products)
         {
             $notification = array(
@@ -211,9 +225,9 @@ class InventoryController extends Controller
             'sale_price' => 'required',
             'tax_id' => 'required',
             'category_id' => 'required',
-            'inv_type_id'=>'required_if:inv_inStock,true',
-            'inv_unit_cost'=>'required_if:inv_inStock,true',
-            'inv_quantity_initial'=>'required_if:inv_inStock,true'
+            'inv_type_id'=>'required_if:inv_inStock,1',
+            'inv_unit_cost'=>'required_if:inv_inStock,1',
+            'inv_quantity_initial'=>'required_if:inv_inStock,1'
         ]);
         
     

@@ -33,13 +33,13 @@ $(document).ready(function () {
         ],
         pageLength: 10,
         responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
+        //dom: '<"html5buttons"B>lTfgitp',
         buttons: [
-            { extend: 'copy' },
-            { extend: 'csv' },
-            { extend: 'excel', title: 'Exportado_excel' },
-            { extend: 'pdf', title: 'Exportado_pdf' },
-            {
+           // { extend: 'copy' },
+            //{ extend: 'csv' },
+            //{ extend: 'excel', title: 'Exportado_excel' },
+            //{ extend: 'pdf', title: 'Exportado_pdf' },
+            /*{
                 extend: 'print',
                 customize: function (win) {
                     $(win.document.body).addClass('white-bg');
@@ -49,7 +49,7 @@ $(document).ready(function () {
                         .addClass('compact')
                         .css('font-size', 'inherit');
                 }
-            }
+            }*/
         ]
 
     });

@@ -67,6 +67,7 @@
                                     v-model="form.list_price"
                                     label="name"         
                                     track-by="name"
+                                    :show-labels="false"
                                     placeholder="Seleccione..."
                                     @input="onInputlistprice"
                                 >
@@ -91,6 +92,7 @@
                                 label="name"         
                                 track-by="name"
                                 placeholder="Seleccione..."
+                                :show-labels="false"
                                  @input="onInputTax"
                             >
                             </multiselect>
@@ -128,6 +130,7 @@
                                  placeholder="Seleccione.." 
                                  track-by="measure_unit" 
                                  @input="onInputUnitMeasure"
+                                 :show-labels="false"
                                  label="measure_unit">
                                  <span slot="noResult">Oops! No se han encontrado registros coincidentes.
                                  </span>

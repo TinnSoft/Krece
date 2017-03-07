@@ -60,7 +60,7 @@ var app = new Vue({
     onInputResolutionList: function (val) {
       var vm = this;
       if (val) {
-        if (val.auto_increment == 1) {
+        if (val.auto_increment == 1) {          
           Vue.set(vm.$data.form, 'ResolutionIsAutoNumeric', true);
           vm.form.resolution_id = val.id;
           vm.form.resolution_number = val.next_invoice_number;
@@ -203,16 +203,22 @@ var app = new Vue({
           Vue.set(vm.$data, 'taxes', response.data.taxes);
           Vue.set(vm.$data, 'paymentTerms', response.data.paymentTerms);
           Vue.set(vm.$data, 'numerationList_sale_order', response.data.numerationList_sale_order);
+       
           Vue.set(vm.$data.form, 'resolution_number', response.data.resolution_id['next_invoice_number']);
 
           vm.numerationList_sale_order.forEach(function (item) {
             if (item.isDefault == 1) {
               vm.form.resolution = item;
+              if (vm.form.resolution_id!='') //validación para el modulo de edicion, se debe mantener el mismo numero de resolución
+              {
+                vm.form.resolution_number=vm.form.resolution_id;
+              }
               vm.form.resolution_id = item.id;
               vm.wasSetByDefault = true;
             }
           });
-
+          
+          
           //default values
           if (!vm.$data.form.list_price) {
             Vue.set(vm.$data.form, 'list_price', response.data.list_price);
@@ -228,7 +234,7 @@ var app = new Vue({
           if (vm.$data.form.public_id == "") {
             vm.$data.form.public_id = response.data.public_id;
           }
-
+          
           if (vm.$data.form.resolution_number == '') {
             vm.$data.form.resolution_number = response.data.resolution_number.number;
             vm.$data.form.resolution_id = response.data.resolution_number.id;
@@ -294,14 +300,14 @@ var app = new Vue({
       var TaxTot = this.form.detail.reduce(function (carry, detail) {
         return carry + ((((parseFloat(detail.quantity) * parseFloat(detail.unit_price))
           - ((parseFloat(detail.quantity) * parseFloat(detail.unit_price)) * parseFloat(detail.discount)) / 100) *
-          parseFloat(detail.tax_amount))) / 100;
+           parseFloat(isNaN(detail.tax_amount) || detail.tax_amount=='' ? 0 : detail.tax_amount))) / 100;
       }, 0);
 
       this.form.total_taxes = isNaN(TaxTot) ? 0 : TaxTot;
 
       return isNaN(TaxTot) ? 0 : TaxTot
     },
-
+    
     grandTotal: function () {
       var totalval = (isNaN(this.subTotal) ? 0 : parseFloat(this.subTotal)) -
         (isNaN(this.DiscountsTotal) ? 0 : parseFloat(this.DiscountsTotal)) + (isNaN(this.TaxesTotal) ? 0 : parseFloat(this.TaxesTotal));

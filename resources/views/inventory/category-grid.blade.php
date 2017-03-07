@@ -27,7 +27,7 @@
                     {name:'name', label:'Nombre', "width":70,index:'name'},
                     {name:'description', label:'Descripción',"width":170, index:'description'},
                     {name:'niif_account', label:'# Cuenta',"width":60, index:'niif_account'},
-                    {name:'id',key:true,"width":30, label:'Acciones', index:'id',  "align":"right", 
+                    {name:'id',key:true,"width":70, label:'Acciones', index:'id',  "align":"right", 
                         formatter: displayButtons},
                     {name:"parent_id",hidden:true},
                     {name:"lft",hidden:true},
@@ -75,15 +75,15 @@
              function displayButtons(cellvalue, options, rowObject) {
             
                 
-                var edit = '<div  title= "editar"  class="fa fa-pencil" style="cursor: pointer; color:green" onClick="app.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
-                    Details = "<div title= 'ver' class='fa fa-eye' style='cursor: pointer; color:blue'  onClick=app.updateNode(\""+options+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus'  style='cursor: pointer; color:green' onclick=app.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
+                var edit = '<div  title= "editar"  class="fa fa-pencil fa-2x" style="cursor: pointer; color:green" onClick="app.updateNode(\''+rowObject.description+'\',\''+rowObject.name+'\',\''+rowObject.id+'\',\''+rowObject.niif_account+'\')"></div><span > </span>',
+                    Details = "<div title= 'ver' class='fa fa-eye fa-2x' style='cursor: pointer; color:blue'  onClick=app.updateNode(\""+options+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove fa-2x'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Add = "<div title= 'Crear sub-categoria' class='fa fa-plus fa-2x'  style='cursor: pointer; color:green' onclick=app.addNewNode(\""+cellvalue+"\")/></div><span > </span>";
                 
                 if (rowObject.isEditable==0)
                 {
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='color:#F3D8D5'/></div><span > </span>";
-                    edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>";                   
+                    Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
+                    edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";                   
                 }
 
                 return Add + edit + Details + Delete;

@@ -34,9 +34,14 @@
 
                                                 <a href="{{route('remision.edit', $remision->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Clonar</a> 
+                                                  <a @click="updateItemStatus({{$remision->id}},2)" class="btn btn-info btn-sm "> 
+                                                <span ></span>&nbsp;Anular</a> 
+                                            @else
+                                                <a @click="updateItemStatus({{$remision->id}},1)" class="btn btn-info btn-sm "> 
+                                                <span ></span>&nbsp;Habilitar</a>
                                            @endif 
                                                 <a href="{{route('remision.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
+                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Remision</a> 
 
                                                 <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$remision->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
@@ -87,9 +92,11 @@
                                         <span><strong>Fecha de creación:</strong>  {{$remision->date}} </span><br/>
                                         <span><strong>Fecha de vencimiento:</strong> {{$remision->due_date}}      </span>
                                         @if ($remision->status_id==1)                                    
-                                           <p>Estado: <span class='label label-primary'>ACTIVO</span></p>                                        
-                                        @else
-                                            <p>Estado: <span class='label label-warning'>ANULADO</span></p>
+                                           <p>Estado: <span class='label label-primary'>ABIERTA</span></p>                                        
+                                        @elseif ($remision->status_id==2)   
+                                            <p>Estado: <span class='label label-warning'>ANULADA</span></p>
+                                        @elseif ($remision->status_id==6)   
+                                            <p>Estado: <span class='label label-info'>CERRADA</span></p>
                                         @endif
                 
                                     </p>
@@ -139,10 +146,12 @@
                                     <td><strong>Descuentos :</strong></td>
                                     <td>$ {{$remision->total_discounts}}</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Impuestos :</strong></td>
-                                    <td>$ {{$remision->total_taxes}}</td>
-                                </tr>
+                                 @foreach($taxes as $tax)
+                                    <tr>
+                                        <td><strong>{{$tax->name}}</strong></td>
+                                        <td>${{$tax->total}}</td>
+                                    </tr>
+                                @endforeach
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
                                     <td>$ {{$remision->total}}</td>                                    
@@ -161,14 +170,34 @@
 
  var appRemisionShow = new Vue({
   el: '#remision_show',
+   data: function()  {
+    return { 
+    status:{status_id:null,},
+  }},
   methods: {
        printPdf: function(val){
         window.open('/remision/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
-      },
+    updateItemStatus: function(item,status)
+    {          
+        if (item)
+        {
+            if (status)
+            {
+                var vm = this; 
+                Vue.set(vm.$data.status, 'status_id', status);                 
+                axios.put('/remision_update_state/' + item, vm.status)
+                .then(function(response) {
+                    if(response.data.updated) {   
+                         location.reload();
+                    }
+                })
+                .catch(function(error) {  
+                    Vue.set(vm.$data, 'errors', error.response.data);
+                })
+            }
+        }
+    },
   }
 })
 </script>

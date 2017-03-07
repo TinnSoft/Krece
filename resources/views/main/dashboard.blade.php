@@ -60,15 +60,15 @@
  
     
         <div class="row ">
-            
-            <a>
-                    <div class="btn-group">                    
-                        <button  class="btn btn-outline btn-primary" @click="setIndicator('d')" type="button">Hoy</button>
-                        <button  class="btn btn-outline btn-primary"  @click="setIndicator('w')" type="button">Esta semana</button>
-                        <button  class="btn btn-outline btn-primary" @click="setIndicator('m')" type="button">Este mes</button>
-                        <button  class="btn btn-outline btn-primary"  @click="setIndicator('y')" type="button">Este año</button>
-                    </div>
-            </a>
+            <div class="col-sm-4 m-b-xs">
+                <div data-toggle="buttons" class="btn-group">
+                    <label class="btn btn-sm btn-outline btn-primary active" @click="setIndicator('d')" > <input type="radio" id="option1" name="options"> Hoy </label>
+                    <label class="btn btn-sm btn-outline btn-primary " @click="setIndicator('w')"> <input type="radio"  id="option2" name="options"> Esta semana </label>
+                    <label class="btn btn-sm btn-outline btn-primary" @click="setIndicator('m')"> <input type="radio"  id="option3" name="options"> Este mes </label>
+                    <label class="btn btn-sm btn-outline btn-primary" @click="setIndicator('y')"> <input type="radio"  id="option4" name="options"> Este año </label>
+                </div>
+            </div>
+
              <br><br>
             
                 <div class="col-lg-4">

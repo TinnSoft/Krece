@@ -128,16 +128,21 @@
                                     <td><strong>Descuentos:</strong></td>
                                     <td>${{$remision->total_discounts}}</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Impuestos:</strong></td>
-                                    <td>${{$remision->total_taxes}}</td>
-                                </tr>
+                                  @foreach($taxes as $tax)
+                                    <tr>
+                                        <td><strong>{{$tax->name}}</strong></td>
+                                        <td>${{$tax->total}}</td>
+                                    </tr>
+                                    @endforeach
                                 <tr style="background:#00802b;color:white">
                                     <td><strong >TOTAL:</strong></td>
                                     <td><strong >${{$remision->total}}</strong></td>                                    
                                 </tr>                                
                                 </tbody>
-                            </table>                           
+                            </table>  
+                             <div class="ibox"><br><br><br><br>
+                                     @include('partials.pdf-elaborated_by') 
+                            </div>                            
                             </div>
                         
 

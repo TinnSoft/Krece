@@ -23,7 +23,7 @@
                             <button type="button" class="btn btn-outline btn-info btn-sm" data-toggle="tooltip" data-placement="right" title="En esta opción usted podrá filtrar los datos de cada una de las transacciones asociadas al contacto actual."> <span class="fa fa-exclamation"></span></button>
 
                             <div class="btn-group">
-                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-sm">Seleccionar vista <span class="caret"></span></button>
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-sm">Seleccionar reporte <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a id="refresh_all">Transacciones</a></li>
                                     <li><a >Facturas de venta</a></li>
@@ -31,7 +31,7 @@
                                     <li><a >Notas crédito</a></li>
                                     <li><a >Notas débito</a></li>
                                     <li><a >Cotizaciones</a></li>
-                                    <li><a >Remisiones</a></li>
+                                    <li><a id="remision">Remisiones</a></li>
                                     <li><a >Órdenes de compra</a></li>
                                     <li><a >Ajustes categorías</a></li>
                                 </ul>
@@ -52,22 +52,13 @@
             " <div class='ibox-content ibox-heading'><a href='{{route('contact.index')}}' class='btn btn-primary btn-outline btn-sm '>" +
                                                 "<span class='fa fa-plus '></span>&nbsp;Nueva transacción</a> </div></div> '");
           
-          
-
+          var _colModelx=[];
+                                                
             $("#transaction-grid").jqGrid({
-                //url: "getContactlist/all",
-                editurl: 'contact',
                 datatype: "json",
                 mtype: 'GET',
                 emptyrecords:  "",
-                colModel: [                   
-                    { label: 'Fecha', name: 'name', index: 'name', width: 75, sorttype: "text" },
-                    { label: 'Estado', name: 'nit', width: 90 },
-                    { label: 'Detalle', name: 'phone1', width: 200 },
-                    { label: 'Salidas', name: 'observation', width: 90 },
-                    { label: 'Entradas', name: 'observation', width: 90 }
-                    // {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
-                ],
+                colModel: _colModelx,
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 'auto',
                 height: 300,
@@ -83,6 +74,7 @@
                 rowNum: 20,
                 rowList: [20, 50, 100],
                 caption:"Transacciones",
+                loadtext: "Cargando...",
                 loadonce:true,
                 navOptions: { reloadGridOptions: { fromServer: true } },
                 loadComplete: function () {
@@ -111,23 +103,37 @@
 				})
 			})
 
+            
+
+
+            //REfresh filters
              $("#refresh_all").on("click", function(){             
                  refreshgrid('a','Contactos (todos)');
 			})
 
-            $("#refresh_client").on("click", function(){              
-                refreshgrid('c','Contactos (Clientes)');
+            $("#remision").on("click", function(){
+                var colModel = $("#transaction-grid").jqGrid("getGridParam", "colModel").concat(                 
+                    { label: 'cliente', name: 'name', index: 'name', width: 75, sorttype: "text" },
+                    { label: 'fecha', name: 'date', width: 90 },
+                    { label: 'total', name: 'total', width: 200 }                   
+                );          
+                refreshgrid('remision','remisiones',colModel,25);
 			})
 
             $("#refresh_providers").on("click", function(){             
                  refreshgrid('p','Contactos (Proveedores)');
 			})
 
-            function refreshgrid(filter, caption)
-            {
-                 $("#transaction-grid").setGridParam({url:"getContactlist/"+filter});
+            function refreshgrid(transaction_type, caption, _colModel,customerId)
+            {   
                 $('#transaction-grid').jqGrid('setCaption', caption);
-                 $('#transaction-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
+                 $('#transaction-grid').setGridParam({
+                     url:"getInventoryReports/"+transaction_type+"/"+customerId,
+                     colModel: _colModel,
+                     datatype:'json', 
+                     page:1
+                }).trigger('reloadGrid');
+
             }
 
              jQuery('#transaction-grid').jqGrid('navGrid','#pager_list_2',

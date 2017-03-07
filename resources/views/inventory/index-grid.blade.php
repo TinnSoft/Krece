@@ -35,7 +35,7 @@
                     { label: 'Precio', name: 'sale_price', width: 90,formatter: 'currency',
                     formatoptions: { decimalSeparator: '.', decimalPlaces: 2, thousandsSeparator: ',', prefix: '$' }},                    
                     { label: 'Descripción', name: 'description', width: 90 },
-                    {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , 
+                    {name:'public_id',  keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , 
                      sortable: false, formatter: displayButtons } ,
                      {name:'category_id',"hidden":true},
                      {name:'tax_id',"hidden":true} ,     
@@ -88,16 +88,16 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='cursor: pointer ; color:green' onClick=app.goEdit(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'Ver' class='fa fa-eye ' style='cursor: pointer; color:blue'  onClick=app.goShow(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Lock = "<div title= 'Activar' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=app.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
+                var edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='cursor: pointer ; color:green' onClick=app.goEdit(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'Ver' class='fa fa-eye fa-2x' style='cursor: pointer; color:blue'  onClick=app.goShow(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='cursor: pointer; color:red' onclick=app.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Lock = "<div title= 'Activar' class='fa fa-unlock fa-2x'  style='cursor: pointer; color:#DDB215' onclick=app.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
                 
                 if (rowObject.isActive==0)
                 {
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='color:#F3D8D5'/></div><span > </span>";
-                    edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>",
-                    Lock = "<div title= 'Desactivar' class='fa fa-lock '  style='cursor: pointer; color:gray' onclick=app.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
+                    Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
+                    edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>",
+                    Lock = "<div title= 'Desactivar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=app.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
                 }
 
                 return Lock + edit + Details + Delete;

@@ -17,12 +17,9 @@
 
     </style>
 
-        <div id="creditnote_index" class="jqGrid_wrapper">            
-       
-           <div class="ibox-content">  
+        <div id="creditnote_index" class="jqGrid_wrapper">      
                 <table id="creditnote-grid"></table>
-                <div id="pager_list_2"></div>     
-            </div>        
+                <div id="pager_list_2"></div>   
         <div>
 
     <script>
@@ -39,13 +36,20 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
-                    { label: 'Cliente', name: 'contact.name',  width: 170, sorttype: "text" },
-                    { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
-                    { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                    { label: 'Por aplicar', name: 'amount_pending_to_apply', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     {name:'public_id', search:false, keys: true,"width":30, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                    { label: 'No', align:"center",name: 'public_id', index: 'public_id',  sorttype: "int",formatter:formatpublicID },
+                    { label: 'Cliente', name: 'contact.name',   sorttype: "text" },
+                    { label: 'Creación', name: 'created_at.date', formatter:diffForHumans},
+                    { label: 'Total', name: 'total',  formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    { label: 'Por aplicar', name: 'amount_pending_to_apply',  formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     {name:'public_id', search:false, keys: true, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },
+                     autoResizing: {
+                    compact: true
+                    },   
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 780,
                 height: 'auto',
@@ -65,8 +69,12 @@
                         $("#creditnote-grid").show();
                         emptyMsgDiv.hide();
                     };
+                    //resizewidth();
+                },    
+                beforeRequest:function()
+                {
                     resizewidth();
-                },         
+                },       
                 pager:"#pager_list_2"
             });
     
@@ -108,6 +116,10 @@
              function diffForHumans(cellValue, options, rowObject) {
                     return creditnoteApp.moment(cellValue);
             }
+
+             $(window).on("resize", function() {
+                resizewidth();
+            });
 
              $(window).bind('resize', function () {
                resizewidth();

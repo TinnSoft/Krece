@@ -91,7 +91,8 @@
         </div> 
 
          <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <div class="table-responsive">
+            <table class="table">				
 				<tr> 
 					<th style="width: 10em"><small>Lista de precios</small></th>
 					<td>
@@ -103,6 +104,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                 @input="onInputlistprice"
+                                 :show-labels="false"
                             >
                             </multiselect>
                         </span>
@@ -120,6 +122,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                  @input="onInputSeller"
+                                  :show-labels="false"
                             >
                             </multiselect>
 
@@ -136,6 +139,7 @@
                                 track-by="name"
                                 placeholder="Seleccione..."
                                 @input="onInputPaymentT"
+                                 :show-labels="false"
                             >
                             </multiselect>
 
@@ -167,12 +171,12 @@
                     </td>
 				</tr>
 			</table>
-            
+            </div>
         </div> 
         
     </div> 
  <div class="hr-line-dashed"></div>
-
+<div class="table-responsive">
 <table class="table-hover">
     <thead>
         <tr>
@@ -224,12 +228,12 @@
     </tbody>
     
 </table>
-
+</div>
 
  <template id="mtemplate">
 </template>
 
-
+<div class="table-responsive">
 <table class="table2">
 		<tr>
 			<button  class="btn btn-primary btn-xs btn-outline" type="button"  
@@ -237,8 +241,7 @@
             </button>		
 		</tr>
 </table>
-
-<pre><code>@{{$data.errors | json}}</code></pre>
+</div>
 
 <!--
 

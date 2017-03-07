@@ -35,7 +35,7 @@
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Nota Crédito</a>                     
                     </div>                    
                 </div>  
-               <div class="ibox-content">                                
+               <div class="row">                                
                     @include('credit-note.index-grid')                           
                 </div>  
         </div>   

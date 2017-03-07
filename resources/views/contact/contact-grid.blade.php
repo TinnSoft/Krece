@@ -13,27 +13,17 @@
 
     </style>
 
-        <div id="contact2" class="jqGrid_wrapper">            
-           <!-- activar buscador 
-            <div class="ibox-content">
-                <ul class="todo-list m-t small-list  col-sm-5 pull-right">
-                    <li>
-                        <div  class="input-group"><input id="search_cells" type="text" placeholder="Buscar" class="input-sm form-control"> <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button> </span></div>
-                    </li>
-                </ul>                      
-            </div>-->
-           <div class="ibox-content">                 
-                    <div class="ibox-title">                        
-                        <div class="btn-group">
-                            <button id="refresh_all" class="btn btn-primary btn-sm btn-outline " type="button">Todos</button>
-                            <button id="refresh_client" class="btn btn-primary btn-sm btn-outline" type="button">Clientes</button>
-                            <button id="refresh_providers" class="btn btn-primary btn-sm btn-outline" type="button">Proveedores</button>
-                        </div>
+        <div id="contact2" class="jqGrid_wrapper">               
+                    <div class="ibox-title">    
+                    <div data-toggle="buttons" class="btn-group">
+                        <label class="btn btn-sm btn-outline btn-primary active" id="refresh_all" > <input  type="radio" id="option1" name="options">Todos</label>
+                        <label class="btn btn-sm btn-outline btn-primary " id="refresh_client"> <input  type="radio"  id="option2" name="options">Clientes</label>
+                        <label class="btn btn-sm btn-outline btn-primary" id="refresh_providers"> <input type="radio"  id="option3" name="options">Proveedores</label>
+                    </div>
                     </div> 
                 <table id="contact-grid"></table>
                 <div id="pager_list_2"></div>     
-            </div>        
+                 
     <div>
 
     <script>
@@ -54,7 +44,7 @@
                     { label: 'Nit', name: 'nit', width: 90 },
                     { label: 'Teléfono', name: 'phone1', width: 90 },
                     { label: 'Observaciones', name: 'observation', width: 90 },
-                     {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                     {name:'public_id',  keys: true,"width":70, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 autowidth: true,
@@ -137,9 +127,9 @@
             },700);
 
              function displayButtons(cellvalue, options, rowObject) {
-                var Details = "<div  title= 'Ver'  class='fa fa-eye green' style='cursor: pointer' onClick=app2.goShow(\""+cellvalue+"\") ></div><span > </span>",
-                    edit = "<div title= 'Editar' class='fa fa-pencil green' style='cursor: pointer'  onClick=app2.goEdit(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=app2.remove(\""+cellvalue+"\")/></div><span > </span>";
+                var Details = "<div  title= 'Ver'  class='fa fa-eye green fa-2x' style='cursor: pointer' onClick=app2.goShow(\""+cellvalue+"\") ></div><span > </span>",
+                    edit = "<div title= 'Editar' class='fa fa-pencil green fa-2x' style='cursor: pointer'  onClick=app2.goEdit(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove red fa-2x'  style='cursor: pointer' onclick=app2.remove(\""+cellvalue+"\")/></div><span > </span>";
                 
                 return edit + Details + Delete;
             }   

@@ -19,12 +19,13 @@
 
 @section('header_payment')
     <div class="row">        
-        <div class="col-lg-5">
-            <table class="table table-responsive">			
+        <div class="col-lg-6">
+        <div class="table-responsive">
+            <table class="table">			
                 
 				<tr> 
 					<th style="width: 10em"><span>Cliente</span><a class="text-danger"><strong> *</strong></a></th>
-					<td>  <span>  
+					<td >  <span>  
                      
                           <multiselect 
                             :options="customer_list" 
@@ -45,7 +46,7 @@
 
                 <tr> 
 					<th style="width: 10em"><span>Cuenta</span><a class="text-danger"><strong> *</strong></a></th>
-					<td>  <span>  
+					<td width="100%">  <span>  
                      
                            <multiselect 
                                 v-model="form.bank_account" 
@@ -67,7 +68,7 @@
                
                <tr> 
 					<th style="width: 10em"><span>Método de pago</span><a class="text-danger"><strong> *</strong></a></th>
-					<td>  <span>  
+					<td width="100%">  <span>  
                      
                          <multiselect 
                                 v-model="form.payment_method" 
@@ -100,14 +101,17 @@
 				</tr>
 				
 			</table>
+            </div>
         </div> 
 
-         <div class="col-lg-5">
-            <table class="table table-responsive">				
+         <div class="col-lg-6 ">
+            <div class="table-responsive">
+
+            <table class="table ">				
 				
                 <tr>
 					<th><span >Notas del recibo</span></th>
-					<td>
+					<td style="width: 20em">
                         <span id="prefix2" ></span>
                         <span>
                         
@@ -128,7 +132,7 @@
                     </td>
 				</tr>
 			</table>
-            
+            </div> 
         </div> 
         
     </div> 
@@ -160,7 +164,7 @@
 @endsection
 
 @section('payment_pending_to_pay')
-
+    <div class="table-responsive">
     <table class="table-hover">
     <thead>
         <tr>           
@@ -195,12 +199,12 @@
     </tbody>
     
     </table>
- 
+ </div>
 @endsection
 
 
 @section('payment_to_category')
-
+    <div class="table-responsive">
     <table class="table-hover">
     <thead>
         <tr>           
@@ -266,16 +270,17 @@
         <tr>
     </tbody>    
     </table>
+    </div>
     <template id="mtemplate">
     </template>
 
-
+    <div class="table-responsive">
     <table class="table2">
             <tr>					
                 <span class="fa fa-plus-circle" style="color:green">&nbsp;&nbsp;</span><a @click="addLine" ><u>Agregar nuevo ítem</u></a>
             </tr>
     </table>
- 
+    </div>
 @endsection
 
             <div class="row animated fadeInRight">

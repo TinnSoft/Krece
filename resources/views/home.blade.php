@@ -16,7 +16,6 @@
     {!!Html::style('/themes/krece/font-awesome/css/font-awesome.css')!!}
     {!!Html::style('/themes/krece/css/animate.css')!!}
     {!!Html::style('/themes/krece/css/style.css')!!}
-    {!!Html::style('/themes/krece/css/plugins/dataTables/datatables.min.css')!!}
     {!!Html::style('/themes/krece/css/plugins/toastr/toastr.min.css')!!}
     {!!Html::script('/themes/krece/js/jquery-3.1.1.min.js')!!}
     {!!Html::script('/js/libraries/moment.min.js')!!}
@@ -200,7 +199,6 @@
     {!!Html::script('/themes/krece/js/plugins/slimscroll/jquery.slimscroll.min.js')!!} 
     {!!Html::script('/themes/krece/js/plugins/pace/pace.min.js')!!}
     {!!Html::script('/themes/krece/js/plugins/select2/select2.full.min.js')!!}
-     {!!Html::script('/themes/krece/js/plugins/dataTables/datatables.min.js')!!}
      {!!Html::script('/themes/krece/js/plugins/toastr/toastr.min.js')!!}
      
     {!!Html::script('/js/functions/logo.js')!!}

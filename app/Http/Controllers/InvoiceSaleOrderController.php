@@ -226,13 +226,13 @@ class InvoiceSaleOrderController extends Controller
             if (!$invoice)
             {
                 $notification = array(
-                'message' => 'No se encontró ninguna referencia de cotizacion creadas!',
+                'message' => 'No se encontró ninguna referencia de factura creadas!',
                 'alert-type' => 'error'
                 );
                 return redirect('/invoice')->with($notification);
             }
             
-            
+
             $invoice['date']= Helper::setCustomDateFormat(Carbon::parse($invoice['date']));
             $invoice['due_date']= Helper::setCustomDateFormat(Carbon::parse($invoice['due_date']));
             
@@ -252,7 +252,8 @@ class InvoiceSaleOrderController extends Controller
         
         public function update(Request $request, $id)
         {
-            
+             
+
             $this->validate($request, [
             'customer_id' => 'required',
             'date' => 'required',
@@ -264,6 +265,8 @@ class InvoiceSaleOrderController extends Controller
             'detail.*.quantity' => 'required|integer|min:1',
             'detail.*.product_id' => 'required',
             ]);
+
+          
             
             $invoice = InvoiceSaleOrder::findOrFail($id);
             
@@ -282,12 +285,12 @@ class InvoiceSaleOrderController extends Controller
                 'products_empty' => ['Uno o mas productos son requeridos.']
                 ], 422);
             };
-            
             $data = $request->except('detail');
             
             $data['user_id'] = Auth::user()->id;
             $data['date']=Helper::dateFormatter($data['date']);
             $data['due_date']= Helper::dateFormatter($data['due_date']);
+            $data['resolution_id']= $data['resolution_number'];
             $invoice->update($data);
             
             InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();

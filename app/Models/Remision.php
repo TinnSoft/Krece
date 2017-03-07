@@ -33,7 +33,7 @@ class Remision extends Model
 	public function detail()
 	{
 		
-		return $this->hasMany(RemisionDetail::class)->with('product');
+		return $this->hasMany(RemisionDetail::class)->with('product','taxes');
 		
 	}
 	

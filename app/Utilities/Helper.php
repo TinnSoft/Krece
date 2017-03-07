@@ -60,6 +60,7 @@ class Helper
          return Contact::with('seller')
                 ->select('id', 'name','seller_id','public_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isCustomer', '=', 1)
+                ->where('isDeleted',0)
                ->orderBy('created_at', 'asc')
                ->get()
                 ->toArray();
@@ -70,6 +71,7 @@ class Helper
          return Contact::with('seller')
                 ->select('id', 'name','seller_id','public_id')
                 ->where('account_id',  Auth::user()->account_id)->where('isProvider', '=', 1)
+                ->where('isDeleted',0)
                ->orderBy('created_at', 'asc')
                ->get()
                 ->toArray();
@@ -200,5 +202,22 @@ class Helper
     {
         return Carbon::createFromFormat('d/m/Y', $date);
     }
+
+     public static function getTotalTaxes($invoice_id, $mainTable, $detailTable)
+        {
+            $taxes=
+            DB::table($mainTable)
+            ->join($detailTable, $mainTable.'.id', '=', $detailTable.'.'.$mainTable.'_id')
+            ->join('tax', $detailTable.'.tax_id', '=', 'tax.id')
+            ->where($mainTable.'.account_id',Auth::user()->account_id)
+            ->where($mainTable.'.public_id',$invoice_id)
+            ->where($detailTable.'.tax_amount','>',0)
+            ->select(DB::raw("CONCAT(tax.name,' (',".$detailTable.".tax_amount,'%)') AS name"),
+            DB::raw('SUM('.$detailTable.'.total_tax) as total'))
+            ->groupBy('tax.name',$detailTable.'.tax_amount')
+            ->get();
+            
+            return  Helper::_taxesFormatter($taxes);
+        }
 
 }

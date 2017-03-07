@@ -18,19 +18,11 @@
     </style>
 
         <div id="remision_index" class="jqGrid_wrapper">            
-           <!-- activar buscador 
-            <div class="ibox-content">
-                <ul class="todo-list m-t small-list  col-sm-5 pull-right">
-                    <li>
-                        <div  class="input-group"><input id="search_cells" type="text" placeholder="Buscar" class="input-sm form-control"> <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button> </span></div>
-                    </li>
-                </ul>                      
-            </div>-->
-           <div class="ibox-content">  
+                <div class="table-responsive">
                 <table id="remision-grid"></table>
+                </div>
                 <div id="pager_list_2"></div>     
-            </div>        
+                 
         <div>
 
     <script>
@@ -48,15 +40,25 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', index: 'public_id', width: 30, sorttype: "int",formatter:formatpublicID },
+                    { label: 'No', name: 'public_id', index: 'public_id', align:"center",width: 25, sorttype: "int",formatter:formatpublicID },
                     { label: 'Cliente', name: 'contact.name',  width: 140, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                      { label: 'Vence en', name: 'due_date', width: 50, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
-                     {name:'public_id', search:false, keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
+                     {name:'public_id', search:false, keys: true,"width":90, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
+                autoresizeOnLoad: true,
+                autowidth: true,
+                shrinkToFit: true,
+                autoResizing: {
+                    compact: true
+                    },
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },      
                 width: 780,
                 height: 'auto',
                 rowNum: 10,
@@ -75,8 +77,12 @@
                         $("#remision-grid").show();
                         emptyMsgDiv.hide();
                     };
+                    //resizewidth();
+                },     
+                 beforeRequest:function()
+                {
                     resizewidth();
-                },         
+                },    
                 pager:"#pager_list_2"
             });
             
@@ -132,27 +138,29 @@
             },700);
 
              function state_mask(cellvalue, options, rowObject) {
-                console.log(cellvalue);
                 if (cellvalue==1)
                 {
-                    return "<div><p><span class='label label-primary'>Activo</span></p>"
+                    return "<p><span class='label label-primary'>Abierta</span></p>"
                 }
-                else{
+                else if (cellvalue==2){
                       return "<p><span class='label label-warning'>Anulado</span></p>"
+                }
+                else if (cellvalue==6){
+                      return "<p><span class='label label-info'>Cerrado</span></p>"
                 }
             }
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'editar'  class='fa fa-pencil green' style='cursor: pointer' onClick=remisionApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
-                    Details = "<div title= 'ver' class='fa fa-eye green' style='cursor: pointer'  onClick=remisionApp.goShow(\""+cellvalue+"\")></div><span > </span>",
-                    Print = "<div title= 'Imprimir' class='fa fa-print' style='cursor: pointer'  onClick=remisionApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'eliminar' class='fa fa-remove red'  style='cursor: pointer' onclick=remisionApp.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Lock = "<div title= 'Anular' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=remisionApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
+                var edit = "<div  title= 'editar'  class='fa fa-pencil green fa-2x' style='cursor: pointer' onClick=remisionApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
+                    Details = "<div title= 'ver' class='fa fa-eye green fa-2x' style='cursor: pointer'  onClick=remisionApp.goShow(\""+cellvalue+"\")></div><span > </span>",
+                    Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer'  onClick=remisionApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
+                    Delete = "<div title= 'eliminar' class='fa fa-remove red fa-2x'  style='cursor: pointer' onclick=remisionApp.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=remisionApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
                     if (rowObject.status_id==2)
                     {                    
-                        edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>";
-                        Lock = "<div title= 'Activar' class='fa fa-lock '  style='cursor: pointer; color:gray' onclick=remisionApp.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
-                        Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='color:#F3D8D5'/></div><span > </span>";
+                        edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x ' style='color:#ABEBC6'/></div><span > </span>";
+                        Lock = "<div title= 'Activar' class='fa fa-lock fa-2x '  style='cursor: pointer; color:gray' onclick=remisionApp.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
+                        Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x '  style='color:#F3D8D5'/></div><span > </span>";
                     }
                 return Lock + Details + Print +  edit+ Delete;
             }   
@@ -164,15 +172,17 @@
              function diffForHumans(cellValue, options, rowObject) {
                     return remisionApp.moment(cellValue);
             }
-
+              $(window).on("resize", function() {
+                resizewidth();
+            });
              $(window).bind('resize', function () {
                resizewidth();
             });
                 //resize on load
             function resizewidth()
             {
-                var width = $('.jqGrid_wrapper').width();
-                $('#remision-grid').setGridWidth(width); 
+                 var newWidth = $("#invoice-grid").closest(".ui-jqgrid").parent().width();
+                $("#invoice-grid").jqGrid("setGridWidth", newWidth, true);
             }  
 
             	// activate the toolbar searching

@@ -37,11 +37,9 @@
                         </div>                    
                      
                         <div class="ibox-content">      
-                             <div class="tab-content">
+                             <div class="row">
                                   <div id="tab-1" class="tab-pane active">
-                                    
-                                        
-
+                                
                                  @include('contact.contact-grid') 
                               </div>  </div>                
                         </div>  

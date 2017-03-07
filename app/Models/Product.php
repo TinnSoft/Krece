@@ -26,4 +26,9 @@ class Product extends Model
     {
         return $this->hasOne(ProductInventoryType::class, 'id', 'inv_type_id')->select(array('id', 'measure_unit'));
     }
+
+     public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id')->select(array('id', 'name'));
+    }
 }

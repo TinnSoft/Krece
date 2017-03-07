@@ -36,7 +36,7 @@
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Remision</a>                     
                     </div>                    
                 </div>  
-               <div class="ibox-content">                                
+               <div class="row">                                
                     @include('remision.index-grid')                           
                 </div>  
         </div>   

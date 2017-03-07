@@ -91,7 +91,9 @@
                                          <tr>
                                             <td  class="bg-muted p-xxs b-r-sm">Categoría</td>
                                             <td>  
-                                               {{$products->category_id}}
+                                                @if (count($products->category) > 0)
+                                                    {{$products->category->name}}
+                                                @endif
                                             </td>                                             
                                         </tr>
                                          <tr>
@@ -144,6 +146,8 @@
          
         </div>
 
-
+    <div class="row">
+        @include('inventory.transactions-grid')
+    </div>
 
 @endsection

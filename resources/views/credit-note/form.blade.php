@@ -26,7 +26,8 @@
 
     <div class="row">        
         <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <div class="table-responsive">
+            <table class="table">				
 				<tr> 
 					<th style="width: 10em"><span>Cliente</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>  <span>  
@@ -70,10 +71,12 @@
                     </td>
 				</tr>
 			</table>
+            </div>
         </div> 
 
          <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <div class="table-responsive">
+            <table class="table">				
 				<tr> 
 					<th style="width: 10em"><span>Fecha</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>
@@ -127,12 +130,12 @@
                     </td>
 				</tr>
 			</table>
-            
+            </div>
         </div> 
         
     </div> 
 <small>los campos marcados como <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
-
+<div class="table-responsive">
 <table class="table-hover">
     <thead>
         <tr>
@@ -211,12 +214,12 @@
     </tbody>
     
 </table>
-
+</div>
 
  <template id="mtemplate">
 </template>
 
-
+<div class="table-responsive">
 <table class="table2">
 		<tr>
 			<button  class="btn btn-primary btn-xs btn-outline" type="button"  
@@ -224,12 +227,12 @@
             </button>		
 		</tr>
 </table>
-
+</div>
   <div v-if="errors.products_empty" class="alert alert-danger">      
      Debe ingresar por lo menos un producto en la cotización
  </div>
 
-
+<div class="table-responsive">
 <table class="balance">
                 <tr>
 					<th><span >Sub-Total</span></th>
@@ -250,6 +253,7 @@
               
                                
 </table>
+</div>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

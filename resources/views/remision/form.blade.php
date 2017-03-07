@@ -4,6 +4,13 @@
 [v-cloak] {
   display: none;
 }
+
+@media screen and (max-width: 640px) {
+	table {
+		overflow-x: auto;
+		display: block;
+	}
+}
 </style>
 
 
@@ -37,6 +44,7 @@
                             label="name"         
                             track-by="name"
                             placeholder="Seleccione..." 
+                            :show-labels="false"
                             @input="onInputContact"
                         >
                         </multiselect>
@@ -51,18 +59,17 @@
 					<td>
                         <span id="prefix1" ></span>
                         <span>
-                            <textarea class="form-control" v-model="form.observations"></textarea>
+                            <textarea class="form-control" placeholder="Estas notas no serán visibles en la remision"
+                            v-model="form.observations"></textarea>
                         </span>
                     </td>
 				</tr>
 				<tr>
-					<th><span >Notas de la cotización</span><a class="text-danger"><strong> *</strong></a></th>
+					<th><span >Notas de la remisión</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>
                         <span id="prefix2" ></span>
-                        <span>
-                        
-                            <textarea class="form-control has-icon has-icon-right form-control" placeholder="Estas notas no serán visibles en la cotización" v-model="form.notes"></textarea> 
-                            
+                        <span>                        
+                            <textarea class="form-control has-icon has-icon-right form-control"  v-model="form.notes"></textarea>                             
                         </span>
                          <span v-if="errors.notes" class="error is-danger  text-danger">
                             No olvides ingresar una nota aquí.
@@ -117,6 +124,7 @@
                                 label="name"         
                                 track-by="name"
                                 placeholder="Seleccione..."
+                                :show-labels="false"
                                 @input="onInputSeller"
                             >
                             </multiselect>
@@ -137,6 +145,7 @@
                                 :options="listPrice" 
                                 :searchable="false" 
                                 :allow-empty="false"
+                                :show-labels="false"
                                 @input="onInputlistprice">
                             </multiselect>
                     </td>
@@ -154,6 +163,7 @@
                                 :options="documentType" 
                                 :searchable="false" 
                                 :allow-empty="false"
+                                :show-labels="false"
                                 @input="onInputDocumenttype">
                             </multiselect>
                             <small v-if="errors.documentType_id" class="error is-danger  text-danger">
@@ -174,6 +184,7 @@
                                 :options="currency" 
                                 :searchable="false" 
                                 :allow-empty="false"
+                                :show-labels="false"
                                 @input="onInputCurrency">
                             </multiselect>
                        
@@ -215,6 +226,8 @@
                             label="name"         
                             track-by="name"
                             placeholder="Buscar ítem..." 
+                             
+                            :show-labels="false"
                             @input="onInputProduct(_detail)"
                         >
                         </multiselect>
@@ -237,11 +250,11 @@
             <td class="form-tax"  style="width: 5em">
                   <multiselect 
                             :options="taxes" 
-                            v-model="_detail.tax_value"
+                            v-model="_detail.taxes"
                             label="text"         
                             track-by="value"
-                            placeholder="Impuesto"
-                            ShowLabels="false"
+                            placeholder="Impuesto"                             
+                            :show-labels="false"
                             @input="onInputTax(_detail)"
                         >
                         </multiselect>
@@ -266,7 +279,7 @@
  <template id="mtemplate">
 </template>
 
-
+<div class="table-responsive">
 <table class="table2">
 		<tr>
 			<button  class="btn btn-primary btn-xs btn-outline" type="button"  
@@ -274,12 +287,12 @@
             </button>		
 		</tr>
 </table>
-
+</div>
   <div v-if="errors.detail" class="alert alert-danger">      
      Debe ingresar por lo menos un producto en la cotización
  </div>
 
-
+<div class="table-responsive">
 <table class="balance">
                 <tr>
 					<th><span >Sub-Total</span></th>
@@ -300,6 +313,9 @@
               
                                
 </table>
+
+
+</div>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

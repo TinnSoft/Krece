@@ -16,14 +16,13 @@
         .red {color: red;}
 
     </style>
-
-        <div id="payment_index" class="jqGrid_wrapper">            
-           <div class="ibox-content">  
-                <table id="payment-grid"></table>
+       
+      
+                 <div class="table-responsive">
+                    <table id="payment-grid"></table>
+                <div>
                 <div id="pager_list_2"></div>     
-            </div>        
-        <div>
-
+        
     <script>
         
         $(document).ready(function () {       
@@ -48,9 +47,16 @@
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                 autowidth: true,
+                autowidth: true,
+                autoResizing: {
+                    compact: true
+                    },
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },
                 shrinkToFit: true,
-                height: 350,
+                height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
                 caption:" ",
@@ -139,11 +145,16 @@
              $(window).bind('resize', function () {
                resizewidth();
             });
+            $(window).on("resize", function() {
+                resizewidth();
+            });
                 //resize on load
             function resizewidth()
             {
-                var width = $('.jqGrid_wrapper').width();
-                $('#payment-grid').setGridWidth(width); 
+               /*var width = $('.jqGrid_wrapper').width();
+                $('#payment-grid').setGridWidth(width); */
+                var newWidth = $("#payment-grid").closest(".ui-jqgrid").parent().width();
+                $("#payment-grid").jqGrid("setGridWidth", newWidth, true);
             }  
 
             	// activate the toolbar searching
@@ -162,6 +173,8 @@
 					$("#payment-grid").jqGrid('filterInput', self.value);
 				},0);
 			});
+
+          
 
         });
 

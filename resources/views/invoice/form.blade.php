@@ -110,7 +110,8 @@
         </div> 
 
          <div class="col-lg-5">
-            <table class="table table-responsive">				
+            <div class="table-responsive">	
+            <table class="table">				
 				<tr> 
 					<th style="width: 10em"><span>Fecha</span><a class="text-danger"><strong> *</strong></a></th>
 					<td>
@@ -217,12 +218,12 @@
                     </td>
 				</tr>
 			</table>
-            
+            </div>
         </div> 
         
     </div> 
 <small>los campos marcados con <a class="text-danger"><strong> *</strong></a> son obligatorios</small>
-
+<div class="table-responsive">	
 <table class="table-hover">
     <thead>
         <tr>           
@@ -300,7 +301,7 @@
     </tbody>
     
 </table>
-
+</div>
 
  <template id="mtemplate">
 </template>
@@ -339,7 +340,7 @@
               
                                
 </table>
-
+<pre><code>@{{$data.form | json}}</code></pre>
 <!--
 
 <pre><code>@{{$data.form | json}}</code></pre>

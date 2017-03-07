@@ -3,7 +3,6 @@
 <!--<link href="/css/style_tables.css" rel="stylesheet">
 -->
 
-
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
@@ -48,7 +47,7 @@
                     <div class="ibox-content p-xxl">
                             <div class="row">
                                 
-                                <div class="col-sm-6">
+                                <div class="col-xs-6">
                                     <table class="table">
                                         <thead>
                                             <tr  class="bg-primary p-xxs b-r-sm ">
@@ -121,7 +120,7 @@
 
                                 </div>
 
-                                 <div class="col-sm-6">
+                                 <div class="col-xs-6">
                                     <table  class="table">
                                         <thead>
                                             <tr  class="bg-primary p-xxs b-r-sm">
@@ -187,9 +186,9 @@
          
         </div>
 
-       
-   @include('contact.transactions-grid');
-
+    <div class="row">
+        @include('contact.transactions-grid')
+    </div>
 
 
 @endsection

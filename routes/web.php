@@ -62,6 +62,8 @@ Route::resource('seller', 'SellerController');
 Route::resource('inventory', 'InventoryController');
 Route::get('getInventoryBaseInfo','InventoryController@BaseInfo');
 Route::get('getInventorylist','InventoryController@InventoryIndex');
+Route::get('inventory/getInventoryReports/{process_type}/{product_id}', 'InventoryController@getInventoryReports');
+
 
 //Category
 Route::resource('category', 'CategoryController');

@@ -36,7 +36,7 @@
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a>                     
                     </div>                    
                 </div>  
-               <div class="ibox-content">                                
+               <div class="row">                                
                     @include('invoice.index-grid')                           
                 </div>  
         </div>   

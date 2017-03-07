@@ -99,6 +99,7 @@ class RemisionController extends Controller
             $totalDiscount= $baseprice*($detail['discount']/100);
             $detail['total'] = $baseprice- $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
+            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
             return new RemisionDetail($detail);
         });
         
@@ -148,10 +149,14 @@ class RemisionController extends Controller
 
     public function show($id)
     {
+
+        
+
           $remision = Remision::with('detail','list_price','seller')
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();     
+            
 
         if (!$remision)
         {
@@ -161,10 +166,10 @@ class RemisionController extends Controller
             );
           return redirect('/remision')->with($notification);
         }
-       
+       $taxes=Helper::getTotalTaxes($remision->public_id,'remision','remision_detail');
         $remision=Helper::_InvoiceFormatter($remision);
 
-        return view('remision.show', compact('remision'));
+        return view('remision.show', compact('remision','taxes'));
     }
 
 
@@ -176,7 +181,6 @@ class RemisionController extends Controller
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
-
         
          if (!$remision)
         {
@@ -225,6 +229,8 @@ class RemisionController extends Controller
             $totalDiscount= $baseprice*($detail['discount']/100);
             $detail['total'] = $baseprice- $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
+            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
+
             return new RemisionDetail($detail);
         });
         
@@ -287,7 +293,7 @@ class RemisionController extends Controller
                 
         $remision=Helper::_InvoiceFormatter($remision);
         
-        $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision]);
+        $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision,'taxes' => Helper::getTotalTaxes($remision->public_id,'remision','remision_detail')]);
         $filename = "Remision_"."{$remision->public_id}.pdf";
 
          if($request->get('opt') === 'download') {

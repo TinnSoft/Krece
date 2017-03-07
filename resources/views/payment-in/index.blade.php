@@ -35,10 +35,10 @@
                             <a href="{{route('payment-in.create')}}" class="btn btn-primary btn-sm pull-right"> 
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Ingreso</a>                     
                     </div>                    
-                </div>  
-               <div class="ibox-content">                                
+                </div> 
+               <div class="row">                             
                     @include('payment-in.index-grid')                           
-                </div>  
+                </div> 
         </div>   
 
     </div>
