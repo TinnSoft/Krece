@@ -140,7 +140,9 @@ class InventoryController extends Controller
             case 'remision';
                 return $this->productRepo->getRemisionList($product_id);
                 break;
-
+            case 'estimate';
+                return $this->productRepo->getEstimateList($product_id);
+                break;
         };
     }
 

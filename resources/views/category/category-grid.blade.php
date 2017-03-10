@@ -87,15 +87,7 @@
                 }
 
                 return Add + edit + Details + Delete;
-            }   
-            myfunc=function (desc,name,id,account)
-            {
-                console.log(desc);
-                console.log(name);
-                console.log(id);
-                console.log(account);
-            };
-
+            }  
              $(window).bind('resize', function () {
                resizewidth();
             });

@@ -86,8 +86,7 @@
                                         <th >PRODUCTO</th>                                       
                                         <th style="text-align: center">PRECIO</th>
                                         <th style="text-align: center">CANTIDAD</th>
-                                        <th style="text-align: center">DESC %</th>
-                                        <th style="text-align: center">IMPUESTO %</th>           
+                                        <th style="text-align: center">DESC %</th>          
                                         <th style="text-align: center">TOTAL</th>
                                     </tr>
                                     </thead>
@@ -102,7 +101,6 @@
                                                 <td  style="width: 15%; text-align: center" class="table-price">${{$prod->unit_price  }}</td>
                                                 <td style="width: 10%; text-align: center" class="table-qty">{{$prod->quantity}}</td>
                                                 <td style="width: 10%; text-align: center">{{$prod->discount}}</td>
-                                                <td style="width: 15%; text-align: center" class="table-taxes">{{$prod->tax_amount}}</td>
                                                 <td style="width: 15%; text-align: center" class="table-total text-right">${{$prod->total}}</td>
                                             </tr>
                                         @endforeach                                   
@@ -123,16 +121,21 @@
                                     <td><strong>Descuentos:</strong></td>
                                     <td>${{$estimate->total_discounts}}</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Impuestos:</strong></td>
-                                    <td>${{$estimate->total_taxes}}</td>
-                                </tr>
+                                  @foreach($taxes as $tax)
+                                    <tr>
+                                        <td><strong>{{$tax->name}}</strong></td>
+                                        <td>${{$tax->total}}</td>
+                                    </tr>
+                                @endforeach
                                 <tr style="background:#00802b;color:white">
                                     <td><strong >TOTAL:</strong></td>
                                     <td><strong >${{$estimate->total}}</strong></td>                                    
                                 </tr>                                
                                 </tbody>
-                            </table>                           
+                            </table>    
+                              <div class="ibox"><br><br><br><br>
+                                     @include('partials.pdf-elaborated_by') 
+                            </div>                              
                             </div>
                       
 

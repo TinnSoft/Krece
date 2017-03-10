@@ -85,6 +85,7 @@ class EstimateController extends Controller
                 $totalDiscount= $baseprice*($detail['discount']/100);
                 $detail['total'] = $baseprice- $totalDiscount;
                 $detail['user_id'] =  Auth::user()->id;
+                $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
                 return new EstimateDetail($detail);
             });
             
@@ -147,10 +148,10 @@ class EstimateController extends Controller
                 );
                 return redirect('/estimate')->with($notification);
             }
-            
+            $taxes=Helper::getTotalTaxes($estimate->public_id,'estimate','estimate_detail');
             $estimate=Helper::_InvoiceFormatter($estimate);
             
-            return view('estimate.show', compact('estimate'));
+            return view('estimate.show', compact('estimate','taxes'));
         }
         
         
@@ -209,6 +210,7 @@ class EstimateController extends Controller
                 $totalDiscount= $baseprice*($detail['discount']/100);
                 $detail['total'] = $baseprice- $totalDiscount;
                 $detail['user_id'] =  Auth::user()->id;
+                $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
                 return new EstimateDetail($detail);
             });
             
@@ -219,6 +221,7 @@ class EstimateController extends Controller
                 ], 422);
             };
             
+            
             $data = $request->except('detail');
             
             $data['user_id'] = Auth::user()->id;
@@ -227,6 +230,7 @@ class EstimateController extends Controller
             $estimate->update($data);
             
             EstimateDetail::where('estimate_id', $estimate->id)->delete();
+            
             $estimate->detail()->saveMany($products);
             
             event(new RecordActivity('Update','Se actualizó la Cotización número: '
@@ -270,9 +274,9 @@ class EstimateController extends Controller
             ->first();
             
             $estimate=Helper::_InvoiceFormatter($estimate);
+            $taxes=Helper::getTotalTaxes($estimate->public_id,'estimate','estimate_detail');
             
-            
-            $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate]);
+            $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate, 'taxes'=>$taxes]);
             $filename = "Cotizacion_"."{$estimate->public_id}.pdf";
             
             if($request->get('opt') === 'download') {

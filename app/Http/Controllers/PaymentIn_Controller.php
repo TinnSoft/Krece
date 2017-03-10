@@ -87,7 +87,7 @@ class PaymentIn_Controller extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-        'customer_id' => 'required',
+        //'customer_id' => 'required',
         'date' => 'required',
         'payment_method_id' => 'required',
         'bank_account_id' => 'required',
@@ -241,7 +241,7 @@ class PaymentIn_Controller extends Controller
     {
         
         $this->validate($request, [
-        'customer_id' => 'required',
+        //'customer_id' => 'required',
         'date' => 'required',
         'payment_method_id' => 'required',
         'bank_account_id' => 'required',

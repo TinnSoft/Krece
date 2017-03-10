@@ -39,15 +39,14 @@
                                             </p>
                                         </div>
                             
-                 </div>
+                 
           
-      <div class="row">
-         
+            <div class="row">         
                 <div class="wrapper wrapper-content">
                     <div class="ibox-content p-xxl">
                             <div class="row">
                                 
-                                <div class="col-xs-6">
+                                <div class="col-xs-5">
                                     <table class="table">
                                         <thead>
                                             <tr  class="bg-primary p-xxs b-r-sm ">
@@ -120,75 +119,51 @@
 
                                 </div>
 
-                                 <div class="col-xs-6">
-                                    <table  class="table">
-                                        <thead>
-                                            <tr  class="bg-primary p-xxs b-r-sm">
-                                                <th ><strong>Saldos: </strong></th>
-                                                <th></th> 
-                                            </tr>
-                                        </thead>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Por cobrar</td>
-                                            <td>$0.00</td>                                             
-                                        </tr>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Por cobrar vencido</td>
-                                            <td>$0.00</td>                                             
-                                        </tr>
-                                          <tr>
-                                            <td class="bg-muted p-xxs b-r-sm">Por pagar</td>
-                                            <td >  
-                                               $0.00
-                                            </td>                                             
-                                        </tr>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Anticipos recibidos</td>
-                                            <td>  
-                                               $0.00
-                                            </td>                                             
-                                        </tr>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Anticipos entregados</td>
-                                            <td>  
-                                               $0.00
-                                            </td>                                             
-                                        </tr>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Notas crédito por aplicar</td>
-                                            <td>  
-                                               $0.00
-                                            </td>                                             
-                                        </tr>
-                                         <tr>
-                                            <td  class="bg-muted p-xxs b-r-sm">Notas débito por aplicar</td>
-                                            <td>  
-                                               $0.00
-                                            </td>                                             
-                                        </tr>
-                                        
-
-
-                                    </table>
-
-
+                                <div class="col-lg-5">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <div class="tooltip-demo">                                                
+                                                <a  class="fa fa-exclamation-circle fa-2x text-info pull-left" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="left"
+                                                    title="En esta opción usted podrá filtrar los datos de cada una de las transacciones asociadas al contacto actual.">
+                                                </a>
+                                            </div>
+                                            <h5><strong><label class="pull-center">REPORTES</label></strong></h5>
+                                            
+                                            <div class="ibox-tools">
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>   
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <a id="">Transacciones</a><br>
+                                            <a id="invoice">Facturas de venta</a><br>
+                                            <a id="">Facturas de compra</a><br>
+                                            <a id="">Notas crédito</a><br>
+                                            <a id="">Notas débito</a><br>
+                                            <a id="estimate">Cotizaciones</a><br>
+                                            <a id="remision">Remisiones</a><br>
+                                            <a id="">Ordenes de compra</a>
+                                        </div>
+                                    </div>
                                 </div>
-
 
 
                             </div>
 
-                           
+                           <div class="row">
+                                @include('contact.transactions-grid')
+                            </div>
 
                             
                         </div>
                 </div>
          
         </div>
-
-    <div class="row">
-        @include('contact.transactions-grid')
-    </div>
+        </div>
+    
 
 
 @endsection

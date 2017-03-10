@@ -46,6 +46,8 @@ Route::get('getProfileInfo','ProfileController@BaseInfo');
 //Bank accounts
 Route::resource('bank_account', 'BankAccountController');
 Route::get('getBankAccount_Type','BankAccountController@BaseInfo');
+Route::get('getBankAccountlist','BankAccountController@BankAccountIndex');
+Route::get('getBankList','BankAccountController@bankList');
 
 //precio de lista
 Route::resource('list_price', 'ListPriceController');
@@ -54,7 +56,7 @@ Route::resource('list_price', 'ListPriceController');
 Route::resource('contact', 'ContactsController');
 Route::get('getContactBaseInfo','ContactsController@BaseInfo');
 Route::get('getContactlist/{filter}','ContactsController@ContactIndex');
-
+Route::get('getContactReports/{process_type}/{contact_id}', 'ContactsController@getContactReports');
 //Seller
 Route::resource('seller', 'SellerController');
 

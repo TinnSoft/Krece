@@ -2,9 +2,15 @@
 
 @section('content')
 
- {!!Html::script('/js/vue-library/vue.min.js')!!}
-  {!!Html::script('/js/libraries/axios.min.js')!!}
+{!!Html::script('/js/vue-library/vue.min.js')!!}
+{!!Html::script('/js/libraries/axios.min.js')!!}
 {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
+{!!Html::script('/themes/krece/js/plugins/datapicker/bootstrap-datepicker.js')!!}    
+{!!Html::style('/themes/krece/css/plugins/datapicker/datepicker3.css')!!}
+{!!Html::script('/js/components/datepicker/datepicker-locale.es.min.js')!!}
+{!!Html::script('/js/components/datepicker/datepicker-vue.js')!!} 
+{!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
+{!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!} 
 
     <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
@@ -28,16 +34,20 @@
                     <p>
                         <div class="col-lg-6">
                         <label><span>Banco</span></label>
-                        <multiselect 
-                                v-model="val" 
-                                :options="banks" 
+                           <multiselect 
+                                v-model="bank_account" 
+                                :options="bank" 
                                 :multiple="false" 
-                                group-values="list" 
-                                group-label="name" 
-                                placeholder="Banco" 
-                                track-by="description" label="description">                                
+                                group-values="bank" 
+                                group-label="description" 
+                                placeholder="Seleccione..." 
+                                track-by="bank_account_name" 
+                                label="bank_account_name"
+                                :show-labels="false"
+                                :allow-empty="false"
+                                 @input="onInputBank">                                
                         </multiselect>
-                        
+                       
                         </div>
                         <div class="col-lg-6">
                             <div class="row">   
@@ -71,28 +81,24 @@
         <div  class="ibox-title">
             <div class="ibox-content">
                  <p>
-                        <a class="btn btn-primary  btn-outline btn-sm "> 
+                        <a class="btn btn-primary  btn-outline btn-sm " @click="addMoney()"> 
                             <span class="fa fa-plus">
                             </span>&nbsp;Agregar dinero
                         </a> 
-                        <a class="btn btn-primary  btn-outline btn-sm "> 
+                        <a class="btn btn-primary  btn-outline btn-sm "  @click="removeMoney()"> 
                             <span class="fa fa-minus">
                             </span>&nbsp;Retirar dinero
                         </a> 
-                        <a class="btn btn-primary  btn-outline btn-sm "> 
+                        <a data-toggle="modal" class="btn btn-primary  btn-outline btn-sm " @click="addNewTransference"> 
                             <span class="fa fa-exchange">
                             </span>&nbsp;Transferir
                         </a> 
-                        <a class="btn btn-primary  btn-outline btn-sm"> 
-                            <span class="fa fa-gear">
-                            </span>&nbsp;Conciliar
-                        </a> 
-
-                        
+                      
                     </p>
             </div>
         </div>
-        <pre><code>@{{$data | json}}</code></pre>
+       @include('bank_account.transference_modal',['header_modal'=>''])
+       <pre>@{{$data}}</pre>
  </div>
           
     
@@ -105,29 +111,137 @@ var app = new Vue({
     },
    data()  {
     return {
-        val:[],
-     banks: [
-        {
-          name: 'Bancos',
-          list: [
-            { id: '1', description: 'bancos 1' },
-            { id: '2', description: 'bancos 2' }
-          ]
+        bank_account:[],
+        bank_account_to:[],
+        isProcesing:true,
+        bank: [],
+        transfer:{
+            account_from:'',
+            account_to:'',
+            amount:'',
+            date:'',
+            observations:''
         },
-        {
-          name: 'Tarjetas de credito',
-          list: [
-            { id: '3', description: 'Tarjeta de credito 1' }
-          ]
-        },
-        {
-          name: 'Efectivo',
-          list: [
-            { id: '4', description: 'Caja general' }
-          ]
-        }
-      ],
+        form:{}
   }},
+  created: function () {
+      this.fetchData();
+      this.getCurrentDate();
+  },
+  watch: {
+        'transfer.account_from': function (val) {
+           this.allowToSave()
+        },
+        'transfer.account_to': function (val) {
+           this.allowToSave()
+        },
+        'transfer.amount': function (val) {
+           this.allowToSave()
+        },
+    },
+   methods: {
+       allowToSave: function ()
+       {
+            if ((this.transfer.account_from != '') && (this.transfer.account_to != '') && (this.transfer.amount > 0))
+            {
+                this.isProcesing=false;
+            }
+            else
+            {
+                 this.isProcesing=true;
+            }
+       },
+        getCurrentDate: function () {
+            var d = new Date();
+            var n = d.toLocaleDateString();
+            this.transfer.date = n;
+           
+        },
+        accountTo: function (val) {
+            if (val)
+            { 
+                this.transfer.account_to = val.id; 
+            }
+            else
+            { this.transfer.account_to = ''; }
+        },
+         accountFrom: function (val) {
+            if (val)
+            { 
+                this.transfer.account_from = val.id; 
+            }
+            else
+            { this.transfer.account_from  = ''; }
+        },
+         onInputBank: function (val) {
+            if (val)
+            { this.bank_account_id = val.id; 
+                this.goShow(val.id);
+            }
+            else
+            { this.bank_account_id = ''; }
+        },
+    goShow: function(val){
+        window.location = '/bank_account/'+val;
+    },
+     addMoney: function(val){
+        window.location = '/payment-in/create';
+    },
+     removeMoney: function(val){
+        window.location = '/payment-out/create';
+    },
+    fetchData: function () {
+      var vm = this
+      axios.get('/getPaymentBaseInfo')
+        .then(function (response) {
+        Vue.set(vm.$data, 'bank_account', {!!$account!!});        
+          Vue.set(vm.$data, 'bank', response.data.bank); 
+          Vue.set(vm.$data.transfer, 'account_from', vm.bank_account.id); //Inicializa el array de transferencia
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
+    },
+      addNewTransference: function(e) {  
+        var vm = this;
+          vm.transfer.observations='';
+          vm.transfer.account_to='';
+          vm.transfer.amount='';
+          vm.bank_account_to=[];
+          $('#transferenceModal').modal('toggle')        
+      },
+      preparePaymentBeforeSave: function() //Prepara el objeto de pago para ser enviado 
+      {
+        var vm=this;
+        vm.form={};
+        Vue.set(vm.$data.form, 'date', vm.transfer.date); 
+        Vue.set(vm.$data.form, 'payment_method_id', ''); 
+        Vue.set(vm.$data.form, 'bank_account_id', ''); 
+      },
+     create: function () {
+      var vm = this;
+      vm.isProcessing = true;
+      $('#transferenceModal').modal('toggle')
+      console.log(vm.form);
+      return false;
+     
+      axios.post('/payment-out/', vm.form)
+        .then(function (response) {
+          if (response.data.created) {
+              swal("Creado!", "El registro ha sido creado correctamente!!.", "success");
+          } else {
+            vm.isProcessing = false;
+            swal("Oops..!", "No se ha podido realizar la transferencia, intente nuevamente!!.", "error");
+          }
+        })
+        .catch(function (error) {
+          vm.isProcessing = false;
+          Vue.set(vm.$data, 'errors', error.response.data);
+        });
+        $('#transferenceModal').modal('toggle')
+    },
+
+   }
 
  
 })

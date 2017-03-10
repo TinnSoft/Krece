@@ -13,11 +13,19 @@ use App\Models\{
     Seller,
     ListPrice
 };
-
+use App\Repositories\ContactRepository;
 use Illuminate\Support\Facades\DB;
 
 class ContactsController extends Controller
 {
+
+      protected $contactRepo;
+
+     public function __construct(ContactRepository $contactRepo)
+     {
+        $this->contactRepo = $contactRepo;
+    }
+    
 
     public function index()
     {
@@ -293,6 +301,20 @@ class ContactsController extends Controller
             ]);
     }
     
+    public function getContactReports($process_type, $contact_id)
+    {
+        switch ($process_type)
+        {
+            case 'remision';
+                return $this->contactRepo->getRemisionList($contact_id);
+                break;
+            case 'estimate';
+                return $this->contactRepo->getEstimateList($contact_id);
+                break;
+
+        };
+    }
+
     public function destroy($id)
     {
 

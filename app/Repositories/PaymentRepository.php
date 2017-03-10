@@ -470,4 +470,22 @@ class PaymentRepository
             }
         return $totalAmount;
     }
+
+    //query
+    //Retorna todos los movimientos realizados por bancos (entrada y salida)
+    public function getTransactionsByBank($bank_account_Id)
+    {
+         $transactions=
+            DB::table('payment')
+            ->join('category_payment', 'category_payment.payment_id', '=', 'payment.id')
+            ->where('payment.account_id',Auth::user()->account_id)
+            ->where('payment.bank_account_id',$bank_account_Id)
+            ->where('payment.isDeleted',0)
+            ->select(DB::raw("sum()"),
+            DB::raw('SUM(category_payment.tax_total) as total'))
+            ->groupBy('tax.name','category_payment.tax_amount')
+            ->get();
+        
+        return  $transactions;
+    }
 }

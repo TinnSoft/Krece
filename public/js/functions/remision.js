@@ -231,7 +231,6 @@ var app = new Vue({
           - ((parseFloat(detail.quantity) * parseFloat(detail.unit_price)) * parseFloat(detail.discount)) / 100) *
           parseFloat(isNaN(detail.tax_amount) || detail.tax_amount=='' ? 0 : detail.tax_amount))) / 100;
       }, 0);
-      console.log(TaxTot);
       this.form.total_taxes = isNaN(TaxTot) ? 0 : TaxTot;
 
       return isNaN(TaxTot) ? 0 : TaxTot

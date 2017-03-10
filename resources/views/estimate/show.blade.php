@@ -128,10 +128,12 @@
                                     <td><strong>Descuentos :</strong></td>
                                     <td>$ {{$estimate->total_discounts}}</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Impuestos :</strong></td>
-                                    <td>$ {{$estimate->total_taxes}}</td>
-                                </tr>
+                                 @foreach($taxes as $tax)
+                                    <tr>
+                                        <td><strong>{{$tax->name}}</strong></td>
+                                        <td>${{$tax->total}}</td>
+                                    </tr>
+                                @endforeach
                                 <tr>
                                     <td><strong>TOTAL COP:</strong></td>
                                     <td>$ {{$estimate->total}}</td>                                    

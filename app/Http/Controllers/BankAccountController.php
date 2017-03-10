@@ -18,8 +18,21 @@ class BankAccountController extends Controller
 
     public function index()
     {
-        //Obtener las cotizaciones creadas hasta la fecha       
-        $accountlist = BankAccount::with('bank_account')
+      
+        return view('bank_account.index');
+  
+    }
+    public function bankList()
+    {
+        $baseInfo=[
+        'bank'=>Helper::bank_account()
+        ];        
+        return response()->json($baseInfo);
+    }
+
+     public function BankAccountIndex()
+    {
+       $accountlist = BankAccount::with('bank_account')
                 ->where('account_id',  Auth::user()->account_id)
                  ->where('isDeleted',  0)
                ->orderBy('created_at', 'desc')
@@ -29,8 +42,7 @@ class BankAccountController extends Controller
                'description','id'
                )->get(); 
 
-        return view('bank_account.index',compact('accountlist'));
-  
+        return response()->json($accountlist);  
     }
 
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
@@ -75,7 +87,9 @@ class BankAccountController extends Controller
 
     public function show($id)
     {
-        $account = BankAccount::with('bank_account')->where('account_id',  Auth::user()->account_id)->find($id);
+        $account = BankAccount::where('account_id',  Auth::user()->account_id)
+        ->select('id','bank_account_type_id','bank_account_name')
+        ->find($id);
                  
         if (!$account)
         {
