@@ -478,12 +478,23 @@ class PaymentRepository
          $transactions=
             DB::table('payment')
             ->join('category_payment', 'category_payment.payment_id', '=', 'payment.id')
+            ->leftjoin('contact', 'contact.id', '=', 'payment.customer_id')
+            ->join('category', 'category.id', '=', 'category_payment.category_id')
             ->where('payment.account_id',Auth::user()->account_id)
             ->where('payment.bank_account_id',$bank_account_Id)
             ->where('payment.isDeleted',0)
-            ->select(DB::raw("sum()"),
-            DB::raw('SUM(category_payment.tax_total) as total'))
-            ->groupBy('tax.name','category_payment.tax_amount')
+            ->select('payment.id','payment.public_id',
+                'payment.date',
+                'contact.name as contact_name',
+                'category.name as category_name',
+                'payment.status_id',
+                'payment.payment_method_id',
+                DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_outcome"),
+                DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_income")
+            )
+            ->groupBy('payment.id','payment.date','contact.name','payment.type_id','category.name',
+            'payment.status_id','payment.public_id','payment.payment_method_id')
+            ->orderBy('payment.id','asc')
             ->get();
         
         return  $transactions;

@@ -8,13 +8,25 @@ use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\{
     BankAccountType,
-    BankAccount
+    BankAccount,
+    ResolutionNumber,
+    Category,
+    Payment
     };
 use Illuminate\Support\Facades\DB;
 use App\Utilities\Helper;
+use App\Repositories\PaymentRepository;
+use App\Events\RecordActivity;
 
 class BankAccountController extends Controller
 {
+
+    protected $paymentRepo;
+
+    public function __construct(PaymentRepository $paymentRepo)
+    {
+        $this->paymentRepo = $paymentRepo;
+    }
 
     public function index()
     {
@@ -30,6 +42,132 @@ class BankAccountController extends Controller
         return response()->json($baseInfo);
     }
 
+    public function bank_transaction_history($bank_id)
+    {
+      return $this->paymentRepo->getTransactionsByBank($bank_id);
+    }
+    
+    public function CreateBankTransference(Request $request)
+    {
+
+        $data=$request->all();
+        $dataIN=$request->all();
+        //No debe adicionarse transferencias entre la misma cuenta
+        if ($data['account_from']==$data['account_to'])
+        {
+            return response()
+            ->json([
+                'created' => true
+            ]);
+        }
+        
+        $data['payment_out_to_category']=[];
+         
+         $category_id=Category::where('account_id',Auth::user()->account_id)
+                                    ->where('name','=','Transferencias bancarias')
+                                    ->select('id')
+                                    ->take(1)
+                                    ->get();
+
+         $category_id= $category_id[0]->id;
+        
+        $data['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'out-come')['number'];
+        $data['isInvoice'] = 0;
+        $data['payment_method_id'] = 3;
+        $data['currency_code']=CURRENCY_CODE_DEFAULT;
+        $data['bank_account_id']=$data['account_from'];
+
+        //registrar pago en tabla payments  de tipo EGreso      
+        $detailPayment=$data['payment_out_to_category'];
+        $detailPayment['category_id']=$category_id;
+        $detailPayment['unit_price']=$data['amount'];
+        $detailPayment['quantity']=1;
+        $detailPayment['observations']=$data['observations'];
+        $detailPayment2[]=$detailPayment;
+        
+        $payment=$this->paymentRepo->storeCategoryPayment(
+                    $data,
+                    $detailPayment2,
+                    Payment::class,                   
+                    PAYMENT_OUTCOME_TYPE
+                );
+
+        if($payment) //retornar errores por validación
+            {               
+                $hasErrorr=collect($payment)->get('original');
+                if ($hasErrorr)
+                {
+                     return response()
+                        ->json([
+                            'created' => false
+                        ]);
+                }               
+            }   
+        
+         //registrar entrada en tabla payments  de tipo INGreso   
+        $dataIN['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'in-come')['number'];
+        $dataIN['isInvoice'] = 0;
+        $dataIN['payment_method_id'] = 3;
+        $dataIN['currency_code']=CURRENCY_CODE_DEFAULT;
+        $dataIN['bank_account_id']=$dataIN['account_to'];   
+        $dataIN['payment_in_to_category']=[];
+        $detailPaymentIN=$dataIN['payment_in_to_category'];
+        $detailPaymentIN['category_id']=$category_id;
+        $detailPaymentIN['unit_price']=$dataIN['amount'];
+        $detailPaymentIN['quantity']=1;
+        $detailPaymentIN['observations']=$dataIN['observations'];
+        $detailPaymentIN2[]=$detailPaymentIN;
+        
+            $payment=$this->paymentRepo->storeCategoryPayment(
+                    $dataIN,
+                    $detailPaymentIN2,
+                    Payment::class,                   
+                    PAYMENT_INCOME_TYPE
+                );
+
+          if($payment) //retornar errores por validación
+            {               
+                $hasErrorr=collect($payment)->get('original');
+                if ($hasErrorr)
+                {
+                     return response()
+                        ->json([
+                            'created' => false
+                        ]);
+                }               
+            }   
+        
+        //Incrementar los consecutivos de la resolución
+        ResolutionNumber::where('key', 'out-come')->increment('number');
+        ResolutionNumber::where('key', 'in-come')->increment('number');
+
+        $AccountNameFrom = BankAccount::where('account_id',  Auth::user()->account_id)
+                            ->where('id',$data['account_from'])->select('bank_account_name')->get()[0]->bank_account_name;
+
+         $AccountNameTo = BankAccount::where('account_id',  Auth::user()->account_id)
+                            ->where('id',$data['account_to'])->select('bank_account_name')->get()[0]->bank_account_name;
+        
+        //Guardar historial
+        event(new RecordActivity('Create','Se realizó una transferencia desde la cuenta'. $AccountNameFrom .', hacia la cuenta '.$AccountNameTo,
+        'BankAccount',null));
+
+        //actualiza el monto del banco al que va dirijida la transferencia
+        DB::table('bank_account')
+        ->where('id', $data['account_to'])
+        ->increment('initial_balance', $data['amount']);
+
+         //actualiza el monto del banco origen de la transferencia 
+        DB::table('bank_account')
+        ->where('id', $data['account_from'])
+        ->decrement('initial_balance', $data['amount']);
+
+        return response()
+            ->json([
+                'created' => true
+            ]);
+        
+    }
+
      public function BankAccountIndex()
     {
        $accountlist = BankAccount::with('bank_account')
@@ -37,7 +175,7 @@ class BankAccountController extends Controller
                  ->where('isDeleted',  0)
                ->orderBy('created_at', 'desc')
                ->select('id', 'account_id','public_id',
-               'user_id','bank_account_type_id','bank_account_name','bank_account_number',
+               'user_id','bank_account_type_id','bank_account_name','bank_account_number','isDefault',
                'initial_balance',
                'description','id'
                )->get(); 
@@ -87,8 +225,10 @@ class BankAccountController extends Controller
 
     public function show($id)
     {
+      
+
         $account = BankAccount::where('account_id',  Auth::user()->account_id)
-        ->select('id','bank_account_type_id','bank_account_name')
+        ->select('id','bank_account_type_id','bank_account_name','initial_balance')
         ->find($id);
                  
         if (!$account)

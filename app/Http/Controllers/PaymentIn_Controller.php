@@ -192,13 +192,14 @@ class PaymentIn_Controller extends Controller
             $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);        
             if (! $detail->isEmpty())
             {
+                $total=Helper::formatMoney($detail->sum('total'));
                 foreach($detail as $item)
                 {
                     $item->unit_price=Helper::formatMoney($item->unit_price);
                     $item->total=Helper::formatMoney($item->total);
                 }
                 $isCategory=true;
-                $total=Helper::formatMoney($detail->sum('total'));
+                
             }
         }
 

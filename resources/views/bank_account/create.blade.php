@@ -5,7 +5,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nuevo Banco</h2>
+                    <h2><span class ='fa fa-bank '></span>&nbsp;Bancos</h2>
                     <ol class="breadcrumb">                       
                         <li>
                             <a href="{{route('bank_account.index')}}">Inicio</a>

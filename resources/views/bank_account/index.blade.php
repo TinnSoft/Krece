@@ -17,7 +17,7 @@
 
     <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2>Bancos</h2>
+                    <h2><span class ='fa fa-bank '></span>&nbsp;Bancos</h2>
                     <ol class="breadcrumb">
                         <li class="active">
                             <strong>Inicio</strong>      

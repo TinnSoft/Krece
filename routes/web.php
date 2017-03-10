@@ -48,6 +48,8 @@ Route::resource('bank_account', 'BankAccountController');
 Route::get('getBankAccount_Type','BankAccountController@BaseInfo');
 Route::get('getBankAccountlist','BankAccountController@BankAccountIndex');
 Route::get('getBankList','BankAccountController@bankList');
+Route::get('getbank_transaction_history/{bank_id}','BankAccountController@bank_transaction_history');
+Route::post('saveBankTransference','BankAccountController@CreateBankTransference');
 
 //precio de lista
 Route::resource('list_price', 'ListPriceController');

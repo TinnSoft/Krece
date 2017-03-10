@@ -99,10 +99,10 @@
                     Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='cursor: pointer; color:red' onclick=appBank.remove(\""+cellvalue+"\")/></div><span > </span>";
                     
                 
-                if (rowObject.isActive==0)
+                if (rowObject.isDefault==1)
                 {
                     Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
-                    edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
+                    //edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
                     
                 }
 

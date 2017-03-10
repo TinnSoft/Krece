@@ -1,3 +1,8 @@
+{!!Html::script('/themes/krece/js/plugins/datapicker/bootstrap-datepicker.js')!!}    
+{!!Html::style('/themes/krece/css/plugins/datapicker/datepicker3.css')!!}
+{!!Html::script('/js/components/datepicker/datepicker-locale.es.min.js')!!}
+{!!Html::script('/js/components/datepicker/datepicker-vue.js')!!} 
+
 <div class="modal inmodal fade" id="transferenceModal" tabindex="-1" role="dialog"  aria-hidden="true">
      <div class="modal-dialog ">
            <div class="modal-content animated fadeIn">
@@ -41,7 +46,7 @@
                                 label="bank_account_name"
                                 :show-labels="false"
                                 :allow-empty="false"
-                                 @input="accountTo">                                
+                                @input="accountTo">                                
                             </multiselect>                            
                         </td>
                     </tr>
@@ -49,8 +54,11 @@
                         <th><small ><label><a class="text-danger"><strong>* </strong></a>Monto:</label></small></th>
                         <td>                       
                             <small>
-                                <input type="number" class="form-control input-sm" v-model="transfer.amount"></input>
+                                <input type="number" class="form-control input-sm" v-model="transfer.amount"></input>                               
                             </small>                    
+                             <small v-if="getwarningMessage()==true" class="error is-danger  text-danger">
+                                    El monto ingresado no puede ser mayor a: @{{bank_account.initial_balance | formatCurrency}}
+                            </small>  
                         </td>
                     </tr>
                     <tr>
@@ -77,8 +85,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>  
                     <button class="btn btn-primary pull-right" :disabled="isProcesing" @click="create">
-                    <i class="fa fa-save"></i>&nbsp;Guardar</button>                          
+                    <i class="fa fa-save"></i>&nbsp;Guardar</button>                    
                 </div>
             </div>
     </div>
+  
  </div>
+

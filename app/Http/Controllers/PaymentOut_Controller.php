@@ -200,7 +200,8 @@ class PaymentOut_Controller extends Controller
         
         if ($detail->isEmpty())
         {
-            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   ;
+            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   
+            $total=Helper::formatMoney($detail->sum('total'));
             if (! $detail->isEmpty())
             {
                 foreach($detail as $item)
@@ -209,7 +210,7 @@ class PaymentOut_Controller extends Controller
                     $item->total=Helper::formatMoney($item->total);
                 }
                 $isCategory=true;
-                $total=Helper::formatMoney($detail->sum('total'));
+                
             }
         }
         

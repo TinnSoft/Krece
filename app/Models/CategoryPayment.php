@@ -9,7 +9,7 @@ class CategoryPayment extends Model
 {
     protected $table = 'category_payment';
     protected $fillable=[
-	'payment_id','user_id','account_id','category_id','unit_price','tax_id','tax_total','tax_amount','quantity','observations'
+	'payment_id','user_id','account_id','category_id','unit_price','tax_id','tax_total','tax_amount','quantity','observations','total'
 	];
 
      public function category()
