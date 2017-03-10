@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=276 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=592 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~228 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~550 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -415,7 +415,323 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(272, 1, 1, '2017-03-01 15:20:48', 'Se actualizó el estado del pago número: 4 para el cliente contact-provider', '/Payment-out/18', 'Payment-out', 'Update'),
 	(273, 1, 1, '2017-03-01 15:20:50', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment-out', 'Update'),
 	(274, 1, 1, '2017-03-01 15:20:51', 'Se actualizó el estado del pago número: 4 para el cliente contact-provider', '/Payment-out/18', 'Payment-out', 'Update'),
-	(275, 1, 1, '2017-03-01 15:21:18', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment-out', 'Update');
+	(275, 1, 1, '2017-03-01 15:21:18', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment-out', 'Update'),
+	(276, 1, 1, '2017-03-01 16:17:27', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(277, 1, 1, '2017-03-01 16:19:23', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(278, 1, 1, '2017-03-01 16:20:23', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(279, 1, 1, '2017-03-01 16:20:32', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(280, 1, 1, '2017-03-01 16:21:39', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(281, 1, 1, '2017-03-01 16:25:19', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(282, 1, 1, '2017-03-01 16:28:45', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(283, 1, 1, '2017-03-01 16:28:58', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(284, 1, 1, '2017-03-01 16:29:25', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(285, 1, 1, '2017-03-01 16:30:48', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(286, 1, 1, '2017-03-01 16:31:03', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(287, 1, 1, '2017-03-01 16:31:28', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(288, 1, 1, '2017-03-01 16:31:43', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(289, 1, 1, '2017-03-01 16:32:25', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(290, 1, 1, '2017-03-01 16:33:09', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(291, 1, 1, '2017-03-01 16:33:29', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(292, 1, 1, '2017-03-01 16:34:28', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(293, 1, 1, '2017-03-01 16:34:37', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(294, 1, 1, '2017-03-01 16:34:52', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(295, 1, 1, '2017-03-01 16:41:08', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(296, 1, 1, '2017-03-01 16:41:28', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(297, 1, 1, '2017-03-01 17:43:17', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(298, 1, 1, '2017-03-01 17:43:48', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(299, 1, 1, '2017-03-01 17:44:05', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(300, 1, 1, '2017-03-01 17:45:15', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(301, 1, 1, '2017-03-01 17:48:57', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(302, 1, 1, '2017-03-01 17:49:10', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(303, 1, 1, '2017-03-01 17:49:20', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(304, 1, 1, '2017-03-01 17:49:40', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(305, 1, 1, '2017-03-01 17:49:53', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(306, 1, 1, '2017-03-01 17:50:03', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(307, 1, 1, '2017-03-01 17:50:27', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(308, 1, 1, '2017-03-01 17:51:06', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(309, 1, 1, '2017-03-01 17:51:21', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(310, 1, 1, '2017-03-01 17:51:30', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(311, 1, 1, '2017-03-01 17:51:41', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(312, 1, 1, '2017-03-01 17:51:56', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(313, 1, 1, '2017-03-01 17:52:12', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(314, 1, 1, '2017-03-01 17:52:20', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(315, 1, 1, '2017-03-01 17:52:31', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(316, 1, 1, '2017-03-01 17:52:45', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(317, 1, 1, '2017-03-01 17:52:57', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(318, 1, 1, '2017-03-01 17:53:14', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(319, 1, 1, '2017-03-01 17:53:29', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(320, 1, 1, '2017-03-01 17:53:42', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(321, 1, 1, '2017-03-01 17:56:36', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(322, 1, 1, '2017-03-01 17:56:45', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(323, 1, 1, '2017-03-01 17:57:19', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(324, 1, 1, '2017-03-01 17:57:35', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(325, 1, 1, '2017-03-01 17:58:01', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(326, 1, 1, '2017-03-01 17:58:55', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(327, 1, 1, '2017-03-01 17:59:08', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(328, 1, 1, '2017-03-01 17:59:20', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(329, 1, 1, '2017-03-01 17:59:34', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(330, 1, 1, '2017-03-01 18:04:04', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(331, 1, 1, '2017-03-01 18:04:25', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(332, 1, 1, '2017-03-01 18:04:48', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(333, 1, 1, '2017-03-01 18:05:42', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(334, 1, 1, '2017-03-01 18:05:52', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(335, 1, 1, '2017-03-01 18:06:17', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(336, 1, 1, '2017-03-01 18:06:31', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(337, 1, 1, '2017-03-01 18:06:41', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(338, 1, 1, '2017-03-01 18:06:51', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(339, 1, 1, '2017-03-01 18:07:09', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(340, 1, 1, '2017-03-01 18:07:23', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(341, 1, 1, '2017-03-01 18:08:21', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(342, 1, 1, '2017-03-01 18:09:20', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(343, 1, 1, '2017-03-01 18:09:31', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(344, 1, 1, '2017-03-01 18:09:38', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(345, 1, 1, '2017-03-01 18:10:22', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(346, 1, 1, '2017-03-01 18:10:30', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(347, 1, 1, '2017-03-01 18:10:43', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(348, 1, 1, '2017-03-01 18:10:51', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(349, 1, 1, '2017-03-01 18:12:05', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(350, 1, 1, '2017-03-01 18:12:35', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(351, 1, 1, '2017-03-01 18:12:59', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(352, 1, 1, '2017-03-01 18:13:37', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(353, 1, 1, '2017-03-01 18:16:13', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(354, 1, 1, '2017-03-01 18:16:37', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(355, 1, 1, '2017-03-01 18:16:46', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(356, 1, 1, '2017-03-01 18:17:03', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(357, 1, 1, '2017-03-01 18:17:17', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(358, 1, 1, '2017-03-01 18:18:58', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(359, 1, 1, '2017-03-01 18:19:14', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(360, 1, 1, '2017-03-01 18:19:21', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(361, 1, 1, '2017-03-01 18:20:14', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(362, 1, 1, '2017-03-01 18:22:01', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(363, 1, 1, '2017-03-01 18:26:44', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(364, 1, 1, '2017-03-01 18:30:47', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(365, 1, 1, '2017-03-01 18:34:04', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(366, 1, 1, '2017-03-01 18:34:56', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(367, 1, 1, '2017-03-01 18:35:46', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(368, 1, 1, '2017-03-01 18:37:26', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(369, 1, 1, '2017-03-01 18:40:29', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(370, 1, 1, '2017-03-01 18:43:23', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(371, 1, 1, '2017-03-01 18:45:47', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(372, 1, 1, '2017-03-01 18:46:02', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(373, 1, 1, '2017-03-01 18:46:17', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(374, 1, 1, '2017-03-01 18:47:52', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(375, 1, 1, '2017-03-01 18:48:09', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(376, 1, 1, '2017-03-01 18:48:22', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(377, 1, 1, '2017-03-01 18:48:40', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(378, 1, 1, '2017-03-01 18:49:24', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(379, 1, 1, '2017-03-01 18:49:54', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(380, 1, 1, '2017-03-01 18:55:35', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment-out', 'Update'),
+	(381, 1, 1, '2017-03-01 18:56:25', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(382, 1, 1, '2017-03-01 19:19:17', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(383, 1, 1, '2017-03-01 19:20:41', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(384, 1, 1, '2017-03-01 19:21:05', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(385, 1, 1, '2017-03-01 19:53:42', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(386, 1, 1, '2017-03-01 19:54:06', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(387, 1, 1, '2017-03-01 19:55:12', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(388, 1, 1, '2017-03-01 19:55:41', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(389, 1, 1, '2017-03-01 19:55:51', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(390, 1, 1, '2017-03-01 20:01:18', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(391, 1, 1, '2017-03-01 20:01:28', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(392, 1, 1, '2017-03-01 20:03:54', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(393, 1, 1, '2017-03-01 21:13:35', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(394, 1, 1, '2017-03-01 21:17:27', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(395, 1, 1, '2017-03-01 21:18:01', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(396, 1, 1, '2017-03-02 08:34:28', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(397, 1, 1, '2017-03-02 08:40:58', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(398, 1, 1, '2017-03-02 09:55:26', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(399, 1, 1, '2017-03-02 09:55:35', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(400, 1, 1, '2017-03-02 09:56:04', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(401, 1, 1, '2017-03-02 09:57:28', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(402, 1, 1, '2017-03-02 09:59:07', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(403, 1, 1, '2017-03-02 10:03:36', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(404, 1, 1, '2017-03-02 10:04:39', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(405, 1, 1, '2017-03-02 10:04:52', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(406, 1, 1, '2017-03-02 10:05:46', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(407, 1, 1, '2017-03-02 10:05:59', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(408, 1, 1, '2017-03-02 10:07:21', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(409, 1, 1, '2017-03-02 10:08:23', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(410, 1, 1, '2017-03-02 10:10:52', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(411, 1, 1, '2017-03-02 10:11:27', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(412, 1, 1, '2017-03-02 10:11:34', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(413, 1, 1, '2017-03-02 10:11:40', 'Se ha impreso el pdf para el pago No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(414, 1, 1, '2017-03-02 10:11:47', 'Se ha impreso el pdf para el pago No: 1', '/Payment-out/17', 'Payment-out', 'Print'),
+	(415, 1, 1, '2017-03-02 10:11:55', 'Se ha impreso el pdf para el pago No: 16', '/Payment-out/16', 'Payment-out', 'Print'),
+	(416, 1, 1, '2017-03-02 10:12:59', 'Se ha impreso el pdf para el pago No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(417, 1, 1, '2017-03-02 10:13:05', 'Se ha impreso el pdf para el pago No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(418, 1, 1, '2017-03-02 10:14:41', 'Se ha impreso el pdf para el pago No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(419, 1, 1, '2017-03-02 10:15:19', 'Se actualizó el estado del pago número: 4 para el cliente contact-provider', '/Payment-out/18', 'Payment-out', 'Update'),
+	(420, 1, 1, '2017-03-02 10:15:22', 'Se ha impreso el pdf para el pago No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(421, 1, 1, '2017-03-02 10:16:44', 'Se ha impreso el pdf para el pago No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(422, 1, 1, '2017-03-02 10:19:02', 'Se ha impreso el pdf para el comprobante de egreso No: 4', '/Payment-out/18', 'Payment-out', 'Print'),
+	(423, 1, 1, '2017-03-02 10:19:33', 'Se ha impreso el pdf para el comprobante de egreso No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(424, 1, 1, '2017-03-02 10:19:34', 'Se ha impreso el pdf para el comprobante de egreso No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(425, 1, 1, '2017-03-02 10:22:48', 'Se ha impreso el pdf para el comprobante de egreso No: 5', '/Payment-out/19', 'Payment-out', 'Print'),
+	(426, 1, 1, '2017-03-02 15:21:40', 'Se ingresó el ingreso número: 17 para el cliente cliente 1', '/payment-in/20', 'Payment', 'Create'),
+	(427, 1, 1, '2017-03-02 18:15:42', 'Se actualizó el pago número: 17 para el cliente cliente 1', '/payment/20', 'Payment', 'Update'),
+	(428, 1, 1, '2017-03-02 18:16:14', 'Se actualizó el pago número: 17 para el cliente cliente 1', '/payment/20', 'Payment', 'Update'),
+	(429, 1, 1, '2017-03-02 18:19:53', 'Se actualizó el pago número: 17 para el cliente cliente 1', '/payment/20', 'Payment', 'Update'),
+	(430, 1, 1, '2017-03-02 18:20:51', 'Se actualizó el pago número: 17 para el cliente cliente 1', '/payment/20', 'Payment', 'Update'),
+	(431, 1, 1, '2017-03-02 18:33:24', 'Se actualizó el pago número: 17 para el cliente cliente 1', '/payment/20', 'Payment', 'Update'),
+	(432, 1, 1, '2017-03-02 18:55:02', 'Se actualizó el estado del pago número: 17 para el cliente cliente 1', '/Payment-in/20', 'Payment-in', 'Update'),
+	(433, 1, 1, '2017-03-02 18:55:03', 'Se actualizó el estado del pago número: 17 para el cliente cliente 1', '/Payment-in/20', 'Payment-in', 'Update'),
+	(434, 1, 1, '2017-03-02 18:55:05', 'Se actualizó el estado del pago número: 16 para el cliente distribuciones IDRD', '/Payment-in/16', 'Payment-in', 'Update'),
+	(435, 1, 1, '2017-03-02 18:55:07', 'Se actualizó el estado del pago número: 16 para el cliente distribuciones IDRD', '/Payment-in/16', 'Payment-in', 'Update'),
+	(436, 1, 1, '2017-03-02 19:17:38', 'Se ha impreso el pdf para el comprobante de ingreso No: 10', '/Payment-in/11', 'Payment-out', 'Print'),
+	(437, 1, 1, '2017-03-02 19:41:40', 'Se ha impreso el pdf para el comprobante de ingreso No: 17', '/Payment-in/20', 'Payment-out', 'Print'),
+	(438, 1, 1, '2017-03-02 19:47:22', 'Se ha impreso el pdf para el comprobante de ingreso No: 16', '/Payment-in/16', 'Payment-out', 'Print'),
+	(439, 1, 1, '2017-03-02 19:48:17', 'Se ha impreso el pdf para el comprobante de ingreso No: 12', '/Payment-in/12', 'Payment-out', 'Print'),
+	(440, 1, 1, '2017-03-03 10:31:19', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/test/19', 'Payment', 'Update'),
+	(441, 1, 1, '2017-03-03 10:44:42', 'Se actualizó el estado del pago número: 4 para el cliente contact-provider', '/Payment-out/18', 'Payment', 'Update'),
+	(442, 1, 1, '2017-03-03 10:44:43', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment', 'Update'),
+	(443, 1, 1, '2017-03-03 10:44:45', 'Se actualizó el estado del pago número: 4 para el cliente contact-provider', '/Payment-out/18', 'Payment', 'Update'),
+	(444, 1, 1, '2017-03-03 10:51:09', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment', 'Update'),
+	(445, 1, 1, '2017-03-03 10:51:42', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment', 'Update'),
+	(446, 1, 1, '2017-03-03 11:14:13', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment', 'Update'),
+	(447, 1, 1, '2017-03-03 11:27:06', 'Se actualizó el estado del pago número: 5 para el cliente Proveedor 1', '/Payment-out/19', 'Payment', 'Update'),
+	(448, 1, 1, '2017-03-03 11:32:04', 'Se actualizó el estado del pago número: 16 para el cliente distribuciones IDRD', '/Payment-in/16', 'Payment', 'Update'),
+	(449, 1, 1, '2017-03-03 11:32:05', 'Se actualizó el estado del pago número: 16 para el cliente distribuciones IDRD', '/Payment-in/16', 'Payment', 'Update'),
+	(450, 1, 1, '2017-03-03 14:03:23', 'Se creó el comprobante de pago número: 12 para el proveedor Proveedor 1', '/Payment-out/21', 'payment-out', 'Create'),
+	(451, 1, 1, '2017-03-03 14:05:36', 'Se actualizó el comprobante de pago número: 12 para el cliente Proveedor 1', '/Payment-out/21', 'payment-out', 'Update'),
+	(452, 1, 1, '2017-03-03 14:07:19', 'Se creó el comprobante de pago número: 13 para el proveedor Proveedor 1', '/Payment-out/22', 'payment-out', 'Create'),
+	(453, 1, 1, '2017-03-03 14:16:56', 'Se creó el comprobante de pago número: 14 para el proveedor Proveedor 1', '/Payment-out/22', 'payment-out', 'Create'),
+	(454, 1, 1, '2017-03-03 14:20:59', 'Se creó el comprobante de pago número: 14 para el proveedor Fernando Ardila', '/Payment-out/22', 'payment-out', 'Create'),
+	(455, 1, 1, '2017-03-03 15:03:46', 'Se ha creado el ingreso número: 18 para el cliente cliente 1', '/payment-in/23', 'Payment', 'Create'),
+	(456, 1, 1, '2017-03-03 14:40:29', 'Se eliminó el pago número: 18', NULL, 'Payment', 'Delete'),
+	(457, 1, 1, '2017-03-03 14:42:11', 'Se eliminó el pago número: 4', NULL, 'Payment', 'Delete'),
+	(458, 1, 1, '2017-03-03 15:03:40', 'Se creó el comprobante de pago número: 16 para el proveedor proveedor 5', '/payment-out/24', 'payment-out', 'Create'),
+	(459, 1, 1, '2017-03-03 15:16:40', 'Se actualizó el estado de la factura de venta número: 4 para el cliente cliente 2', '/invoice/4', 'InvoiceSaleOrder', 'Update'),
+	(460, 1, 1, '2017-03-03 15:16:43', 'Se actualizó el estado de la factura de venta número: 4 para el cliente cliente 2', '/invoice/4', 'InvoiceSaleOrder', 'Update'),
+	(461, 1, 1, '2017-03-03 15:16:44', 'Se actualizó el estado de la factura de venta número: 4 para el cliente cliente 2', '/invoice/4', 'InvoiceSaleOrder', 'Update'),
+	(462, 1, 1, '2017-03-03 15:19:07', 'Se actualizó el estado de la factura de venta número: 4 para el cliente cliente 2', '/invoice/4', 'InvoiceSaleOrder', 'Update'),
+	(463, 1, 1, '2017-03-03 15:29:36', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(464, 1, 1, '2017-03-03 15:29:48', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(465, 1, 1, '2017-03-03 15:30:24', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(466, 1, 1, '2017-03-03 15:31:04', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(467, 1, 1, '2017-03-03 15:32:44', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(468, 1, 1, '2017-03-03 15:32:47', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(469, 1, 1, '2017-03-03 16:07:25', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(470, 1, 1, '2017-03-03 16:07:28', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(471, 1, 1, '2017-03-03 16:07:58', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(472, 1, 1, '2017-03-03 16:09:02', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(473, 1, 1, '2017-03-03 16:09:06', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(474, 1, 1, '2017-03-03 16:09:14', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(475, 1, 1, '2017-03-03 16:09:16', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(476, 1, 1, '2017-03-03 16:10:15', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(477, 1, 1, '2017-03-03 16:10:18', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(478, 1, 1, '2017-03-03 16:10:22', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(479, 1, 1, '2017-03-03 16:10:25', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(480, 1, 1, '2017-03-03 16:11:35', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(481, 1, 1, '2017-03-03 16:11:38', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(482, 1, 1, '2017-03-03 17:48:26', 'Se ha creado el ingreso número: 19 para el cliente contact-provider', '/payment-in/25', 'Payment', 'Create'),
+	(483, 1, 1, '2017-03-03 17:49:32', 'Se actualizó el pago número: 19 para el cliente contact-provider', '/payment/25', 'Payment', 'Update'),
+	(484, 1, 1, '2017-03-03 17:50:14', 'Se actualizó el pago número: 19 para el cliente contact-provider', '/payment/25', 'Payment', 'Update'),
+	(485, 1, 1, '2017-03-03 18:12:13', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(486, 1, 1, '2017-03-03 18:12:15', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(487, 1, 1, '2017-03-03 18:12:43', 'Se ha creado el ingreso número: 20 para el cliente contact-provider', '/payment-in/25', 'Payment', 'Create'),
+	(488, 1, 1, '2017-03-03 18:14:49', 'Se ha creado el ingreso número: 21 para el cliente cliente 1', '/payment-in/26', 'Payment', 'Create'),
+	(489, 1, 1, '2017-03-03 18:31:04', 'Se creó el comprobante de pago número: 17 para el proveedor proveedor 5', '/payment-out/27', 'payment-out', 'Create'),
+	(490, 1, 1, '2017-03-03 18:31:33', 'Se ha impreso el pdf para el comprobante de egreso No: 17', '/payment-out/27', 'payment-out', 'Print'),
+	(491, 1, 1, '2017-03-03 18:57:11', 'Se actualizó el comprobante de pago número: 1 para el cliente contact-provider', '/payment-out/17', 'payment-out', 'Update'),
+	(492, 1, 1, '2017-03-03 19:00:58', 'Se actualizó el comprobante de pago número: 1 para el cliente contact-provider', '/payment-out/17', 'payment-out', 'Update'),
+	(493, 1, 1, '2017-03-03 19:33:48', 'Se actualizó el estado de la factura de venta número: 15 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(494, 1, 1, '2017-03-03 19:34:17', 'Se actualizó el estado de la factura de venta número: 11 para el cliente cliente 1', '/invoice/11', 'InvoiceSaleOrder', 'Update'),
+	(495, 1, 1, '2017-03-03 19:34:39', 'Se actualizó el estado de la factura de venta número: 6 para el cliente cliente 2', '/invoice/6', 'InvoiceSaleOrder', 'Update'),
+	(496, 1, 1, '2017-03-03 19:34:43', 'Se actualizó el estado de la factura de venta número: 6 para el cliente cliente 2', '/invoice/6', 'InvoiceSaleOrder', 'Update'),
+	(497, 1, 1, '2017-03-03 19:34:45', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(498, 1, 1, '2017-03-03 19:34:46', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(499, 1, 1, '2017-03-03 19:34:50', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(500, 1, 1, '2017-03-03 19:38:34', 'Se ha creado el ingreso número: 22 para el cliente cliente 2', '/payment-in/28', 'Payment', 'Create'),
+	(501, 1, 1, '2017-03-03 19:46:43', 'Se ha creado el ingreso número: 23 para el cliente contact-provider', '/payment-in/28', 'Payment', 'Create'),
+	(502, 1, 1, '2017-03-03 19:56:59', 'Se ha creado el ingreso número: 24 para el cliente cliente 1', '/payment-in/28', 'Payment', 'Create'),
+	(503, 1, 1, '2017-03-05 10:28:15', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(504, 1, 1, '2017-03-05 11:15:51', 'Se creó la factura de venta número: 16 para el cliente cliente 1', '/invoice/16', 'InvoiceSaleOrder', 'Create'),
+	(505, 1, 1, '2017-03-05 17:44:26', 'Se ha impreso el pdf de la Nota Crédito No: 1', '/credit-note/1', 'CreditNote', 'Print'),
+	(506, 1, 1, '2017-03-05 18:20:48', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(507, 1, 1, '2017-03-05 18:20:49', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(508, 1, 1, '2017-03-06 08:14:50', 'Se actualizó la factura de venta número: 1 para el cliente cliente 1', '/invoice/16', 'InvoiceSaleOrder', 'Update'),
+	(509, 1, 1, '2017-03-06 08:33:05', 'Se actualizó la factura de venta número: 1 para el cliente contact-provider', '/invoice/15', 'InvoiceSaleOrder', 'Update'),
+	(510, 1, 1, '2017-03-06 08:35:40', 'Se actualizó la factura de venta número: 1 para el cliente cliente 1', '/invoice/16', 'InvoiceSaleOrder', 'Update'),
+	(511, 1, 1, '2017-03-06 08:36:12', 'Se actualizó la factura de venta número: 1 para el cliente cliente 1', '/invoice/16', 'InvoiceSaleOrder', 'Update'),
+	(512, 1, 1, '2017-03-06 08:53:57', 'Se actualizó la factura de venta número: 17 para el cliente cliente 1', '/invoice/16', 'InvoiceSaleOrder', 'Update'),
+	(513, 1, 1, '2017-03-06 09:46:34', 'Se eliminó la factura de venta número: 16', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(514, 1, 1, '2017-03-06 09:46:39', 'Se eliminó la factura de venta número: 15', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(515, 1, 1, '2017-03-06 09:46:42', 'Se eliminó la factura de venta número: 14', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(516, 1, 1, '2017-03-06 09:46:46', 'Se eliminó la factura de venta número: 12', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(517, 1, 1, '2017-03-06 09:46:50', 'Se eliminó la factura de venta número: 11', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(518, 1, 1, '2017-03-06 09:46:54', 'Se eliminó la factura de venta número: 10', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(519, 1, 1, '2017-03-06 09:46:58', 'Se eliminó la factura de venta número: 9', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(520, 1, 1, '2017-03-06 09:47:05', 'Se eliminó la factura de venta número: 4', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(521, 1, 1, '2017-03-06 09:47:09', 'Se eliminó la factura de venta número: 6', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(522, 1, 1, '2017-03-06 09:47:13', 'Se eliminó la factura de venta número: 7', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(523, 1, 1, '2017-03-06 09:47:17', 'Se actualizó el estado de la factura de venta número: 5 para el cliente as', '/invoice/5', 'InvoiceSaleOrder', 'Update'),
+	(524, 1, 1, '2017-03-06 09:47:20', 'Se eliminó la factura de venta número: 5', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(525, 1, 1, '2017-03-06 09:47:38', 'Se eliminó el pago número: 10', NULL, 'Payment', 'Delete'),
+	(526, 1, 1, '2017-03-06 09:47:42', 'Se eliminó el pago número: 12', NULL, 'Payment', 'Delete'),
+	(527, 1, 1, '2017-03-06 09:47:45', 'Se eliminó el pago número: 13', NULL, 'Payment', 'Delete'),
+	(528, 1, 1, '2017-03-06 09:47:49', 'Se eliminó el pago número: 17', NULL, 'Payment', 'Delete'),
+	(529, 1, 1, '2017-03-06 09:47:53', 'Se eliminó el pago número: 24', NULL, 'Payment', 'Delete'),
+	(530, 1, 1, '2017-03-06 09:47:56', 'Se eliminó el pago número: 21', NULL, 'Payment', 'Delete'),
+	(531, 1, 1, '2017-03-06 09:47:59', 'Se eliminó el pago número: 15', NULL, 'Payment', 'Delete'),
+	(532, 1, 1, '2017-03-06 09:48:21', 'Se actualizó el estado de la remisión número: 3 para el cliente Fernando Ardila', '/remision/3', 'Remision', 'Update'),
+	(533, 1, 1, '2017-03-06 09:48:24', 'Se eliminó la remisión número: 3', NULL, 'Remision', 'Delete'),
+	(534, 1, 1, '2017-03-06 09:48:28', 'Se eliminó la remisión número: 1', NULL, 'Remision', 'Delete'),
+	(535, 1, 1, '2017-03-06 09:48:37', 'Se eliminó la cotización número: 23', NULL, 'Estimate', 'Delete'),
+	(536, 1, 1, '2017-03-06 09:48:41', 'Se eliminó la cotización número: 24', NULL, 'Estimate', 'Delete'),
+	(537, 1, 1, '2017-03-06 09:48:45', 'Se eliminó la cotización número: 25', NULL, 'Estimate', 'Delete'),
+	(538, 1, 1, '2017-03-06 09:48:49', 'Se eliminó la cotización número: 22', NULL, 'Estimate', 'Delete'),
+	(539, 1, 1, '2017-03-06 09:48:52', 'Se eliminó la cotización número: 21', NULL, 'Estimate', 'Delete'),
+	(540, 1, 1, '2017-03-06 09:48:57', 'Se eliminó la cotización número: 20', NULL, 'Estimate', 'Delete'),
+	(541, 1, 1, '2017-03-06 09:49:00', 'Se eliminó la cotización número: 17', NULL, 'Estimate', 'Delete'),
+	(542, 1, 1, '2017-03-06 09:49:04', 'Se eliminó la cotización número: 14', NULL, 'Estimate', 'Delete'),
+	(543, 1, 1, '2017-03-06 09:49:08', 'Se eliminó la cotización número: 12', NULL, 'Estimate', 'Delete'),
+	(544, 1, 1, '2017-03-06 09:49:13', 'Se eliminó la cotización número: 9', NULL, 'Estimate', 'Delete'),
+	(545, 1, 1, '2017-03-06 09:49:17', 'Se eliminó la cotización número: 8', NULL, 'Estimate', 'Delete'),
+	(546, 1, 1, '2017-03-06 09:49:21', 'Se eliminó la cotización número: 26', NULL, 'Estimate', 'Delete'),
+	(547, 1, 1, '2017-03-06 09:49:25', 'Se eliminó la cotización número: 5', NULL, 'Estimate', 'Delete'),
+	(548, 1, 1, '2017-03-06 09:49:29', 'Se eliminó la cotización número: 3', NULL, 'Estimate', 'Delete'),
+	(549, 1, 1, '2017-03-06 09:50:38', 'Se eliminó la cotización número: 37', NULL, 'Estimate', 'Delete'),
+	(550, 1, 1, '2017-03-06 09:50:42', 'Se eliminó la cotización número: 36', NULL, 'Estimate', 'Delete'),
+	(551, 1, 1, '2017-03-06 09:50:45', 'Se eliminó la cotización número: 35', NULL, 'Estimate', 'Delete'),
+	(552, 1, 1, '2017-03-06 09:50:49', 'Se eliminó la cotización número: 29', NULL, 'Estimate', 'Delete'),
+	(553, 1, 1, '2017-03-06 09:50:53', 'Se eliminó la cotización número: 28', NULL, 'Estimate', 'Delete'),
+	(554, 1, 1, '2017-03-06 09:50:57', 'Se eliminó la cotización número: 27', NULL, 'Estimate', 'Delete'),
+	(555, 1, 1, '2017-03-06 09:51:01', 'Se eliminó la cotización número: 7', NULL, 'Estimate', 'Delete'),
+	(556, 1, 1, '2017-03-06 09:51:04', 'Se eliminó la cotización número: 6', NULL, 'Estimate', 'Delete'),
+	(557, 1, 1, '2017-03-06 09:51:08', 'Se eliminó la cotización número: 4', NULL, 'Estimate', 'Delete'),
+	(558, 1, 1, '2017-03-06 09:51:11', 'Se eliminó la cotización número: 2', NULL, 'Estimate', 'Delete'),
+	(559, 1, 1, '2017-03-06 09:51:15', 'Se eliminó la cotización número: 1', NULL, 'Estimate', 'Delete'),
+	(560, 1, 1, '2017-03-06 09:52:08', 'Se eliminó la factura de venta número: 4', NULL, 'Bill', 'Delete'),
+	(561, 1, 1, '2017-03-06 09:52:11', 'Se eliminó la factura de venta número: 2', NULL, 'Bill', 'Delete'),
+	(562, 1, 1, '2017-03-06 09:52:15', 'Se eliminó la factura de venta número: 3', NULL, 'Bill', 'Delete'),
+	(563, 1, 1, '2017-03-06 10:13:16', 'Se eliminó la factura de venta número: 13', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(564, 1, 1, '2017-03-06 10:13:21', 'Se eliminó la factura de venta número: 3', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(565, 1, 1, '2017-03-06 10:13:25', 'Se eliminó la factura de venta número: 2', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(566, 1, 1, '2017-03-06 10:13:28', 'Se eliminó la factura de venta número: 1', NULL, 'InvoiceSaleOrder', 'Delete'),
+	(567, 1, 1, '2017-03-06 13:29:45', 'Se creó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Create'),
+	(568, 1, 1, '2017-03-06 13:30:39', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(569, 1, 1, '2017-03-06 13:43:34', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(570, 1, 1, '2017-03-06 13:44:44', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(571, 1, 1, '2017-03-06 13:44:52', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(572, 1, 1, '2017-03-06 13:45:19', 'Se actualizó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(573, 1, 1, '2017-03-06 13:47:25', 'Se actualizó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(574, 1, 1, '2017-03-06 13:49:07', 'Se actualizó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(575, 1, 1, '2017-03-06 13:49:32', 'Se actualizó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(576, 1, 1, '2017-03-06 14:12:09', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(577, 1, 1, '2017-03-06 14:14:12', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(578, 1, 1, '2017-03-06 14:14:38', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(579, 1, 1, '2017-03-06 14:15:21', 'Se ha impreso el pdf de la remision No: 4', '/remision/4', 'Remision', 'Print'),
+	(580, 1, 1, '2017-03-06 14:29:26', 'Se actualizó la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(581, 1, 1, '2017-03-06 14:43:13', 'Se actualizó el estado de la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(582, 1, 1, '2017-03-06 14:43:17', 'Se actualizó el estado de la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(583, 1, 1, '2017-03-06 14:53:15', 'Se actualizó el estado de la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(584, 1, 1, '2017-03-06 14:53:18', 'Se actualizó el estado de la remisión número: 4 para el cliente contacto-cliente', '/remision/4', 'Remision', 'Update'),
+	(585, 1, 1, '2017-03-08 17:14:19', 'Se creó la Cotización número: 38 para el cliente contacto-cliente', '/estimate/33', 'Estimate', 'Create'),
+	(586, 1, 1, '2017-03-08 17:14:52', 'Se ha impreso el pdf de la cotización No: 38', '/estimate/33', 'Estimate', 'Print'),
+	(587, 1, 1, '2017-03-08 17:26:32', 'Se ha impreso el pdf de la cotización No: 38', '/estimate/33', 'Estimate', 'Print'),
+	(588, 1, 1, '2017-03-08 17:35:57', 'Se actualizó la Cotización número: 38 para el cliente contacto-cliente', '/estimate/33', 'Estimate', 'Update'),
+	(589, 1, 1, '2017-03-08 17:36:05', 'Se ha impreso el pdf de la cotización No: 38', '/estimate/33', 'Estimate', 'Print'),
+	(590, 1, 1, '2017-03-08 17:37:13', 'Se ha impreso el pdf de la cotización No: 38', '/estimate/33', 'Estimate', 'Print'),
+	(591, 1, 1, '2017-03-08 17:37:58', 'Se ha impreso el pdf de la cotización No: 38', '/estimate/33', 'Estimate', 'Print');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -441,15 +757,16 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   CONSTRAINT `FK_banks_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_banks_accounttype` FOREIGN KEY (`bank_account_type_id`) REFERENCES `bank_account_type` (`id`),
   CONSTRAINT `FK_banks_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
 
--- Volcando datos para la tabla krece.bank_account: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.bank_account: ~4 rows (aproximadamente)
 DELETE FROM `bank_account`;
 /*!40000 ALTER TABLE `bank_account` DISABLE KEYS */;
 INSERT INTO `bank_account` (`id`, `user_id`, `public_id`, `account_id`, `bank_account_type_id`, `bank_account_name`, `bank_account_number`, `initial_balance`, `description`, `created_at`, `updated_at`, `deleted_at`, `isDeleted`) VALUES
-	(1, 1, 1, 1, 1, 'Banco 1', '', 0, '', '2017-01-18 14:20:49', '2017-01-19 08:17:26', '2017-01-19 08:17:11', b'0'),
+	(1, 1, 1, 1, 1, 'Banco 1', '123456', 30000000, NULL, '2017-01-18 14:20:49', '2017-03-08 18:01:10', '2017-01-19 08:17:11', b'0'),
 	(2, 1, 2, 1, 2, 'Tarjeta de crédito 1', '', 0, '', '2017-01-18 15:42:26', '2017-01-18 15:42:26', NULL, b'0'),
-	(3, 1, 3, 1, 3, 'Caja General', '', 0, '', '2017-01-18 15:43:04', '2017-01-18 15:43:04', NULL, b'0');
+	(3, 1, 3, 1, 3, 'Caja General', '', 0, '', '2017-01-18 15:43:04', '2017-01-18 15:43:04', NULL, b'0'),
+	(4, 1, 4, 1, 1, 'test', NULL, 20, NULL, '2017-03-08 18:18:28', '2017-03-08 18:20:32', '2017-03-08 18:20:32', b'1');
 /*!40000 ALTER TABLE `bank_account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account_type
@@ -510,9 +827,9 @@ DELETE FROM `bill`;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
 INSERT INTO `bill` (`id`, `account_id`, `user_id`, `public_id`, `customer_id`, `resolution_id`, `date`, `due_date`, `status_id`, `observations`, `currency_code`, `total`, `sub_total`, `total_discounts`, `total_taxes`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(4, 1, 1, 1, 6, 1, '2017-02-24', '2017-02-24', 1, 'descripciones', 'COP', 13853.2, 13379, 399.2, 873.392, NULL, NULL, b'0', b'1', '2017-02-24 17:13:48', '2017-02-24 18:28:20', '2017-02-24 18:28:20'),
-	(9, 1, 1, 2, 6, 2, '2017-02-24', '2017-02-24', 1, 'asas', 'COP', 1212, 1212, 0, 0, NULL, NULL, b'0', b'0', '2017-02-24 18:22:39', '2017-02-24 18:28:27', NULL),
-	(10, 1, 1, 3, 9, 3, '2017-02-24', '2017-02-24', 1, 'asa', 'COP', 49824.1, 48903, 0, 921.12, NULL, NULL, b'0', b'0', '2017-02-24 18:49:45', '2017-02-24 18:49:45', NULL),
-	(11, 1, 1, 4, 23, 4, '2017-02-28', '2017-02-28', 6, 'test', 'COP', 3000, 3000, 0, 0, NULL, NULL, b'0', b'0', '2017-02-28 10:31:18', '2017-02-28 12:22:45', NULL);
+	(9, 1, 1, 2, 6, 2, '2017-02-24', '2017-02-24', 6, 'asas', 'COP', 1212, 1212, 0, 0, NULL, NULL, b'0', b'1', '2017-02-24 18:22:39', '2017-03-06 09:52:11', '2017-03-06 09:52:11'),
+	(10, 1, 1, 3, 9, 3, '2017-02-24', '2017-02-24', 6, 'asa', 'COP', 49824.1, 48903, 0, 921.12, NULL, NULL, b'0', b'1', '2017-02-24 18:49:45', '2017-03-06 09:52:15', '2017-03-06 09:52:15'),
+	(11, 1, 1, 4, 23, 4, '2017-02-28', '2017-02-28', 6, 'test', 'COP', 3000, 3000, 0, 0, NULL, NULL, b'0', b'1', '2017-02-28 10:31:18', '2017-03-06 09:52:08', '2017-03-06 09:52:08');
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bill_debit_note
@@ -788,15 +1105,23 @@ CREATE TABLE IF NOT EXISTS `category_payment` (
   CONSTRAINT `FK_cp_payment_id` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `FK_cp_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_cp_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.category_payment: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.category_payment: ~9 rows (aproximadamente)
 DELETE FROM `category_payment`;
 /*!40000 ALTER TABLE `category_payment` DISABLE KEYS */;
 INSERT INTO `category_payment` (`id`, `payment_id`, `account_id`, `user_id`, `category_id`, `unit_price`, `tax_id`, `tax_amount`, `tax_total`, `quantity`, `observations`, `created_at`, `updated_at`) VALUES
 	(17, 79, 1, 1, 54, 200, 3, 19, 38, 1, '1', '2017-03-01 12:31:25', '2017-03-01 12:31:25'),
 	(18, 79, 1, 1, 66, 12, NULL, 0, NULL, 1, '2', '2017-03-01 12:31:25', '2017-03-01 12:31:25'),
-	(19, 79, 1, 1, 64, 1500, 4, 19, 570, 2, '3', '2017-03-01 12:31:25', '2017-03-01 12:31:25');
+	(19, 79, 1, 1, 64, 1500, 4, 19, 570, 2, '3', '2017-03-01 12:31:25', '2017-03-01 12:31:25'),
+	(26, 80, 1, 1, 54, 200, 3, 19, 38, 1, NULL, '2017-03-02 18:33:24', '2017-03-02 18:33:24'),
+	(27, 80, 1, 1, 66, 300, 4, 19, 57, 1, 'obs2', '2017-03-02 18:33:24', '2017-03-02 18:33:24'),
+	(28, 80, 1, 1, 65, 500, NULL, 0, NULL, 4, NULL, '2017-03-02 18:33:24', '2017-03-02 18:33:24'),
+	(29, 80, 1, 1, 56, 700, NULL, NULL, NULL, 1, NULL, '2017-03-02 18:33:24', '2017-03-02 18:33:24'),
+	(30, 89, 1, 1, 54, 2000, 3, 19, 380, 1, 'obs', '2017-03-03 14:20:59', '2017-03-03 14:20:59'),
+	(31, 89, 1, 1, 63, 300, NULL, NULL, NULL, 1, NULL, '2017-03-03 14:20:59', '2017-03-03 14:20:59'),
+	(32, 90, 1, 1, 54, 200, NULL, NULL, NULL, 1, NULL, '2017-03-03 14:33:32', '2017-03-03 14:33:32'),
+	(33, 91, 1, 1, 66, 1500, 3, 19, 285, 1, NULL, '2017-03-03 14:47:03', '2017-03-03 14:47:03');
 /*!40000 ALTER TABLE `category_payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category_type
@@ -886,33 +1211,35 @@ CREATE TABLE IF NOT EXISTS `contact` (
   CONSTRAINT `FK_contacts_payment_term` FOREIGN KEY (`payment_terms_id`) REFERENCES `payment_terms` (`id`),
   CONSTRAINT `FK_contacts_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
 
--- Volcando datos para la tabla krece.contact: ~19 rows (aproximadamente)
+-- Volcando datos para la tabla krece.contact: ~22 rows (aproximadamente)
 DELETE FROM `contact`;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`, `address`, `city`, `email`, `phone1`, `phone2`, `fax`, `phone_mobile`, `list_price_id`, `seller_id`, `payment_terms_id`, `observation`, `include_account_state`, `isProvider`, `isCustomer`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, 'cliente 1', '1234506', NULL, 'Bogotá', 'test@example.com', NULL, NULL, NULL, NULL, 1, 4, NULL, 'este contacto es primordpial', b'0', b'0', b'1', b'0', '2016-12-13 15:01:44', '2017-02-10 15:12:24', NULL),
-	(4, 1, 1, 2, 'cliente 2', '80810419', 'Calle 12 # 2-49', 'Bogotá', NULL, '3629222', NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2016-12-15 16:43:30', '2017-02-09 10:07:24', NULL),
+	(1, 1, 1, 1, 'cliente 1', '1234506', NULL, 'Bogotá', 'test@example.com', NULL, NULL, NULL, NULL, 1, 4, NULL, 'este contacto es primordpial', b'0', b'0', b'1', b'1', '2016-12-13 15:01:44', '2017-03-06 10:23:37', '2017-03-06 10:23:37'),
+	(4, 1, 1, 2, 'cliente 2', '80810419', 'Calle 12 # 2-49', 'Bogotá', NULL, '3629222', NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'1', '2016-12-15 16:43:30', '2017-03-06 10:23:07', '2017-03-06 10:23:07'),
 	(5, 1, 1, 3, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:43:37', '2017-01-31 15:24:11', '2017-01-31 15:24:11'),
-	(6, 1, 1, 4, 'Proveedor 1', '123456', 'Calle 58 bogota', 'Bogota', 'prov1@gmail.com', NULL, NULL, NULL, NULL, 1, 2, 2, NULL, b'0', b'1', b'0', b'0', '2017-01-19 20:44:14', '2017-02-24 13:11:59', '2017-01-31 11:39:53'),
+	(6, 1, 1, 4, 'Proveedor 1', '123456', 'Calle 58 bogota', 'Bogota', 'prov1@gmail.com', NULL, NULL, NULL, NULL, 1, 2, 2, NULL, b'0', b'1', b'0', b'1', '2017-01-19 20:44:14', '2017-03-06 10:23:10', '2017-03-06 10:23:10'),
 	(7, 1, 1, 5, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:44:32', '2017-01-31 12:23:03', '2017-01-31 12:23:03'),
 	(8, 1, 1, 6, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:44:48', '2017-01-31 12:24:57', '2017-01-31 12:24:57'),
-	(9, 1, 1, 7, 'proveedor 5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'0', b'0', '2017-01-19 20:44:56', '2017-01-31 12:24:50', '2017-01-31 11:17:36'),
+	(9, 1, 1, 7, 'proveedor 5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'0', b'1', '2017-01-19 20:44:56', '2017-03-06 10:23:13', '2017-03-06 10:23:13'),
 	(10, 1, 1, 8, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:45:18', '2017-01-31 13:43:28', '2017-01-31 13:43:28'),
-	(11, 1, 1, 9, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-19 20:45:43', '2017-01-30 21:10:15', '2017-01-30 21:10:15'),
-	(12, 1, 1, 10, 'as', '', '', '', '', '', '', '', '', NULL, NULL, 2, '', b'0', b'0', b'1', b'0', '2017-01-19 20:47:38', '2017-01-25 14:25:15', '2017-01-25 14:25:15'),
-	(13, 1, 1, 11, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-19 20:50:41', '2017-01-25 13:58:46', '2017-01-25 13:58:46'),
-	(14, 1, 1, 12, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-19 20:52:09', '2017-01-25 13:57:24', '2017-01-25 13:57:24'),
-	(15, 1, 1, 13, 'prueba cliente', '', '', 'bogota', '', '', '', '', '', 1, 2, 2, '', b'0', b'0', b'1', b'0', '2017-01-19 20:55:22', '2017-01-31 11:14:24', '2017-01-31 11:14:24'),
-	(16, 1, 1, 14, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-19 20:55:32', '2017-01-25 13:58:43', '2017-01-25 13:58:43'),
-	(17, 1, 1, 15, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-19 20:57:22', '2017-01-25 13:58:39', '2017-01-25 13:58:39'),
-	(18, 1, 1, 16, 'Fernando Ardila', '80810419', 'Calle 12 # 2-49', 'Bogota', 'fernando2684@gmail.com', '3123633753', 'phone2', '', '3123633753', 1, 2, 2, 'Observaciones', b'0', b'1', b'1', b'0', '2017-01-24 11:44:45', '2017-01-24 13:29:53', NULL),
-	(19, 1, 1, 17, 'test', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:44:45', '2017-01-25 13:57:38', '2017-01-25 13:57:38'),
+	(11, 1, 1, 9, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:45:43', '2017-03-06 10:23:16', '2017-03-06 10:23:16'),
+	(12, 1, 1, 10, 'as', '', '', '', '', '', '', '', '', NULL, NULL, 2, '', b'0', b'0', b'1', b'1', '2017-01-19 20:47:38', '2017-03-06 10:23:19', '2017-03-06 10:23:19'),
+	(13, 1, 1, 11, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:50:41', '2017-03-06 10:23:22', '2017-03-06 10:23:22'),
+	(14, 1, 1, 12, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:52:09', '2017-03-06 10:23:26', '2017-03-06 10:23:26'),
+	(15, 1, 1, 13, 'prueba cliente', '', '', 'bogota', '', '', '', '', '', 1, 2, 2, '', b'0', b'0', b'1', b'1', '2017-01-19 20:55:22', '2017-03-06 10:23:04', '2017-03-06 10:23:04'),
+	(16, 1, 1, 14, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:55:32', '2017-03-06 10:19:29', '2017-03-06 10:19:29'),
+	(17, 1, 1, 15, 'as', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-19 20:57:22', '2017-03-06 10:19:33', '2017-03-06 10:19:33'),
+	(18, 1, 1, 16, 'Fernando Ardila', '80810419', 'Calle 12 # 2-49', 'Bogota', 'fernando2684@gmail.com', '3123633753', 'phone2', '', '3123633753', 1, 2, 2, 'Observaciones', b'0', b'1', b'1', b'1', '2017-01-24 11:44:45', '2017-03-06 10:22:57', '2017-03-06 10:22:57'),
+	(19, 1, 1, 17, 'test', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'1', '2017-01-24 16:44:45', '2017-03-06 10:23:01', '2017-03-06 10:23:01'),
 	(20, 2, 2, 1, 'contacto1', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:44:53', '2017-01-24 16:44:53', NULL),
 	(21, 2, 2, 2, 'contacto 2', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', b'0', b'0', b'0', b'0', '2017-01-24 16:45:19', '2017-01-24 16:45:19', NULL),
-	(22, 1, 1, 18, 'distribuciones IDRD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2017-02-17 16:21:28', '2017-02-17 16:21:28', NULL),
-	(23, 1, 1, 19, 'contact-provider', '123457', 'Call 23 # 54', 'Bogota', 'fernando2684@gmail.com', NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'1', b'0', '2017-02-28 10:13:24', '2017-02-28 10:13:24', NULL);
+	(22, 1, 1, 18, 'distribuciones IDRD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'1', '2017-02-17 16:21:28', '2017-03-06 10:23:32', '2017-03-06 10:23:32'),
+	(23, 1, 1, 19, 'contact-provider', '123457', 'Call 23 # 54', 'Bogota', 'fernando2684@gmail.com', NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'1', b'1', '2017-02-28 10:13:24', '2017-03-06 10:23:35', '2017-03-06 10:23:35'),
+	(24, 1, 1, 20, 'contacto-proveedor', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'0', b'0', '2017-03-06 11:11:03', '2017-03-06 11:11:03', NULL),
+	(25, 1, 1, 21, 'contacto-cliente', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2017-03-06 11:20:50', '2017-03-06 11:21:00', NULL);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.contact_others
@@ -991,7 +1318,7 @@ CREATE TABLE IF NOT EXISTS `credit_note` (
 DELETE FROM `credit_note`;
 /*!40000 ALTER TABLE `credit_note` DISABLE KEYS */;
 INSERT INTO `credit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `list_price_id`, `customer_id`, `currency_code`, `date`, `notes`, `observations`, `exchange_rate`, `sub_total`, `total`, `total_discounts`, `total_taxes`, `amount_pending_to_apply`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, 1, 1, 4, 'COP', '2017-02-15', 'as', 'as', NULL, 8000, 9163, 300, 1463, NULL, b'0', '2017-02-15 12:28:37', '2017-02-15 13:02:53', NULL),
+	(1, 1, 1, 1, 1, 1, 4, 'COP', '2017-02-15', 'as', 'as', NULL, 8000, 9163, 300, 1463, NULL, b'1', '2017-02-15 12:28:37', '2017-03-06 09:48:11', '2017-03-06 09:48:11'),
 	(2, 1, 1, 2, 2, 1, 4, 'COP', '2017-02-15', NULL, NULL, NULL, 9000, 9840, 300, 1140, NULL, b'1', '2017-02-15 13:28:09', '2017-02-15 13:28:25', '2017-02-15 13:28:25');
 /*!40000 ALTER TABLE `credit_note` ENABLE KEYS */;
 
@@ -1175,7 +1502,7 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
 DELETE FROM `debit_note`;
 /*!40000 ALTER TABLE `debit_note` DISABLE KEYS */;
 INSERT INTO `debit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `customer_id`, `date`, `currency_code`, `observations`, `exchange_rate`, `amount_pending_to_apply`, `sub_total`, `total_taxes`, `total_discounts`, `total`, `isDeleted`, `updated_at`, `created_at`, `deleted_at`) VALUES
-	(5, 1, 1, 1, 1, 6, '2017-02-24', 'COP', 'observations', NULL, NULL, 4000, 752.4, 40, 4712.4, b'0', '2017-02-24 15:27:33', '2017-02-24 15:12:13', NULL),
+	(5, 1, 1, 1, 1, 6, '2017-02-24', 'COP', 'observations', NULL, NULL, 4000, 752.4, 40, 4712.4, b'1', '2017-03-06 09:51:56', '2017-02-24 15:12:13', '2017-03-06 09:51:56'),
 	(6, 1, 1, 2, 2, 18, '2017-02-24', 'COP', 'esta es una nota credito de prueba', NULL, NULL, 5086250, 966388, 0, 6052640, b'1', '2017-02-24 15:31:28', '2017-02-24 15:28:39', '2017-02-24 15:31:28');
 /*!40000 ALTER TABLE `debit_note` ENABLE KEYS */;
 
@@ -1265,45 +1592,46 @@ CREATE TABLE IF NOT EXISTS `estimate` (
   CONSTRAINT `FK_estimate_client` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_estimate_currency_code` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_estimate_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.estimate: ~30 rows (aproximadamente)
 DELETE FROM `estimate`;
 /*!40000 ALTER TABLE `estimate` DISABLE KEYS */;
 INSERT INTO `estimate` (`id`, `account_id`, `public_id`, `resolution_id`, `user_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `date`, `due_date`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2016-12-13', '2016-12-13', 'notas act', 'observaciones', 1, b'0', '2016-12-13 14:51:38', '2017-01-12 17:54:59', '0000-00-00 00:00:00'),
+	(1, 1, 1, 1, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2016-12-13', '2016-12-13', 'notas act', 'observaciones', 1, b'1', '2016-12-13 14:51:38', '2017-03-06 09:51:15', '2017-03-06 09:51:15'),
 	(2, 2, 1, 1, 2, NULL, NULL, 1, 'COP', NULL, NULL, NULL, 123, '2016-12-13', '2016-12-13', 'notes', 'observ', 1, b'0', '2016-12-13 18:07:49', '2016-12-13 18:07:50', NULL),
-	(4, 1, 2, 2, 1, 1, 1, 1, 'COP', 3000, 0, 0, 3000, '2017-01-12', '2017-01-12', 'notas', NULL, NULL, b'0', '2017-01-03 19:52:07', '2017-02-09 11:54:38', NULL),
-	(7, 1, 3, 3, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2017-01-13', '2017-01-13', 'nota', NULL, NULL, b'0', '2017-01-03 20:30:07', '2017-01-13 18:09:52', NULL),
-	(9, 1, 4, 4, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:14:12', '2017-01-03 21:14:12', NULL),
-	(10, 1, 5, 5, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:15:14', '2017-01-03 21:15:14', NULL),
-	(11, 1, 6, 6, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:16:45', '2017-01-03 21:16:45', NULL),
-	(12, 1, 7, 7, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:17:51', '2017-01-03 21:17:51', NULL),
-	(13, 1, 8, 8, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:18:05', '2017-01-03 21:18:05', NULL),
-	(14, 1, 9, 9, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:20:11', '2017-01-03 21:20:11', NULL),
+	(4, 1, 2, 2, 1, 1, 1, 1, 'COP', 3000, 0, 0, 3000, '2017-01-12', '2017-01-12', 'notas', NULL, NULL, b'1', '2017-01-03 19:52:07', '2017-03-06 09:51:11', '2017-03-06 09:51:11'),
+	(7, 1, 3, 3, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2017-01-13', '2017-01-13', 'nota', NULL, NULL, b'1', '2017-01-03 20:30:07', '2017-03-06 09:49:29', '2017-03-06 09:49:29'),
+	(9, 1, 4, 4, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:14:12', '2017-03-06 09:51:07', '2017-03-06 09:51:07'),
+	(10, 1, 5, 5, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:15:14', '2017-03-06 09:49:25', '2017-03-06 09:49:25'),
+	(11, 1, 6, 6, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:16:45', '2017-03-06 09:51:04', '2017-03-06 09:51:04'),
+	(12, 1, 7, 7, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:17:51', '2017-03-06 09:51:00', '2017-03-06 09:51:00'),
+	(13, 1, 8, 8, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:18:05', '2017-03-06 09:49:17', '2017-03-06 09:49:17'),
+	(14, 1, 9, 9, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:20:11', '2017-03-06 09:49:13', '2017-03-06 09:49:13'),
 	(15, 1, 10, 10, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:20:55', '2017-02-06 09:51:15', '2017-02-06 09:51:15'),
 	(16, 1, 11, 11, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:20:57', '2017-02-06 09:51:10', '2017-02-06 09:51:10'),
-	(17, 1, 12, 12, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:21:05', '2017-01-03 21:21:05', NULL),
+	(17, 1, 12, 12, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:21:05', '2017-03-06 09:49:08', '2017-03-06 09:49:08'),
 	(18, 1, 13, 13, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:27:20', '2017-02-06 09:51:04', '2017-02-06 09:51:04'),
-	(19, 1, 14, 14, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:27:38', '2017-02-06 09:49:22', NULL),
+	(19, 1, 14, 14, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 2000, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:27:38', '2017-03-06 09:49:04', '2017-03-06 09:49:04'),
 	(20, 1, 15, 15, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:39:30', '2017-02-06 09:48:58', '2017-02-06 09:48:58'),
 	(21, 1, 16, 16, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:47:33', '2017-02-06 09:51:00', '2017-02-06 09:51:00'),
-	(22, 1, 17, 17, 1, 4, 1, 1, 'COP', 7444, 300, 513, 7657, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'0', '2017-01-03 21:48:15', '2017-02-06 10:18:30', NULL),
+	(22, 1, 17, 17, 1, 4, 1, 1, 'COP', 7444, 300, 513, 7657, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:48:15', '2017-03-06 09:49:00', '2017-03-06 09:49:00'),
 	(23, 1, 18, 18, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:49:24', '2017-02-06 09:50:52', '2017-02-06 09:50:52'),
 	(24, 1, 19, 19, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, NULL, '2017-04-01', '2017-03-01', 'as', 'as', NULL, b'1', '2017-01-03 21:53:19', '2017-02-06 08:53:12', '2017-02-06 08:53:12'),
-	(25, 1, 20, 20, 1, 1, 1, 4, 'COP', 90001.1, 8500.09, 0, 81501.1, '2017-01-07', '2017-01-25', 'notas cotizacion2', 'observaciones23', NULL, b'0', '2017-01-04 21:09:53', '2017-02-06 18:58:41', NULL),
-	(26, 1, 21, 21, 1, 1, 1, 1, 'COP', 64000, 300, 4500, 68200, '2017-01-08', '2017-01-14', 'estas notas deben salir en la cotización final.', NULL, NULL, b'0', '2017-01-07 10:12:05', '2017-02-06 20:45:41', NULL),
-	(27, 1, 22, 22, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 20000, '2017-01-11', '2017-01-18', 'noras cot', 'onserv', NULL, b'0', '2017-01-11 12:09:06', '2017-01-11 12:09:06', NULL),
-	(28, 1, 23, 23, 1, 2, 1, 4, 'COP', NULL, NULL, NULL, 2000, '2017-01-12', '2017-01-27', 'Notas creadas', 'observaciones', NULL, b'0', '2017-01-12 13:35:59', '2017-01-24 13:14:33', NULL),
-	(29, 1, 24, 24, 1, 4, 1, 18, 'USD', 8000, 0, 950, 8950, '2017-01-24', '2017-02-02', 'asas', 'observaciones', NULL, b'0', '2017-01-24 13:15:26', '2017-02-06 10:17:57', NULL),
-	(30, 1, 25, 25, 1, 2, 1, 1, 'COP', 5000, 500, 855, 5355, '2017-02-04', '2017-03-10', 'asas', NULL, NULL, b'0', '2017-02-04 13:01:42', '2017-02-06 10:15:04', NULL),
-	(31, 1, 26, 26, 1, 4, 2, 4, 'USD', 2000, 0, 0, 2000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'0', '2017-02-07 20:50:32', '2017-02-07 20:50:32', NULL),
-	(32, 1, 27, 27, 1, 4, 2, 4, 'USD', 2000, 0, 0, 2000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'0', '2017-02-09 14:08:33', '2017-02-09 14:08:33', NULL),
-	(33, 1, 28, 28, 1, 4, 2, 4, 'USD', 15000, 0, 0, 15000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'0', '2017-02-09 14:16:51', '2017-02-09 14:16:51', NULL),
-	(34, 1, 29, 29, 1, 4, 2, 1, 'USD', 4000, 200, 361, 4161, '2017-02-10', '2017-03-03', 'Estas son las notas no visibles en la cotización', 'observaciones', NULL, b'0', '2017-02-10 13:37:25', '2017-02-10 13:37:25', NULL),
-	(35, 1, 30, 35, 1, 4, 2, 4, 'COP', 7000, 0, 0, 7000, '2017-02-10', '2017-02-16', 'testtt', NULL, NULL, b'0', '2017-02-10 13:40:14', '2017-02-10 13:40:14', NULL),
-	(36, 1, 31, 36, 1, 1, 1, 1, 'COP', 7000, 400, 950, 7550, '2017-02-10', '2017-03-03', 'esta fue una cotización clonada', NULL, NULL, b'0', '2017-02-10 14:15:14', '2017-02-10 14:15:14', NULL),
-	(37, 1, 32, 37, 1, 4, 1, 4, 'COP', 5000, 0, 0, 5000, '2017-02-12', '2017-02-09', 'asas', 'as', NULL, b'0', '2017-02-12 14:18:38', '2017-02-13 12:40:26', NULL);
+	(25, 1, 20, 20, 1, 1, 1, 4, 'COP', 90001.1, 8500.09, 0, 81501.1, '2017-01-07', '2017-01-25', 'notas cotizacion2', 'observaciones23', NULL, b'1', '2017-01-04 21:09:53', '2017-03-06 09:48:57', '2017-03-06 09:48:57'),
+	(26, 1, 21, 21, 1, 1, 1, 1, 'COP', 64000, 300, 4500, 68200, '2017-01-08', '2017-01-14', 'estas notas deben salir en la cotización final.', NULL, NULL, b'1', '2017-01-07 10:12:05', '2017-03-06 09:48:52', '2017-03-06 09:48:52'),
+	(27, 1, 22, 22, 1, NULL, 1, 1, 'COP', NULL, NULL, NULL, 20000, '2017-01-11', '2017-01-18', 'noras cot', 'onserv', NULL, b'1', '2017-01-11 12:09:06', '2017-03-06 09:48:49', '2017-03-06 09:48:49'),
+	(28, 1, 23, 23, 1, 2, 1, 4, 'COP', NULL, NULL, NULL, 2000, '2017-01-12', '2017-01-27', 'Notas creadas', 'observaciones', NULL, b'1', '2017-01-12 13:35:59', '2017-03-06 09:48:37', '2017-03-06 09:48:37'),
+	(29, 1, 24, 24, 1, 4, 1, 18, 'USD', 8000, 0, 950, 8950, '2017-01-24', '2017-02-02', 'asas', 'observaciones', NULL, b'1', '2017-01-24 13:15:26', '2017-03-06 09:48:41', '2017-03-06 09:48:41'),
+	(30, 1, 25, 25, 1, 2, 1, 1, 'COP', 5000, 500, 855, 5355, '2017-02-04', '2017-03-10', 'asas', NULL, NULL, b'1', '2017-02-04 13:01:42', '2017-03-06 09:48:45', '2017-03-06 09:48:45'),
+	(31, 1, 26, 26, 1, 4, 2, 4, 'USD', 2000, 0, 0, 2000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'1', '2017-02-07 20:50:32', '2017-03-06 09:49:21', '2017-03-06 09:49:21'),
+	(32, 1, 27, 27, 1, 4, 2, 4, 'USD', 2000, 0, 0, 2000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'1', '2017-02-09 14:08:33', '2017-03-06 09:50:57', '2017-03-06 09:50:57'),
+	(33, 1, 28, 28, 1, 4, 2, 4, 'USD', 15000, 0, 0, 15000, '2017-02-07', '2017-03-02', 'notas de la cotización', NULL, NULL, b'1', '2017-02-09 14:16:51', '2017-03-06 09:50:53', '2017-03-06 09:50:53'),
+	(34, 1, 29, 29, 1, 4, 2, 1, 'USD', 4000, 200, 361, 4161, '2017-02-10', '2017-03-03', 'Estas son las notas no visibles en la cotización', 'observaciones', NULL, b'1', '2017-02-10 13:37:25', '2017-03-06 09:50:49', '2017-03-06 09:50:49'),
+	(35, 1, 30, 35, 1, 4, 2, 4, 'COP', 7000, 0, 0, 7000, '2017-02-10', '2017-02-16', 'testtt', NULL, NULL, b'1', '2017-02-10 13:40:14', '2017-03-06 09:50:45', '2017-03-06 09:50:45'),
+	(36, 1, 31, 36, 1, 1, 1, 1, 'COP', 7000, 400, 950, 7550, '2017-02-10', '2017-03-03', 'esta fue una cotización clonada', NULL, NULL, b'1', '2017-02-10 14:15:14', '2017-03-06 09:50:42', '2017-03-06 09:50:42'),
+	(37, 1, 32, 37, 1, 4, 1, 4, 'COP', 5000, 0, 0, 5000, '2017-02-12', '2017-02-09', 'asas', 'as', NULL, b'1', '2017-02-12 14:18:38', '2017-03-06 09:50:38', '2017-03-06 09:50:38'),
+	(38, 1, 33, 38, 1, 4, 1, 25, 'COP', 7000, 0, 380, 7380, '2017-03-08', '2017-04-07', 'notas de la cotizacion jakhjksahdsjak', 'observaciones zjkahsjkashj', NULL, b'0', '2017-03-08 17:14:19', '2017-03-08 17:35:57', NULL);
 /*!40000 ALTER TABLE `estimate` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.estimate_detail
@@ -1314,14 +1642,14 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   `product_id` int(11) NOT NULL,
   `reference` varchar(50) DEFAULT NULL,
   `unit_price` float NOT NULL,
-  `discount` float NOT NULL DEFAULT '0',
-  `tax_type_id` int(11) DEFAULT NULL,
-  `tax_amount` float NOT NULL DEFAULT '0',
+  `discount` float DEFAULT '0',
+  `tax_id` int(11) DEFAULT NULL,
+  `tax_amount` float DEFAULT '0',
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `total_tax` float NOT NULL DEFAULT '0',
-  `total` float DEFAULT NULL,
+  `total_tax` float DEFAULT '0',
+  `total` float DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1329,17 +1657,17 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   KEY `FK_quote_detail_quote_id` (`estimate_id`),
   KEY `FK_quote_detail_company` (`user_id`),
   KEY `FK_quote_detail_item` (`product_id`),
-  KEY `FK_quote_detail_tax` (`tax_type_id`),
+  KEY `FK_quote_detail_tax` (`tax_id`),
   CONSTRAINT `FK_estimate_detail_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_estimate_detail_remision_id` FOREIGN KEY (`estimate_id`) REFERENCES `estimate` (`id`),
   CONSTRAINT `FK_estimate_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_estimate_tax` FOREIGN KEY (`tax_type_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=220 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_estimate_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.estimate_detail: ~39 rows (aproximadamente)
 DELETE FROM `estimate_detail`;
 /*!40000 ALTER TABLE `estimate_detail` DISABLE KEYS */;
-INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_type_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(4, 23, 1, 2, NULL, 2222, 0, NULL, 0, NULL, 'descripcion', 2, 0, 4444, '2017-01-03 21:49:24', '2017-01-03 21:49:24', NULL),
 	(5, 24, 1, 2, NULL, 2222, 0, NULL, 0, NULL, 'descripcion', 2, 0, 4444, '2017-01-03 21:53:19', '2017-01-03 21:53:19', NULL),
 	(6, 24, 1, 2, NULL, 30000, 0, NULL, 0, NULL, 'desc2', 1, 0, 30000, '2017-01-03 21:53:19', '2017-01-03 21:53:19', NULL),
@@ -1378,7 +1706,9 @@ INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `re
 	(115, 36, 1, 2, NULL, 2000, 0, NULL, 19, NULL, 'producto 1', 1, 0, 2000, '2017-02-10 14:15:14', '2017-02-10 14:15:14', NULL),
 	(116, 36, 1, 2, NULL, 2000, 20, NULL, 0, NULL, 'producto 1', 1, 0, 2000, '2017-02-10 14:15:14', '2017-02-10 14:15:14', NULL),
 	(218, 37, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, 0, 2000, '2017-02-13 12:40:27', '2017-02-13 12:40:27', NULL),
-	(219, 37, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, 0, 3000, '2017-02-13 12:40:27', '2017-02-13 12:40:27', NULL);
+	(219, 37, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, 0, 3000, '2017-02-13 12:40:27', '2017-02-13 12:40:27', NULL),
+	(225, 38, 1, 6, NULL, 2000, 0, 3, 19, NULL, NULL, 1, 380, 2000, '2017-03-08 17:35:57', '2017-03-08 17:35:57', NULL),
+	(226, 38, 1, 7, NULL, 5000, 0, NULL, 0, NULL, NULL, 1, 0, 5000, '2017-03-08 17:35:57', '2017-03-08 17:35:57', NULL);
 /*!40000 ALTER TABLE `estimate_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_payments_invoices
@@ -1444,27 +1774,28 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
--- Volcando datos para la tabla krece.invoice_sale_order: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order: ~16 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
 /*!40000 ALTER TABLE `invoice_sale_order` DISABLE KEYS */;
 INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `payment_terms_id`, `status_id`, `notes`, `observations`, `seller_id`, `list_price_id`, `category_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(11, 1, 1, 1, 1, 4, '2017-02-14', '2017-02-14', '2', 1, 'asas', NULL, 4, 1, 34, 'COP', 7000, 400, 380, 6980, NULL, NULL, b'0', b'1', '2017-02-14 14:11:36', '2017-02-14 15:23:31', '2017-02-14 15:23:31'),
-	(12, 2, 1, 1, 2, 1, '2017-02-14', '2017-02-14', '2', 6, 'asa', 'as', 4, 1, 34, 'COP', 3000, 0, 0, 3000, NULL, NULL, b'0', b'0', '2017-02-14 14:22:03', '2017-02-17 15:29:28', NULL),
-	(13, 3, 1, 1, 3, 4, '2017-02-14', '2017-02-22', '3', 2, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, b'0', b'0', '2017-02-14 15:28:09', '2017-02-14 15:52:18', NULL),
-	(14, 4, 1, 1, 4, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, b'0', b'0', '2017-02-14 15:28:21', '2017-02-14 16:44:15', NULL),
-	(15, 5, 1, 1, 5, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, b'0', b'0', '2017-01-14 17:22:54', '2017-02-14 17:24:15', NULL),
-	(16, 6, 1, 1, 6, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, b'0', b'0', '2017-02-14 17:26:14', '2017-02-14 18:12:17', NULL),
-	(17, 7, 1, 1, 7, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, b'0', b'0', '2017-01-15 10:16:28', '2017-02-15 12:35:23', NULL),
-	(18, 8, 1, 1, 1, 22, '2017-02-17', '2017-02-17', '2', 6, 'Notas', 'observaciones', 4, 1, 34, 'COP', 32000, 500, 4750, 36250, NULL, NULL, b'0', b'0', '2017-02-17 16:23:49', '2017-02-20 15:05:57', NULL),
-	(19, 9, 1, 1, 9, 22, '2017-02-17', '2017-02-17', '2', 1, 'nota', NULL, 4, 1, 34, 'COP', 6000, 400, 380, 5980, NULL, NULL, b'0', b'0', '2017-02-17 16:31:24', '2017-02-17 16:31:24', NULL),
-	(20, 10, 1, 1, 10, 4, '2017-02-20', '2017-02-20', '1', 1, 'test', NULL, 4, 1, 34, 'COP', 15000, 0, 0, 15000, NULL, NULL, b'0', b'0', '2017-02-20 19:06:13', '2017-02-20 19:06:13', NULL),
-	(21, 11, 1, 1, 11, 1, '2017-02-22', '2017-02-22', '1', 1, 'asas', NULL, 4, 1, 34, 'COP', 5000, 0, 0, 5000, NULL, NULL, b'0', b'0', '2017-02-22 13:30:50', '2017-02-22 13:30:50', NULL),
-	(22, 12, 1, 1, 12, 1, '2017-02-24', '2017-02-24', '1', 1, 'qwq', NULL, 4, 1, 34, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-02-24 20:09:25', '2017-02-24 20:09:25', NULL),
-	(23, 13, 1, 1, 13, 1, '2017-02-27', '2017-02-27', '1', 1, 'qw', NULL, 4, 1, 34, 'COP', 5000, 0, 0, 5000, NULL, NULL, b'0', b'0', '2017-02-27 17:34:30', '2017-02-27 17:34:30', NULL),
-	(24, 14, 1, 1, 1, 1, '2017-02-27', '2017-02-27', '1', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 0, 7000, NULL, NULL, b'0', b'0', '2017-02-27 21:49:09', '2017-02-27 21:53:09', NULL),
-	(25, 15, 1, 1, 15, 23, '2017-02-28', '2017-02-28', '2', 1, 'estas notas están visibles', NULL, 4, 1, 34, 'COP', 10000, 0, 0, 10000, NULL, NULL, b'0', b'0', '2017-02-28 10:14:20', '2017-02-28 10:14:20', NULL);
+	(12, 2, 1, 1, 2, 1, '2017-02-14', '2017-02-14', '2', 6, 'asa', 'as', 4, 1, 34, 'COP', 3000, 0, 0, 3000, NULL, NULL, b'0', b'1', '2017-02-14 14:22:03', '2017-03-06 10:13:24', '2017-03-06 10:13:24'),
+	(13, 3, 1, 1, 3, 4, '2017-02-14', '2017-02-22', '3', 6, 'asas', NULL, 4, 1, 34, 'COP', 11000, 0, 0, 11000, NULL, NULL, b'0', b'1', '2017-02-14 15:28:09', '2017-03-06 10:13:21', '2017-03-06 10:13:21'),
+	(14, 4, 1, 1, 4, 4, '2017-02-14', '2017-02-14', '2', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 380, 7380, NULL, NULL, b'0', b'1', '2017-02-14 15:28:21', '2017-03-06 09:47:05', '2017-03-06 09:47:05'),
+	(15, 5, 1, 1, 5, 12, '2017-02-14', '2017-02-22', '3', 1, 'asas', 'as', 4, 1, 34, 'COP', 5000, 0, 950, 5950, NULL, NULL, b'0', b'1', '2017-01-14 17:22:54', '2017-03-06 09:47:20', '2017-03-06 09:47:20'),
+	(16, 6, 1, 1, 6, 4, '2017-02-14', '2017-02-14', '2', 1, 'asa', 'sa', 4, 1, 34, 'COP', 10000, 0, 1330, 11330, NULL, NULL, b'0', b'1', '2017-02-14 17:26:14', '2017-03-06 09:47:09', '2017-03-06 09:47:09'),
+	(17, 7, 1, 1, 7, 4, '2017-02-15', '2017-02-15', '2', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 950, 7950, NULL, NULL, b'0', b'1', '2017-01-15 10:16:28', '2017-03-06 09:47:13', '2017-03-06 09:47:13'),
+	(18, 8, 1, 1, 1, 22, '2017-02-17', '2017-02-17', '2', 6, 'Notas', 'observaciones', 4, 1, 34, 'COP', 32000, 500, 4750, 36250, NULL, NULL, b'0', b'1', '2017-02-17 16:23:49', '2017-03-06 10:13:28', '2017-03-06 10:13:28'),
+	(19, 9, 1, 1, 9, 22, '2017-02-17', '2017-02-17', '2', 1, 'nota', NULL, 4, 1, 34, 'COP', 6000, 400, 380, 5980, NULL, NULL, b'0', b'1', '2017-02-17 16:31:24', '2017-03-06 09:46:58', '2017-03-06 09:46:58'),
+	(20, 10, 1, 1, 10, 4, '2017-02-20', '2017-02-20', '1', 1, 'test', NULL, 4, 1, 34, 'COP', 15000, 0, 0, 15000, NULL, NULL, b'0', b'1', '2017-02-20 19:06:13', '2017-03-06 09:46:54', '2017-03-06 09:46:54'),
+	(21, 11, 1, 1, 11, 1, '2017-02-22', '2017-02-22', '1', 1, 'asas', NULL, 4, 1, 34, 'COP', 5000, 0, 0, 5000, NULL, NULL, b'0', b'1', '2017-02-22 13:30:50', '2017-03-06 09:46:50', '2017-03-06 09:46:50'),
+	(22, 12, 1, 1, 12, 1, '2017-02-24', '2017-02-24', '1', 1, 'qwq', NULL, 4, 1, 34, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'1', '2017-02-24 20:09:25', '2017-03-06 09:46:46', '2017-03-06 09:46:46'),
+	(23, 13, 1, 1, 13, 1, '2017-02-27', '2017-02-27', '1', 6, 'qw', NULL, 4, 1, 34, 'COP', 5000, 0, 0, 5000, NULL, NULL, b'0', b'1', '2017-02-27 17:34:30', '2017-03-06 10:13:16', '2017-03-06 10:13:16'),
+	(24, 14, 1, 1, 14, 1, '2017-02-27', '2017-02-27', '1', 1, 'as', 'as', 4, 1, 34, 'COP', 7000, 0, 0, 7000, NULL, NULL, b'0', b'1', '2017-02-27 21:49:09', '2017-03-06 09:46:42', '2017-03-06 09:46:42'),
+	(25, 15, 1, 1, 15, 23, '2017-02-28', '2017-03-09', '2', 1, 'estas notas están visibles', NULL, 4, 1, 34, 'COP', 10000, 0, 0, 10000, NULL, NULL, b'0', b'1', '2017-02-28 10:14:20', '2017-03-06 09:46:39', '2017-03-06 09:46:39'),
+	(26, 16, 1, 1, 16, 1, '2017-05-03', '2017-05-31', '2', 1, 'Creado desde mi phone', NULL, 4, 1, 34, 'COP', 4000, 0, 0, 4000, NULL, NULL, b'0', b'1', '2017-03-05 11:15:50', '2017-03-06 09:46:34', '2017-03-06 09:46:34');
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_credit_note
@@ -1509,9 +1840,9 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.invoice_sale_order_detail: ~30 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order_detail: ~37 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
 /*!40000 ALTER TABLE `invoice_sale_order_detail` DISABLE KEYS */;
 INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id`, `reference`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `product_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
@@ -1547,9 +1878,11 @@ INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id
 	(60, 23, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-27 17:34:30', '2017-02-27 17:34:30'),
 	(63, 24, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-27 21:53:09', '2017-02-27 21:53:09'),
 	(64, 24, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-27 21:53:09', '2017-02-27 21:53:09'),
-	(65, 25, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-02-28 10:14:20', '2017-02-28 10:14:20'),
-	(66, 25, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-02-28 10:14:20', '2017-02-28 10:14:20'),
-	(67, 25, 1, 'ref2', 3000, 0, 0, NULL, 3, NULL, 'descripcion producto 2', 1, 3000, 0, '2017-02-28 10:14:20', '2017-02-28 10:14:20');
+	(72, 25, 1, '1234', 5000, 0, 0, NULL, 4, NULL, 'producto para pruebas', 1, 5000, 0, '2017-03-06 08:33:05', '2017-03-06 08:33:05'),
+	(73, 25, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-03-06 08:33:05', '2017-03-06 08:33:05'),
+	(74, 25, 1, 'ref2', 3000, 0, 0, NULL, 3, NULL, 'descripcion producto 2', 1, 3000, 0, '2017-03-06 08:33:05', '2017-03-06 08:33:05'),
+	(79, 26, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-03-06 08:53:57', '2017-03-06 08:53:57'),
+	(80, 26, 1, 'ref', 2000, 0, 0, NULL, 2, NULL, 'producto 1', 1, 2000, 0, '2017-03-06 08:53:57', '2017-03-06 08:53:57');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_estimate
@@ -1774,7 +2107,7 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `public_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `bank_account_id` int(11) NOT NULL,
   `observations` text,
@@ -1804,21 +2137,30 @@ CREATE TABLE IF NOT EXISTS `payment` (
   CONSTRAINT `FK_payment_status` FOREIGN KEY (`status_id`) REFERENCES `payment_status` (`id`),
   CONSTRAINT `FK_payment_type` FOREIGN KEY (`type_id`) REFERENCES `payment_type` (`type`),
   CONSTRAINT `FK_payment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment: ~18 rows (aproximadamente)
 DELETE FROM `payment`;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
 INSERT INTO `payment` (`id`, `resolution_id`, `public_id`, `user_id`, `account_id`, `customer_id`, `date`, `bank_account_id`, `observations`, `notes`, `payment_method_id`, `currency_code`, `type_id`, `status_id`, `isInvoice`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(31, 10, 11, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 11:26:44', '2017-02-17 11:26:44', NULL),
-	(32, 12, 12, 1, 1, 4, '2017-02-24', 1, 'Mis observaciones', 'Notas del recibo', 2, 'COP', 'in', 1, b'1', b'0', '2017-02-17 11:59:58', '2017-02-17 11:59:58', NULL),
-	(33, 13, 13, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 13:49:13', '2017-02-17 13:49:13', NULL),
+	(31, 10, 11, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'1', '2017-02-17 11:26:44', '2017-03-06 09:47:38', '2017-03-06 09:47:38'),
+	(32, 12, 12, 1, 1, 4, '2017-02-24', 1, 'Mis observaciones', 'Notas del recibo', 2, 'COP', 'in', 1, b'1', b'1', '2017-02-17 11:59:58', '2017-03-06 09:47:42', '2017-03-06 09:47:42'),
+	(33, 13, 13, 1, 1, 1, '2017-02-17', 1, NULL, NULL, 1, 'COP', 'in', 1, b'1', b'1', '2017-02-17 13:49:13', '2017-03-06 09:47:45', '2017-03-06 09:47:45'),
 	(34, 14, 14, 1, 1, 1, '2017-02-17', 2, NULL, NULL, 3, 'COP', 'in', 1, b'1', b'1', '2017-02-17 15:29:28', '2017-02-17 18:38:40', '2017-02-17 18:38:40'),
-	(35, 15, 15, 1, 1, 22, '2017-02-17', 1, NULL, 'pago ejemplo', 1, 'COP', 'in', 1, b'1', b'0', '2017-02-17 16:25:49', '2017-02-17 16:28:47', NULL),
-	(36, 16, 16, 1, 1, 22, '2017-02-23', 1, NULL, NULL, 4, 'COP', 'in', 1, b'1', b'0', '2017-02-17 16:34:29', '2017-02-17 17:13:02', NULL),
-	(45, 1, 17, 1, 1, 23, '2017-02-28', 1, 'Observaciones', 'Notas de egreso', 1, 'COP', 'eg', 1, b'1', b'0', '2017-02-28 11:54:32', '2017-02-28 12:21:43', NULL),
-	(46, 4, 18, 1, 1, 23, '2017-02-28', 1, NULL, NULL, 2, 'COP', 'eg', 1, b'1', b'0', '2017-02-28 12:22:44', '2017-03-01 15:20:51', NULL),
-	(79, 5, 19, 1, 1, 6, '2017-02-28', 1, 'obs', 'notes 1', 1, 'COP', 'eg', 2, b'0', b'0', '2017-02-28 18:36:33', '2017-03-01 15:21:18', NULL);
+	(35, 15, 15, 1, 1, 22, '2017-02-17', 1, NULL, 'pago ejemplo', 1, 'COP', 'in', 1, b'1', b'1', '2017-02-17 16:25:49', '2017-03-06 09:47:59', '2017-03-06 09:47:59'),
+	(36, 16, 16, 1, 1, 22, '2017-02-23', 1, NULL, NULL, 4, 'COP', 'in', 1, b'1', b'0', '2017-02-17 16:34:29', '2017-03-03 11:32:05', NULL),
+	(45, 1, 17, 1, 1, 23, '2017-02-28', 1, 'Observaciones', 'Notas de egreso', 1, 'COP', 'eg', 1, b'1', b'0', '2017-02-28 11:54:32', '2017-03-03 19:00:58', NULL),
+	(46, 4, 18, 1, 1, 23, '2017-02-28', 1, NULL, NULL, 2, 'COP', 'eg', 1, b'1', b'1', '2017-02-28 12:22:44', '2017-03-03 14:42:10', '2017-03-03 14:42:10'),
+	(79, 5, 19, 1, 1, 6, '2017-02-28', 1, 'obs', 'notes 1', 1, 'COP', 'eg', 1, b'0', b'0', '2017-02-28 18:36:33', '2017-03-03 11:27:06', NULL),
+	(80, 17, 20, 1, 1, 1, '2017-03-02', 1, NULL, NULL, 2, 'COP', 'in', 1, b'0', b'1', '2017-03-02 15:21:40', '2017-03-06 09:47:49', '2017-03-06 09:47:49'),
+	(86, 12, 21, 1, 1, 6, '2017-03-03', 1, NULL, NULL, 1, 'COP', 'eg', 1, b'1', b'0', '2017-03-03 14:03:22', '2017-03-03 14:05:36', NULL),
+	(89, 14, 22, 1, 1, 18, '2017-03-03', 1, NULL, NULL, 1, 'COP', 'eg', 1, b'0', b'0', '2017-03-03 14:20:59', '2017-03-03 14:20:59', NULL),
+	(90, 18, 23, 1, 1, 1, '2017-03-03', 1, NULL, NULL, 1, 'COP', 'in', 1, b'0', b'1', '2017-03-03 14:33:32', '2017-03-03 14:40:29', '2017-03-03 14:40:29'),
+	(91, 16, 24, 1, 1, 9, '2017-03-03', 1, NULL, NULL, 2, 'COP', 'eg', 1, b'0', b'0', '2017-03-03 14:47:03', '2017-03-03 14:47:03', NULL),
+	(93, 20, 25, 1, 1, 23, '2017-03-03', 1, 'asas', NULL, 3, 'COP', 'in', 1, b'1', b'0', '2017-03-03 18:12:43', '2017-03-03 18:12:43', NULL),
+	(94, 21, 26, 1, 1, 1, '2017-03-03', 1, NULL, NULL, 2, 'COP', 'in', 1, b'1', b'1', '2017-03-03 18:14:49', '2017-03-06 09:47:56', '2017-03-06 09:47:56'),
+	(95, 17, 27, 1, 1, 9, '2017-03-03', 1, NULL, NULL, 2, 'COP', 'eg', 1, b'1', b'0', '2017-03-03 18:31:03', '2017-03-03 18:31:03', NULL),
+	(104, 24, 28, 1, 1, 1, '2017-03-03', 1, 'asas', NULL, 2, 'COP', 'in', 1, b'1', b'1', '2017-03-03 19:56:58', '2017-03-06 09:47:52', '2017-03-06 09:47:52');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_history
@@ -1839,9 +2181,9 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   CONSTRAINT `FK_payment_history_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_payment_history_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `FK_payment_history_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment_history: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment_history: ~17 rows (aproximadamente)
 DELETE FROM `payment_history`;
 /*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
 INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `invoice_sale_order_id`, `bill_id`, `amount`, `created_at`, `updated_at`) VALUES
@@ -1853,8 +2195,15 @@ INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `inv
 	(23, 1, 34, 1, 12, NULL, 980, '2017-02-17 15:29:28', '2017-02-17 15:29:28'),
 	(24, 1, 35, 1, 18, NULL, 5000, '2017-02-17 16:28:47', '2017-02-17 16:28:47'),
 	(25, 1, 36, 1, 19, NULL, 4000, '2017-02-17 17:13:02', '2017-02-17 17:13:02'),
-	(32, 1, 45, 1, NULL, 11, 1000, '2017-02-28 11:54:32', '2017-02-28 11:54:32'),
-	(33, 1, 46, 1, NULL, 11, 1000, '2017-02-28 12:22:44', '2017-02-28 12:22:44');
+	(32, 1, 45, 1, NULL, 11, 1000, '2017-03-03 18:57:11', '2017-03-03 18:57:11'),
+	(33, 1, 46, 1, NULL, 11, 1000, '2017-03-03 19:10:41', '2017-02-28 12:22:44'),
+	(37, 1, 86, 1, NULL, 9, 200, '2017-03-03 14:03:22', '2017-03-03 14:03:22'),
+	(39, 1, 93, 1, 25, NULL, 2000, '2017-03-03 18:12:43', '2017-03-03 18:12:43'),
+	(40, 1, 94, 1, 23, NULL, 200, '2017-03-03 18:14:49', '2017-03-03 18:14:49'),
+	(41, 1, 94, 1, 22, NULL, 500, '2017-03-03 18:14:49', '2017-03-03 18:14:49'),
+	(42, 1, 94, 1, 21, NULL, 100, '2017-03-03 18:14:49', '2017-03-03 18:14:49'),
+	(43, 1, 95, 1, NULL, 10, 5000, '2017-03-03 18:31:03', '2017-03-03 18:31:03'),
+	(60, 1, 104, 1, 23, NULL, 4800, '2017-03-03 19:56:58', '2017-03-03 19:56:58');
 /*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_method
@@ -1991,16 +2340,18 @@ CREATE TABLE IF NOT EXISTS `product` (
   CONSTRAINT `FK_products_listprice` FOREIGN KEY (`list_price_id`) REFERENCES `list_price` (`id`),
   CONSTRAINT `FK_products_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_products_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.product: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.product: ~5 rows (aproximadamente)
 DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`id`, `public_id`, `user_id`, `account_id`, `name`, `description`, `reference`, `sale_price`, `tax_id`, `list_price_id`, `category_id`, `inv_quantity_initial`, `inv_quantity_actual`, `inv_type_id`, `inv_unit_cost`, `inv_inStock`, `isDeleted`, `isActive`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(2, 1, 1, 1, 'producto 1', 'producto 1', 'ref', 2000, 5, NULL, 34, 50, NULL, 1, 1500, b'1', b'0', b'1', '2017-02-01 16:22:28', '2017-02-01 16:22:28', '0000-00-00 00:00:00'),
-	(3, 2, 1, 1, 'producto 2', 'descripcion producto 2', 'ref2', 3000, 4, NULL, 30, 50, NULL, 2, 2500, b'0', b'0', b'1', '2017-02-02 21:04:43', '2017-02-02 21:04:43', '0000-00-00 00:00:00'),
-	(4, 3, 1, 1, 'productoprueba', 'producto para pruebas', '1234', 5000, 3, NULL, 30, NULL, NULL, NULL, 0, b'0', b'0', b'0', '2017-02-01 15:55:07', '2017-02-01 15:55:07', '2017-01-31 15:25:02'),
-	(5, 4, 1, 1, 'test', 'esta es una descripcion del producto pruena', NULL, 2000, 4, NULL, 30, 2, NULL, 1, 300, b'1', b'0', b'1', '2017-02-24 19:06:38', '2017-02-24 19:06:38', NULL);
+	(2, 1, 1, 1, 'producto 1', 'producto 1', 'ref', 2000, 5, NULL, 34, 50, NULL, 1, 1500, b'1', b'1', b'1', '2017-03-06 09:55:42', '2017-03-06 09:55:42', '2017-03-06 09:55:42'),
+	(3, 2, 1, 1, 'producto 2', 'descripcion producto 2', 'ref2', 3000, 4, NULL, 30, 50, NULL, 2, 2500, b'0', b'1', b'1', '2017-03-06 09:55:46', '2017-03-06 09:55:46', '2017-03-06 09:55:46'),
+	(4, 3, 1, 1, 'productoprueba', 'producto para pruebas', '1234', 5000, 3, NULL, 30, NULL, NULL, NULL, 0, b'0', b'1', b'1', '2017-03-06 09:56:02', '2017-03-06 09:56:02', '2017-03-06 09:56:02'),
+	(5, 4, 1, 1, 'test', 'esta es una descripcion del producto pruena', NULL, 2000, 4, NULL, 30, 2, NULL, 1, 300, b'1', b'1', b'1', '2017-03-06 09:55:49', '2017-03-06 09:55:49', '2017-03-06 09:55:49'),
+	(6, 5, 1, 1, 'producto-1-inv', NULL, NULL, 2000, 5, NULL, 34, 2, NULL, 1, 1500, b'1', b'0', b'1', '2017-03-06 09:57:58', '2017-03-06 09:57:58', NULL),
+	(7, 6, 1, 1, 'producto-2-no-inv', NULL, NULL, 5000, 5, NULL, 34, NULL, NULL, NULL, 0, b'0', b'0', b'1', '2017-03-06 10:03:20', '2017-03-06 10:03:20', NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.product_inventory_type
@@ -2172,15 +2523,16 @@ CREATE TABLE IF NOT EXISTS `remision` (
   CONSTRAINT `FK_remision_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_remision_status` FOREIGN KEY (`status_id`) REFERENCES `remision_status` (`id`),
   CONSTRAINT `FK_remision_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.remision: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.remision: ~4 rows (aproximadamente)
 DELETE FROM `remision`;
 /*!40000 ALTER TABLE `remision` DISABLE KEYS */;
 INSERT INTO `remision` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `document_type_id`, `status_id`, `date`, `due_date`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `deleted_at`, `updated_at`) VALUES
-	(6, 1, 1, 1, 1, 4, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-10', 10000, 0, 950, 10950, 'asas', NULL, NULL, b'0', '2017-02-10 16:28:02', NULL, '2017-02-15 09:42:07'),
+	(6, 1, 1, 1, 1, 4, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-10', 10000, 0, 950, 10950, 'asas', NULL, NULL, b'1', '2017-02-10 16:28:02', '2017-03-06 09:48:28', '2017-03-06 09:48:28'),
 	(7, 1, 1, 2, 2, NULL, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-12', 55000, 0, 950, 55950, 'remision clonada', NULL, NULL, b'1', '2017-02-10 16:57:58', '2017-02-13 13:21:36', '2017-02-13 13:21:36'),
-	(8, 1, 1, 3, 3, 4, 1, 18, 'COP', 2, 2, '2017-02-10', '2017-03-10', 10000, 0, 570, 10570, 'prueba remision 2', NULL, NULL, b'0', '2017-02-10 17:01:08', NULL, '2017-02-15 09:42:09');
+	(8, 1, 1, 3, 3, 4, 1, 18, 'COP', 2, 1, '2017-02-10', '2017-03-10', 10000, 0, 570, 10570, 'prueba remision 2', NULL, NULL, b'1', '2017-02-10 17:01:08', '2017-03-06 09:48:24', '2017-03-06 09:48:24'),
+	(9, 1, 1, 4, 4, 4, 1, 25, 'COP', 1, 1, '2017-03-06', '2017-04-06', 7000, 0, 380, 7380, 'estas fueron las notas de la remision', 'esta es una remision', NULL, b'0', '2017-03-06 13:29:45', NULL, '2017-03-06 14:53:18');
 /*!40000 ALTER TABLE `remision` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision_detail
@@ -2192,41 +2544,43 @@ CREATE TABLE IF NOT EXISTS `remision_detail` (
   `reference` varchar(50) DEFAULT NULL,
   `unit_price` float NOT NULL,
   `discount` float DEFAULT NULL,
-  `tax_type_id` int(11) DEFAULT NULL,
+  `tax_id` int(11) DEFAULT NULL,
   `tax_amount` float DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `gross_total` float DEFAULT NULL,
   `total` float DEFAULT NULL,
+  `total_tax` float DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_remision_detail_remision_id` (`remision_id`),
   KEY `FK_remision_detail_item` (`product_id`),
-  KEY `FK_remision_detail_tax` (`tax_type_id`),
+  KEY `FK_remision_detail_tax` (`tax_id`),
   KEY `FK_remision_detail_user` (`user_id`),
   CONSTRAINT `FK_remision_detail_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_remision_detail_remision_id` FOREIGN KEY (`remision_id`) REFERENCES `remision` (`id`),
-  CONSTRAINT `FK_remision_detail_tax` FOREIGN KEY (`tax_type_id`) REFERENCES `tax` (`id`),
+  CONSTRAINT `FK_remision_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_remision_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.remision_detail: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla krece.remision_detail: ~11 rows (aproximadamente)
 DELETE FROM `remision_detail`;
 /*!40000 ALTER TABLE `remision_detail` DISABLE KEYS */;
-INSERT INTO `remision_detail` (`id`, `remision_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_type_id`, `tax_amount`, `name`, `description`, `quantity`, `gross_total`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(8, 6, 1, 4, NULL, 5000, 0, NULL, 19, NULL, 'producto para pruebas', 1, NULL, 5000, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
-	(9, 6, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, NULL, 2000, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
-	(10, 6, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, NULL, 3000, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
-	(11, 8, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, NULL, 2000, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
-	(12, 8, 1, 3, NULL, 3000, 0, NULL, 19, NULL, 'descripcion producto 2', 1, NULL, 3000, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
-	(13, 8, 1, 4, NULL, 5000, 0, NULL, 0, NULL, 'producto para pruebas', 1, NULL, 5000, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
-	(14, 7, 1, 4, NULL, 5000, 0, NULL, 19, NULL, 'producto para pruebas', 1, NULL, 5000, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
-	(15, 7, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, NULL, 2000, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
-	(16, 7, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, NULL, 3000, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
-	(17, 7, 1, 5, NULL, 45000, 0, NULL, 0, NULL, NULL, 1, NULL, 45000, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL);
+INSERT INTO `remision_detail` (`id`, `remision_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(8, 6, 1, 4, NULL, 5000, 0, NULL, 19, NULL, 'producto para pruebas', 1, 5000, NULL, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
+	(9, 6, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, 2000, NULL, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
+	(10, 6, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, 3000, NULL, '2017-02-10 16:59:26', '2017-02-10 16:59:26', NULL),
+	(11, 8, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, 2000, NULL, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
+	(12, 8, 1, 3, NULL, 3000, 0, NULL, 19, NULL, 'descripcion producto 2', 1, 3000, NULL, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
+	(13, 8, 1, 4, NULL, 5000, 0, NULL, 0, NULL, 'producto para pruebas', 1, 5000, NULL, '2017-02-10 17:01:08', '2017-02-10 17:01:08', NULL),
+	(14, 7, 1, 4, NULL, 5000, 0, NULL, 19, NULL, 'producto para pruebas', 1, 5000, NULL, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
+	(15, 7, 1, 2, NULL, 2000, 0, NULL, 0, NULL, 'producto 1', 1, 2000, NULL, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
+	(16, 7, 1, 3, NULL, 3000, 0, NULL, 0, NULL, 'descripcion producto 2', 1, 3000, NULL, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
+	(17, 7, 1, 5, NULL, 45000, 0, NULL, 0, NULL, NULL, 1, 45000, NULL, '2017-02-13 13:01:15', '2017-02-13 13:01:15', NULL),
+	(28, 9, 1, 6, NULL, 2000, 0, 3, 19, NULL, NULL, 1, 2000, 380, '2017-03-06 14:29:26', '2017-03-06 14:29:26', NULL),
+	(29, 9, 1, 7, NULL, 5000, 0, NULL, 0, NULL, NULL, 1, 5000, 0, '2017-03-06 14:29:26', '2017-03-06 14:29:26', NULL);
 /*!40000 ALTER TABLE `remision_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision_document_type
@@ -2289,7 +2643,7 @@ CREATE TABLE IF NOT EXISTS `resolution` (
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, '1', '', '16', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-02-28 10:14:20', NULL),
+	(1, 1, 1, 1, '1', '', '17', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-03-05 11:15:51', NULL),
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
@@ -2315,14 +2669,14 @@ CREATE TABLE IF NOT EXISTS `resolution_numbers` (
 DELETE FROM `resolution_numbers`;
 /*!40000 ALTER TABLE `resolution_numbers` DISABLE KEYS */;
 INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
-	(8, 1, 'estimate', NULL, 38, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-02-24 20:06:38'),
+	(8, 1, 'estimate', NULL, 39, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-03-08 17:14:19'),
 	(9, 1, 'purchase_order', NULL, 2, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-02-23 18:12:19'),
 	(10, 1, 'credit_note', NULL, 3, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-02-15 13:28:10'),
-	(11, 1, 'remision', NULL, 4, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-02-24 20:06:38'),
-	(12, 1, 'in-come', NULL, 17, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-02-17 16:34:29'),
+	(11, 1, 'remision', NULL, 5, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-03-06 13:29:45'),
+	(12, 1, 'in-come', NULL, 25, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-03-03 19:56:59'),
 	(13, 1, 'debit_note', NULL, 4, 'Siguiente número de nota debito', '2017-02-24 14:07:27', '2017-02-24 17:13:48'),
 	(14, 1, 'bill', NULL, 5, 'Siguiente número de factura de proveedores', '2017-02-24 16:13:59', '2017-02-28 10:31:18'),
-	(15, 1, 'out-come', NULL, 6, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-02-28 18:36:33');
+	(15, 1, 'out-come', NULL, 18, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-03-03 18:31:03');
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
@@ -2450,10 +2804,10 @@ INSERT INTO `tax` (`id`, `account_id`, `public_id`, `user_id`, `name`, `amount`,
 	(1, 1, 1, 1, 'IVA', 19, 'Nuevo IVA', 1, b'1', b'1', '2017-01-16 09:26:09', '2017-01-19 15:45:00', '2017-01-19 15:45:00'),
 	(2, 1, 2, 1, 'te', 20, 'test', 1, b'1', b'1', '2017-01-16 16:27:32', '2017-01-17 12:44:16', '2017-01-17 12:44:16'),
 	(3, 1, 3, 1, 'IVA', 19, 'test', 1, b'1', b'0', '2017-01-16 16:31:26', '2017-01-17 12:45:51', '2017-01-17 10:36:27'),
-	(4, 1, 4, 1, 'ICO', 19, 'test', 2, b'1', b'0', '2017-01-16 16:32:31', '2017-01-17 12:45:33', '2017-01-17 12:37:34'),
+	(4, 1, 4, 1, 'ICO', 15, 'test', 2, b'1', b'0', '2017-01-16 16:32:31', '2017-03-06 14:06:48', '2017-01-17 12:37:34'),
 	(5, 1, 5, 1, 'Ninguno', 0, 'prueba', 1, b'1', b'0', '2017-01-16 16:34:48', '2017-01-17 12:46:17', NULL),
-	(6, 1, 6, 1, 'IVA2', 19, 'prueba', 1, b'1', b'1', '2017-01-17 10:44:59', '2017-01-17 12:44:08', '2017-01-17 12:44:08'),
-	(7, 1, 7, 1, 'IVA3', 19, 'prueba', 1, b'1', b'1', '2017-01-17 10:45:53', '2017-01-17 12:44:02', '2017-01-17 12:44:02');
+	(6, 1, 6, 1, 'IVA2', 18, 'prueba', 1, b'1', b'1', '2017-01-17 10:44:59', '2017-03-06 14:07:50', '2017-01-17 12:44:08'),
+	(7, 1, 7, 1, 'IVA3', 17, 'prueba', 1, b'1', b'1', '2017-01-17 10:45:53', '2017-03-06 14:07:51', '2017-01-17 12:44:02');
 /*!40000 ALTER TABLE `tax` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.tax_type
@@ -2508,7 +2862,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
-	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'MVwTqVMe8J13hykDVY3SUEmoCRrfEbCjs2IHodhQoI4DK7ZO0VC9g7lQtQdA', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-02-27 21:57:42', '2017-02-27 21:57:42', NULL, NULL, 1, NULL, NULL, b'1'),
+	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'MVwTqVMe8J13hykDVY3SUEmoCRrfEbCjs2IHodhQoI4DK7ZO0VC9g7lQtQdA', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-03-05 10:28:15', '2017-03-05 10:28:15', NULL, NULL, 1, NULL, NULL, b'1'),
 	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'FcregiMVfdO3B65QJkXKuELvAVo9VO41bZVsKq27s22fDwJDqK79DWs92VmN', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
 	(3, 3, 1, NULL, NULL, 'fernandwo2684@gmail.com', '$2y$10$u6v0vfdvla3xCyD7HJLkVeFS/Q6Ozhf.I1AIv9nnUCqDuPDCUe1XW', 'j7WUKqHUUhp5uBiAZKAg9fWmTvKYEgEq9kk9PGGiwf1ax3DE2H5oSjoau79P', NULL, NULL, 1, '2016-12-07 17:22:30', NULL, '2016-12-07 17:22:35', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
 	(4, 4, 1, NULL, NULL, 'fernando268422@gmail.com', '$2y$10$n..GzUA79THtAPd2Y/J8N.7nZiFzeHcdCEIH3emPIM98k4Yp9/z7u', 'O67MhIiFYyJkgNi3AkvJsI1UL7fJf8cYE4depxK7Kmk3WvI50zYWoh2u0aRJ', NULL, NULL, 1, '2016-12-07 17:23:24', NULL, '2016-12-07 17:24:15', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
