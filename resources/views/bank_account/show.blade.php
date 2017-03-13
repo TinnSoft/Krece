@@ -125,7 +125,7 @@
             </div>
        
        @include('bank_account.transference_modal',['header_modal'=>''])
-       
+       <pre>@{{$data.errors}}</pre>
  </div>
           
     
@@ -283,7 +283,36 @@ var appBankAccountShow = new Vue({
         });
         $('#transferenceModal').modal('toggle')
     },
-
+      remove:function(val) {
+      let self = this;
+      swal({
+        title: "Estas seguro?",
+        text: "Una vez eliminado este registro no se podrá recuperar",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: 'Si, eliminar',
+        cancelButtonText: 'Cancelar',
+        closeOnConfirm: false
+      }, function(isConfirm) {
+        if (isConfirm) {
+             var vm = this
+                axios.delete('' + val)
+                    .then(function(response) {
+                        if(response.data.deleted) {
+                            swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
+                             location.reload();            
+                        }
+                    })
+                    .catch(function(error) {
+                         swal("Error!", "El registro no se ha eliminado correctamente, intente de nuevo!!.", "error");
+                    })
+          
+        } else {
+          swal("Cancelado", "Cancelado :)", "error");
+        }
+      }.bind(this)); 
+    },
    }
 
  

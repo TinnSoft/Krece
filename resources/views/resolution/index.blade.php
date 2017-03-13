@@ -36,8 +36,10 @@
                             <a href="{{route('resolution.create')}}" class="btn btn-primary btn-sm pull-right"> 
                             <span class="fa fa-plus"></span>&nbsp;Nueva numeración</a>                     
                         </div>               
+                    </div>    
+                    <div class="row">                
+                    @include('resolution.index-grid')     
                     </div>                
-                    @include('resolution.index-grid')                     
             </div>            
         </div>    
     </div>

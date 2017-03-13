@@ -41,7 +41,7 @@
                     {name:'public_id',  keys: true,'width':100, label:'Acciones', index:'public_id',  'align':'right' , 
                      sortable: false, formatter: displayButtons }      
                 ],
-                 autoresizeOnLoad: true,
+                autoresizeOnLoad: true,
                 viewrecords: true, 
                 autowidth: true,
                 shrinkToFit: true,

@@ -103,7 +103,15 @@ class BankAccountController extends Controller
                         ]);
                 }               
             }   
+       
+
+        $parentID=$payment->id;
         
+
+        //Actualiza parent id del egreso
+        Payment::where('id', $parentID)
+          ->update(['parent_id' => $parentID]);
+
          //registrar entrada en tabla payments  de tipo INGreso   
         $dataIN['resolution_id'] = Helper::ResolutionId(ResolutionNumber::class,'in-come')['number'];
         $dataIN['isInvoice'] = 0;
@@ -137,6 +145,10 @@ class BankAccountController extends Controller
                 }               
             }   
         
+        //Actualiza parent id del ingreso
+         Payment::where('id', $payment->id)
+          ->update(['parent_id' => $parentID]);
+
         //Incrementar los consecutivos de la resolución
         ResolutionNumber::where('key', 'out-come')->increment('number');
         ResolutionNumber::where('key', 'in-come')->increment('number');
@@ -290,6 +302,23 @@ class BankAccountController extends Controller
     public function destroy($id)
     {
          $bank = BankAccount::findOrFail($id);
+
+            $bank['isDeleted']=1;
+            $bank['deleted_at']=$now = Carbon::now();
+            $bank->save();
+            
+            return response()
+            ->json([
+                'deleted' => true
+            ]);
+    }
+
+    //Eliminar las transacciones de transferencia realizadas en la seccion bancos
+    //se elimina de la tabla payment,
+    //Se suprimen los valores de los pagos realizados y se le devuelven al saldo inicial
+    public function deleteBankTransaction($id)
+    {
+         $bank = Payment::findOrFail($id);
 
             $bank['isDeleted']=1;
             $bank['deleted_at']=$now = Carbon::now();

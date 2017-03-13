@@ -22,7 +22,7 @@ class Payment extends Model
 	
 	
 	protected $fillable=[
-	'public_id','customer_id','account_id','user_id','isInvoice','status_id','bank_account_id','type_id',
+	'public_id','customer_id','account_id','user_id','isInvoice','status_id','bank_account_id','type_id','parent_id',
 	'currency_code','observations','notes','date','isDeleted','resolution_id','payment_method_id','payment_id','deleted_at'
 	];
 	

@@ -35,9 +35,18 @@
                     {name:'public_id',  keys: true,"width":50, label:'Acciones', index:'public_id',  "align":"right" , 
                      sortable: false, formatter: displayButtons }
                 ],
+                 autoresizeOnLoad: true,
                 viewrecords: true, 
-                width: 780,
-                height: 300,
+                autowidth: true,
+                shrinkToFit: true,
+                autoResizing: {
+                    compact: true
+                    },
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },             
+                height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],               
                 loadonce:true,               
@@ -49,7 +58,7 @@
                     } else {
                         $("#resolution-grid").show();
                     };
-                    resizewidth();
+                  //  resizewidth();
                 },         
                 pager:"#pager_list_2"
             });
@@ -75,18 +84,18 @@
         
 
              function displayButtons(cellvalue, options, rowObject) {
-                var edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='cursor: pointer ; color:green' onClick=appresolution.goEdit(\""+cellvalue+"\") ></div><span > </span>";
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='cursor: pointer; color:red' onclick=appresolution.remove(\""+cellvalue+"\")/></div><span > </span>";
-                    Lock = "<div title= 'Desactivar' class='fa fa-unlock '  style='cursor: pointer; color:#DDB215' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
+                var edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='cursor: pointer ; color:green' onClick=appresolution.goEdit(\""+cellvalue+"\") ></div><span > </span>";
+                    Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='cursor: pointer; color:red' onclick=appresolution.remove(\""+cellvalue+"\")/></div><span > </span>";
+                    Lock = "<div title= 'Desactivar' class='fa fa-unlock fa-2x'  style='cursor: pointer; color:#DDB215' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'0')/></div><span > </span>";
                 
                 if (rowObject.isActive==0)
                 {                    
-                    edit = "<div  title= 'Editar'  class='fa fa-pencil ' style='color:#ABEBC6'/></div><span > </span>";
-                    Lock = "<div title= 'Activar' class='fa fa-lock '  style='cursor: pointer; color:gray' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
+                    edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
+                    Lock = "<div title= 'Activar' class='fa fa-lock fa-2x'  style='cursor: pointer; color:gray' onclick=appresolution.updateItemStatus(\""+rowObject.id+"\",'1')/></div><span > </span>";
                 }
                 if (rowObject.isDefault==1)
                 {
-                     Delete = "<div title= 'Eliminar' class='fa fa-remove '  style='color:#F3D8D5'/></div><span > </span>";
+                     Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
                 }
 
                 return Lock + edit + Delete;
