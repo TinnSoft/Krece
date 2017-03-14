@@ -118,10 +118,7 @@
                                     </tbody>
                                 </table>
                             </div><br>
-                            <div class="ibox">
-                                <div>
-                                    
-                                </div>
+                            <div class="ibox">                                
                                 <table class="total"  >
                                     <tbody>                                   
                                     <tr>

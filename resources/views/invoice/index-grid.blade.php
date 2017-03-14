@@ -154,9 +154,9 @@
                 var edit = "<div  title= 'editar'  class='fa fa-pencil fa-2x ' style='cursor: pointer;color:#1ABC9C' onClick=invoiceApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
                     Details = "<div title= 'ver' class='fa fa-eye fa-2x ' style='cursor: pointer;color:#1ABC9C'  onClick=invoiceApp.goShow(\""+cellvalue+"\")></div><span > </span>",
                     Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer;color:#787674'  onClick=invoiceApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
-                    Delete = "<div title= 'Eliminar' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
+                    Delete = "<div title= 'Eliminar, solo es permitido con facturas en borrador' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
                     Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
-                    Payment="";
+                   
                     Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact_id+"\")/></div><span > </span>";
                     if (rowObject.status_id==2 )
                     {                    

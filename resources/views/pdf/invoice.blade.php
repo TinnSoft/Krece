@@ -2,8 +2,10 @@
 
 @section('content')
 
-
-
+@if($invoice->status_id==2)
+    @include('partials.pdf-watermark_null')
+@endif
+<div id="content">
 <div class="ibox">
     <table  width= "100%">
            <tbody>
@@ -49,8 +51,8 @@
             </tbody>
     </table
 </div>
-
-<div class="ibox-title">
+<hr class="hr-line-solid" style="color: white;background-color:green">
+<div class="">
         <address>
              <span class="text-muted text-xs block">SEÑOR(ES):<br>   
              <a class="text-navy">{{$invoice->contact->name}}</a></span><br>
@@ -80,9 +82,6 @@
  </div>
 
                 
-
-
-
 <div class="table-responsive m-t">
                                 <table class="detail" style="width: 100%;font-size:70%;">
                                     <thead>
@@ -141,11 +140,22 @@
                                     </tbody>
                                 </table>                           
                             </div>
+                            <div class="row">
+                                <div class="panel-body"><br>
+                                    @if (count($invoice->account) > 0)
+                                    <small><strong>Notas:</strong> {{$invoice->notes}}</small>
+                                    @endif                                
+                                </div>
+                             </div>
+                             
+                            <div class="ibox"><br><br><br><br>
+                                     @include('partials.pdf-elaborated_by') 
+                            </div>  
                          <div class="footer"> 
                                 <div class="ibox"><small>
                                         Esta factura se asimila en todos sus efectos a una letra de cambio de conformidad con el Art. 774 del código de
                                         comercio. Autorizo que en caso de incumplimiento de esta obligación sea reportado a las centrales de riesgo, se
-                                        cobraran intereses por mora.
+                                        cobrarán intereses por mora.
                                     </small>   
                                 </div>
                         </div>
