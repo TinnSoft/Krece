@@ -5,14 +5,14 @@
 
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
-                <h2>Contacto: {{$contact->name}}</h2>
+            <div class="col-sm-8">
+                <h2><span class="fa fa-group"></span> Contacto: {{$contact->name}}</h2>
                 <ol class="breadcrumb">
                 <li>
                     <a href="{{route('contact.index')}}">Inicio</a>
                 </li>
                 <li class="active">
-                    <strong>Cotizaciones</strong>                            
+                    <strong>Detalle</strong>                            
                 </li>
             </ol>
         </div>
@@ -138,14 +138,14 @@
                                             </div>
                                         </div>
                                         <div class="ibox-content">
-                                            <a id="">Transacciones</a><br>
+                                            <a id="payment">Pagos</a><br>
                                             <a id="invoice">Facturas de venta</a><br>
-                                            <a id="">Facturas de compra</a><br>
-                                            <a id="">Notas crédito</a><br>
-                                            <a id="">Notas débito</a><br>
+                                            <a id="bill">Facturas de compra</a><br>
+                                            <a id="credit_note">Notas crédito</a><br>
+                                            <a id="debit_note">Notas débito</a><br>
                                             <a id="estimate">Cotizaciones</a><br>
                                             <a id="remision">Remisiones</a><br>
-                                            <a id="">Ordenes de compra</a>
+                                            <a id="po">Ordenes de compra</a>
                                         </div>
                                     </div>
                                 </div>

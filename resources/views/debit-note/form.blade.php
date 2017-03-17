@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="col-lg-5">
-                 <h2>NOTA CRÉDITO No: @{{form.resolution_id}}</h2>
+                 <h2>NOTA DEBITO No: @{{form.resolution_id}}</h2>
             </div>
             <div class="col-lg-5 text-right">
                  <span> MONTO </span>
@@ -124,17 +124,17 @@
               
             <td style="width: 18em" class="form-category_id"  >
                <span> 
-                    <multiselect 
-                            :options="product_list" 
-                            class="input_number"
-                            v-model="_detail.category"
-                            label="name"         
-                            track-by="name"
-                            placeholder="Buscar ítem..." 
-                            @input="onInputProduct(_detail)"
-                             :show-labels="false"
-                             :allow-empty="false"
-                        >
+                      <multiselect 
+                                v-model='_detail.category' 
+                                :options='product_list' 
+                                :multiple='false' 
+                                group-values='detail'
+                                group-label='name' 
+                                placeholder='Buscar ítem...' 
+                                track-by='name' 
+                                label='name'
+                                :show-labels='false'
+                                 @input='onInputProduct(_detail)'>                                
                         </multiselect>
 
 

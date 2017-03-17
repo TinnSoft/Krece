@@ -3,6 +3,8 @@
 namespace App\Models;
 use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
+use Illuminate\Support\Facades\DB;
 
 class Category extends Model
 {
@@ -14,6 +16,16 @@ class Category extends Model
         'account_id','parent_id','name','niif_account','description','type_id','user_id','isEditable','isDeleted',
         'lft','rgt',
     ];
+
+    
+    public function detail()
+    {
+          return $this->hasMany(Category::class,'type_id','type_id')
+                    ->where('account_id',Auth::User()->account_id)
+                    ->where('isDeleted',0)
+                    ->where('parent_id','!=',null)
+                    ->select(array('id', 'name','type_id',DB::raw("1 AS isCategory")));
+    }
 
      public function getLftName()
     {

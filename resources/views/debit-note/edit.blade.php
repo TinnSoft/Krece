@@ -4,7 +4,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Editar Nota Crédito</h2>
+                    <h2 >Editar Nota Débito</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="{{route('debit-note.index')}}">Inicio</a>

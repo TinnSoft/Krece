@@ -81,23 +81,35 @@ class PaymentRepository
     }
 
     //retorna las facturas de venta y/o de proveedor pendientes por pagar
+    //Retorna los montos pendientes por pagar
      public function ListOfPendingsToPay($sourceTable,$customer_id)
     {
         
         $PendingByPayment=   DB::table($sourceTable)
         ->leftJoin('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
+         ->leftJoin('payment','payment.id', '=', 'payment_history.payment_id')
         ->where($sourceTable.'.account_id',Auth::user()->account_id)
         ->where($sourceTable.'.customer_id',$customer_id)
         ->where($sourceTable.'.isDeleted',0)
+        ->where('payment.isDeleted',0)
+        ->where($sourceTable.'.status_id',INVOICE_STATUS_OPEN) //Estado abierto
         ->select($sourceTable.'.id',$sourceTable.'.resolution_id',
-        $sourceTable.'.total',$sourceTable.'.public_id',$sourceTable.'.total as total2',
-        DB::raw('SUM(payment_history.amount) as total_payed'),
-        DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2'))
-        ->groupBy($sourceTable.'.id',$sourceTable.'.resolution_id',
-        $sourceTable.'.public_id','total','total_pending_by_payment')
+            $sourceTable.'.total',
+            $sourceTable.'.public_id',
+            $sourceTable.'.total as total2',
+            DB::raw("CASE WHEN payment.status_id='1' and payment.isDeleted=0 THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_payed"),
+            DB::raw('"" as total_pending_by_payment'),DB::raw('"" as total_pending_by_payment2')            
+        )
+        ->groupBy($sourceTable.'.id',
+            $sourceTable.'.resolution_id',
+            $sourceTable.'.public_id','total',
+            'total_pending_by_payment',
+            'payment.status_id',
+            'payment.isDeleted'
+        )
         ->orderby($sourceTable.'.resolution_id','desc')
         ->get();
-        
+      
         foreach($PendingByPayment as $item)
         {
             $item->total_pending_by_payment2=  $item->total - $item->total_payed;
@@ -123,26 +135,30 @@ class PaymentRepository
     {        
         
         $PendingByPayment=   DB::table($sourceTable)
-        ->leftJoin('payment_history', 
-        $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
+        ->leftJoin('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
+        ->leftJoin('payment','payment.id', '=', 'payment_history.payment_id')
         ->where($sourceTable.'.account_id',Auth::user()->account_id)
         ->where($sourceTable.'.customer_id',$customer_id)
         ->where($sourceTable.'.isDeleted',0)
+        ->where('payment.isDeleted',0)
+        ->where($sourceTable.'.status_id',INVOICE_STATUS_OPEN) //Estado abierto
         ->select($sourceTable.'.id',
             $sourceTable.'.resolution_id', 
             'payment_history.'.$sourceTable.'_id',
             $sourceTable.'.total',
             $sourceTable.'.public_id',
             $sourceTable.'.total as total2',
-            DB::raw('SUM(payment_history.amount) as total_payed'),
+            DB::raw("CASE WHEN payment.status_id='1' and payment.isDeleted=0 THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_payed"),
             DB::raw('"" as total_pending_by_payment'),
             DB::raw('"" as total_pending_by_payment2'))
-            ->groupBy($sourceTable.'.id',
+        ->groupBy($sourceTable.'.id',
             $sourceTable.'.resolution_id', 
             'payment_history.'.$sourceTable.'_id',
             $sourceTable.'.public_id',
             'total',
-            'total_pending_by_payment')
+            'total_pending_by_payment',
+            'payment.status_id',
+            'payment.isDeleted')
         ->orderby($sourceTable.'.resolution_id','desc')
         ->get();
         
@@ -244,7 +260,8 @@ class PaymentRepository
         {
             $item->total_pending_by_payment2=  $item->total - $item->total_payed;
             $item->total_pending_by_payment=Helper::formatMoney($item->total - $item->total_payed);
-            $item->total_payed=Helper::formatMoney($item->total_payed);
+            //$item->total_payed=Helper::formatMoney($item->total_payed);
+             $item->total_payed=$item->total_payed;
             $item->total=Helper::formatMoney($item->total);
             $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
             $item->due_date= Helper::setCustomDateFormat(Carbon::parse( $item->due_date));
@@ -473,30 +490,85 @@ class PaymentRepository
 
     //query
     //Retorna todos los movimientos realizados por bancos (entrada y salida)
-    public function getTransactionsByBank($bank_account_Id)
+    //pagos realizados de entrada y salida de dinero
+    public function getTransactions($id,$column_name)
     {
-         $transactions=
+         $transactionsToCategory=
             DB::table('payment')
-            ->join('category_payment', 'category_payment.payment_id', '=', 'payment.id')
-            ->leftjoin('contact', 'contact.id', '=', 'payment.customer_id')
-            ->join('category', 'category.id', '=', 'category_payment.category_id')
-            ->where('payment.account_id',Auth::user()->account_id)
-            ->where('payment.bank_account_id',$bank_account_Id)
-            ->where('payment.isDeleted',0)
-            ->select('payment.id','payment.public_id',
-                'payment.date',
-                'contact.name as contact_name',
-                'category.name as category_name',
-                'payment.status_id',
-                'payment.payment_method_id',
-                DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_outcome"),
-                DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_income")
-            )
-            ->groupBy('payment.id','payment.date','contact.name','payment.type_id','category.name',
-            'payment.status_id','payment.public_id','payment.payment_method_id')
-            ->orderBy('payment.id','asc')
-            ->get();
+                ->join('category_payment', 'category_payment.payment_id', '=', 'payment.id')
+                ->leftjoin('contact', 'contact.id', '=', 'payment.customer_id')
+                ->join('category', 'category.id', '=', 'category_payment.category_id')
+                ->where('payment.account_id',Auth::user()->account_id)
+                ->where('payment.'.$column_name,$id)
+                ->where('payment.status_id',PAYMENT_STATUS_APPLIED)
+                ->where('payment.isDeleted',0)
+                ->select('payment.id','payment.public_id',
+                    'payment.date',
+                    'contact.name as contact_name',
+                    'category.name as category_name',
+                    'payment.status_id',
+                    'payment.payment_method_id',
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN 'Categoría de Egreso' ELSE 'Categoría de Ingreso' END as detail"),
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_outcome"),
+                    DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_income")
+                )
+                ->groupBy('payment.id','payment.date','contact.name','payment.type_id','category.name',
+                'payment.status_id','payment.public_id','payment.payment_method_id');
         
-        return  $transactions;
+        $transactionsToInvoice=
+            DB::table('payment')
+                ->join('payment_history', 'payment_history.payment_id', '=', 'payment.id')
+                ->leftjoin('contact', 'contact.id', '=', 'payment.customer_id')
+                ->join('invoice_sale_order', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+                ->where('payment.account_id',Auth::user()->account_id)
+                ->where('payment.'.$column_name,$id)
+                ->where('payment.status_id',PAYMENT_STATUS_APPLIED)
+                ->where('payment.isDeleted',0)
+                ->where('invoice_sale_order.isDeleted',0)
+                ->where('invoice_sale_order.status_id',PAYMENT_STATUS_APPLIED)
+                ->select('payment.id','payment.public_id',
+                    'payment.date',                 
+                    'contact.name as contact_name',
+                    DB::raw("'' as category_name"),
+                    'payment.status_id',
+                    'payment.payment_method_id',
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN CONCAT('Factura de Compra No: ', ' ', invoice_sale_order.resolution_id)
+                    ELSE CONCAT('Factura de venta No: ', ' ', invoice_sale_order.resolution_id) END as detail"),
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_outcome"),
+                    DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_income")
+                )
+                ->groupBy('payment.id','payment.date','contact.name','payment.type_id',
+                'payment.status_id','payment.public_id','payment.payment_method_id',
+                'invoice_sale_order.resolution_id');
+
+             $transactionsToBill=
+                DB::table('payment')
+                ->join('payment_history', 'payment_history.payment_id', '=', 'payment.id')
+                ->leftjoin('contact', 'contact.id', '=', 'payment.customer_id')
+                ->join('bill', 'bill.id', '=', 'payment_history.bill_id')
+                ->where('payment.account_id',Auth::user()->account_id)
+                ->where('payment.'.$column_name,$id)
+                ->where('payment.status_id',BILL_STATUS_OPEN)
+                ->where('payment.isDeleted',0)
+                ->where('bill.isDeleted',0)
+                ->where('bill.status_id',BILL_STATUS_OPEN)
+                ->select('payment.id','payment.public_id',
+                    'payment.date',                 
+                    'contact.name as contact_name',
+                    DB::raw("'' as category_name"),
+                    'payment.status_id',
+                    'payment.payment_method_id',
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN CONCAT('Factura de Compra No: ', ' ', bill.resolution_id)
+                    ELSE CONCAT('Factura de venta No: ', ' ', bill.resolution_id) END as detail"),
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_outcome"),
+                    DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(payment_history.amount,0)) ELSE 0 END as total_income")
+                )
+                ->groupBy('payment.id','payment.date','contact.name','payment.type_id',
+                'payment.status_id','payment.public_id','payment.payment_method_id','bill.resolution_id')            
+                //->union($transactionsToCategory)
+                ->union($transactionsToInvoice)
+                ->get();
+        
+        return  $transactionsToBill;
     }
 }

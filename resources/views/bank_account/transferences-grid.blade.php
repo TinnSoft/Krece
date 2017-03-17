@@ -31,8 +31,8 @@
                 mtype: 'GET',
                 colModel: [        
                     { label: 'Fecha', name: 'date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date', width: 60 },
-                    { label: 'Beneficiario', name: 'customer_name', width: 120 },
-                    { label: 'Categoría', name: 'category_name', width: 120 },
+                    { label: 'Beneficiario', name: 'contact_name', width: 120 },
+                    { label: 'Categoría', name: 'detail', width: 120 },
                     { label: 'Estado', name: 'status_id', width: 40,formatter:state_mask },
                     { label: 'Salida', name: 'total_outcome', width: 90,formatter: 'currency',
                     formatoptions: { decimalSeparator: '.', decimalPlaces: 2, thousandsSeparator: ',', prefix: '$' }},  

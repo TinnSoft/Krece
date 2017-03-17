@@ -36,13 +36,69 @@
 
      
               //on load -> crear tabla
-                 var _colModelx=[{ label: 'cliente2', name: 'name', index: 'name', width: 75, sorttype: "text" } ];
-                 createGrid('remision',{!!$contact->id!!}, _colModelx,'Transacciones','#pager_list_2');
+                 var _colModelx=[
+                     { label: 'Pago No', name: 'public_id', index: 'public_id', width: 75, align:"center",sorttype: "text" },
+                     { label: 'Fecha', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Detalle', name: 'detail', index: 'detail', width: 75, sorttype: "text" },
+                     { label: 'Salidas', name: 'total_outcome', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Entradas', name: 'total_income', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                 ];
+                 createGrid('payment',{!!$contact->id!!}, _colModelx,'Pagos','#pager_list_2');
+            
+            //Facturas de venta
+             $("#payment").on("click", function(){ 
+
+                   var _colModelx=[
+                     { label: 'Pago No', name: 'public_id', index: 'public_id', width: 75, align:"center",sorttype: "text" },
+                     { label: 'Fecha', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Detalle', name: 'detail', index: 'detail', width: 75, sorttype: "text" },
+                     { label: 'Salidas', name: 'total_outcome', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Entradas', name: 'total_income', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                 ];
+                 
+                 createGrid('payment',{!!$contact->id!!}, _colModelx,'Pagos','#pager_list_2');
+			})
 
            //Facturas de venta
-             $("#invoice").on("click", function(){  
-                 var _colModelx=[{ label: 'proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ];
-                 createGrid('remision',{!!$contact->id!!}, _colModelx,'Factura de venta','#pager_list_2');
+             $("#invoice").on("click", function(){ 
+
+                function state_mask(cellvalue, options, rowObject) {
+                    if (cellvalue==1)
+                    {
+                        return "<p><span class='label label-primary'>"+rowObject.status_description+"</span></p>"
+                    }
+                    else {
+                        return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
+                    };
+                }
+
+                  var _colModelx=[
+                     {label:'No', name:'resolution_id', width: 50, keys: true, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name',  sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Vence en', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Pagado', name: 'total_payed', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Por Pagar', name: 'pending_to_pay', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Estado', name: 'status_id',width: 70,align:"center", formatter:state_mask }
+                     ];
+                 
+                 createGrid('invoice',{!!$contact->id!!}, _colModelx,'Factura de venta','#pager_list_2');
+			})
+
+             //Facturas de compra
+             $("#bill").on("click", function(){ 
+                  var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Vence en', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Pagado', name: 'total_payed', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Por Pagar', name: 'pending_to_pay', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     ];
+                 
+                 createGrid('bill',{!!$contact->id!!}, _colModelx,'Factura de Compra','#pager_list_2');
 			})
 
             //Remisiones
@@ -70,6 +126,7 @@
                  createGrid('remision',{!!$contact->id!!}, _colModelx,'Remisiones','#pager_list_2');
 			})
 
+            //Cotizaciones
             $("#estimate").on("click", function(){  
                 
                  var _colModelx=[
@@ -81,6 +138,56 @@
                      
                 ];
                  createGrid('estimate',{!!$contact->id!!}, _colModelx,'Cotizaciones','#pager_list_2');
+			})
+
+                //Nota Crédito
+            $("#credit_note").on("click", function(){  
+                
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Por aplicar', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                ];
+                 createGrid('credit_note',{!!$contact->id!!}, _colModelx,'Notas Crédito','#pager_list_2');
+			})
+
+                 //Nota Débito
+            $("#debit_note").on("click", function(){  
+                
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Por aplicar', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                ];
+                 createGrid('debit_note',{!!$contact->id!!}, _colModelx,'Notas Débito','#pager_list_2');
+			})
+
+                 //Ordenes de COmpra
+            $("#po").on("click", function(){  
+                
+                 function state_mask(cellvalue, options, rowObject) {
+                    if (cellvalue==1)
+                    {
+                        return "<p><span class='label label-primary'>"+rowObject.status_description+"</span></p>"
+                    }
+                    else {
+                        return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
+                    };
+                }
+
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Fecha', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                      { label: 'Fecha de Entrega', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                      { label: 'Estado', name: 'status_id',width: 70,align:"center", formatter:state_mask },
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },                     
+                ];
+                 createGrid('po',{!!$contact->id!!}, _colModelx,'Órdenes de Compra','#pager_list_2');
 			})
             
           function dropGrid()

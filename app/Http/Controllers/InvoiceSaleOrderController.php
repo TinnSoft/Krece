@@ -34,30 +34,70 @@ class InvoiceSaleOrderController extends Controller
     
     public function getInvoiceList()
     {
-        
-        $invoice = DB::table('invoice_sale_order')
+        //Obtener facturas sin pagos
+        $invoiceNoPayed = DB::table('invoice_sale_order')
         ->Join('contact', 'invoice_sale_order.customer_id', '=', 'contact.id')
         ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
-        ->leftjoin('payment', function ($join) {
-            $join->on('payment.id', '=', 'payment_history.payment_id')
-            ->where('payment.isDeleted',0);
+        ->leftJoin('payment', function ($join) {
+            $join->on('payment.id', '=', 'payment_history.payment_id');
         })
         ->where('invoice_sale_order.account_id',Auth::user()->account_id)
         ->where('invoice_sale_order.isDeleted',0)
-        ->select('invoice_sale_order.id','invoice_sale_order.resolution_id','invoice_sale_order.status_id',
-        'invoice_sale_order.due_date', 'contact.name as contact_name','contact.id as contact_id',
-        DB::raw('SUM(payment_history.amount) as total_payed'),'invoice_sale_order.created_at',
-        'invoice_sale_order.public_id','invoice_sale_order.total',
-        DB::raw('invoice_sale_order.total - sum(IFNULL(payment_history.amount,0)) as pending_to_pay')
+        ->where('payment_history.amount',null)
+        ->select('invoice_sale_order.id',
+            'invoice_sale_order.resolution_id',
+            'invoice_sale_order.status_id',
+            'invoice_sale_order.due_date', 
+            'contact.name as contact_name',
+            'contact.public_id as contact_id',            
+            'invoice_sale_order.created_at',
+            'invoice_sale_order.public_id',
+            'invoice_sale_order.total',
+            'payment.isDeleted as isPaymentDeleted',
+            DB::raw('SUM(payment_history.amount) as total_payed'),
+            DB::raw('invoice_sale_order.total - IFNULL(payment_history.amount,0) as pending_to_pay')
         )
         ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id','invoice_sale_order.status_id',
         'invoice_sale_order.due_date', 'contact.name',
-        'invoice_sale_order.created_at','contact.id',
-        'invoice_sale_order.public_id','invoice_sale_order.total')
+        'invoice_sale_order.created_at','contact.public_id',
+        'invoice_sale_order.public_id','invoice_sale_order.total',
+        'payment_history.amount','payment.isDeleted')
+        ->orderby('invoice_sale_order.resolution_id','desc');
+
+        //obtener factursa con al menos 1 pago
+        $invoicePayed = DB::table('invoice_sale_order')
+        ->Join('contact', 'invoice_sale_order.customer_id', '=', 'contact.id')
+        ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
+        ->Join('payment', function ($join) {
+            $join->on('payment.id', '=', 'payment_history.payment_id');
+        })
+        ->where('invoice_sale_order.account_id',Auth::user()->account_id)
+        ->where('invoice_sale_order.isDeleted',0)
+        ->where('payment.isDeleted',0)
+        ->where('payment.status_id',1)
+        ->select('invoice_sale_order.id',
+            'invoice_sale_order.resolution_id',
+            'invoice_sale_order.status_id',
+            'invoice_sale_order.due_date', 
+            'contact.name as contact_name',
+            'contact.public_id as contact_id',            
+            'invoice_sale_order.created_at',
+            'invoice_sale_order.public_id',
+            'invoice_sale_order.total',
+            'payment.isDeleted as isPaymentDeleted',
+            DB::raw('SUM(payment_history.amount) as total_payed'),
+            DB::raw('invoice_sale_order.total - IFNULL(SUM(payment_history.amount),0) as pending_to_pay')
+        )
+        ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id','invoice_sale_order.status_id',
+        'invoice_sale_order.due_date', 'contact.name',
+        'invoice_sale_order.created_at','contact.public_id',
+        'invoice_sale_order.public_id','invoice_sale_order.total',
+        'payment.isDeleted')
         ->orderby('invoice_sale_order.resolution_id','desc')
+        ->union($invoiceNoPayed)
         ->get();
-        
-        return response()->json($invoice);
+
+        return response()->json($invoicePayed);
     }
     
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc

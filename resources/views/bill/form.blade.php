@@ -137,16 +137,17 @@
                 
             <td style="width: 16em" class="form-category_id"  >
                <span> 
-                    <multiselect 
-                            :options="product_list" 
-                            class="input_number"
-                            v-model="_detail.category"
-                            label="name"    
-                            :show-labels="false"     
-                            track-by="name"
-                            placeholder="Buscar ítem..." 
-                            @input="onInputProduct(_detail)"
-                        >
+                         <multiselect 
+                                v-model='_detail.category' 
+                                :options='product_list' 
+                                :multiple='false' 
+                                group-values='detail'
+                                group-label='name' 
+                                placeholder='Buscar ítem...' 
+                                track-by='name' 
+                                label='name'
+                                :show-labels='false'
+                                 @input='onInputProduct(_detail)'>                                
                         </multiselect>
 
 
@@ -235,3 +236,4 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
+

@@ -353,10 +353,10 @@ class PaymentIn_Controller extends Controller
         foreach($payment_detail as $item)
         {
             $detail = collect([
-            ['total' => Helper::formatMoney( ($item ->total_pending_by_payment2)),
-            'total2' =>  ($item ->total_pending_by_payment2),
+            ['total' => Helper::formatMoney( ($item ->total_payed)), //total_pending_by_payment2
+            'total2' =>  ($item ->total_payed),
             'quantity' => 1,
-            'concept'=>'Pago a factura de venta']
+            'concept'=>'Pago a factura de venta No '.$item->resolution_id]
             ]);
         }
         

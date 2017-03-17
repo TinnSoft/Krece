@@ -14,16 +14,19 @@ use App\Models\{
     ListPrice
 };
 use App\Repositories\ContactRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Support\Facades\DB;
 
 class ContactsController extends Controller
 {
 
       protected $contactRepo;
+      protected $paymentRepo;
 
-     public function __construct(ContactRepository $contactRepo)
+     public function __construct(ContactRepository $contactRepo, PaymentRepository $paymentRepo)
      {
         $this->contactRepo = $contactRepo;
+        $this->paymentRepo = $paymentRepo;
     }
     
 
@@ -311,6 +314,25 @@ class ContactsController extends Controller
             case 'estimate';
                 return $this->contactRepo->getEstimateList($contact_id);
                 break;
+            case 'invoice';
+                return $this->contactRepo->getInvoiceList($contact_id);
+                break;
+            case 'bill';
+                return $this->contactRepo->getBillList($contact_id);
+                break;
+            case 'credit_note';
+                return $this->contactRepo->getCreditNoteList($contact_id);
+                break;
+            case 'debit_note';
+                return $this->contactRepo->getDebitNoteList($contact_id);
+                break;
+            case 'po';
+                return $this->contactRepo->getPOList($contact_id);
+                break;
+            case 'payment';
+                return $this->paymentRepo->getTransactions($contact_id,'customer_id');
+                break;
+                 
 
         };
     }

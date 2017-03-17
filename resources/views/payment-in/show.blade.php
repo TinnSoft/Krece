@@ -8,7 +8,7 @@
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-7">
                 @if($isCategory==0)
-                    <h2 >Pagos a Facturas de venta: <span class="text-navy">
+                    <h2 >Pago a Factura de venta: <span class="text-navy">
                     @foreach($detail as $prod)
                     {{$prod->resolution_id}},
                     @endforeach
@@ -69,7 +69,7 @@
                                         <li>
                                             <h2  class="text-navy" class="no-margins ">
                                                 @if (count($payment->contact) > 0)
-                                                 <a href="{{route('contact.show', $payment->contact->public_id)}}" class="fa fa-user text-navy">
+                                                 <span class="fa fa-user text-navy"></span><a class="text-navy" href="{{route('contact.show', $payment->contact->public_id)}}" >
                                                  {{$payment->contact->name}} </a>
                                                 @endif</h4>
                                                  <small>Cliente</small>

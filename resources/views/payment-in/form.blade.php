@@ -20,7 +20,7 @@
 @section('header_payment')
     <div class="row">        
         <div class="col-lg-6">
-        <div class="table-responsive">
+        <div class="">
             <table class="table">			
                 
 				<tr> 
@@ -105,7 +105,7 @@
         </div> 
 
          <div class="col-lg-6 ">
-            <div class="table-responsive">
+            <div class="">
 
             <table class="table ">				
 				
@@ -164,7 +164,7 @@
 @endsection
 
 @section('payment_pending_to_pay')
-    <div class="table-responsive">
+    <div class="">
     <table class="table-hover">
     <thead>
         <tr>           
@@ -204,7 +204,7 @@
 
 
 @section('payment_to_category')
-    <div class="table-responsive">
+    <div class="">
     <table class="table-hover">
     <thead>
         <tr>           
@@ -274,7 +274,7 @@
     <template id="mtemplate">
     </template>
 
-    <div class="table-responsive">
+    <div class="">
     <table class="table2">
             <tr>					
                 <span class="fa fa-plus-circle" style="color:green">&nbsp;&nbsp;</span><a @click="addLine" ><u>Agregar nuevo ítem</u></a>

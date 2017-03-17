@@ -1,11 +1,11 @@
-@extends('home',['title' =>  'Nota Crédito'])
+@extends('home',['title' =>  'Nota Débito'])
 
 @section('content')
 
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nueva Nota Crédito</h2>
+                    <h2 >Nueva Nota Débito</h2>
                     <ol class="breadcrumb">                       
                         <li>
                             <a href="{{route('debit-note.index')}}">Inicio</a>

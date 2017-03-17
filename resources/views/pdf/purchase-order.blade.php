@@ -157,6 +157,8 @@
                                 </div>
                             </div>
 
-                         
+                          <div class="ibox"><br><br><br><br>
+                                     @include('partials.pdf-elaborated_by') 
+                            </div> 
 
 @endsection

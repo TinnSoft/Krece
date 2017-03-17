@@ -138,7 +138,16 @@
                                     </tbody>
                                 </table>                           
                             </div>
-                       
+                            <div class="row">
+                                <div class="panel-body"><br>
+                                    @if (count($creditnote->account) > 0)
+                                    <small><strong>Notas:</strong> {{$creditnote->notes}}</small>
+                                    @endif                                
+                                </div>
+                             </div>
+                        <div class="ibox"><br><br><br><br>
+                                     @include('partials.pdf-elaborated_by') 
+                            </div>  
                         
 @endsection
 

@@ -40,7 +40,7 @@
                         </address>
                   </td>
                   <td style="text-align: right;">
-                       <h2>Comprobante de Egreso No: <a class="text-navy"> {{$payment->resolution_id}}</a></h2>
+                       <h2>Recibo de Caja No: <a class="text-navy"> {{$payment->resolution_id}}</a></h2>
                        
                      
 
@@ -139,6 +139,13 @@
                                     </tbody>
                                 </table>                           
                             </div>
+                             <div class="row">
+                                <div class="panel-body"><br>
+                                    @if (count($payment->account) > 0)
+                                    <small><strong>Notas:</strong> {{$payment->notes}}</small>
+                                    @endif                                
+                                </div>
+                             </div>
                             <div class="ibox"><br><br><br><br>
                                      @include('partials.pdf-elaborated_by') 
                             </div>   

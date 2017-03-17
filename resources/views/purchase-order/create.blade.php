@@ -75,7 +75,7 @@
                 quantity: 1,
                 tax_id:'',                
                 tax_amount: 0,
-                tax_value:null
+                taxes:null
            }]
         };
 

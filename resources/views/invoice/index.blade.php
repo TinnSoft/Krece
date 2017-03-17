@@ -60,7 +60,7 @@
         window.open('/invoice/'+val+'/pdf', '_blank');
     },
     AddPayment: function(val){
-        window.location='/payment/create?in='+val;     
+        window.location='/payment-in/create?'+val;     
     },
     goShow: function(val){
         window.location = '/invoice/'+val;

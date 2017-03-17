@@ -19,7 +19,7 @@
 
         <div id="debitnote_index" class="jqGrid_wrapper">            
        
-           <div class="ibox-content">  
+           <div class="row">  
                 <table id="debitnote-grid"></table>
                 <div id="pager_list_2"></div>     
             </div>        
@@ -46,8 +46,17 @@
                     { label: 'Por aplicar', name: 'amount_pending_to_apply', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
+                autoresizeOnLoad: true,
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
+                autowidth: true,
+                shrinkToFit: true,
+                autoResizing: {
+                    compact: true
+                    },
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },             
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -65,7 +74,7 @@
                         $("#debitnote-grid").show();
                         emptyMsgDiv.hide();
                     };
-                    resizewidth();
+                    //resizewidth();
                 },         
                 pager:"#pager_list_2"
             });

@@ -108,23 +108,50 @@ class Helper
                ->get()
                ->toArray();
     }
-    public static function productlist()
+
+    //Cuando la variable $INV es diferente de null entonces trae únicamente los ítems inventariables
+    //Caso contrario trae todos los productos activos
+    public static function productlist($Inv=null)
     {
-        return Product::select('id', 'name','description','sale_price','reference')
+       $query=  Product::select('id', 'name','description','sale_price','reference')
                     ->where('account_id',  Auth::user()->account_id)
                     ->where('isDeleted',  0)
-                ->orderBy('created_at', 'asc')
+                    ->where('isActive',  1)
+                ;
+          if ($Inv==true)
+          {
+               $query= $query->where('inv_inStock',  1);
+          }
+        
+        return $query 
+                ->orderBy('created_at', 'asc') 
                 ->get()
                 ->toArray();
     }
 
+   
+
      public static function category_outcome()
     {
-        return Category::select('id', 'name')
+        //pendiente adicionar la lista de productos
+        /*
+        $collection = ["id"=> null,
+                "name"=> "Productos Inventariables",
+                "type_id"=> null,
+                "detail"=> [Helper::productlist(true)]
+                ];
+
+        $collection = $collection->each(function ($item, $key) {
+            
+        }); */
+
+
+        return Category::with('detail')
+                    ->select('id', 'name','type_id')
                     ->where('account_id',  Auth::user()->account_id)
                     ->where('isDeleted',  0)
-                    ->where('type_id',2)
-                     ->where('parent_id',"!=",  null)
+                    ->whereIn('type_id', [2])
+                    ->whereIsRoot()
                 ->orderBy('created_at', 'asc')
                 ->get()
                 ->toArray();

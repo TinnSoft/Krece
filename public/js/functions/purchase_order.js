@@ -40,9 +40,9 @@ var appPO = new Vue({
     },
 
     onInputTax: function (val) {
-      if (val.tax_value) {
-        val.tax_amount = val.tax_value.value;
-        val.tax_id=val.tax_value.id;
+      if (val.taxes) {
+        val.tax_amount = val.taxes.value;
+        val.tax_id = val.taxes.id;
       }
       else {
         val.tax_amount = "";
@@ -188,10 +188,11 @@ var appPO = new Vue({
     },
 
     TaxesTotal: function () {
-      var TaxTot = this.form.detail.reduce(function (carry, detail) {
+     
+       var TaxTot = this.form.detail.reduce(function (carry, detail) {
         return carry + ((((parseFloat(detail.quantity) * parseFloat(detail.unit_price))
           - ((parseFloat(detail.quantity) * parseFloat(detail.unit_price)) * parseFloat(detail.discount)) / 100) *
-          parseFloat(detail.tax_amount))) / 100;
+           parseFloat(isNaN(detail.tax_amount) || detail.tax_amount=='' ? 0 : detail.tax_amount))) / 100;
       }, 0);
 
       this.form.total_taxes = isNaN(TaxTot) ? 0 : TaxTot;

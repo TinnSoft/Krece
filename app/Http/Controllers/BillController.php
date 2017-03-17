@@ -27,7 +27,7 @@ class BillController extends Controller
 {
 
     public function index()
-    {
+    {  
         return view('bill.index');  
     }
 
@@ -265,7 +265,6 @@ class BillController extends Controller
 
     public function pdf($id, Request $request)
     {
-        Carbon::setLocale('es');
 
          $bill = Bill::with('account','detail')
                     ->GetByPublicId(0,$id)
@@ -294,8 +293,7 @@ class BillController extends Controller
             $data = $request->all(); 
             $data['status_id']= (int)$data['status_id'];             
 
-            $item = Bill::findOrFail($id);
-              
+            $item = Bill::findOrFail($id);              
             $item->update($data);
 
             event(new RecordActivity('Update','Se actualizó el estado de la factura de venta número: ' 

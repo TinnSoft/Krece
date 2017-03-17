@@ -16,8 +16,8 @@
   {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
 
     <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-sm-4">
-                    <h2><span class="fa fa-group"></span>   Gestión de Contactos</h2>
+                <div class="col-sm-5">
+                    <h2><span class="fa fa-group"></span> Gestión de Contactos</h2>
                     <ol class="breadcrumb">
                         <li class="active">
                             <strong>Inicio</strong>      
@@ -29,7 +29,6 @@
 
     <div id="contact2"  class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
-                <div class="col-sm-8">
                     <div class="ibox">
                         <div class="ibox-content">  
                             <a href="{{route('contact.create')}}" class="btn btn-primary btn-sm pull-right"> 
@@ -38,13 +37,11 @@
                      
                         <div class="ibox-content">      
                              <div class="row">
-                                  <div id="tab-1" class="tab-pane active">
-                                
+                                  <div id="tab-1" class="tab-pane active">                                
                                  @include('contact.contact-grid') 
                               </div>  </div>                
                         </div>  
                     </div>
-                </div>
             </div>
         </div>
 

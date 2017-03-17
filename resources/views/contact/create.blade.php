@@ -5,7 +5,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nuevo contacto</h2>
+                    <h2 ><span class="fa fa-group"></span> Nuevo contacto</h2>
                     <ol class="breadcrumb">                       
                         <li>
                             <a href="{{route('contact.index')}}">Inicio</a>

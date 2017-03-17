@@ -300,22 +300,23 @@ class PurchaseOrderController extends Controller
 
      public static function getInvoiceHistory($public_id)
     {
+        /*
         $payment_historical=
-            DB::table('invoice_supplier_order')            
-            ->Join('payment_history', 'invoice_supplier_order.id', '=', 'payment_history.invoice_supplier_order_id')
+            DB::table('purchase_order')            
+            ->Join('payment_history', 'purchase_order.id', '=', 'payment_history.purchase_order_id')
             ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
             ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
             ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
-             ->where('invoice_supplier_order.public_id',$public_id)   
-            ->where('invoice_supplier_order.account_id',Auth::user()->account_id)
-              ->where('invoice_supplier_order.isDeleted',0)   
+             ->where('purchase_order.public_id',$public_id)   
+            ->where('purchase_order.account_id',Auth::user()->account_id)
+              ->where('purchase_order.isDeleted',0)   
               ->where('payment.isDeleted',0)  
             ->select('payment.date','payment.resolution_id','payment.status_id', 'payment_status.description as status','payment_method.name as payment_method', 
                  DB::raw('SUM(payment_history.amount) as total_payed'),'payment.observations','payment.public_id'
                  )
             ->groupBy('payment.date','payment.resolution_id', 'payment_status.description','payment_method.name', 
                'payment.observations','payment.public_id','payment.status_id')
-            ->orderby('invoice_supplier_order.resolution_id','desc')
+            ->orderby('purchase_order.resolution_id','desc')
             ->get();
 
             foreach($payment_historical as $item) 
@@ -325,5 +326,7 @@ class PurchaseOrderController extends Controller
             }
 
             return  $payment_historical;
+            */
+            return [];
     }
 }
