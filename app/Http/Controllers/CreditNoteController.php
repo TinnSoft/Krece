@@ -194,7 +194,6 @@ class CreditNoteController extends Controller
             return new CreditNoteDetail($detail);
         });
         
-     
 
         if($products->isEmpty()) {
             return response()

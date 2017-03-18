@@ -24,7 +24,7 @@
                                        <div class="ibox-title">
                                        
                                             <p>
-                                                <a href="{{route('estimate.index')}}" class="btn btn-info btn-sm "> 
+                                                <a href="{{route('invoice.edit', $estimate->public_id)}}?convert=toInvoice" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
                                                 
                                                 <a href="{{route('estimate.edit', $estimate->public_id)}}" class="btn btn-info btn-sm "> 

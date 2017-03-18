@@ -25,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale(config('app.locale'));
+
+        $this->app->bind('App\Contracts\IContactsRepository', 'App\Repositories\ContactsRepository');
+        $this->app->bind('App\Contracts\IProductsRepository', 'App\Repositories\ProductsRepository');
     }
 }

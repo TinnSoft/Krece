@@ -8,6 +8,7 @@ var app = new Vue({
   },
   data: function () {
     return {
+      defaultCustomerID:null,
       isProcessing: false,
       name: '',
       form: {},
@@ -25,6 +26,16 @@ var app = new Vue({
     var vm = this;
     vm.fetchData();
     Vue.set(vm.$data, 'form', _form);
+
+    var searchCustomerId = window.location.search.substr(1);
+    if (searchCustomerId)
+    {
+      var result = searchCustomerId.split("/")[1];
+      if (result && isNaN(result)==false)
+      {
+        vm.defaultCustomerID=result;
+      }
+    }
   },
   beforeMount() {
     var vm = this;
@@ -33,7 +44,15 @@ var app = new Vue({
   },
 
   methods: {
-
+    selectCustomerbyDefault: function (val) {
+      var vm=this;
+       vm.customer_list.forEach(function (item) {
+            if (item.public_id == val) {
+              Vue.set(vm.$data.form, 'contact', item);
+              Vue.set(vm.$data.form, 'customer_id', item.id);          
+            };            
+          });         
+    },
     onInputContact: function (val) {
       if (val) {
         this.form.customer_id = val.id;        
@@ -115,7 +134,12 @@ var app = new Vue({
           Vue.set(vm.$data, 'product_list', response.data.productlist);
           Vue.set(vm.$data, 'taxes', response.data.taxes);
 
-          
+          if (vm.defaultCustomerID)
+            {
+              vm.selectCustomerbyDefault(vm.defaultCustomerID);
+               
+            }
+            
           if (vm.$data.form.resolution_id == "") {
             vm.$data.form.resolution_id = response.data.resolution_id.number;
           }

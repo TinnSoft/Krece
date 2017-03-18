@@ -25,12 +25,14 @@
                                        <div class="ibox-title">
                                        
                                             <p>
-                                                <a href="{{route('contact.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Crear factura de venta</a> 
-                                                
-                                                <a href="{{route('contact.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Crear factura de compra</a> 
-
+                                                @if ($contact->isCustomer==1)
+                                                    <a href="{{route('invoice.create')}}?customer/{{$contact->public_id}}" class="btn btn-info btn-sm "> 
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Crear factura de venta</a> 
+                                                @endif
+                                                @if ($contact->isProvider==1)
+                                                    <a href="{{route('bill.create')}}?customer/{{$contact->public_id}}" class="btn btn-info btn-sm "> 
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Crear factura de compra</a> 
+                                                @endif
                                                 <a href="{{route('contact.edit', $contact->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
                                                 

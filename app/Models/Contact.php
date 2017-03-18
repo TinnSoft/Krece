@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Contact extends Model
 {
@@ -37,5 +38,13 @@ class Contact extends Model
     {
         return $this->hasOne(PaymentTerms::class, 'id', 'payment_terms_id')->select(array('id', 'name'));        
     }
-    
+    public function scopeGetCustomerAttributes($query)
+    {
+        return $query->where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted', 0)                       
+                ->select('id', 'name','nit','address','account_id','user_id','public_id','city','email','phone1','phone2','fax',
+                    'phone_mobile','list_price_id','seller_id','payment_terms_id','observation','include_account_state',
+                    'isProvider','isCustomer');
+
+    }
 }

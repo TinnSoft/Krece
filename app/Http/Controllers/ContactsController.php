@@ -13,19 +13,20 @@ use App\Models\{
     Seller,
     ListPrice
 };
-use App\Repositories\ContactRepository;
+use App\Contracts\IContactsRepository;
 use App\Repositories\PaymentRepository;
-use Illuminate\Support\Facades\DB;
+use DB;
+use App\Utilities\Helper;
 
 class ContactsController extends Controller
 {
 
-      protected $contactRepo;
+      protected $contactsRepo;
       protected $paymentRepo;
 
-     public function __construct(ContactRepository $contactRepo, PaymentRepository $paymentRepo)
+     public function __construct(IContactsRepository $contactsRepo, PaymentRepository $paymentRepo)
      {
-        $this->contactRepo = $contactRepo;
+        $this->contactsRepo = $contactsRepo;
         $this->paymentRepo = $paymentRepo;
     }
     
@@ -36,73 +37,41 @@ class ContactsController extends Controller
     }
 
  
+    //Filtra los contactos dependiendo de su tipo
+    //tipos: Cliente, proveedor, todos
     public function ContactIndex($condition=null)
     {
 
         $contacts=null;
-
-         if ($condition==CONTACT_IS_CUSTOMER)
+         switch ($condition)
         {
-            $contacts = Contact::where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted', 0)     
-                ->where('isCustomer',  1)           
-                ->select( 'name','nit','address','account_id','user_id','public_id','city','email','phone1','phone2','fax',
-                    'phone_mobile','list_price_id','seller_id','payment_terms_id','observation','include_account_state',
-                    'isProvider','isCustomer'
-               )->get();    
-        }
-         elseif ($condition==CONTACT_IS_PROVIDER)
-        {
-            $contacts = Contact::where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)    
-                ->where('isProvider',  1)           
-                ->select( 'name','nit','address','account_id','user_id','public_id','city','email','phone1','phone2','fax',
-                    'phone_mobile','list_price_id','seller_id','payment_terms_id','observation','include_account_state',
-                    'isProvider','isCustomer'
-               )->get();    
-        }
-        else{
-             $contacts = Contact::where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)             
-                 ->select( 'name','nit','address','account_id','user_id','public_id','city','email','phone1','phone2','fax',
-                    'phone_mobile','list_price_id','seller_id','payment_terms_id','observation','include_account_state',
-                    'isProvider','isCustomer'
-               )->get();    
+            case CONTACT_IS_CUSTOMER;
+                $contacts = Contact::GetCustomerAttributes()
+               ->where('isCustomer',  1)->get();   
+                break;
+            
+            case CONTACT_IS_PROVIDER;
+                 $contacts = Contact::GetCustomerAttributes()
+               ->where('isProvider',  1)->get();   
+                break;
 
-        }
-          
+            default;
+                $contacts = Contact::GetCustomerAttributes()->get();  
+                break;
+
+        };
+
         return response()->json($contacts);
   
     }
 
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
     public function BaseInfo()
-    {
-    
-        $paymentTerms = PaymentTerms::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                 ->where('isDeleted',  0)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
-        $sellers = Seller::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-                ->where('isEnabled',  1)
-               ->orderBy('created_at', 'asc')
-               ->get();
-
-        $listPrice = ListPrice::select('id', 'name')
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-                ->where('isEnabled',  1)
-               ->orderBy('created_at', 'asc')
-               ->get();
-        
+    {        
         $baseInfo=[                
-                'paymentterms' => $paymentTerms,
-               'sellers'=>$sellers,
-               'listprice'=>$listPrice              
+                'paymentterms' => Helper::PaymentTerms(),
+               'sellers'=>Helper::sellers(),
+               'listprice'=>Helper::listPrice()           
             ];
              
      return response()->json($baseInfo);
@@ -126,14 +95,7 @@ class ContactsController extends Controller
         foreach($request->contact_others as $item) {
               if($item['name'])
               {
-                  if ( $item['notify']==true)
-                  {
-                        $item['notify']=1;
-                  }
-                  if ( $item['notify']==false)
-                  {
-                       $item['notify']=0;
-                  }
+                $item['notify']=Helper::convertBooleanToInt( $item['notify']);
                 $item['account_id'] = Auth::user()->account_id; 
                 $item['user_id'] = Auth::user()->id;      
                 $items[] = new Contact_others($item);
@@ -143,44 +105,17 @@ class ContactsController extends Controller
           
         $data = $request->except('contact_others');  
 
-         
-
         $currentPublicId = Contact::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
         $data['public_id'] = $currentPublicId;
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;      
 
-        if ($data['isProvider']==true)
-        {
-            $data['isProvider']=1;
-        }
-         if ($data['isCustomer']==true)
-        {
-            $data['isCustomer']=1;
-        }
-
-        if ($data['isProvider']==null)
-        {
-            $data['isProvider']=0;
-        }
+        $data['isProvider']=Helper::convertBooleanToInt($data['isProvider']);
+        $data['isCustomer']=Helper::convertBooleanToInt($data['isCustomer']);
+        $data['include_account_state']=0; 
         
-        if ($data['isCustomer']==null)
-        {
-            $data['isCustomer']=0;
-        }
-         $data['include_account_state']=0; 
-         
-        try
-        {
-       $contact = Contact::create($data);
-        }
-        catch(\exception $e){
-               return response()
-            ->json([
-                '2' => [$e]
-            ], 422);
-        }
-     
+        $contact = Contact::create($data);
+       
         $contact->contact_others()->saveMany($items);
      
         return response()
@@ -190,16 +125,22 @@ class ContactsController extends Controller
             ]);
     }
 
-    public function show($id)
+    private function convertBooleanToInt($data)
     {
-       
+        if ($data==true)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    public function show($id)
+    {       
 
         $contact = Contact::with('contact_others')
-                ->where('account_id',  Auth::user()->account_id)
+                ->GetCustomerAttributes()
                 ->where('public_id',  $id)
-                ->where('isDeleted',  0)
                 ->first();   
-      
 
         if (!$contact)
         {
@@ -215,19 +156,13 @@ class ContactsController extends Controller
     }
 
   
-
     public function edit($id)
     {
          $contact = Contact::with(['list_price','seller','payment_terms','contact_others'])
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('public_id',  $id)
-                ->where('isDeleted',  0)
+                ->GetCustomerAttributes()
+                ->where('public_id',  $id)              
                 ->orderBy('created_at', 'desc')
-                ->select( 'id','name','nit','address','account_id','user_id','public_id','city','email','phone1','phone2','fax',
-                    'phone_mobile','list_price_id','seller_id','payment_terms_id','observation','include_account_state',
-                    'isProvider','isCustomer'
-                )->first();    
-
+                ->first();    
         
          if (!$contact)
         {
@@ -237,7 +172,6 @@ class ContactsController extends Controller
             );
           return redirect('/contact')->with($notification);
         }
-
  
          return view('contact.edit', compact('contact'));
          
@@ -255,14 +189,7 @@ class ContactsController extends Controller
         foreach($request->contact_others as $item) {
               if($item['name'])
               {
-                  if ( $item['notify']==true)
-                  {
-                        $item['notify']=1;
-                  }
-                  if ( $item['notify']==false)
-                  {
-                       $item['notify']=0;
-                  }
+                $item['notify']=Helper::convertBooleanToInt($item['notify']);
                 $item['account_id'] = Auth::user()->account_id; 
                 $item['user_id'] = Auth::user()->id;      
                 $items[] = new Contact_others($item);
@@ -273,14 +200,8 @@ class ContactsController extends Controller
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;     
 
-        if ($data['isProvider']==true)
-        {
-            $data['isProvider']=1;
-        }
-         if ($data['isCustomer']==true)
-        {
-            $data['isCustomer']=1;
-        }
+        $data['isProvider']=Helper::convertBooleanToInt($data['isProvider']);
+        $data['isCustomer']=Helper::convertBooleanToInt($data['isCustomer']);
         
         
         $contact = Contact::findOrFail($id);
@@ -304,36 +225,37 @@ class ContactsController extends Controller
             ]);
     }
     
+    //Obtener todos los reportes segun el filtro específico por cliente
     public function getContactReports($process_type, $contact_id)
     {
+        $contact_field='customer_id';
         switch ($process_type)
         {
             case 'remision';
-                return $this->contactRepo->getRemisionList($contact_id);
+                return $this->contactsRepo->getRemisionList($contact_id,$contact_field);
                 break;
             case 'estimate';
-                return $this->contactRepo->getEstimateList($contact_id);
+                return $this->contactsRepo->getEstimateList($contact_id,$contact_field);
                 break;
             case 'invoice';
-                return $this->contactRepo->getInvoiceList($contact_id);
+                return $this->contactsRepo->getInvoiceList($contact_id,$contact_field);
                 break;
             case 'bill';
-                return $this->contactRepo->getBillList($contact_id);
+                return $this->contactsRepo->getBillList($contact_id,$contact_field);
                 break;
             case 'credit_note';
-                return $this->contactRepo->getCreditNoteList($contact_id);
+                return $this->contactsRepo->getCreditNoteList($contact_id,$contact_field);
                 break;
             case 'debit_note';
-                return $this->contactRepo->getDebitNoteList($contact_id);
+                return $this->contactsRepo->getDebitNoteList($contact_id,$contact_field);
                 break;
             case 'po';
-                return $this->contactRepo->getPOList($contact_id);
+                return $this->contactsRepo->getPOList($contact_id,$contact_field);
                 break;
             case 'payment';
                 return $this->paymentRepo->getTransactions($contact_id,'customer_id');
                 break;
                  
-
         };
     }
 

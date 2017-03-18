@@ -8,6 +8,8 @@ var app = new Vue({
   },
   data: function () {
     return {
+      defaultCustomerID:null,
+      defaultProductID:null,
       wasSetByDefault: false,
       isProcessing: false,
       name: '',
@@ -32,6 +34,27 @@ var app = new Vue({
     Vue.set(vm.$data, 'form', _form);
     Vue.set(vm.$data.form, 'ResolutionIsAutoNumeric', false);
 
+    var searchCustomerId = window.location.search.substr(1);
+    if (searchCustomerId)
+    {
+      if (searchCustomerId.split("/")[0]=='customer')
+      {
+        var result = searchCustomerId.split("/")[1];
+        if (result && isNaN(result)==false)
+        {
+          vm.defaultCustomerID=result;
+        }
+      }
+      if (searchCustomerId.split("/")[0]=='item')
+      {
+        var result = searchCustomerId.split("/")[1];
+        if (result && isNaN(result)==false)
+        {
+          vm.defaultProductID=result;
+        }
+      }
+    }
+
   },
   beforeMount() {
     var vm = this;
@@ -40,7 +63,39 @@ var app = new Vue({
   },
 
   methods: {
+    selectCustomerbyDefault: function (val) {
+      var vm=this;
+       vm.customer_list.forEach(function (item) {
+            if (item.public_id == val) {
+              Vue.set(vm.$data.form, 'contact', item);
+              Vue.set(vm.$data.form, 'customer_id', item.id);          
+            };            
+          });         
+    },
+    selectProductDefault: function (val) {
+      var vm=this;
+    
+       vm.product_list.forEach(function (item) {
+         
+            if (item.public_id == val) {
+              vm.form.detail.splice(0, 1);
 
+              vm.form.detail.push({
+                product_id: item.id,
+                product:item,
+                name: item.name,
+                ref:item.reference,
+                description: item.description,
+                unit_price: item.sale_price,
+                discount: 0,
+                quantity: 1,
+                tax_amount: 0
+              });
+              //Vue.set(vm.$data.form, 'product', item);
+              //Vue.set(vm.$data.form, 'product_id', item.id);          
+            };            
+          });         
+    },
     checkNumeration: function () {
       var vm = this;
       if (vm.numerationList_sale_order.length > 1) {
@@ -205,6 +260,17 @@ var app = new Vue({
           Vue.set(vm.$data, 'numerationList_sale_order', response.data.numerationList_sale_order);
        
           Vue.set(vm.$data.form, 'resolution_number', response.data.resolution_id['next_invoice_number']);
+           
+           if (vm.defaultCustomerID)
+            {
+              vm.selectCustomerbyDefault(vm.defaultCustomerID);
+               
+            }
+            if (vm.defaultProductID)
+            {
+              vm.selectProductDefault(vm.defaultProductID);
+               
+            }
 
           vm.numerationList_sale_order.forEach(function (item) {
             if (item.isDefault == 1) {

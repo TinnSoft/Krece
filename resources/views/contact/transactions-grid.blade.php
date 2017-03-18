@@ -30,22 +30,21 @@
             jQuery.jgrid.no_legacy_api = true;
 
             var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
-            "<h3><i class='fa fa-exclamation'></i> Aún no tienes ninguna transacción creada!</h3>" +
-            " <div class='ibox-content ibox-heading'><a href='{{route('contact.index')}}' class='btn btn-primary btn-outline btn-sm '>" +
-                                                "<span class='fa fa-plus '></span>&nbsp;Nueva transacción</a> </div></div> '");
+            "<h3></i><small> ! Aún no existen movimientos registrados !</small></h3>" +
+                                                "</div> '");
 
      
               //on load -> crear tabla
                  var _colModelx=[
                      { label: 'Pago No', name: 'public_id', index: 'public_id', width: 75, align:"center",sorttype: "text" },
                      { label: 'Fecha', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
-                     { label: 'Detalle', name: 'detail', index: 'detail', width: 75, sorttype: "text" },
+                     { label: 'Detalle', name: 'detail', index: 'detail',  sorttype: "text" },
                      { label: 'Salidas', name: 'total_outcome', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      { label: 'Entradas', name: 'total_income', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                  ];
                  createGrid('payment',{!!$contact->id!!}, _colModelx,'Pagos','#pager_list_2');
             
-            //Facturas de venta
+            //Pagos/transacciones
              $("#payment").on("click", function(){ 
 
                    var _colModelx=[

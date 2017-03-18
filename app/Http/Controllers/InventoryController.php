@@ -15,16 +15,19 @@ use App\Models\{
     Product
 };
 use App\Utilities\Helper;
-use App\Repositories\ProductRepository;
-use Illuminate\Support\Facades\DB;
+use App\Contracts\IProductsRepository;
+use DB;
+use App\Repositories\PaymentRepository;
 
 class InventoryController extends Controller
 {
     protected $productRepo;
+    protected $paymentRepo;
 
-     public function __construct(ProductRepository $productRepo)
+     public function __construct(IProductsRepository $productRepo, PaymentRepository $paymentRepo)
      {
         $this->productRepo = $productRepo;
+        $this->paymentRepo = $paymentRepo;
     }
     
     
@@ -134,15 +137,32 @@ class InventoryController extends Controller
     }
 
     public function getInventoryReports($process_type, $product_id)
-    {
+    {      
+        $filter_field='product_id';
         switch ($process_type)
         {
             case 'remision';
-                return $this->productRepo->getRemisionList($product_id);
+                return $this->productRepo->getRemisionList($product_id, $filter_field);
                 break;
             case 'estimate';
-                return $this->productRepo->getEstimateList($product_id);
+                return $this->productRepo->getEstimateList($product_id, $filter_field);
                 break;
+            case 'invoice';
+                return $this->productRepo->getInvoiceList($product_id, $filter_field);
+                break;
+            case 'bill';
+                return $this->productRepo->getBillList($product_id, $filter_field);
+                break;
+            case 'credit_note';
+                return $this->productRepo->getCreditNoteList($product_id, $filter_field);
+                break;
+            case 'debit_note';
+                return $this->productRepo->getDebitNoteList($product_id, $filter_field);
+                break;
+            case 'po';
+                return $this->productRepo->getPOList($product_id, $filter_field);
+                break;
+                 
         };
     }
 

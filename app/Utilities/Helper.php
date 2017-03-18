@@ -113,7 +113,7 @@ class Helper
     //Caso contrario trae todos los productos activos
     public static function productlist($Inv=null)
     {
-       $query=  Product::select('id', 'name','description','sale_price','reference')
+       $query=  Product::select('id', 'name','description','sale_price','reference','public_id')
                     ->where('account_id',  Auth::user()->account_id)
                     ->where('isDeleted',  0)
                     ->where('isActive',  1)
@@ -165,6 +165,7 @@ class Helper
                 ->orderBy('created_at', 'asc')
                 ->get()
                 ->toArray();
+        
     }
 
     public static function ResolutionId($model,$key)
@@ -247,4 +248,12 @@ class Helper
             return  Helper::_taxesFormatter($taxes);
         }
 
+    public static function convertBooleanToInt($data)
+    {
+        if ($data==true)
+        {
+            return 1;
+        }
+        return 0;
+    }
 }

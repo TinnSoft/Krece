@@ -51,4 +51,12 @@ class Category extends Model
         $this->setParentIdAttribute($value);
     }
 
+    public function scopeCategoryAttributes($query)
+    {
+        return $query->where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)               
+                ->defaultOrder()
+                ->select('id','name','description','lft','rgt','parent_id','isEditable','niif_account')
+                ->withDepth();
+    }
 }

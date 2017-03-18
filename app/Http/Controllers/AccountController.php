@@ -11,6 +11,7 @@ use App\Models\{
 };
 use App\Events\SettingsChanged;
 use App\Http\Controllers\AppController;
+use App\Utilities\Helper;
 
 class AccountController extends Controller
 {
@@ -26,16 +27,9 @@ class AccountController extends Controller
        
         $data['account_id'] = Auth::user()->account_id;
         $data['user_id'] = Auth::user()->id;   
-
-        if ($data['isProvider']==true)
-        {
-            $data['isProvider']=1;
-        }
-         if ($data['isCustomer']==true)
-        {
-            $data['isCustomer']=1;
-        }
-        
+        $data['isProvider']=Helper::convertBooleanToInt($data['isProvider']);
+        $data['isCustomer']=Helper::convertBooleanToInt($data['isCustomer']);
+               
         $contact = Contact::create($data);
 
         $routecall= (new AppController)->setLogo();

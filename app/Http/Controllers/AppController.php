@@ -24,8 +24,6 @@ class AppController extends Controller
     public function index()
     {
         if(Auth::check()) {      
-            
-            
 
              return view('main.dashboard',
                 ['title'=>'Bienvenido',
@@ -118,8 +116,7 @@ class AppController extends Controller
                                 ->sum('total');
 
         $totalWeek= InvoiceSaleOrder::AccountID(0)
-                                 ->where(DB::Raw('week(created_at)'), '=', Carbon::now()->weekOfYear)
-                                //->where('created_at','>=',Carbon::now()->subWeeks(1)->toDateString())                           
+                                 ->where(DB::Raw('week(created_at)'), '=', Carbon::now()->weekOfYear)                       
                                 ->sum('total');                     
         
          $data= collect(["day"=>$totalDay,

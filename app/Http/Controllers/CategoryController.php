@@ -20,30 +20,17 @@ class CategoryController extends Controller
  
     public function CategoryIncome()
     {
-        //$parent = Category2::find(10);
-        //$node->appendToNode($parent)->save();
-       
         $income = Category::where('type_id',  CATEGORY_TYPE_INCOME)
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
                 ->where('parent_id',"!=",  null)
-                ->defaultOrder()
-                ->select('id','name','description','lft','rgt','parent_id','isEditable','niif_account')
-                ->withDepth()               
+                ->CategoryAttributes()              
                 ->get();
 
         return response()->json($income);  
     }
 
     public function CategoryAll()
-    {
-         $categories = Category::where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)               
-                ->defaultOrder()
-                ->select('id','name','description','lft','rgt','parent_id','isEditable','niif_account')
-                ->withDepth()               
-                ->get();
-
+    {   
+        $categories=  Category::CategoryAttributes()->get();
         return response()->json($categories);  
     }
         

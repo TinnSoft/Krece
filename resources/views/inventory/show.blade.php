@@ -23,12 +23,12 @@
                                        <div class="ibox-title">
                                        
                                             <p>
-                                                <a href="{{route('inventory.index')}}" class="btn btn-info btn-sm ">
-                                                <span class="fa fa-edit"></span>Facturar este item</a> 
-                                                
+                                                <a href="{{route('invoice.create')}}?item/{{$products->public_id}}" class="btn btn-info btn-sm ">
+                                                <span class="fa fa-edit"></span>&nbsp;Facturar este item</a> 
+                                                <!--
                                                 <a href="{{route('inventory.index')}}" class="btn btn-info btn-sm "> 
                                                 <span class="fa fa-share-square-o"></span>&nbsp;Comprar este ítem</a> 
-
+                                                -->
                                                 <a href="{{route('inventory.edit', $products->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
                                                 
@@ -151,14 +151,13 @@
                                             </div>
                                         </div>
                                         <div class="ibox-content">
-                                            <a id="">Transacciones</a><br>
                                             <a id="invoice">Facturas de venta</a><br>
-                                            <a id="">Facturas de compra</a><br>
-                                            <a id="">Notas crédito</a><br>
-                                            <a id="">Notas débito</a><br>
+                                            <a id="bill">Facturas de compra</a><br>
+                                            <a id="credit_note">Notas crédito</a><br>
+                                            <a id="debit_note">Notas débito</a><br>
                                             <a id="estimate">Cotizaciones</a><br>
                                             <a id="remision">Remisiones</a><br>
-                                            <a id="">Ordenes de compra</a>
+                                            <a id="po">Ordenes de compra</a>
                                         </div>
                                     </div>
                                 </div>

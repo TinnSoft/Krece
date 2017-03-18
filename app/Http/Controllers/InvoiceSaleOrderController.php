@@ -17,7 +17,8 @@ use App\Models\{
     Product,
     ResolutionNumber,
     Resolution,
-    Category
+    Category,
+    Estimate
 };
 use App\Utilities\Helper;
 use PDF;
@@ -135,7 +136,7 @@ class InvoiceSaleOrderController extends Controller
                 
                 return response()->json($baseInfo);
                 
-        }
+    }
         
         public function create()
         {
@@ -262,6 +263,42 @@ class InvoiceSaleOrderController extends Controller
             ->GetSelectedFields()
             ->first();
             
+            if (request()->get('convert')=='clone')
+            {
+                $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
+                $invoice['public_id']= $PublicId;
+                $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
+                $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
+                $invoice['notes']=null;
+                return view('invoice.clone', compact('invoice'));
+            }
+
+             if (request()->get('convert')=='toInvoice')
+            {
+               
+                 $invoice = Estimate::with(['detail','contact','list_price','currency','seller'])
+                    ->GetByPublicId(0,$id)
+                    ->GetSelectedFields()
+                    ->first();
+                
+                $resolutionID=Resolution::select('next_invoice_number')
+                    ->where('isDefault',1)
+                    ->where('account_id',Auth::user()->account_id)
+                    ->where('isDeleted',0)
+                    ->where('isActive',1)
+                    ->first();
+
+                 //dd($resolutionID->next_invoice_number);
+
+                $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
+                $invoice['public_id']= $PublicId;
+                $invoice['resolution_id']= $resolutionID->next_invoice_number;
+                $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
+                $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
+                $invoice['notes']=null;
+                return view('invoice.createFromEstimate', compact('invoice'));
+            }
+            
             
             if (!$invoice)
             {
@@ -276,15 +313,6 @@ class InvoiceSaleOrderController extends Controller
             $invoice['date']= Helper::setCustomDateFormat(Carbon::parse($invoice['date']));
             $invoice['due_date']= Helper::setCustomDateFormat(Carbon::parse($invoice['due_date']));
             
-            if (request()->get('convert')=='clone')
-            {
-                $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
-                $invoice['public_id']= $PublicId;
-                $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
-                $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
-                $invoice['notes']=null;
-                return view('invoice.clone', compact('invoice'));
-            }
             
             return view('invoice.edit', compact('invoice'));
         }

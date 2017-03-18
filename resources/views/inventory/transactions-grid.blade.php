@@ -30,21 +30,74 @@
         $(document).ready(function () {  
             jQuery.jgrid.no_legacy_api = true;
 
-            var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
-            "<h3><i class='fa fa-exclamation'></i> Aún no tienes ninguna transacción creada!</h3>" +
-            " <div class='ibox-content ibox-heading'><a href='{{route('contact.index')}}' class='btn btn-primary btn-outline btn-sm '>" +
-                                                "<span class='fa fa-plus '></span>&nbsp;Nueva transacción</a> </div></div> '");
+              var emptyMsgDiv = $("<div class='ibox-content ibox-heading'>" +
+            "<h3></i><small> ! Aún no existen movimientos registrados !</small></h3>" +
+                                                "</div> '");
 
      
               //on load -> crear tabla
-                 var _colModelx=[{ label: 'cliente2', name: 'name', index: 'name', width: 75, sorttype: "text" } ];
-                 createGrid('remision',{!!$products->id!!}, _colModelx,'Transacciones','#pager_list_2');
+              function state_mask(cellvalue, options, rowObject) {
+                    if (cellvalue==1)
+                    {
+                        return "<p><span class='label label-primary'>"+rowObject.status_description+"</span></p>"
+                    }
+                    else {
+                        return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
+                    };
+                }
 
-           //Facturas de venta
-             $("#invoice").on("click", function(){             
-                
-                 var _colModelx=[{ label: 'proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ];
-                 createGrid('remision',{!!$products->id!!}, _colModelx,'Factura de venta','#pager_list_2');
+                  var _colModelx=[
+                     {label:'No', name:'resolution_id', width: 50, keys: true, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name',  sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Vence en', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Pagado', name: 'total_payed', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Por Pagar', name: 'pending_to_pay', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Estado', name: 'status_id',width: 70,align:"center", formatter:state_mask }
+                     ];
+                 
+                 createGrid('invoice',{!!$products->id!!}, _colModelx,'Factura de venta','#pager_list_2');
+
+             //Facturas de venta
+             $("#invoice").on("click", function(){ 
+
+                function state_mask(cellvalue, options, rowObject) {
+                    if (cellvalue==1)
+                    {
+                        return "<p><span class='label label-primary'>"+rowObject.status_description+"</span></p>"
+                    }
+                    else {
+                        return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
+                    };
+                }
+
+                  var _colModelx=[
+                     {label:'No', name:'resolution_id', width: 50, keys: true, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name',  sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Vence en', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Pagado', name: 'total_payed', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Por Pagar', name: 'pending_to_pay', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Estado', name: 'status_id',width: 70,align:"center", formatter:state_mask }
+                     ];
+                 
+                 createGrid('invoice',{!!$products->id!!}, _colModelx,'Factura de venta','#pager_list_2');
+			})
+              //Facturas de compra
+             $("#bill").on("click", function(){ 
+                  var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Vence en', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Pagado', name: 'total_payed', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                    {label: 'Por Pagar', name: 'pending_to_pay', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     ];
+                 
+                 createGrid('bill',{!!$products->id!!}, _colModelx,'Factura de Compra','#pager_list_2');
 			})
 
             //Remisiones
@@ -58,7 +111,6 @@
                     else {
                         return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
                     };
-                   
                 }
                 
                  var _colModelx=[
@@ -74,8 +126,7 @@
 			})
 
             //Cotizaciones
-            $("#estimate").on("click", function(){    
-              
+            $("#estimate").on("click", function(){  
                 
                  var _colModelx=[
                      {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
@@ -86,6 +137,56 @@
                      
                 ];
                  createGrid('estimate',{!!$products->id!!}, _colModelx,'Cotizaciones','#pager_list_2');
+			})
+
+                //Nota Crédito
+            $("#credit_note").on("click", function(){  
+                
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Por aplicar', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                ];
+                 createGrid('credit_note',{!!$products->id!!}, _colModelx,'Notas Crédito','#pager_list_2');
+			})
+
+                 //Nota Débito
+            $("#debit_note").on("click", function(){  
+                
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Proveedor', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Creación', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                     { label: 'Por aplicar', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
+                ];
+                 createGrid('debit_note',{!!$products->id!!}, _colModelx,'Notas Débito','#pager_list_2');
+			})
+
+                 //Ordenes de COmpra
+            $("#po").on("click", function(){  
+                
+                 function state_mask(cellvalue, options, rowObject) {
+                    if (cellvalue==1)
+                    {
+                        return "<p><span class='label label-primary'>"+rowObject.status_description+"</span></p>"
+                    }
+                    else {
+                        return "<p><span class='label label-warning'>"+rowObject.status_description+"</span></p>"
+                    };
+                }
+
+                 var _colModelx=[
+                     {label:'No', name:'resolution_id',  keys: true,"width":40, index:'public_id',  align:"center"} , 
+                     {label: 'Cliente', name: 'name', index: 'name', width: 75, sorttype: "text" } ,
+                     { label: 'Fecha', name: 'date',  formatter:'date',formatoptions: {newformat: 'd/m/Y'}},
+                      { label: 'Fecha de Entrega', name: 'due_date', formatoptions: {newformat: 'd/m/Y'},  formatter: 'date'},
+                      { label: 'Estado', name: 'status_id',width: 70,align:"center", formatter:state_mask },
+                     { label: 'Total', name: 'total', formatter:'currency',align:"right", formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },                     
+                ];
+                 createGrid('po',{!!$products->id!!}, _colModelx,'Órdenes de Compra','#pager_list_2');
 			})
             
           function dropGrid()
