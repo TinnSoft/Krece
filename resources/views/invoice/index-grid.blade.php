@@ -3,8 +3,7 @@
     {!!Html::style('/themes/krece/css/plugins/jqgrid/ui.jqGrid.css')!!}  
      {!!Html::script('/themes/krece/js/plugins/jqgrid/jquery.jqGrid52.min.js')!!}  
      {!!Html::script('/themes/krece/js/plugins/jquery-layout/jquery.layout.js')!!}
-      {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!}  
-       {!!Html::script('/js/vue-library/vue.min.js')!!}
+      {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!} 
     {!!Html::style('/themes/krece/css/plugins/jqueryui/jquery-ui.css')!!}
     <script>
         moment.locale('es');  
@@ -156,7 +155,7 @@
                     Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer;color:#787674'  onClick=invoiceApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'Eliminar, solo es permitido con facturas en borrador' class='fa fa-remove fa-2x'  style='color:#F3D8D5'/></div><span > </span>";
                     Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#DDB215' onclick=invoiceApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
-                   console.log(rowObject.contact_id);
+                   
                     Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=invoiceApp.AddPayment(\""+rowObject.contact_id+"\")/></div><span > </span>";
                     if (rowObject.status_id==2 )
                     {                    

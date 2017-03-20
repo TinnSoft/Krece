@@ -155,8 +155,8 @@
 
       @push('scripts')
 
-        {!!Html::script('/js/libraries/axios.min.js')!!}
-        {!!Html::script('/js/vue-library/vue.min.js')!!}
+<link type="text/javascript" href="{{asset('js/libraries/accounting.js')}}">
+      
         {!!Html::script('/js/libraries/accounting.js')!!}
         {!!Html::script('/themes/krece/js/plugins/chartJs/Chart.min.js')!!}
         {!!Html::script('/themes/krece/js/plugins/chartJs/vue-charts.js')!!}

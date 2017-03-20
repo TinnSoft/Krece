@@ -4,7 +4,6 @@
      {!!Html::script('/themes/krece/js/plugins/jqgrid/jquery.jqGrid52.min.js')!!}  
      {!!Html::script('/themes/krece/js/plugins/jquery-layout/jquery.layout.js')!!}
       {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!}  
-       {!!Html::script('/js/vue-library/vue.min.js')!!}
     {!!Html::style('/themes/krece/css/plugins/jqueryui/jquery-ui.css')!!}
     <script>
         moment.locale('es');  

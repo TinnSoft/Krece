@@ -12,7 +12,7 @@
 
     <title>{{$title}}</title>
      
-    {!!Html::style('/themes/krece/css/plugins/select2/select2.min.css')!!}
+    <!--{!!Html::style('/themes/krece/css/plugins/select2/select2.min.css')!!}-->
     {!!Html::style('/themes/krece/css/bootstrap.min.css')!!}
     {!!Html::style('/themes/krece/font-awesome/css/font-awesome.css')!!}
     {!!Html::style('/themes/krece/css/animate.css')!!}
@@ -206,7 +206,7 @@
     {!!Html::script('/themes/krece/js/plugins/metisMenu/jquery.metisMenu.js')!!}
     {!!Html::script('/themes/krece/js/plugins/slimscroll/jquery.slimscroll.min.js')!!} 
     {!!Html::script('/themes/krece/js/plugins/pace/pace.min.js')!!}
-    {!!Html::script('/themes/krece/js/plugins/select2/select2.full.min.js')!!}
+    <!--{!!Html::script('/themes/krece/js/plugins/select2/select2.full.min.js')!!}-->
      {!!Html::script('/themes/krece/js/plugins/toastr/toastr.min.js')!!}
      
     {!!Html::script('/js/functions/logo.js')!!}

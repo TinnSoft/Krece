@@ -3,7 +3,6 @@
 
 
 @section('content')
- {!!Html::script('/js/vue-library/vue.min.js')!!}
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-8">

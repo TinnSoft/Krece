@@ -38,13 +38,11 @@
 
 
 @push('scripts')
- 
-    {!!Html::script('/js/libraries/axios.min.js')!!}
+
     {!!Html::script('/js/libraries/moment.min.js')!!}
     {!!Html::script('/themes/krece/js/plugins/datapicker/bootstrap-datepicker.js')!!}    
     {!!Html::style('/themes/krece/css/plugins/datapicker/datepicker3.css')!!}
     {!!Html::script('/js/components/datepicker/datepicker-locale.es.min.js')!!}
-    {!!Html::script('/js/vue-library/vue.min.js')!!}
     {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
     {!!Html::script('/js/libraries/accounting.js')!!}
     <script type="text/javascript">

@@ -10,8 +10,6 @@
         .red {color: red;}
     </style>
 
- {!!Html::script('/js/vue-library/vue.min.js')!!}
-  {!!Html::script('/js/libraries/axios.min.js')!!}
 {!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
   {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
   {!!Html::script('/js/libraries/moment.min.js')!!}
