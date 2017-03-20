@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -23,6 +24,11 @@
     {!!Html::script('/js/libraries/axios.min.js')!!}
     {!!Html::script('/js/vue-library/vue.min.js')!!}
 
+    <style>
+    [v-cloak] {
+    display: none;
+    }
+    </style>
 
 </head>
 
@@ -34,12 +40,14 @@
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
-                        <div id="logo" class="dropdown profile-element"> <span>
-
+                        <div id="logo" class="dropdown profile-element" v-cloak> <span>
+                            
                             <template v-if="logoSrc != ''">
                                   <img alt="image" class="img-circle" :src="logoSrc" style="width: 95px" height="95px" />
                             </template>
-                           
+                            <template v-else>
+                                <img alt="image" src="/logo.png" style="width: 95px" height="75px" />
+                            </template>
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{Auth::user()->email}}</strong>
