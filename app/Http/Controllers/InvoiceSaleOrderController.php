@@ -24,12 +24,15 @@ use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
+use App\Mail\WelcomeAgain;
 
 class InvoiceSaleOrderController extends Controller
 {
     
     public function index()
     {
+        //\Mail::to(Auth::user())->send(new WelcomeAgain());
+
         return view('invoice.index');
     }
     
