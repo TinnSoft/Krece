@@ -15,7 +15,7 @@ class ListPrice extends Model
     
     protected $fillable=[
         'public_id','name','type_id','account_id','user_id',
-        'value','status_id','id','isEnabled'
+        'value','id','isEnabled','isDefault'
     ];
     protected $dates = ['deleted_at','created_at'];
     

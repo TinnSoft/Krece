@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\Welcome;
+use App\Utilities\DataFillNewUsers;
 
 class RegisterController extends Controller
 {
@@ -27,16 +29,18 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
+    protected $fillNewuser;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DataFillNewUsers $fillNewuser)
     {
         $this->middleware('guest');
+        $this->fillNewuser = $fillNewuser;
     }
 
     /**
@@ -49,7 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:user',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -62,10 +66,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $this->fillNewuser->fill($user);
+
+        $this->sendWelcomeEmail($user);
+
+        return $user;
+    }
+
+    private static function sendWelcomeEmail($user)
+    {
+        \Mail::to($user)->send(new Welcome($user->name));
     }
 }

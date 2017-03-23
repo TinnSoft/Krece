@@ -50,7 +50,7 @@ class AppController extends Controller
        }
 
        return $logo;
-      }
+    }
 
     
     public function login(Request $request)

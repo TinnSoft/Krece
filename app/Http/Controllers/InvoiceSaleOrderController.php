@@ -18,24 +18,23 @@ use App\Models\{
     ResolutionNumber,
     Resolution,
     Category,
-    Estimate
+    Estimate,User
 };
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
-use Illuminate\Support\Facades\DB;
-use App\Mail\WelcomeAgain;
+use DB;
+
 
 class InvoiceSaleOrderController extends Controller
-{
-    
+{    
+
     public function index()
     {
-        //\Mail::to(Auth::user())->send(new WelcomeAgain());
-
         return view('invoice.index');
     }
-    
+
+
     public function getInvoiceList()
     {
         //Obtener facturas sin pagos

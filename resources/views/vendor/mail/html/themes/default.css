@@ -34,7 +34,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #2F3133;
+    color: lightseagreen;
     font-size: 19px;
     font-weight: bold;
     margin-top: 0;
@@ -97,16 +97,16 @@ img {
 /* Header */
 
 .header {
+    background-color: lightseagreen;
     padding: 25px 0;
     text-align: center;
 }
 
 .header a {
-    color: #bbbfc3;
-    font-size: 19px;
+    color: white;
+    font-size: 30px;
     font-weight: bold;
     text-decoration: none;
-    text-shadow: 0 1px 0 white;
 }
 
 /* Body */
@@ -148,6 +148,7 @@ img {
 /* Footer */
 
 .footer {
+    background-color: lightseagreen;
     margin: 0 auto;
     padding: 0;
     text-align: center;
@@ -158,7 +159,7 @@ img {
 }
 
 .footer p {
-    color: #AEAEAE;
+    color: white;
     font-size: 12px;
     text-align: center;
 }
@@ -219,11 +220,11 @@ img {
 }
 
 .button-green {
-    background-color: #2ab27b;
-    border-top: 10px solid #2ab27b;
-    border-right: 18px solid #2ab27b;
-    border-bottom: 10px solid #2ab27b;
-    border-left: 18px solid #2ab27b;
+    background-color: lightseagreen;
+    border-top: 10px solid lightseagreen;
+    border-right: 18px solid lightseagreen;
+    border-bottom: 10px solid lightseagreen;
+    border-left: 18px solid lightseagreen;
 }
 
 .button-red {
@@ -258,7 +259,7 @@ img {
 
 .promotion {
     background-color: #FFFFFF;
-    border: 2px dashed #9BA2AB;
+    border: 2px dashed lightseagreen;
     margin: 0;
     margin-bottom: 25px;
     margin-top: 25px;

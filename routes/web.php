@@ -1,28 +1,20 @@
 <?php
 
-
-/*Route::get('/', function () {
-if(Auth::check()) {
-return view('home');
-}
-return view('welcome');
-});
-*/
 Route::get('/', 'AppController@index');
 
 Route::post('login', 'AppController@login')->middleware('guest');
-Route::post('register', 'AppController@login')->middleware('auth');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
 Route::post('/logout', 'AppController@logout')->middleware('auth');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 Route::get('getLogo','AppController@getLogo');
 
-/*
-Route::group(['middleware'=>['api']],function()
-{
-Route::post('validate/user',['uses'=>'Validation\UserController@user',]);
-});
-*/
-//Auth::routes();
-//Route::get('/home','HomeController@index');
 
 
 //Cotizacion

@@ -125,14 +125,7 @@ class ContactsController extends Controller
             ]);
     }
 
-    private function convertBooleanToInt($data)
-    {
-        if ($data==true)
-        {
-            return 1;
-        }
-        return 0;
-    }
+
 
     public function show($id)
     {       

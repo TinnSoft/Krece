@@ -8,21 +8,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- <title>{{ config('app.name', 'Laravel') }}</title>-->
-
        <!-- Page title -->
     <title>Krece</title>
 
-    <!-- Vendor styles -->
-    <link rel="stylesheet" href="/themes/luna/vendor/fontawesome/css/font-awesome.css"/>
-    <link rel="stylesheet" href="/themes/luna/vendor/animate/animate.css"/>
-    <link rel="stylesheet" href="/themes/luna/vendor/bootstrap/css/bootstrap.css"/>
 
-    <!-- App styles -->
-    <link rel="stylesheet" href="/themes/luna/styles/pe-icons/pe-icon-7-stroke.css"/>
-    <link rel="stylesheet" href="/themes/luna/styles/pe-icons/helper.css"/>
-    <link rel="stylesheet" href="/themes/luna/styles/stroke-icons/style.css"/>
-    <link rel="stylesheet" href="/themes/luna/styles/style.css">
+    {!!Html::style('/themes/krece/css/bootstrap.min.css')!!}
+    {!!Html::style('/themes/krece/font-awesome/css/font-awesome.css')!!}
+    {!!Html::style('/themes/krece/css/animate.css')!!}
+    {!!Html::style('/themes/krece/css/style.css')!!}
 
     <!-- Scripts -->
     <script>
@@ -32,30 +25,46 @@
     </script>
 </head>
    
-<body class="blank">
+<body class="gray-bg">
+
+
+      <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <img alt="image" src="/logo_green.png" style="width: 175px" height="85px" />
+                    
+                </div>
+                <div class="col-lg-2">
+                    <span>Necesitas ayuda?</span><br>
+                    <a href="" class="btn btn-primary btn-sm "> 
+                       &nbsp;!Contáctanos!
+                    </a> 
+                </div>
+            </div>
 
 <!-- Wrapper-->
-<div class="wrapper">
-
-
+<div class="loginColumns ">
     <!-- Main content-->
-    <section class="content">
-           <div class="container-center animated slideInDown">
-           
-              @yield('content')
-        </div>
-    </section>
+    <div class="row">
+            <div class="col-md-6">
+                @yield('leftcontent')
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    @yield('content')
+                </div>
+            </div>
+      </div>
+
     <!-- End main content-->
 
 </div>
 
    <!-- Vendor scripts -->
-<script src="/themes/luna/vendor/pacejs/pace.min.js"></script>
-<script src="/themes/luna/vendor/jquery/dist/jquery.min.js"></script>
-<script src="/themes/luna/vendor/bootstrap/js/bootstrap.min.js"></script>
+{!!Html::script('/themes/krece/js/jquery-3.1.1.min.js')!!}
+{!!Html::script('/themes/krece/js/bootstrap.min.js')!!} 
 
-<!-- App scripts -->
-<script src="/themes/luna/scripts/luna.js"></script>
+
+
 
     <script src="/js/app.js">
       
@@ -138,4 +147,12 @@
     </script>
 
 </body>
+<div class="footer">
+                <div class="pull-right">
+                   Herramienta de facturación en la nube
+                </div>
+                <div>
+                    <small>Diseñado y desarrollado por <a href='http://www.tinnsoft.com/'>Tinnsoft</a>.</small>
+                </div>
+            </div>
 </html>

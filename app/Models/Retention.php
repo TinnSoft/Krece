@@ -10,7 +10,7 @@ class Retention extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'account_id','user_id','name','value','description','type_id'
+        'account_id','user_id','name','value','description','type_id','public_id'
     ];
    
      public function retention_type()
