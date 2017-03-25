@@ -56,7 +56,7 @@
                       { name: 'contact_id', hidden:true },
                      {name:'public_id', search:false, keys: true, label:'Acciones', width: 220, index:'public_id',  align:"right" , sortable: false, formatter: displayButtons,autoResizing:{minColWidth:220}, }                  
                 ],
-                 autoresizeOnLoad: true,
+                autoresizeOnLoad: true,
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 autowidth: true,
                 shrinkToFit: true,

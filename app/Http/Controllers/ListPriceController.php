@@ -7,23 +7,25 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\ListPrice;
+use App\Events\RecordActivity;
 
 class ListPriceController extends Controller
 {
 
     public function index()
     {
-           
-        $listprice = ListPrice::with('listprice_type')
+        return view('list_price.index');  
+    }
+
+    public function getListPriceList()
+    {
+         return ListPrice::with('listprice_type')
                 ->where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',  0)
                 ->orderBy('created_at', 'asc')
-                ->select('id', 'name','type_id','isDefault',
+                ->select('id','public_id', 'name','type_id','isDefault',
                 'value','isEnabled'
-                    )->get();    
-            
-
-        return view('list_price.index',compact('listprice'));  
+                    )->get();   
     }
 
     public function create()
@@ -112,4 +114,24 @@ class ListPriceController extends Controller
                 'deleted' => true
             ]);
     }
+
+    public function update_state(Request $request,$id)
+        {
+            
+            $data = $request->all();
+            $data['isEnabled']= (int)$data['isEnabled'];
+            
+            $item = ListPrice::findOrFail($id);
+            
+            $item->update($data);
+            
+            event(new RecordActivity('Update','Se actualizó el estado del precio de lista número: '
+            .$item->public_id,
+            'ListPrice','/list_price/'.$item->public_id));
+            
+            return response()
+            ->json([
+            'updated' => true
+            ]);
+        }
 }

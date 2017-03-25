@@ -5,7 +5,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nueva Retención</h2>
+                    <h2 >Nuevo Término de pago</h2>
                     <ol class="breadcrumb">                       
                         <li>
                             <a href="{{route('payterms.index')}}">Inicio</a>

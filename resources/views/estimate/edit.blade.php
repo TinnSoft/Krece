@@ -16,6 +16,7 @@
                 </div>
                 
             </div> 
+
  <div class="row  border-bottom white-bg dashboard-header">
     <div id="estimate">   
         <div class="panel" v-cloak>           
@@ -24,7 +25,10 @@
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
-                    <button class="btn btn-primary pull-right" @click="update" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Actualizar</button>                   
+                    <button class="btn btn-primary pull-right ladda-button" 
+                    data-style="zoom-in"
+                    @click="update" 
+                    :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Actualizar</button>                   
                     <a href="{{route('estimate.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>
@@ -43,7 +47,6 @@
     {!!Html::script('/themes/krece/js/plugins/datapicker/bootstrap-datepicker.js')!!}    
    {!!Html::style('/themes/krece/css/plugins/datapicker/datepicker3.css')!!}
     {!!Html::script('/js/components/datepicker/datepicker-locale.es.min.js')!!}
-    {!!Html::script('/js/vue-library/vue.min.js')!!}
    {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
    
     <script type="text/javascript">

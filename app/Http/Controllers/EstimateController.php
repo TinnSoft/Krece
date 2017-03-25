@@ -15,15 +15,23 @@ use App\Models\{
     ListPrice,
     Contact,
     Product,
-    ResolutionNumber
+    ResolutionNumber,
+    Account
 };
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use Jenssegers\Date\Date;
+use App\Contracts\IEmailRepository;
 
 class EstimateController extends Controller
 {
+    protected $emailRepo;
+    public function __construct(IEmailRepository $emailRepo)
+    {
+        $this->emailRepo = $emailRepo;
+    }
+
     
     public function index()
     {
@@ -266,8 +274,6 @@ class EstimateController extends Controller
         
         public function pdf($id, Request $request)
         {
-            Carbon::setLocale('es');
-            
             $estimate = Estimate::with('account','detail','list_price','seller')
             ->GetByPublicId(0,$id)
             ->GetSelectedFields()
@@ -289,5 +295,10 @@ class EstimateController extends Controller
             
             return $mypdf->stream();
             
+        }
+
+        public function getTemplateEmailToCustomer($estimate_number)
+        {           
+           return $this->emailRepo->TemplateEmailToCustomer(1,$estimate_number);
         }
     }

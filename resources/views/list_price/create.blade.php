@@ -5,7 +5,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Nueva lista de precios</h2>
+                    <h2 ><span class="fa fa-list-alt"></span> Nueva lista de precios</h2>
                     <ol class="breadcrumb">                       
                         <li>
                             <a href="{{route('list_price.index')}}">Inicio</a>

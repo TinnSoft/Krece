@@ -11,12 +11,10 @@
     </style>
 
 
-{!!Html::script('/js/functions/DataTable_initializer.js')!!}
 
- {!!Html::script('/js/vue-library/vue.min.js')!!}
-  {!!Html::script('/js/libraries/axios.min.js')!!}
+{!!Html::script('/js/libraries/axios.min.js')!!}
 {!!Html::style('/themes/krece/css/plugins/sweetalert/sweetalert.min.css')!!}  
-  {!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
+{!!Html::script('/themes/krece/js/plugins/sweetalert/sweetalert.min.js')!!}  
 
     <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
@@ -29,93 +27,37 @@
                 </div>                
             </div>           
 
-   <div class="row  border-bottom white-bg dashboard-header">
+   
+<div id="retention"  class="row  border-bottom white-bg dashboard-header">
         <div class="panel-body">
-       
-            @if( $retentionlist->count())  
-              <div class="row">            
-                <div class="col-lg-12 text-right">
-                    <a href="{{route('retention.create')}}" class="btn btn-primary btn-sm btn-rounded pull-right"> 
-                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Crear nueva Retención</a>                     
-                </div>               
-            </div>           
-            <div class="hr-line-dashed"></div>      
-
-            <div id="sweetalert" class="ibox-content">
-               <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover dataTables-data">
-                   
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Porcentaje (%)</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>     
-                   
-                    @foreach ($retentionlist as $retention)
-                        <tr>                                                  
-                          <td>{{$retention->name}}</td>
-                          <td>{{$retention->value}}</td>
-                          <td>{{$retention->retention_type->name}}</td>
-                          <td>{{$retention->description}}</td>
-                            <td class="text-right">                                
-                                <a href="{{route('retention.edit', $retention)}}" >
-                                    <span id="icon-detail" title="Editar registro" class="glyphicon glyphicon-pencil fa-1x green"></span>
-                                </a>
-                                <a>
-                                    <span id="icon-detail" title="Eliminar registro" @click.prevent="remove({{$retention->id}})" class="glyphicon glyphicon-remove fa-1x red"></span>
-                                </a>
-                        
-                            </td>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            
-            @else
-                
-                    <table class="table table-striped table-bordered table-hover dataTables-data">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Porcentaje (%)</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                </table>
-              
-                <div class="alert alert-info" role="alert">
-                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span>
-                          Aún no tienes Retenciones creadas. Por que no empiezas
-                        <a href="{{route('retention.create')}}"><strong>creando uno?</a> </strong>
-                       
-                </div>                   
-            @endif
-        </div>       
-      
-
+                <div class="ibox-content">   
+                    <div class="row">
+                            <a href="{{route('retention.create')}}" class="btn btn-primary btn-sm pull-right"> 
+                            <span class="fa fa-plus"></span>&nbsp;Nueva Retención</a>                     
+                    </div>                    
+                </div>  
+               <div class="row">                                
+                    @include('retention.index-grid')                           
+                </div>  
+        </div>   
     </div>
 
 @include('partials.warm_itemNotFound')
 
 <script>
-Vue.config.devtools = true;
-Vue.config.debug = true;
+Vue.config.devtools = false;
+Vue.config.debug = false;
 
-var app = new Vue({
-  el: '#sweetalert',
+var appRetention = new Vue({
+  el: '#retention',
    data()  {
     return {
     errors:{}
   }},
   methods: {
+       goEdit: function(val){
+        window.location = '/retention/'+val+'/edit';
+    },
     remove:function(val) {
       let self = this;
       swal({
@@ -134,7 +76,7 @@ var app = new Vue({
                     .then(function(response) {
                         if(response.data.deleted) {
                             swal("Eliminado!", "El registro ha sido eliminado correctamente!!.", "success");
-                             window.location = '/retention/';                           
+                            $('#retention-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');                    
                         }
                     })
                     .catch(function(error) {

@@ -48,15 +48,23 @@
                 mtype: 'GET',
                 emptyrecords:  "",
                 colModel: [                   
-                    { label: 'No', name: 'public_id', index: 'public_id', width: 35, sorttype: "int",formatter:formatpublicID },
+                    { label: 'No', name: 'public_id', index: 'public_id', align:'center', width: 35, sorttype: "int",formatter:formatpublicID },
                     { label: 'Cliente', name: 'contact.name',  width: 150, sorttype: "text" },
                     { label: 'Creación', name: 'created_at.date', width: 70, formatter:diffForHumans},
                     { label: 'Total', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
                 ],
+                autoresizeOnLoad: true,
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 autowidth: true,
                 shrinkToFit: true,
+                autoResizing: {
+                    compact: true
+                    },
+                 cmTemplate: {
+                    autoResizable: true,
+                    editable: true
+                    },             
                 height: 'auto',
                 rowNum: 10,
                 rowList: [10, 20, 50, 100],
@@ -78,7 +86,7 @@
                 },       
                  beforeRequest:function()
                 {
-                    resizewidth();
+                 //   resizewidth();
                 },        
                 pager:"#pager_list_2"
             });
@@ -94,24 +102,8 @@
 				})
 			})
 
-             $("#refresh_all").on("click", function(){             
-                 refreshgrid('a','estimateos (todos)');
-			})
-
-            $("#refresh_client").on("click", function(){              
-                refreshgrid('c','estimateos (Clientes)');
-			})
-
-            $("#refresh_providers").on("click", function(){             
-                 refreshgrid('p','estimateos (Proveedores)');
-			})
-
-            function refreshgrid(filter, caption)
-            {
-                 $("#estimate-grid").setGridParam({url:"getestimatelist/"+filter});
-                $('#estimate-grid').jqGrid('setCaption', caption);
-                 $('#estimate-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
-            }
+      
+          
 
              jQuery('#estimate-grid').jqGrid('navGrid','#pager_list_2',
                 {
@@ -144,7 +136,7 @@
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=estimateApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=estimateApp.goShow(\""+cellValue+"\") >"+rowObject.resolution_id+"</a></p>";
                     return goTo;
             }
              function diffForHumans(cellValue, options, rowObject) {

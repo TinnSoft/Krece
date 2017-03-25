@@ -76,17 +76,19 @@ CREATE TABLE IF NOT EXISTS `account` (
   UNIQUE KEY `UK_account_email` (`email`),
   KEY `FK_account_regime` (`regime_id`),
   CONSTRAINT `FK_account_regime` FOREIGN KEY (`regime_id`) REFERENCES `account_regime` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COMMENT='Contains the account information for each user register in the app, in addition controls the the permisiones over the application';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Contains the account information for each user register in the app, in addition controls the the permisiones over the application';
 
--- Volcando datos para la tabla krece.account: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla krece.account: ~7 rows (aproximadamente)
 DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
 INSERT INTO `account` (`id`, `name`, `identification`, `address`, `phone`, `website`, `city`, `regime_id`, `logo`, `decimal_precision`, `decimal_separator`, `account_key`, `email_footer`, `email`, `invoice_design_id`, `pro_plan_paid`, `id_number`, `email_template_invoice`, `email_template_quote`, `email_template_payment`, `invoice_footer`, `pdf_email_attachment`, `referral_user_id`, `email_subject_invoice`, `email_subject_quote`, `email_subject_payment`, `email_subject_reminder1`, `email_template_reminder1`, `enable_reminder1`, `num_days_reminder1`, `num_days_reminder2`, `num_days_reminder3`, `custom_invoice_text_label1`, `custom_invoice_text_label2`, `invoice_number_pattern`, `quote_number_pattern`, `quote_terms`, `email_design_id`, `show_currency_code`, `pro_plan_trial`, `enable_portal_password`, `send_portal_password`, `custom_invoice_item_label1`, `custom_invoice_item_label2`, `recurring_invoice_number_prefix`, `enable_client_portal`, `invoice_fields`, `financial_year_start`, `enabled_modules`, `enabled_dashboard_sections`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 'TinnSoft', '1234567', 'mi dirección', '3629222', 'www.fernando.com', 'Bogotá', 1, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbQAAAEHCAMAAAGGs3M5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL6UExURQAAAP7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/h0aU+MAAAD+dFJOUwCvQBpbnAfdSInwyjV2t/hjpOWRItI9fg+/UCprrBftWJnaRYbHMnMEtB/1oeJNjmA6ewy8J/1o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', 1, '.', NULL, NULL, 'fernando2684@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 16:17:25', '2017-03-20 11:19:57', NULL),
 	(2, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernando26842@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 17:19:15', '2016-12-07 17:19:15', NULL),
-	(3, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernandwo2684@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 17:22:30', '2016-12-07 17:22:30', NULL),
-	(4, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernando268422@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 17:23:23', '2016-12-07 17:23:23', NULL),
-	(5, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernando2684fff@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 22:43:02', '2016-12-07 22:43:02', NULL);
+	(6, 'seguros delima', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'fernando26841234@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:22:54', '2017-03-22 21:22:54', NULL),
+	(7, 'negocio eliminar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'example@text.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(8, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test@test.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:55:18', '2017-03-22 21:55:18', NULL),
+	(9, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test2@test.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 22:01:19', '2017-03-22 22:01:19', NULL),
+	(10, 'asjasgh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test3@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 22:02:02', '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.account_regime
@@ -146,9 +148,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=689 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=697 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~550 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~551 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -828,7 +830,15 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(685, 1, 1, '2017-03-16 21:26:45', 'Se actualizó el estado de la factura de venta número: 18 para el cliente contacto-cliente', '/invoice/18', 'InvoiceSaleOrder', 'Update'),
 	(686, 1, 1, '2017-03-16 21:26:50', 'Se ha impreso el pdf de la factura de venta No: 18', '/invoice/18', 'InvoiceSaleOrder', 'Print'),
 	(687, 1, 1, '2017-03-16 21:45:00', 'Se ha creado el ingreso número: 31 para el cliente contacto-cliente', '/payment-in/39', 'Payment', 'Create'),
-	(688, 1, 1, '2017-03-17 09:16:10', 'Se creó la factura de venta número: 19 para el cliente contacto-cliente', '/invoice/19', 'InvoiceSaleOrder', 'Create');
+	(688, 1, 1, '2017-03-17 09:16:10', 'Se creó la factura de venta número: 19 para el cliente contacto-cliente', '/invoice/19', 'InvoiceSaleOrder', 'Create'),
+	(689, 1, 1, '2017-03-22 14:31:03', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(690, 1, 1, '2017-03-22 16:02:01', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(691, 1, 1, '2017-03-22 16:39:28', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(692, 1, 1, '2017-03-22 16:45:15', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(693, 1, 1, '2017-03-22 17:00:21', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(694, 2, 2, '2017-03-22 17:10:32', 'Fernando 2 ha iniciado sesion', '/profile/2/edit', 'User', 'LogIn'),
+	(695, NULL, 7, '2017-03-22 21:25:12', 'seguros delima ha iniciado sesion', '/profile/7/edit', 'User', 'LogIn'),
+	(696, 1, 1, '2017-03-23 06:16:46', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -855,15 +865,30 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   CONSTRAINT `FK_banks_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_banks_accounttype` FOREIGN KEY (`bank_account_type_id`) REFERENCES `bank_account_type` (`id`),
   CONSTRAINT `FK_banks_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
 
--- Volcando datos para la tabla krece.bank_account: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.bank_account: ~18 rows (aproximadamente)
 DELETE FROM `bank_account`;
 /*!40000 ALTER TABLE `bank_account` DISABLE KEYS */;
 INSERT INTO `bank_account` (`id`, `user_id`, `public_id`, `account_id`, `bank_account_type_id`, `bank_account_name`, `bank_account_number`, `initial_balance`, `description`, `isDeleted`, `isDefault`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 1, 1, 1, 'Banco 1', '123456', 26999000, NULL, b'0', b'1', '2017-01-18 14:20:49', '2017-03-10 22:19:01', '2017-01-19 08:17:11'),
-	(2, 1, 2, 1, 2, 'Tarjeta de crédito 1', '', 3001000, '', b'0', b'1', '2017-01-18 15:42:26', '2017-03-10 22:19:02', NULL),
-	(3, 1, 3, 1, 3, 'Caja General', '', 0, '', b'0', b'1', '2017-01-18 15:43:04', '2017-03-10 14:01:31', NULL);
+	(2, 1, 2, 1, 2, 'Tarjeta de crédito 1', '', 3001000, '', b'0', b'0', '2017-01-18 15:42:26', '2017-03-22 21:10:48', NULL),
+	(3, 1, 3, 1, 3, 'Caja General', '', 0, '', b'0', b'0', '2017-01-18 15:43:04', '2017-03-22 21:10:49', NULL),
+	(4, 2, 1, 2, 1, 'Banco 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:13:08', '2017-03-22 21:13:08', NULL),
+	(5, 2, 2, 2, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:13:08', '2017-03-22 21:13:08', NULL),
+	(6, 2, 3, 2, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:13:09', '2017-03-22 21:13:09', NULL),
+	(7, 7, 1, 6, 1, 'Banco 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL),
+	(8, 7, 2, 6, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL),
+	(9, 7, 3, 6, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL),
+	(10, 8, 1, 7, 1, 'Banco 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(11, 8, 2, 7, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(12, 8, 3, 7, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(13, 10, 1, 9, 1, 'Banco 1', NULL, 0, NULL, b'0', b'1', NULL, '2017-03-22 22:01:25', NULL),
+	(14, 10, 2, 9, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(15, 10, 3, 9, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(16, 11, 1, 10, 1, 'Banco 1', NULL, 0, NULL, b'0', b'1', NULL, '2017-03-22 22:02:02', NULL),
+	(17, 11, 2, 10, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(18, 11, 3, 10, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', NULL, '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `bank_account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account_type
@@ -1092,9 +1117,9 @@ CREATE TABLE IF NOT EXISTS `category` (
   CONSTRAINT `FK_category_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_category_type` FOREIGN KEY (`type_id`) REFERENCES `category_type` (`id`),
   CONSTRAINT `FK_category_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=latin1 COMMENT='product categories';
+) ENGINE=InnoDB AUTO_INCREMENT=438 DEFAULT CHARSET=latin1 COMMENT='product categories';
 
--- Volcando datos para la tabla krece.category: ~83 rows (aproximadamente)
+-- Volcando datos para la tabla krece.category: ~410 rows (aproximadamente)
 DELETE FROM `category`;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`id`, `account_id`, `user_id`, `parent_id`, `lft`, `rgt`, `name`, `niif_account`, `description`, `isEditable`, `isDeleted`, `type_id`, `updated_at`, `created_at`) VALUES
@@ -1179,7 +1204,335 @@ INSERT INTO `category` (`id`, `account_id`, `user_id`, `parent_id`, `lft`, `rgt`
 	(106, 1, 1, 104, 156, 157, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-02-01 11:01:16', '2017-02-01 11:01:16'),
 	(107, 1, 1, 104, 158, 159, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-02-01 11:01:16', '2017-02-01 11:01:16'),
 	(108, 1, 1, 104, 160, 161, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-02-01 11:01:17', '2017-02-01 11:01:17'),
-	(109, 1, 1, NULL, 163, 164, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-02-01 11:01:17', '2017-02-01 11:01:17');
+	(109, 1, 1, NULL, 163, 164, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-02-01 11:01:17', '2017-02-01 11:01:17'),
+	(110, 2, 2, NULL, 165, 178, 'Ingresos', NULL, 'Bajo esta categoría se encuentran todos los Ingresos de la compañía', b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(111, 2, 2, 110, 166, 167, 'Devoluciones de ventas', NULL, NULL, b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(112, 2, 2, 110, 168, 169, 'Ingreso sin identificar', NULL, NULL, b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(113, 2, 2, 110, 170, 175, 'Ingresos no operacionales', NULL, NULL, b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(114, 2, 2, 113, 171, 174, 'Otros Ingresos', NULL, NULL, b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(115, 2, 2, 114, 172, 173, 'Ingresos por interes', NULL, 'Ingresos por intereses bancarios', b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(116, 2, 2, 110, 176, 177, 'Ventas', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 1, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(117, 2, 2, NULL, 179, 252, 'Egresos', NULL, 'Bajo esta categoría se encuentran todos los egresos de la compañía', b'0', b'0', 2, '2017-03-22 18:46:17', '2017-03-22 18:46:17'),
+	(118, 2, 2, 117, 180, 181, 'Alquiler de equipos y licencias', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(119, 2, 2, 117, 182, 183, 'Comisiones y honorarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(120, 2, 2, 117, 184, 195, 'Costo de la mercancía vendida', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(121, 2, 2, 120, 185, 186, 'Ajustes del inventario', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(122, 2, 2, 120, 187, 188, 'Compras inventariables', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(123, 2, 2, 120, 189, 190, 'Fletes y envíos', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(124, 2, 2, 120, 191, 192, 'Mano de obra', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(125, 2, 2, 120, 193, 194, 'Materias primas', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(126, 2, 2, 117, 196, 197, 'Costo servicios vendidos', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(127, 2, 2, 117, 198, 199, 'Cuentas incobrables', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(128, 2, 2, 117, 200, 201, 'Devoluciones en compras de ítem', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(129, 2, 2, 117, 202, 207, 'Egresos no operacionales', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(130, 2, 2, 129, 203, 204, 'Descuento financiero', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(131, 2, 2, 129, 205, 206, 'Diferencia en cambio', NULL, 'Bajo esta categoría se encuentran las perdidas y ganancias por diferencias en tasas de cambio', b'0', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(132, 2, 2, 117, 208, 219, 'Gastos administrativos', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(133, 2, 2, 132, 209, 210, 'Arrendamiento', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(134, 2, 2, 132, 211, 212, 'Aseo y cafetería', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:18', '2017-03-22 18:46:18'),
+	(135, 2, 2, 132, 213, 214, 'Internet y telecomunicaciones', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(136, 2, 2, 132, 215, 216, 'Papelería', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(137, 2, 2, 132, 217, 218, 'Servicios públicos', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(138, 2, 2, 117, 220, 221, 'Gastos bancarios', NULL, 'Bajo esta categoría se encuentran todos los gastos bancarios de la compañía', b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(139, 2, 2, 117, 222, 223, 'Legales', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(140, 2, 2, 117, 224, 225, 'Mantenimiento e instalaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(141, 2, 2, 117, 226, 235, 'Nómina', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(142, 2, 2, 141, 227, 228, 'Dotación', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(143, 2, 2, 141, 229, 230, 'Prestaciones sociales', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(144, 2, 2, 141, 231, 232, 'Salarios', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(145, 2, 2, 141, 233, 234, 'Seguridad social y parafiscales', NULL, NULL, b'1', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(146, 2, 2, 117, 236, 237, 'Otros impuestos', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(147, 2, 2, 117, 238, 239, 'Publicidad', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(148, 2, 2, 117, 240, 241, 'Seguros y seguridad', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(149, 2, 2, 117, 242, 243, 'Servicios bancarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(150, 2, 2, 117, 244, 245, 'Subscripciones y afiliaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:19', '2017-03-22 18:46:19'),
+	(151, 2, 2, 117, 246, 247, 'Transporte y mensajería', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(152, 2, 2, 117, 248, 249, 'Varios', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(153, 2, 2, 117, 250, 251, 'Viajes y viáticos', NULL, NULL, b'0', b'0', 2, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(154, 2, 2, NULL, 253, 288, 'Activos', NULL, 'Bajo esta categoría se encuentran todos los activos de la compañía', b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(155, 2, 2, 154, 254, 261, 'Activo corriente', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(156, 2, 2, 155, 255, 256, 'Bancos', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(157, 2, 2, 155, 257, 258, 'Cuentas por cobrar', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(158, 2, 2, 155, 259, 260, 'Inventario', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(159, 2, 2, 154, 262, 263, 'Activos fijos', NULL, 'Bajo esta categoría se encuentran todos los activos principales de la compañía', b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(160, 2, 2, 154, 264, 265, 'Avances y anticipos entregados', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(161, 2, 2, 154, 266, 267, 'Cuentas por cobrar - devoluciones', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(162, 2, 2, 154, 268, 273, 'Impuestos a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(163, 2, 2, 162, 269, 270, 'ICO a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(164, 2, 2, 162, 271, 272, 'IVA a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(165, 2, 2, 154, 274, 275, 'Inversiones', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(166, 2, 2, 154, 276, 277, 'Préstamos a terceros', NULL, NULL, b'0', b'0', 3, '2017-03-22 18:46:20', '2017-03-22 18:46:20'),
+	(167, 2, 2, 154, 278, 287, 'Retenciones a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(168, 2, 2, 167, 279, 280, 'Retención de CREE a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(169, 2, 2, 167, 281, 282, 'Retención de Industria y comercio a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(170, 2, 2, 167, 283, 284, 'Retención de IVA a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(171, 2, 2, 167, 285, 286, 'Retención en la fuente a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(172, 2, 2, NULL, 289, 316, 'Pasivos', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(173, 2, 2, 172, 290, 291, 'Avances y anticipos recibidos', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(174, 2, 2, 172, 292, 293, 'Cuentas por pagar - devoluciones', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(175, 2, 2, 172, 294, 295, 'Cuentas por pagar - proveedores', NULL, 'Bajo esta categoría se encuentran los pasivos principales', b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(176, 2, 2, 172, 296, 297, 'Cuentas por pagar - tarjetas de crédito', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(177, 2, 2, 172, 298, 303, 'Impuestos por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(178, 2, 2, 177, 299, 300, 'ICO por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(179, 2, 2, 177, 301, 302, 'IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(180, 2, 2, 172, 304, 305, 'Obligaciones financieras y préstamos a terceros', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(181, 2, 2, 172, 306, 315, 'Retenciones por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(182, 2, 2, 181, 307, 308, 'Retención de CREE por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:21', '2017-03-22 18:46:21'),
+	(183, 2, 2, 181, 309, 310, 'Retención de industria y Comercio por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(184, 2, 2, 181, 311, 312, 'Retención de IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(185, 2, 2, 181, 313, 314, 'Retención en la fuente por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(186, 2, 2, NULL, 317, 326, 'Patrimonio', NULL, NULL, b'0', b'0', 5, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(187, 2, 2, 186, 318, 319, 'Ajustes iniciales - Bancos', NULL, NULL, b'0', b'0', 5, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(188, 2, 2, 186, 320, 321, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(189, 2, 2, 186, 322, 323, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(190, 2, 2, 186, 324, 325, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(191, 2, 2, NULL, 327, 328, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-03-22 18:46:22', '2017-03-22 18:46:22'),
+	(192, 6, 7, NULL, 329, 342, 'Ingresos', NULL, 'Bajo esta categoría se encuentran todos los Ingresos de la compañía', b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(193, 6, 7, 192, 330, 331, 'Devoluciones de ventas', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(194, 6, 7, 192, 332, 333, 'Ingreso sin identificar', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(195, 6, 7, 192, 334, 339, 'Ingresos no operacionales', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(196, 6, 7, 195, 335, 338, 'Otros Ingresos', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(197, 6, 7, 196, 336, 337, 'Ingresos por interes', NULL, 'Ingresos por intereses bancarios', b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(198, 6, 7, 192, 340, 341, 'Ventas', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 1, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(199, 6, 7, NULL, 343, 416, 'Egresos', NULL, 'Bajo esta categoría se encuentran todos los egresos de la compañía', b'0', b'0', 2, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(200, 6, 7, 199, 344, 345, 'Alquiler de equipos y licencias', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:54', '2017-03-22 21:22:54'),
+	(201, 6, 7, 199, 346, 347, 'Comisiones y honorarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(202, 6, 7, 199, 348, 359, 'Costo de la mercancía vendida', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(203, 6, 7, 202, 349, 350, 'Ajustes del inventario', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(204, 6, 7, 202, 351, 352, 'Compras inventariables', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(205, 6, 7, 202, 353, 354, 'Fletes y envíos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(206, 6, 7, 202, 355, 356, 'Mano de obra', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(207, 6, 7, 202, 357, 358, 'Materias primas', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(208, 6, 7, 199, 360, 361, 'Costo servicios vendidos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(209, 6, 7, 199, 362, 363, 'Cuentas incobrables', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(210, 6, 7, 199, 364, 365, 'Devoluciones en compras de ítem', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(211, 6, 7, 199, 366, 371, 'Egresos no operacionales', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(212, 6, 7, 211, 367, 368, 'Descuento financiero', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(213, 6, 7, 211, 369, 370, 'Diferencia en cambio', NULL, 'Bajo esta categoría se encuentran las perdidas y ganancias por diferencias en tasas de cambio', b'0', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(214, 6, 7, 199, 372, 383, 'Gastos administrativos', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(215, 6, 7, 214, 373, 374, 'Arrendamiento', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:55', '2017-03-22 21:22:55'),
+	(216, 6, 7, 214, 375, 376, 'Aseo y cafetería', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(217, 6, 7, 214, 377, 378, 'Internet y telecomunicaciones', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(218, 6, 7, 214, 379, 380, 'Papelería', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(219, 6, 7, 214, 381, 382, 'Servicios públicos', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(220, 6, 7, 199, 384, 385, 'Gastos bancarios', NULL, 'Bajo esta categoría se encuentran todos los gastos bancarios de la compañía', b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(221, 6, 7, 199, 386, 387, 'Legales', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(222, 6, 7, 199, 388, 389, 'Mantenimiento e instalaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(223, 6, 7, 199, 390, 399, 'Nómina', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(224, 6, 7, 223, 391, 392, 'Dotación', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(225, 6, 7, 223, 393, 394, 'Prestaciones sociales', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(226, 6, 7, 223, 395, 396, 'Salarios', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(227, 6, 7, 223, 397, 398, 'Seguridad social y parafiscales', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(228, 6, 7, 199, 400, 401, 'Otros impuestos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(229, 6, 7, 199, 402, 403, 'Publicidad', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(230, 6, 7, 199, 404, 405, 'Seguros y seguridad', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:56', '2017-03-22 21:22:56'),
+	(231, 6, 7, 199, 406, 407, 'Servicios bancarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(232, 6, 7, 199, 408, 409, 'Subscripciones y afiliaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(233, 6, 7, 199, 410, 411, 'Transporte y mensajería', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(234, 6, 7, 199, 412, 413, 'Varios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(235, 6, 7, 199, 414, 415, 'Viajes y viáticos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(236, 6, 7, NULL, 417, 452, 'Activos', NULL, 'Bajo esta categoría se encuentran todos los activos de la compañía', b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(237, 6, 7, 236, 418, 425, 'Activo corriente', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(238, 6, 7, 237, 419, 420, 'Bancos', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(239, 6, 7, 237, 421, 422, 'Cuentas por cobrar', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(240, 6, 7, 237, 423, 424, 'Inventario', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(241, 6, 7, 236, 426, 427, 'Activos fijos', NULL, 'Bajo esta categoría se encuentran todos los activos principales de la compañía', b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(242, 6, 7, 236, 428, 429, 'Avances y anticipos entregados', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(243, 6, 7, 236, 430, 431, 'Cuentas por cobrar - devoluciones', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(244, 6, 7, 236, 432, 437, 'Impuestos a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(245, 6, 7, 244, 433, 434, 'ICO a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(246, 6, 7, 244, 435, 436, 'IVA a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(247, 6, 7, 236, 438, 439, 'Inversiones', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:57', '2017-03-22 21:22:57'),
+	(248, 6, 7, 236, 440, 441, 'Préstamos a terceros', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(249, 6, 7, 236, 442, 451, 'Retenciones a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(250, 6, 7, 249, 443, 444, 'Retención de CREE a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(251, 6, 7, 249, 445, 446, 'Retención de Industria y comercio a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(252, 6, 7, 249, 447, 448, 'Retención de IVA a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(253, 6, 7, 249, 449, 450, 'Retención en la fuente a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(254, 6, 7, NULL, 453, 480, 'Pasivos', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(255, 6, 7, 254, 454, 455, 'Avances y anticipos recibidos', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(256, 6, 7, 254, 456, 457, 'Cuentas por pagar - devoluciones', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(257, 6, 7, 254, 458, 459, 'Cuentas por pagar - proveedores', NULL, 'Bajo esta categoría se encuentran los pasivos principales', b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(258, 6, 7, 254, 460, 461, 'Cuentas por pagar - tarjetas de crédito', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(259, 6, 7, 254, 462, 467, 'Impuestos por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(260, 6, 7, 259, 463, 464, 'ICO por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(261, 6, 7, 259, 465, 466, 'IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(262, 6, 7, 254, 468, 469, 'Obligaciones financieras y préstamos a terceros', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(263, 6, 7, 254, 470, 479, 'Retenciones por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:58', '2017-03-22 21:22:58'),
+	(264, 6, 7, 263, 471, 472, 'Retención de CREE por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(265, 6, 7, 263, 473, 474, 'Retención de industria y Comercio por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(266, 6, 7, 263, 475, 476, 'Retención de IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(267, 6, 7, 263, 477, 478, 'Retención en la fuente por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(268, 6, 7, NULL, 481, 490, 'Patrimonio', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(269, 6, 7, 268, 482, 483, 'Ajustes iniciales - Bancos', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(270, 6, 7, 268, 484, 485, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(271, 6, 7, 268, 486, 487, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(272, 6, 7, 268, 488, 489, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(273, 6, 7, NULL, 491, 492, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-03-22 21:22:59', '2017-03-22 21:22:59'),
+	(274, 8, 9, NULL, 493, 506, 'Ingresos', NULL, 'Bajo esta categoría se encuentran todos los Ingresos de la compañía', b'0', b'0', 1, '2017-03-22 21:55:18', '2017-03-22 21:55:18'),
+	(275, 8, 9, 274, 494, 495, 'Devoluciones de ventas', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:55:18', '2017-03-22 21:55:18'),
+	(276, 8, 9, 274, 496, 497, 'Ingreso sin identificar', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:55:18', '2017-03-22 21:55:18'),
+	(277, 8, 9, 274, 498, 503, 'Ingresos no operacionales', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(278, 8, 9, 277, 499, 502, 'Otros Ingresos', NULL, NULL, b'0', b'0', 1, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(279, 8, 9, 278, 500, 501, 'Ingresos por interes', NULL, 'Ingresos por intereses bancarios', b'0', b'0', 1, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(280, 8, 9, 274, 504, 505, 'Ventas', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 1, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(281, 8, 9, NULL, 507, 580, 'Egresos', NULL, 'Bajo esta categoría se encuentran todos los egresos de la compañía', b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(282, 8, 9, 281, 508, 509, 'Alquiler de equipos y licencias', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(283, 8, 9, 281, 510, 511, 'Comisiones y honorarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(284, 8, 9, 281, 512, 523, 'Costo de la mercancía vendida', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(285, 8, 9, 284, 513, 514, 'Ajustes del inventario', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(286, 8, 9, 284, 515, 516, 'Compras inventariables', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(287, 8, 9, 284, 517, 518, 'Fletes y envíos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(288, 8, 9, 284, 519, 520, 'Mano de obra', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:19', '2017-03-22 21:55:19'),
+	(289, 8, 9, 284, 521, 522, 'Materias primas', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(290, 8, 9, 281, 524, 525, 'Costo servicios vendidos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(291, 8, 9, 281, 526, 527, 'Cuentas incobrables', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(292, 8, 9, 281, 528, 529, 'Devoluciones en compras de ítem', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(293, 8, 9, 281, 530, 535, 'Egresos no operacionales', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(294, 8, 9, 293, 531, 532, 'Descuento financiero', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(295, 8, 9, 293, 533, 534, 'Diferencia en cambio', NULL, 'Bajo esta categoría se encuentran las perdidas y ganancias por diferencias en tasas de cambio', b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(296, 8, 9, 281, 536, 547, 'Gastos administrativos', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(297, 8, 9, 296, 537, 538, 'Arrendamiento', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(298, 8, 9, 296, 539, 540, 'Aseo y cafetería', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(299, 8, 9, 296, 541, 542, 'Internet y telecomunicaciones', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(300, 8, 9, 296, 543, 544, 'Papelería', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(301, 8, 9, 296, 545, 546, 'Servicios públicos', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(302, 8, 9, 281, 548, 549, 'Gastos bancarios', NULL, 'Bajo esta categoría se encuentran todos los gastos bancarios de la compañía', b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(303, 8, 9, 281, 550, 551, 'Legales', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:20', '2017-03-22 21:55:20'),
+	(304, 8, 9, 281, 552, 553, 'Mantenimiento e instalaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(305, 8, 9, 281, 554, 563, 'Nómina', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(306, 8, 9, 305, 555, 556, 'Dotación', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(307, 8, 9, 305, 557, 558, 'Prestaciones sociales', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(308, 8, 9, 305, 559, 560, 'Salarios', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(309, 8, 9, 305, 561, 562, 'Seguridad social y parafiscales', NULL, NULL, b'1', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(310, 8, 9, 281, 564, 565, 'Otros impuestos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(311, 8, 9, 281, 566, 567, 'Publicidad', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(312, 8, 9, 281, 568, 569, 'Seguros y seguridad', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(313, 8, 9, 281, 570, 571, 'Servicios bancarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(314, 8, 9, 281, 572, 573, 'Subscripciones y afiliaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(315, 8, 9, 281, 574, 575, 'Transporte y mensajería', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(316, 8, 9, 281, 576, 577, 'Varios', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(317, 8, 9, 281, 578, 579, 'Viajes y viáticos', NULL, NULL, b'0', b'0', 2, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(318, 8, 9, NULL, 581, 616, 'Activos', NULL, 'Bajo esta categoría se encuentran todos los activos de la compañía', b'0', b'0', 3, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(319, 8, 9, 318, 582, 589, 'Activo corriente', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:21', '2017-03-22 21:55:21'),
+	(320, 8, 9, 319, 583, 584, 'Bancos', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(321, 8, 9, 319, 585, 586, 'Cuentas por cobrar', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(322, 8, 9, 319, 587, 588, 'Inventario', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(323, 8, 9, 318, 590, 591, 'Activos fijos', NULL, 'Bajo esta categoría se encuentran todos los activos principales de la compañía', b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(324, 8, 9, 318, 592, 593, 'Avances y anticipos entregados', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(325, 8, 9, 318, 594, 595, 'Cuentas por cobrar - devoluciones', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(326, 8, 9, 318, 596, 601, 'Impuestos a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(327, 8, 9, 326, 597, 598, 'ICO a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(328, 8, 9, 326, 599, 600, 'IVA a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(329, 8, 9, 318, 602, 603, 'Inversiones', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(330, 8, 9, 318, 604, 605, 'Préstamos a terceros', NULL, NULL, b'0', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(331, 8, 9, 318, 606, 615, 'Retenciones a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(332, 8, 9, 331, 607, 608, 'Retención de CREE a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:55:22', '2017-03-22 21:55:22'),
+	(333, 8, 9, 331, 609, 610, 'Retención de Industria y comercio a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(334, 8, 9, 331, 611, 612, 'Retención de IVA a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(335, 8, 9, 331, 613, 614, 'Retención en la fuente a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(336, 8, 9, NULL, 617, 644, 'Pasivos', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(337, 8, 9, 336, 618, 619, 'Avances y anticipos recibidos', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(338, 8, 9, 336, 620, 621, 'Cuentas por pagar - devoluciones', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(339, 8, 9, 336, 622, 623, 'Cuentas por pagar - proveedores', NULL, 'Bajo esta categoría se encuentran los pasivos principales', b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(340, 8, 9, 336, 624, 625, 'Cuentas por pagar - tarjetas de crédito', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(341, 8, 9, 336, 626, 631, 'Impuestos por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(342, 8, 9, 341, 627, 628, 'ICO por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(343, 8, 9, 341, 629, 630, 'IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(344, 8, 9, 336, 632, 633, 'Obligaciones financieras y préstamos a terceros', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(345, 8, 9, 336, 634, 643, 'Retenciones por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(346, 8, 9, 345, 635, 636, 'Retención de CREE por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(347, 8, 9, 345, 637, 638, 'Retención de industria y Comercio por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(348, 8, 9, 345, 639, 640, 'Retención de IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:23', '2017-03-22 21:55:23'),
+	(349, 8, 9, 345, 641, 642, 'Retención en la fuente por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(350, 8, 9, NULL, 645, 654, 'Patrimonio', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(351, 8, 9, 350, 646, 647, 'Ajustes iniciales - Bancos', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(352, 8, 9, 350, 648, 649, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(353, 8, 9, 350, 650, 651, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(354, 8, 9, 350, 652, 653, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(355, 8, 9, NULL, 655, 656, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-03-22 21:55:24', '2017-03-22 21:55:24'),
+	(356, 9, 10, NULL, 657, 670, 'Ingresos', NULL, 'Bajo esta categoría se encuentran todos los Ingresos de la compañía', b'0', b'0', 1, '2017-03-22 22:01:19', '2017-03-22 22:01:19'),
+	(357, 9, 10, 356, 658, 659, 'Devoluciones de ventas', NULL, NULL, b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(358, 9, 10, 356, 660, 661, 'Ingreso sin identificar', NULL, NULL, b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(359, 9, 10, 356, 662, 667, 'Ingresos no operacionales', NULL, NULL, b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(360, 9, 10, 359, 663, 666, 'Otros Ingresos', NULL, NULL, b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(361, 9, 10, 360, 664, 665, 'Ingresos por interes', NULL, 'Ingresos por intereses bancarios', b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(362, 9, 10, 356, 668, 669, 'Ventas', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 1, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(363, 9, 10, NULL, 671, 744, 'Egresos', NULL, 'Bajo esta categoría se encuentran todos los egresos de la compañía', b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(364, 9, 10, 363, 672, 673, 'Alquiler de equipos y licencias', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(365, 9, 10, 363, 674, 675, 'Comisiones y honorarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(366, 9, 10, 363, 676, 687, 'Costo de la mercancía vendida', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(367, 9, 10, 366, 677, 678, 'Ajustes del inventario', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(368, 9, 10, 366, 679, 680, 'Compras inventariables', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(369, 9, 10, 366, 681, 682, 'Fletes y envíos', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(370, 9, 10, 366, 683, 684, 'Mano de obra', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(371, 9, 10, 366, 685, 686, 'Materias primas', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:20', '2017-03-22 22:01:20'),
+	(372, 9, 10, 363, 688, 689, 'Costo servicios vendidos', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(373, 9, 10, 363, 690, 691, 'Cuentas incobrables', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(374, 9, 10, 363, 692, 693, 'Devoluciones en compras de ítem', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(375, 9, 10, 363, 694, 699, 'Egresos no operacionales', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(376, 9, 10, 375, 695, 696, 'Descuento financiero', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(377, 9, 10, 375, 697, 698, 'Diferencia en cambio', NULL, 'Bajo esta categoría se encuentran las perdidas y ganancias por diferencias en tasas de cambio', b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(378, 9, 10, 363, 700, 711, 'Gastos administrativos', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(379, 9, 10, 378, 701, 702, 'Arrendamiento', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(380, 9, 10, 378, 703, 704, 'Aseo y cafetería', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(381, 9, 10, 378, 705, 706, 'Internet y telecomunicaciones', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(382, 9, 10, 378, 707, 708, 'Papelería', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(383, 9, 10, 378, 709, 710, 'Servicios públicos', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(384, 9, 10, 363, 712, 713, 'Gastos bancarios', NULL, 'Bajo esta categoría se encuentran todos los gastos bancarios de la compañía', b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(385, 9, 10, 363, 714, 715, 'Legales', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(386, 9, 10, 363, 716, 717, 'Mantenimiento e instalaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(387, 9, 10, 363, 718, 727, 'Nómina', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:21', '2017-03-22 22:01:21'),
+	(388, 9, 10, 387, 719, 720, 'Dotación', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(389, 9, 10, 387, 721, 722, 'Prestaciones sociales', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(390, 9, 10, 387, 723, 724, 'Salarios', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(391, 9, 10, 387, 725, 726, 'Seguridad social y parafiscales', NULL, NULL, b'1', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(392, 9, 10, 363, 728, 729, 'Otros impuestos', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(393, 9, 10, 363, 730, 731, 'Publicidad', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(394, 9, 10, 363, 732, 733, 'Seguros y seguridad', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(395, 9, 10, 363, 734, 735, 'Servicios bancarios', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(396, 9, 10, 363, 736, 737, 'Subscripciones y afiliaciones', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(397, 9, 10, 363, 738, 739, 'Transporte y mensajería', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(398, 9, 10, 363, 740, 741, 'Varios', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(399, 9, 10, 363, 742, 743, 'Viajes y viáticos', NULL, NULL, b'0', b'0', 2, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(400, 9, 10, NULL, 745, 780, 'Activos', NULL, 'Bajo esta categoría se encuentran todos los activos de la compañía', b'0', b'0', 3, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(401, 9, 10, 400, 746, 753, 'Activo corriente', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(402, 9, 10, 401, 747, 748, 'Bancos', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(403, 9, 10, 401, 749, 750, 'Cuentas por cobrar', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:22', '2017-03-22 22:01:22'),
+	(404, 9, 10, 401, 751, 752, 'Inventario', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(405, 9, 10, 400, 754, 755, 'Activos fijos', NULL, 'Bajo esta categoría se encuentran todos los activos principales de la compañía', b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(406, 9, 10, 400, 756, 757, 'Avances y anticipos entregados', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(407, 9, 10, 400, 758, 759, 'Cuentas por cobrar - devoluciones', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(408, 9, 10, 400, 760, 765, 'Impuestos a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(409, 9, 10, 408, 761, 762, 'ICO a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(410, 9, 10, 408, 763, 764, 'IVA a favor', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(411, 9, 10, 400, 766, 767, 'Inversiones', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(412, 9, 10, 400, 768, 769, 'Préstamos a terceros', NULL, NULL, b'0', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(413, 9, 10, 400, 770, 779, 'Retenciones a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(414, 9, 10, 413, 771, 772, 'Retención de CREE a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(415, 9, 10, 413, 773, 774, 'Retención de Industria y comercio a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(416, 9, 10, 413, 775, 776, 'Retención de IVA a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(417, 9, 10, 413, 777, 778, 'Retención en la fuente a favor', NULL, NULL, b'1', b'0', 3, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(418, 9, 10, NULL, 781, 808, 'Pasivos', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(419, 9, 10, 418, 782, 783, 'Avances y anticipos recibidos', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(420, 9, 10, 418, 784, 785, 'Cuentas por pagar - devoluciones', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(421, 9, 10, 418, 786, 787, 'Cuentas por pagar - proveedores', NULL, 'Bajo esta categoría se encuentran los pasivos principales', b'0', b'0', 4, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(422, 9, 10, 418, 788, 789, 'Cuentas por pagar - tarjetas de crédito', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:23', '2017-03-22 22:01:23'),
+	(423, 9, 10, 418, 790, 795, 'Impuestos por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(424, 9, 10, 423, 791, 792, 'ICO por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(425, 9, 10, 423, 793, 794, 'IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(426, 9, 10, 418, 796, 797, 'Obligaciones financieras y préstamos a terceros', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(427, 9, 10, 418, 798, 807, 'Retenciones por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(428, 9, 10, 427, 799, 800, 'Retención de CREE por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(429, 9, 10, 427, 801, 802, 'Retención de industria y Comercio por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(430, 9, 10, 427, 803, 804, 'Retención de IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(431, 9, 10, 427, 805, 806, 'Retención en la fuente por pagar', NULL, NULL, b'0', b'0', 4, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(432, 9, 10, NULL, 809, 818, 'Patrimonio', NULL, NULL, b'0', b'0', 5, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(433, 9, 10, 432, 810, 811, 'Ajustes iniciales - Bancos', NULL, NULL, b'0', b'0', 5, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(434, 9, 10, 432, 812, 813, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(435, 9, 10, 432, 814, 815, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(436, 9, 10, 432, 816, 817, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-03-22 22:01:24', '2017-03-22 22:01:24'),
+	(437, 9, 10, NULL, 819, 820, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-03-22 22:01:24', '2017-03-22 22:01:24');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category_payment
@@ -1835,6 +2188,22 @@ INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `re
 	(226, 38, 1, 7, NULL, 5000, 0, NULL, 0, NULL, NULL, 1, 0, 5000, '2017-03-08 17:35:57', '2017-03-08 17:35:57', NULL);
 /*!40000 ALTER TABLE `estimate_detail` ENABLE KEYS */;
 
+-- Volcando estructura para tabla krece.failed_jobs
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla krece.failed_jobs: ~0 rows (aproximadamente)
+DELETE FROM `failed_jobs`;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+
 -- Volcando estructura para tabla krece.invoice_payments_invoices
 CREATE TABLE IF NOT EXISTS `invoice_payments_invoices` (
   `id` int(11) NOT NULL,
@@ -2124,6 +2493,23 @@ DELETE FROM `invoice_withholding_tax_values`;
 /*!40000 ALTER TABLE `invoice_withholding_tax_values` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice_withholding_tax_values` ENABLE KEYS */;
 
+-- Volcando estructura para tabla krece.jobs
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla krece.jobs: ~0 rows (aproximadamente)
+DELETE FROM `jobs`;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
+
 -- Volcando estructura para tabla krece.list_price
 CREATE TABLE IF NOT EXISTS `list_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2146,15 +2532,20 @@ CREATE TABLE IF NOT EXISTS `list_price` (
   CONSTRAINT `FK_list_price_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_list_price_type` FOREIGN KEY (`type_id`) REFERENCES `list_price_type` (`id`),
   CONSTRAINT `FK_list_price_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Store the list price information';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Store the list price information';
 
--- Volcando datos para la tabla krece.list_price: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.list_price: ~7 rows (aproximadamente)
 DELETE FROM `list_price`;
 /*!40000 ALTER TABLE `list_price` DISABLE KEYS */;
 INSERT INTO `list_price` (`id`, `account_id`, `user_id`, `public_id`, `name`, `type_id`, `value`, `isDefault`, `created_at`, `updated_at`, `deleted_at`, `isEnabled`, `isDeleted`) VALUES
 	(1, 1, 1, 1, 'General', 2, 0, b'1', '2017-01-05 13:24:27', '2017-01-19 13:01:51', NULL, b'1', b'0'),
 	(2, 1, 1, 2, 'lista precios 1', 2, 0, b'0', '2017-01-19 12:27:29', '2017-01-26 21:06:56', '2017-01-19 13:49:28', b'0', b'0'),
-	(3, 1, 1, 3, 'lista precios 2', 1, 16, b'0', '2017-01-19 12:31:54', '2017-01-19 14:01:42', NULL, b'0', b'0');
+	(3, 1, 1, 3, 'lista precios 2', 1, 16, b'0', '2017-01-19 12:31:54', '2017-01-19 14:01:42', NULL, b'0', b'0'),
+	(4, 2, 2, 1, 'General', 2, 0, b'1', '2017-03-22 21:05:57', '2017-03-22 21:05:57', NULL, b'1', b'0'),
+	(5, 6, 7, 1, 'General', 2, 0, b'1', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL, b'1', b'0'),
+	(6, 7, 8, 1, 'General', 2, 0, b'1', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL, b'1', b'0'),
+	(7, 9, 10, 1, 'General', 2, 0, b'1', '2017-03-22 22:01:25', '2017-03-22 22:01:25', NULL, b'1', b'0'),
+	(8, 10, 11, 1, 'General', 2, 0, b'1', '2017-03-22 22:02:02', '2017-03-22 22:02:02', NULL, b'1', b'0');
 /*!40000 ALTER TABLE `list_price` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.list_price_type
@@ -2178,13 +2569,14 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.migrations: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.migrations: ~1 rows (aproximadamente)
 DELETE FROM `migrations`;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(1, '2017_01_31_210849_create_treeexamples_table', 1);
+	(1, '2017_01_31_210849_create_treeexamples_table', 1),
+	(2, '2017_03_23_070113_create_failed_jobs_table', 2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.modules
@@ -2225,11 +2617,9 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.password_resets: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.password_resets: ~1 rows (aproximadamente)
 DELETE FROM `password_resets`;
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
-INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-	('fernando2684@gmail.com', '27add76ba889d02183e67735a4108baa4f65fdd3455a10eefef7857906830501', '2016-12-08 03:13:17');
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment
@@ -2369,7 +2759,7 @@ INSERT INTO `payment_method` (`id`, `name`, `isActive`) VALUES
 	(2, 'Consignación', b'1'),
 	(3, 'Transferencia', b'1'),
 	(4, 'Cheque', b'1'),
-	(5, 'Trajeta crédito', b'1'),
+	(5, 'Tarjeta crédito', b'1'),
 	(6, 'Tarjeta débito', b'1');
 /*!40000 ALTER TABLE `payment_method` ENABLE KEYS */;
 
@@ -2407,16 +2797,46 @@ CREATE TABLE IF NOT EXISTS `payment_terms` (
   KEY `FK_payment_terms_user` (`user_id`),
   CONSTRAINT `FK_payment_terms_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_payment_terms_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment_terms: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment_terms: ~34 rows (aproximadamente)
 DELETE FROM `payment_terms`;
 /*!40000 ALTER TABLE `payment_terms` DISABLE KEYS */;
 INSERT INTO `payment_terms` (`id`, `account_id`, `user_id`, `public_id`, `name`, `days`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 1, 1, 'Vencimiento manual', 0, b'0', '2017-01-17 16:33:16', '2017-01-17 16:39:42', NULL),
 	(2, 1, 1, 2, 'De Contado', 0, b'0', '2017-01-17 16:58:12', '2017-01-17 16:58:12', NULL),
 	(3, 1, 1, 3, '8 días', 8, b'0', '2017-01-17 16:58:27', '2017-01-17 16:58:27', NULL),
-	(4, 1, 1, 4, '15 días', 15, b'0', '2017-01-17 16:58:41', '2017-01-17 16:58:49', NULL);
+	(4, 1, 1, 4, '15 días', 15, b'0', '2017-01-17 16:58:41', '2017-01-17 16:58:49', NULL),
+	(5, 2, 2, 1, 'Vencimiento manual', 0, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(6, 2, 2, 2, 'De contado', 0, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(7, 2, 2, 3, '8 días', 8, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(8, 2, 2, 4, '15 días', 15, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(9, 2, 2, 5, '30 días', 30, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(10, 2, 2, 6, '60 días', 60, b'0', '2017-03-22 20:50:59', '2017-03-22 20:50:59', NULL),
+	(11, 6, 7, 1, 'Vencimiento manual', 0, b'0', '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(12, 6, 7, 2, 'De contado', 0, b'0', '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(13, 6, 7, 3, '8 días', 8, b'0', '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(14, 6, 7, 4, '15 días', 15, b'0', '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(15, 6, 7, 5, '30 días', 30, b'0', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL),
+	(16, 6, 7, 6, '60 días', 60, b'0', '2017-03-22 21:23:01', '2017-03-22 21:23:01', NULL),
+	(17, 7, 8, 1, 'Vencimiento manual', 0, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(18, 7, 8, 2, 'De contado', 0, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(19, 7, 8, 3, '8 días', 8, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(20, 7, 8, 4, '15 días', 15, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(21, 7, 8, 5, '30 días', 30, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(22, 7, 8, 6, '60 días', 60, b'0', '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(23, 9, 10, 1, 'Vencimiento manual', 0, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(24, 9, 10, 2, 'De contado', 0, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(25, 9, 10, 3, '8 días', 8, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(26, 9, 10, 4, '15 días', 15, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(27, 9, 10, 5, '30 días', 30, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(28, 9, 10, 6, '60 días', 60, b'0', NULL, '2017-03-22 22:01:25', NULL),
+	(29, 10, 11, 1, 'Vencimiento manual', 0, b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(30, 10, 11, 2, 'De contado', 0, b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(31, 10, 11, 3, '8 días', 8, b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(32, 10, 11, 4, '15 días', 15, b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(33, 10, 11, 5, '30 días', 30, b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(34, 10, 11, 6, '60 días', 60, b'0', NULL, '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `payment_terms` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_type
@@ -2790,9 +3210,9 @@ CREATE TABLE IF NOT EXISTS `resolution` (
   KEY `FK_resolution_user` (`user_id`),
   CONSTRAINT `FK_resolution_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_resolution_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COMMENT='contains resolution IDs for each sale order, according law policies (DIAN in colombia)';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='contains resolution IDs for each sale order, according law policies (DIAN in colombia)';
 
--- Volcando datos para la tabla krece.resolution: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla krece.resolution: ~9 rows (aproximadamente)
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2800,7 +3220,12 @@ INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_n
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
-	(5, 1, 5, 1, NULL, NULL, NULL, 'sin numeración', NULL, 'Resolución de facturación No 12345678', b'0', b'1', b'0', b'0', '2017-02-10 09:17:13', '2017-02-14 14:22:03', NULL);
+	(5, 1, 5, 1, NULL, NULL, NULL, 'sin numeración', NULL, 'Resolución de facturación No 12345678', b'0', b'1', b'0', b'0', '2017-02-10 09:17:13', '2017-02-14 14:22:03', NULL),
+	(6, 2, 1, 2, '1', NULL, '1', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-03-22 19:25:40', '2017-03-22 19:25:40', NULL),
+	(7, 6, 1, 7, '1', NULL, '1', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-03-22 21:22:59', '2017-03-22 21:22:59', NULL),
+	(8, 7, 1, 8, '1', NULL, '1', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(9, 9, 1, 10, '1', NULL, '1', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-03-22 22:01:24', '2017-03-22 22:01:24', NULL),
+	(10, 10, 1, 11, '1', NULL, '1', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-03-22 22:02:02', '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `resolution` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.resolution_numbers
@@ -2816,9 +3241,9 @@ CREATE TABLE IF NOT EXISTS `resolution_numbers` (
   PRIMARY KEY (`id`),
   KEY `FK_resonumb_account_id` (`account_id`),
   CONSTRAINT `FK_resonumb_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.resolution_numbers: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla krece.resolution_numbers: ~48 rows (aproximadamente)
 DELETE FROM `resolution_numbers`;
 /*!40000 ALTER TABLE `resolution_numbers` DISABLE KEYS */;
 INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
@@ -2829,13 +3254,54 @@ INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`,
 	(12, 1, 'in-come', NULL, 32, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-03-16 21:45:00'),
 	(13, 1, 'debit_note', NULL, 5, 'Siguiente número de nota debito', '2017-02-24 14:07:27', '2017-03-14 15:31:59'),
 	(14, 1, 'bill', NULL, 6, 'Siguiente número de factura de proveedores', '2017-02-24 16:13:59', '2017-03-14 14:40:18'),
-	(15, 1, 'out-come', NULL, 24, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-03-10 22:19:01');
+	(15, 1, 'out-come', NULL, 24, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-03-10 22:19:01'),
+	(16, 2, 'estimate', NULL, 1, 'Siguiente número de cotizaciones', '2017-03-22 19:27:02', '2017-03-22 19:27:02'),
+	(17, 2, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(18, 2, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(19, 2, 'remision', NULL, 1, 'Siguiente número de remisiones', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(20, 2, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(21, 2, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(22, 2, 'bill', NULL, 1, 'Siguiente número de factura de proveedores', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(23, 2, 'out-come', NULL, 1, 'Siguiente número de comprobante de pago', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
+	(24, 6, 'estimate', NULL, 1, 'Siguiente número de cotizaciones', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(25, 6, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(26, 6, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(27, 6, 'remision', NULL, 1, 'Siguiente número de remisiones', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(28, 6, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(29, 6, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(30, 6, 'bill', NULL, 1, 'Siguiente número de factura de proveedores', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(31, 6, 'out-come', NULL, 1, 'Siguiente número de comprobante de pago', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
+	(32, 7, 'estimate', NULL, 1, 'Siguiente número de cotizaciones', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(33, 7, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(34, 7, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(35, 7, 'remision', NULL, 1, 'Siguiente número de remisiones', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(36, 7, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(37, 7, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
+	(38, 7, 'bill', NULL, 1, 'Siguiente número de factura de proveedores', '2017-03-22 21:34:51', '2017-03-22 21:34:51'),
+	(39, 7, 'out-come', NULL, 1, 'Siguiente número de comprobante de pago', '2017-03-22 21:34:51', '2017-03-22 21:34:51'),
+	(40, 9, 'estimate', NULL, 1, 'Siguiente número de cotizaciones', NULL, NULL),
+	(41, 9, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
+	(42, 9, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
+	(43, 9, 'remision', NULL, 1, 'Siguiente número de remisiones', NULL, NULL),
+	(44, 9, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
+	(45, 9, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
+	(46, 9, 'bill', NULL, 1, 'Siguiente número de factura de proveedores', NULL, NULL),
+	(47, 9, 'out-come', NULL, 1, 'Siguiente número de comprobante de pago', NULL, NULL),
+	(48, 10, 'estimate', NULL, 1, 'Siguiente número de cotizaciones', NULL, NULL),
+	(49, 10, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
+	(50, 10, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
+	(51, 10, 'remision', NULL, 1, 'Siguiente número de remisiones', NULL, NULL),
+	(52, 10, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
+	(53, 10, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
+	(54, 10, 'bill', NULL, 1, 'Siguiente número de factura de proveedores', NULL, NULL),
+	(55, 10, 'out-come', NULL, 1, 'Siguiente número de comprobante de pago', NULL, NULL);
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
 CREATE TABLE IF NOT EXISTS `retention` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
+  `public_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `value` float NOT NULL,
@@ -2852,15 +3318,80 @@ CREATE TABLE IF NOT EXISTS `retention` (
   CONSTRAINT `FK_wht_company` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_wht_type` FOREIGN KEY (`type_id`) REFERENCES `retention_type` (`id`),
   CONSTRAINT `FK_wht_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.retention: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla krece.retention: ~68 rows (aproximadamente)
 DELETE FROM `retention`;
 /*!40000 ALTER TABLE `retention` DISABLE KEYS */;
-INSERT INTO `retention` (`id`, `account_id`, `user_id`, `name`, `value`, `description`, `isDeleted`, `type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 'Retencion', 3.5, 'prueba', b'1', 2, '2017-01-17 14:34:56', '2017-01-17 14:37:14', '2017-01-17 14:37:14'),
-	(2, 1, 1, 'Compras', 2.5, 'Retención aplicada a compras declarantes', b'0', 2, '2017-01-17 14:39:16', '2017-01-17 14:41:13', NULL),
-	(3, 1, 1, 'Arrendamiento de bienes raices', 3.5, 'Retención aplicada a arrendamiento de bienes raices', b'0', 2, '2017-01-17 14:40:07', '2017-01-17 14:40:07', NULL);
+INSERT INTO `retention` (`id`, `account_id`, `public_id`, `user_id`, `name`, `value`, `description`, `isDeleted`, `type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, NULL, 1, 'Retencion', 3.5, 'prueba', b'1', 2, '2017-01-17 14:34:56', '2017-01-17 14:37:14', '2017-01-17 14:37:14'),
+	(2, 1, NULL, 1, 'Compras', 2.5, 'Retención aplicada a compras declarantes', b'0', 2, '2017-01-17 14:39:16', '2017-01-17 14:41:13', NULL),
+	(3, 1, NULL, 1, 'Arrendamiento de bienes raices', 3.5, 'Retención aplicada a arrendamiento de bienes raices', b'0', 2, '2017-01-17 14:40:07', '2017-01-17 14:40:07', NULL),
+	(4, 2, 1, 2, 'Arrendamiento de bienes inmuebles', 4, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(5, 2, 2, 2, 'Arrendamiento de bienes raices', 3.5, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(6, 2, 3, 2, 'Compras declarantes', 2.5, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(7, 2, 4, 2, 'Compras no declarantes', 3.5, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(8, 2, 5, 2, 'Honorarios y comisiones (naturales)', 10, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(9, 2, 6, 2, 'Honoraios y comisiones (jurídicas)', 11, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(10, 2, 7, 2, 'Servicios de aseo y vigilancia', 2, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(11, 2, 8, 2, 'Servicios de hoteles y restaurantes', 3.5, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(12, 2, 9, 2, 'Servicios generales (declarantes)', 4, NULL, b'0', 2, '2017-03-22 20:50:23', '2017-03-22 20:50:23', NULL),
+	(13, 2, 10, 2, 'Servicios generales (no declarantes)', 6, NULL, b'0', 2, '2017-03-22 20:50:24', '2017-03-22 20:50:24', NULL),
+	(14, 2, 11, 2, 'ReteIca', 0, NULL, b'0', 3, '2017-03-22 20:50:24', '2017-03-22 20:50:24', NULL),
+	(15, 2, 12, 2, 'ReteIva', 15, NULL, b'0', 1, '2017-03-22 20:50:24', '2017-03-22 20:50:24', NULL),
+	(16, 2, 13, 2, 'Transporte de carga', 15, NULL, b'0', 2, '2017-03-22 20:50:24', '2017-03-22 20:50:24', NULL),
+	(17, 6, 1, 7, 'Arrendamiento de bienes inmuebles', 4, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(18, 6, 2, 7, 'Arrendamiento de bienes raices', 3.5, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(19, 6, 3, 7, 'Compras declarantes', 2.5, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(20, 6, 4, 7, 'Compras no declarantes', 3.5, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(21, 6, 5, 7, 'Honorarios y comisiones (naturales)', 10, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(22, 6, 6, 7, 'Honoraios y comisiones (jurídicas)', 11, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(23, 6, 7, 7, 'Servicios de aseo y vigilancia', 2, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(24, 6, 8, 7, 'Servicios de hoteles y restaurantes', 3.5, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(25, 6, 9, 7, 'Servicios generales (declarantes)', 4, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(26, 6, 10, 7, 'Servicios generales (no declarantes)', 6, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(27, 6, 11, 7, 'ReteIca', 0, NULL, b'0', 3, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(28, 6, 12, 7, 'ReteIva', 15, NULL, b'0', 1, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(29, 6, 13, 7, 'Transporte de carga', 15, NULL, b'0', 2, '2017-03-22 21:23:00', '2017-03-22 21:23:00', NULL),
+	(30, 7, 1, 8, 'Arrendamiento de bienes inmuebles', 4, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(31, 7, 2, 8, 'Arrendamiento de bienes raices', 3.5, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(32, 7, 3, 8, 'Compras declarantes', 2.5, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(33, 7, 4, 8, 'Compras no declarantes', 3.5, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(34, 7, 5, 8, 'Honorarios y comisiones (naturales)', 10, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(35, 7, 6, 8, 'Honoraios y comisiones (jurídicas)', 11, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(36, 7, 7, 8, 'Servicios de aseo y vigilancia', 2, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(37, 7, 8, 8, 'Servicios de hoteles y restaurantes', 3.5, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(38, 7, 9, 8, 'Servicios generales (declarantes)', 4, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(39, 7, 10, 8, 'Servicios generales (no declarantes)', 6, NULL, b'0', 2, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(40, 7, 11, 8, 'ReteIca', 0, NULL, b'0', 3, '2017-03-22 21:34:51', '2017-03-22 21:34:51', NULL),
+	(41, 7, 12, 8, 'ReteIva', 15, NULL, b'0', 1, '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(42, 7, 13, 8, 'Transporte de carga', 15, NULL, b'0', 2, '2017-03-22 21:34:52', '2017-03-22 21:34:52', NULL),
+	(43, 9, 1, 10, 'Arrendamiento de bienes inmuebles', 4, '', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(44, 9, 2, 10, 'Arrendamiento de bienes raices', 3.5, 'Retencion aplicada a pagos de arrendamiento de bienes raices', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(45, 9, 3, 10, 'Compras declarantes', 2.5, 'Retencion aplicada a compras declarantes', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(46, 9, 4, 10, 'Compras no declarantes', 3.5, 'Retencion aplicada a compras no declarantes', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(47, 9, 5, 10, 'Honorarios y comisiones (naturales)', 10, 'Retencion aplicada a personas naturales', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(48, 9, 6, 10, 'Honoraios y comisiones (jurídicas)', 11, 'Retencion aplicada a personas juridicas', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(49, 9, 7, 10, 'Servicios de aseo y vigilancia', 2, 'Retencion aplicada a pagos de servicios en aseo y/o vigilancia', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(50, 9, 8, 10, 'Servicios de hoteles y restaurantes', 3.5, 'Retencion aplicada por servicios de hoteles, restaurantes y hospedaje a declarantes y no declarantes', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(51, 9, 9, 10, 'Servicios generales (declarantes)', 4, 'Retencion aplicada a pagos de personas declarantes', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(52, 9, 10, 10, 'Servicios generales (no declarantes)', 6, 'Retencion aplicada a pagos de personas no declarantes', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(53, 9, 11, 10, 'ReteIca', 0, 'Retencion de industria y comercio', b'0', 3, NULL, '2017-03-22 22:01:25', NULL),
+	(54, 9, 12, 10, 'ReteIva', 15, 'Retencion sobre el total del IVA asociado a una factura', b'0', 1, NULL, '2017-03-22 22:01:25', NULL),
+	(55, 9, 13, 10, 'Transporte de carga', 15, '', b'0', 2, NULL, '2017-03-22 22:01:25', NULL),
+	(56, 10, 1, 11, 'Arrendamiento de bienes inmuebles', 4, '', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(57, 10, 2, 11, 'Arrendamiento de bienes raices', 3.5, 'Retencion aplicada a pagos de arrendamiento de bienes raices', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(58, 10, 3, 11, 'Compras declarantes', 2.5, 'Retencion aplicada a compras declarantes', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(59, 10, 4, 11, 'Compras no declarantes', 3.5, 'Retencion aplicada a compras no declarantes', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(60, 10, 5, 11, 'Honorarios y comisiones (naturales)', 10, 'Retencion aplicada a personas naturales', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(61, 10, 6, 11, 'Honoraios y comisiones (jurídicas)', 11, 'Retencion aplicada a personas juridicas', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(62, 10, 7, 11, 'Servicios de aseo y vigilancia', 2, 'Retencion aplicada a pagos de servicios en aseo y/o vigilancia', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(63, 10, 8, 11, 'Servicios de hoteles y restaurantes', 3.5, 'Retencion aplicada por servicios de hoteles, restaurantes y hospedaje a declarantes y no declarantes', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(64, 10, 9, 11, 'Servicios generales (declarantes)', 4, 'Retencion aplicada a pagos de personas declarantes', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(65, 10, 10, 11, 'Servicios generales (no declarantes)', 6, 'Retencion aplicada a pagos de personas no declarantes', b'0', 2, NULL, '2017-03-22 22:02:02', NULL),
+	(66, 10, 11, 11, 'ReteIca', 0, 'Retencion de industria y comercio', b'0', 3, NULL, '2017-03-22 22:02:02', NULL),
+	(67, 10, 12, 11, 'ReteIva', 15, 'Retencion sobre el total del IVA asociado a una factura', b'0', 1, NULL, '2017-03-22 22:02:02', NULL),
+	(68, 10, 13, 11, 'Transporte de carga', 15, '', b'0', 2, NULL, '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `retention` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention_type
@@ -2948,9 +3479,9 @@ CREATE TABLE IF NOT EXISTS `tax` (
   CONSTRAINT `FK_taxes_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_taxes_type` FOREIGN KEY (`type_id`) REFERENCES `tax_type` (`id`),
   CONSTRAINT `FK_taxes_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.tax: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla krece.tax: ~18 rows (aproximadamente)
 DELETE FROM `tax`;
 /*!40000 ALTER TABLE `tax` DISABLE KEYS */;
 INSERT INTO `tax` (`id`, `account_id`, `public_id`, `user_id`, `name`, `amount`, `description`, `type_id`, `isEditable`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2960,7 +3491,21 @@ INSERT INTO `tax` (`id`, `account_id`, `public_id`, `user_id`, `name`, `amount`,
 	(4, 1, 4, 1, 'ICO', 15, 'test', 2, b'1', b'0', '2017-01-16 16:32:31', '2017-03-06 14:06:48', '2017-01-17 12:37:34'),
 	(5, 1, 5, 1, 'Ninguno', 0, 'prueba', 1, b'1', b'0', '2017-01-16 16:34:48', '2017-01-17 12:46:17', NULL),
 	(6, 1, 6, 1, 'IVA2', 18, 'prueba', 1, b'1', b'1', '2017-01-17 10:44:59', '2017-03-06 14:07:50', '2017-01-17 12:44:08'),
-	(7, 1, 7, 1, 'IVA3', 17, 'prueba', 1, b'1', b'1', '2017-01-17 10:45:53', '2017-03-06 14:07:51', '2017-01-17 12:44:02');
+	(7, 1, 7, 1, 'IVA3', 17, 'prueba', 1, b'1', b'1', '2017-01-17 10:45:53', '2017-03-06 14:07:51', '2017-01-17 12:44:02'),
+	(8, 2, 1, 2, 'IVA', 19, NULL, 1, b'1', b'0', '2017-03-22 19:10:18', '2017-03-22 19:10:18', NULL),
+	(9, 2, 2, 2, 'ICO', 19, NULL, 2, b'1', b'0', '2017-03-22 19:10:18', '2017-03-22 19:10:18', NULL),
+	(10, 6, 1, 7, 'IVA', 19, NULL, 1, b'1', b'0', '2017-03-22 21:22:59', '2017-03-22 21:22:59', NULL),
+	(11, 6, 2, 7, 'ICO', 19, NULL, 2, b'1', b'0', '2017-03-22 21:22:59', '2017-03-22 21:22:59', NULL),
+	(12, 6, 3, 7, 'Ninguno', 0, NULL, 3, b'1', b'0', '2017-03-22 21:22:59', '2017-03-22 21:22:59', NULL),
+	(13, 7, 1, 8, 'IVA', 19, NULL, 1, b'1', b'0', '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(14, 7, 2, 8, 'ICO', 19, NULL, 2, b'1', b'0', '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(15, 7, 3, 8, 'Ninguno', 0, NULL, 3, b'1', b'0', '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(19, 9, 1, 10, 'IVA', 19, 'IVA', 1, b'1', b'0', NULL, '2017-03-22 22:01:24', NULL),
+	(20, 9, 2, 10, 'ICO', 19, 'ICO', 2, b'1', b'0', NULL, '2017-03-22 22:01:24', NULL),
+	(21, 9, 3, 10, 'Ninguno', 0, 'Ninguno', 3, b'1', b'0', NULL, '2017-03-22 22:01:24', NULL),
+	(22, 10, 1, 11, 'IVA', 19, 'IVA', 1, b'1', b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(23, 10, 2, 11, 'ICO', 19, 'ICO', 2, b'1', b'0', NULL, '2017-03-22 22:02:02', NULL),
+	(24, 10, 3, 11, 'Ninguno', 0, 'Ninguno', 3, b'1', b'0', NULL, '2017-03-22 22:02:02', NULL);
 /*!40000 ALTER TABLE `tax` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.tax_type
@@ -3009,18 +3554,37 @@ CREATE TABLE IF NOT EXISTS `user` (
   CONSTRAINT `FK_user_accountid` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_user_role` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`),
   CONSTRAINT `FK_user_status` FOREIGN KEY (`status_id`) REFERENCES `user_status` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.user: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla krece.user: ~7 rows (aproximadamente)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
-	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$gC551oWqmWxtaA8mphnAVOC2u3SF.rPX65x/4qYn.0nUihR8QjSWS', 'MVwTqVMe8J13hykDVY3SUEmoCRrfEbCjs2IHodhQoI4DK7ZO0VC9g7lQtQdA', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-03-05 10:28:15', '2017-03-05 10:28:15', NULL, NULL, 1, NULL, NULL, b'1'),
-	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'FcregiMVfdO3B65QJkXKuELvAVo9VO41bZVsKq27s22fDwJDqK79DWs92VmN', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(3, 3, 1, NULL, NULL, 'fernandwo2684@gmail.com', '$2y$10$u6v0vfdvla3xCyD7HJLkVeFS/Q6Ozhf.I1AIv9nnUCqDuPDCUe1XW', 'j7WUKqHUUhp5uBiAZKAg9fWmTvKYEgEq9kk9PGGiwf1ax3DE2H5oSjoau79P', NULL, NULL, 1, '2016-12-07 17:22:30', NULL, '2016-12-07 17:22:35', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(4, 4, 1, NULL, NULL, 'fernando268422@gmail.com', '$2y$10$n..GzUA79THtAPd2Y/J8N.7nZiFzeHcdCEIH3emPIM98k4Yp9/z7u', 'O67MhIiFYyJkgNi3AkvJsI1UL7fJf8cYE4depxK7Kmk3WvI50zYWoh2u0aRJ', NULL, NULL, 1, '2016-12-07 17:23:24', NULL, '2016-12-07 17:24:15', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
-	(5, 5, 1, NULL, NULL, 'fernando2684fff@gmail.com', '$2y$10$pzPLJy8dj/OZm0PZig7RU.MQapUDHC0QAeeoS01n5W8jedsr9jaw6', 'vJlDKaPMlujHx33vjYwAE4b6pMzOkpf75DRllIZX0dkUsCMEsgJ7Lq6DqEEp', NULL, NULL, 1, '2016-12-07 22:43:02', NULL, '2017-01-17 17:56:29', NULL, NULL, NULL, 1, NULL, NULL, b'1');
+	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$kyQ2lV6uMJq9oMJmiFigneGX1cQ4baV3hMIMVrXATDDlAeMtPT5lG', 'qhi8JnaoWlnT9LOvVELM7OXeL7AtGFaZPHJcu2gzkM6E6vpbb6U65vPaJiHY', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-03-23 06:16:46', '2017-03-23 06:16:46', NULL, NULL, 1, NULL, NULL, b'1'),
+	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'RapxDZXohJ2FKbHop2lxhmC7hdNR2ybLrEmwi1TVrXPuMWOVLzQbbm8Pu66X', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
+	(7, 6, 1, 'seguros delima', NULL, 'fernando26841234@gmail.com', '$2y$10$3foquoWNxCscHa6dczAm..bOa7bFvrJyPauh/mlRLoHBGI.DowUMW', 'CBtHeMZJ92mAcm671fakwj7Bgk53oBYXHqQBJm2FH1bR2X7mwtxGDNLRNgli', NULL, NULL, 1, '2017-03-22 21:22:54', NULL, '2017-03-22 21:22:54', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
+	(8, 7, 1, 'negocio eliminar', NULL, 'example@text.com', '$2y$10$epKY35yKPtDPItAggj2v4ercp1Kitmkyp6QT3BfmB4A/UpfhEasuC', '9E3iqt4cH1RyTsrYEjkBOijhiWoO5DL1kZhWpNbw3pBh2Ckc5HTRLAj0NyXN', NULL, NULL, 1, '2017-03-22 21:34:50', NULL, '2017-03-22 21:34:50', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
+	(9, 8, 1, 'mi negocio sr', NULL, 'test@test.com', '$2y$10$MAKReS4NaxfZRFe9tOwtUOy70E7BNNYnojdl3BG0bWt1pqI3ZPGL6', NULL, NULL, NULL, 1, '2017-03-22 21:55:18', NULL, '2017-03-22 21:55:18', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
+	(10, 9, 1, 'mi negocio sr', NULL, 'test2@test.com', '$2y$10$JBTrbEvw2ES.lk/AXhFvrObqs5eRVGFiuLSt2LGKtCdg6.54cmxWC', 'XNDROdyvCEvJlnUQyajsHnh2m6HNExeUZVstyih2WmhJrAO8hIjV7tLSo3fF', NULL, NULL, 1, '2017-03-22 22:01:19', NULL, '2017-03-22 22:01:19', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
+	(11, 10, 1, 'asjasgh', NULL, 'test3@gmail.com', '$2y$10$uIzqGLgr4Gpze90uCztf6.9fyuYeM2mwYORjN5qkWj3shdZIWctKK', NULL, NULL, NULL, 1, '2017-03-22 22:02:02', NULL, '2017-03-22 22:02:02', NULL, NULL, NULL, NULL, NULL, NULL, b'1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+-- Volcando estructura para tabla krece.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Volcando datos para la tabla krece.users: ~0 rows (aproximadamente)
+DELETE FROM `users`;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.user_password_resets
 CREATE TABLE IF NOT EXISTS `user_password_resets` (

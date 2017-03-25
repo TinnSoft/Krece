@@ -25,8 +25,11 @@
                 @include('estimate.form')
             </div>
             <div class="panel-footer">
-                <div class="clearfix">                 
-                    <button class="btn btn-primary pull-right" @click="create" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear</button>                   
+                <div class="clearfix">    
+                    <button class="btn btn-primary pull-right ladda-button" 
+                    data-style="zoom-in"
+                    @click="create" 
+                    :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear</button>                   
                     <a href="{{route('estimate.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>

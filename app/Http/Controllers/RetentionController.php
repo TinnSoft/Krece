@@ -15,20 +15,22 @@ class RetentionController extends Controller
 
     public function index()
     {
-        //Obtener las cotizaciones creadas hasta la fecha       
-        $retentionlist = Retention::with('retention_type')
+
+        return view('retention.index');
+  
+    }
+
+    public function getRetentionList()
+    {
+        return Retention::with('retention_type')
                 ->where('retention.account_id',  Auth::user()->account_id)
                 ->where('retention.isDeleted',  0)
                ->orderBy('created_at', 'desc')
                ->select('retention.id', 'retention.account_id',
                'retention.name','retention.value','retention.description',
-               'retention.type_id'
+               'retention.type_id','public_id'
                )->get();  
-
-        return view('retention.index',compact('retentionlist'));
-  
     }
-
     public function create()
     {
         return view('retention.create');        

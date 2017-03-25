@@ -15,15 +15,18 @@ class PaymentTermsController extends Controller
     public function index()
     {
        
-        $paytermlist = PaymentTerms::where('account_id',  Auth::user()->account_id)
-                ->where('isDeleted',  0)
-               ->orderBy('created_at', 'desc')
-               ->select('id', 'account_id','user_id',
-               'name','days'
-               )->get();  
-
-        return view('payterms.index',compact('paytermlist'));
+        return view('payterms.index');
   
+    }
+    public function getPaymentTermsList()
+    {
+        return PaymentTerms::where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)
+               ->orderBy('created_at', 'asc')
+               ->select('id', 'account_id','user_id',
+               'name','days','public_id'
+               )
+               ->get();  
     }
 
     public function create()

@@ -3,10 +3,15 @@
 
 
 @section('content')
- {!!Html::script('/js/vue-library/vue.min.js')!!}
+
+
+
+
  
+
+
     <div  class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2 >Cotización No: <span class="text-navy">{{$estimate->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
@@ -20,26 +25,35 @@
     </div>           
 
             <div id="estimate_show" class="row wrapper wrapper-content">
-            
+
+                 @include('partials.SendEmailTo_modal',['header'=>'Enviar cotización'])
+
                                        <div class="ibox-title">
                                        
                                             <p>
-                                                <a href="{{route('invoice.edit', $estimate->public_id)}}?convert=toInvoice" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
+                                                <a href="{{route('invoice.edit', $estimate->public_id)}}?convert=toInvoice" 
+                                                class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-share-square-o"></span>&nbsp;Convertir en factura</a> 
                                                 
                                                 <a href="{{route('estimate.edit', $estimate->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+                                                <span class="fa fa-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('estimate.edit', $estimate->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Clonar</a> 
+                                                <a href="{{route('estimate.edit', $estimate->public_id)}}?convert=clone" 
+                                                class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-copy"></span>&nbsp;Clonar</a> 
                                                 
                                                 <a href="{{route('estimate.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a> 
+                                                <span class="fa fa-plus"></span>&nbsp;Nueva Cotización</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$estimate->public_id}})"> 
+                                                <a class="btn btn-success btn-sm "  @click="printPdf({{$estimate->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
+                                                
+                                                <a class="btn btn-success btn-sm"  @click="sendEmailTo()"> 
+                                                <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
+
                                             </p>                                     
-                                        </div>                            
+                                        </div>       
+                                                         
                  </div>
           
 
@@ -150,16 +164,49 @@
 
 <script>
 
+
+
  var appEstimateShow = new Vue({
   el: '#estimate_show',
+  data(){
+      return {
+        email: {
+                header: 'Enviar Cotización',
+                subject: '',
+                body: 'asas',
+                to:'',
+                additional_emails:[]
+            }
+        }
+
+  },
   methods: {
+     
        printPdf: function(val){
         window.open('/estimate/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
+    sendEmailTo: function(){ 
+        this.fetchData({!!$estimate->resolution_id!!});
+           
+        
       },
+    fetchData: function (resolution_id) {
+      //carga de los datos del header
+      var vm = this
+      axios.get('/getTemplateEmailToCustomer/'+resolution_id)
+        .then(function (response) {
+
+          Vue.set(vm.$data.email, 'subject', response.data.subject);
+          Vue.set(vm.$data.email, 'body', response.data.body);
+          Vue.set(vm.$data.email, 'to', response.data.to);
+          Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+          
+          $('#SendEmailModal').modal('toggle'); 
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
+    },
   }
 })
 </script>

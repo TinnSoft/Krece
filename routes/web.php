@@ -15,22 +15,26 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('getLogo','AppController@getLogo');
 
-
-
 //Cotizacion
 Route::resource('estimate', 'EstimateController');
 Route::get('getEstimateBaseInfo','EstimateController@BaseInfo');
 Route::get('getEstimateList','EstimateController@getEstimateList');
 Route::get('estimate/{id}/pdf', 'EstimateController@pdf');
+Route::get('getTemplateEmailToCustomer/{resolution_id}', 'EstimateController@getTemplateEmailToCustomer');
 
 //taxes
 Route::resource('taxes', 'TaxesController');
 Route::get('getTaxesBaseInfo','TaxesController@BaseInfo');
+Route::get('getTaxesList','TaxesController@getTaxesList');
+
 //Retentions
 Route::resource('retention', 'RetentionController');
 Route::get('getRetentionBaseInfo','RetentionController@BaseInfo');
+Route::get('getRetentionList','RetentionController@getRetentionList');
+
 //payment terms
 Route::resource('payterms', 'PaymentTermsController');
+Route::get('getPaymentTermsList','PaymentTermsController@getPaymentTermsList');
 
 //profile
 Route::resource('profile', 'ProfileController');
@@ -45,6 +49,8 @@ Route::post('saveBankTransference','BankAccountController@CreateBankTransference
 
 //precio de lista
 Route::resource('list_price', 'ListPriceController');
+Route::get('getListPriceList','ListPriceController@getListPriceList');
+Route::put('listprice_update_state/{req}','ListPriceController@update_state');
 
 //Contacts
 Route::resource('contact', 'ContactsController');
@@ -117,8 +123,6 @@ Route::get('payment_out_ToCategorySection','PaymentOut_Controller@getBaseInfoToC
 Route::put('payment_out_update_state/{req}','PaymentOut_Controller@update_state');
 Route::get('payment-out/{id}/pdf', 'PaymentOut_Controller@pdf');
 
-
-
 //purchase order
 Route::resource('purchase-order', 'PurchaseOrderController');
 Route::get('getPOBaseInfo','PurchaseOrderController@BaseInfo');
@@ -137,6 +141,8 @@ Route::get('getBillBaseInfo','BillController@BaseInfo');
 Route::get('getBillList','BillController@getBillList');
 Route::get('bill/{id}/pdf', 'BillController@pdf');
 Route::put('bill_update_state/{req}','BillController@update_state');
+
+
 
 define('INVOICE_STATUS_OPEN', 1);
 define('INVOICE_STATUS_VOIDED', 2);//=>NULL

@@ -104,6 +104,9 @@ var app = new Vue({
       var n = d.toLocaleDateString();
       if (this.form.date == "") {
         this.form.date = n;
+        
+        d.setDate(d.getDate() + 30);
+        this.form.due_date = d.toLocaleDateString();
       }
     },
     addLine: function (e) {
@@ -159,36 +162,47 @@ var app = new Vue({
     create: function () {
       var vm = this;
       vm.isProcessing = true;
+       	var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    		ldbtn.start();
+
       axios.post(vm.redirect, vm.form)
         .then(function (response) {
           if (response.data.created) {
             window.location = vm.redirect + response.data.id;
           } else {
+            ldbtn.stop();
             vm.isProcessing = false;
           }
         })
         .catch(function (error) {
           vm.isProcessing = false;
+          ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
         });
     },
 
     update: function () {
       var vm = this;
+      
+      var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    	ldbtn.start();
+
       vm.isProcessing = true;
       axios.put(vm.redirect + vm.form.id, vm.form)
         .then(function (response) {
           if (response.data.updated) {
-            vm.isProcessing = false;
             window.location = vm.redirect + response.data.id;;
           } else {
             vm.isProcessing = false;
+            ldbtn.stop();
           }
         })
         .catch(function (error) {
           vm.isProcessing = false;
+          ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
-        })
+        });
+        
     }
   },
   //valores calculados

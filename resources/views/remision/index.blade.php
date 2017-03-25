@@ -40,7 +40,6 @@
                     @include('remision.index-grid')                           
                 </div>  
         </div>   
-
     </div>
 
 

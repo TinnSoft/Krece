@@ -47,6 +47,7 @@
                 ],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 autowidth: true,
+                autoresizeOnLoad: true,
                 autoResizing: {
                     compact: true
                     },
@@ -150,8 +151,6 @@
                 //resize on load
             function resizewidth()
             {
-               /*var width = $('.jqGrid_wrapper').width();
-                $('#payment-grid').setGridWidth(width); */
                 var newWidth = $("#payment-grid").closest(".ui-jqgrid").parent().width();
                 $("#payment-grid").jqGrid("setGridWidth", newWidth, true);
             }  

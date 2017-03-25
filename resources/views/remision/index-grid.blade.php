@@ -97,24 +97,7 @@
 				})
 			})
 
-             $("#refresh_all").on("click", function(){             
-                 refreshgrid('a','remisionos (todos)');
-			})
-
-            $("#refresh_client").on("click", function(){              
-                refreshgrid('c','remisionos (Clientes)');
-			})
-
-            $("#refresh_providers").on("click", function(){             
-                 refreshgrid('p','remisionos (Proveedores)');
-			})
-
-            function refreshgrid(filter, caption)
-            {
-                 $("#remision-grid").setGridParam({url:"getremisionlist/"+filter});
-                $('#remision-grid').jqGrid('setCaption', caption);
-                 $('#remision-grid').setGridParam({datatype:'json', page:1}).trigger('reloadGrid');
-            }
+          
 
              jQuery('#remision-grid').jqGrid('navGrid','#pager_list_2',
                 {

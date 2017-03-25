@@ -15,8 +15,17 @@ class TaxesController extends Controller
 
     public function index()
     {
-        //Obtener las cotizaciones creadas hasta la fecha       
-        $taxlist = Tax::with('tax_type')
+        return view('taxes.index');
+  
+    }
+/*
+                                    <span id="icon-detail" title="Editar registro" class="glyphicon glyphicon-pencil fa-1x green"></span>
+                               
+                                    <span id="icon-detail" title="Eliminar registro" @click.prevent="remove({{$tax->id}})" class="glyphicon glyphicon-remove fa-1x red"></span>
+           */               
+    public function getTaxesList()
+    {
+        return Tax::with('tax_type')
                 ->where('tax.account_id',  Auth::user()->account_id)
                 ->where('tax.isDeleted',  0)
                ->orderBy('created_at', 'desc')
@@ -24,9 +33,6 @@ class TaxesController extends Controller
                'tax.name','tax.amount','tax.description',
                'tax.type_id'
                )->get();  
-
-        return view('taxes.index',compact('taxlist'));
-  
     }
 
     public function create()

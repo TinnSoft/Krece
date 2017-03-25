@@ -25,15 +25,13 @@ use PDF;
 use App\Events\RecordActivity;
 use DB;
 
-
 class InvoiceSaleOrderController extends Controller
-{    
-
+{   
+  
     public function index()
     {
         return view('invoice.index');
     }
-
 
     public function getInvoiceList()
     {

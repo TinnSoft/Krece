@@ -6,22 +6,13 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Mail\Welcome;
 use App\Utilities\DataFillNewUsers;
+use App\Jobs\SendWelcomeEmail;
+use App\Jobs\FillDataForNewUsers;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
+   
     use RegistersUsers;
 
     /**
@@ -72,15 +63,13 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $this->fillNewuser->fill($user);
+        //el envio de correo y la actualizacion y carga de datos de la applicación se realizan por medio de queues
+        dispatch(new FillDataForNewUsers($this->fillNewuser, $user));
 
-        $this->sendWelcomeEmail($user);
-
+        dispatch(new SendWelcomeEmail($user));
+       
         return $user;
     }
 
-    private static function sendWelcomeEmail($user)
-    {
-        \Mail::to($user)->send(new Welcome($user->name));
-    }
+   
 }

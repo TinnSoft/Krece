@@ -281,7 +281,7 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
-<pre><code>@{{$data.errors | json}}</code></pre>
+
 
 
 
