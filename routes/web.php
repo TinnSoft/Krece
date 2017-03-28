@@ -57,6 +57,8 @@ Route::resource('contact', 'ContactsController');
 Route::get('getContactBaseInfo','ContactsController@BaseInfo');
 Route::get('getContactlist/{filter}','ContactsController@ContactIndex');
 Route::get('getContactReports/{process_type}/{contact_id}', 'ContactsController@getContactReports');
+Route::post('sendEmailToContact','ContactsController@sendEmailToContact');
+
 //Seller
 Route::resource('seller', 'SellerController');
 

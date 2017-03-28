@@ -33,12 +33,12 @@ class EmailRepository implements IEmailRepository
             $subject=$_text2.$id;
 
             $body='Cordial saludo, <br/><br/>';
-            $body .= 'En este correo se adjunta '.$_text1.$id.' con fecha '.Helper::setCustomDateFormat(Carbon::now());
-            $body .='. Le agradecemos por utilizar los servicios de '.$accountDetail->name.' .';
+            $body .= 'En este correo adjuntamos <strong>'.$_text1.$id.'</strong> con fecha '.Helper::setCustomDateFormat(Carbon::now());
+            $body .='. Agradecemos por utilizar los servicios de '.$accountDetail->name.' .';
             $body .= '<br>';
-            $body .= 'Cualquier inquietud será atendida en el teléfono '.$accountDetail->phone.'.';
+            $body .= 'Cualquier inquietud le atenderemos en el teléfono '.$accountDetail->phone.'.';
             $body .= '<br/><br/>';
-            $body .= 'Si desea responder a este correo, por favor hacerlo a '.$accountDetail->email;
+            $body .= 'Si desea reportar alguna novedad, por favor hacerlo al correo: <strong> '.$accountDetail->email.'</strong>';
             $body .= '<br/><br/>';
             $body .= 'Atentamente,';
             $body .= '<br/><br/>';

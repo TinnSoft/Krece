@@ -5,11 +5,6 @@
 @section('content')
 
 
-
-
- 
-
-
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-6">
                 <h2 >Cotización No: <span class="text-navy">{{$estimate->resolution_id}}</span></h2>
@@ -48,7 +43,7 @@
                                                 <a class="btn btn-success btn-sm "  @click="printPdf({{$estimate->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                                 
-                                                <a class="btn btn-success btn-sm"  @click="sendEmailTo()"> 
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
                                                 <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
 
                                             </p>                                     
@@ -164,44 +159,41 @@
 
 <script>
 
-
-
  var appEstimateShow = new Vue({
   el: '#estimate_show',
   data(){
-      return {
+      return {         
         email: {
                 header: 'Enviar Cotización',
                 subject: '',
-                body: 'asas',
+                body: 'original',
                 to:'',
                 additional_emails:[]
             }
-        }
-
+      }
   },
-  methods: {
-     
-       printPdf: function(val){
+  methods: {     
+    printPdf: function(val){
         window.open('/estimate/'+val+'/pdf', '_blank');
     },
-    sendEmailTo: function(){ 
+    prepareEmailToCustomer: function(){ 
         this.fetchData({!!$estimate->resolution_id!!});
-           
-        
       },
     fetchData: function (resolution_id) {
-      //carga de los datos del header
       var vm = this
       axios.get('/getTemplateEmailToCustomer/'+resolution_id)
         .then(function (response) {
-
-          Vue.set(vm.$data.email, 'subject', response.data.subject);
-          Vue.set(vm.$data.email, 'body', response.data.body);
-          Vue.set(vm.$data.email, 'to', response.data.to);
-          Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
           
-          $('#SendEmailModal').modal('toggle'); 
         })
         .catch(function (error) {
           Vue.set(vm.$data, 'errors', error);
@@ -210,5 +202,7 @@
   }
 })
 </script>
+
+
 
 @endsection

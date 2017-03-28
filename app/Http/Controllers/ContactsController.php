@@ -17,6 +17,9 @@ use App\Contracts\IContactsRepository;
 use App\Repositories\PaymentRepository;
 use DB;
 use App\Utilities\Helper;
+use App\Mail\SendEmailToCustomer;
+use Illuminate\Support\Facades\Mail;
+
 
 class ContactsController extends Controller
 {
@@ -124,7 +127,6 @@ class ContactsController extends Controller
                 'id' => $contact->public_id
             ]);
     }
-
 
 
     public function show($id)
@@ -266,6 +268,19 @@ class ContactsController extends Controller
             return response()
             ->json([
                 'deleted' => true
+            ]);
+    }
+
+    public function sendEmailToContact(Request $request)
+    {
+        $data=$request->all();
+        
+        Mail::to($data['to'])
+            ->queue(new SendEmailToCustomer($data['body'],$data['subject']));
+      
+      return response()
+            ->json([
+                'created' => true
             ]);
     }
 }
