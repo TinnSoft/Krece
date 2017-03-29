@@ -21,9 +21,20 @@ use App\Models\{
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class RemisionController extends Controller
 {
+    protected $emailRepo;
+
+    protected $iPdfRepo;
+
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    {
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
+    }
 
     public function index()
     {
@@ -97,9 +108,11 @@ class RemisionController extends Controller
         $products = collect($request->detail)->transform(function($detail) {
             $baseprice=$detail['quantity'] * $detail['unit_price'];
             $totalDiscount= $baseprice*($detail['discount']/100);
-            $detail['total'] = $baseprice- $totalDiscount;
+            $totalTax=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
+            $detail['total_tax']=$totalTax;
+            $detail['total'] = $baseprice + $totalTax - $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
-            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
+            
             return new RemisionDetail($detail);
         });
         
@@ -227,9 +240,10 @@ class RemisionController extends Controller
         $products = collect($request->detail)->transform(function($detail) {
             $baseprice=$detail['quantity'] * $detail['unit_price'];
             $totalDiscount= $baseprice*($detail['discount']/100);
-            $detail['total'] = $baseprice- $totalDiscount;
+            $totalTax=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
+            $detail['total_tax']=$totalTax;
+            $detail['total'] = $baseprice + $totalTax - $totalDiscount;
             $detail['user_id'] =  Auth::user()->id;
-            $detail['total_tax']=($baseprice- $totalDiscount)*($detail['tax_amount']/100);
 
             return new RemisionDetail($detail);
         });
@@ -284,25 +298,17 @@ class RemisionController extends Controller
 
     public function pdf($id, Request $request)
     {
-        Carbon::setLocale('es');
-
-         $remision = Remision::with('account','detail','list_price','seller')
-                    ->GetByPublicId(0,$id)
-                    ->GetSelectedFields()
-                    ->first();
-                
-        $remision=Helper::_InvoiceFormatter($remision);
         
-        $mypdf = PDF::loadView('pdf.remision', ['remision' => $remision,'taxes' => Helper::getTotalTaxes($remision->public_id,'remision','remision_detail')]);
-        $filename = "Remision_"."{$remision->public_id}.pdf";
+        $mypdf=$this->iPdfRepo->create(Remision::class, $id);
+
+        $filename = "Remision_"."{$id}.pdf";
 
          if($request->get('opt') === 'download') {
-            return $pdf->download($filename);            
+            return $mypdf->download($filename);            
         }
         
         event(new RecordActivity('Print','Se ha impreso el pdf de la remision No: ' 
-			.$remision->resolution_id,
-			'Remision','/remision/'.$remision->public_id));	
+			.$id,'Remision','/remision/'.$id));	
 
         return $mypdf->stream();
     }
@@ -325,6 +331,11 @@ class RemisionController extends Controller
             ->json([
                 'updated' => true                           
             ]);
+    }
+
+    public function getTemplateEmailToCustomer($resolution_id)
+    {           
+           return $this->emailRepo->TemplateEmailToCustomer(Remision::class,$resolution_id);
     }
 
 }

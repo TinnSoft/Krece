@@ -29,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Contracts\IContactsRepository', 'App\Repositories\ContactsRepository');
         $this->app->bind('App\Contracts\IProductsRepository', 'App\Repositories\ProductsRepository');
         $this->app->bind('App\Contracts\IEmailRepository', 'App\Repositories\EmailRepository');
+        $this->app->bind('App\Contracts\IPdfRepository', 'App\Repositories\PdfRepository');
     }
 }

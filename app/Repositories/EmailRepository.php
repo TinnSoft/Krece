@@ -10,22 +10,39 @@ use Carbon\Carbon;
 
 class EmailRepository implements IEmailRepository
 {
-    public function TemplateEmailToCustomer($process_type, $id)
+    public function TemplateEmailToCustomer($model, $id)
         {
             $_text1=null;
             $_text2=null;
 
-            switch ($process_type)
+            switch (class_basename($model))
             {
-                case 1; //estimate
+                case 'Estimate'; //estimate
                     $_text1='la cotización # ';
                     $_text2='Cotización # ';
                     break;
-                case 2; //Invoice
-                    $_text1='la factura de venta';
+
+                case 'InvoiceSaleOrder'; //Invoice
+                    $_text1='la factura de venta # ';
+                    $_text2='Factura de venta # ';
+                    break; 
+
+                case 'CreditNote'; 
+                    $_text1='la nota crédito # ';
+                    $_text2='Nota Crédito # ';
+                    break;    
+
+                 case 'Remision'; 
+                    $_text1='la remisión # ';
+                    $_text2='Remisión # ';
                     break;           
                     
             };
+
+            $document_date=Carbon::parse($model::where('resolution_id',$id)
+                                        ->where('isDeleted',0)
+                                        ->select('date')->first()->date)
+                                    ->toFormattedDateString();
 
             $accountDetail=Account::where('id',Auth::user()->id)->select('email','phone','name')->first();
 
@@ -33,14 +50,14 @@ class EmailRepository implements IEmailRepository
             $subject=$_text2.$id;
 
             $body='Cordial saludo, <br/><br/>';
-            $body .= 'En este correo adjuntamos <strong>'.$_text1.$id.'</strong> con fecha '.Helper::setCustomDateFormat(Carbon::now());
+            $body .= 'En este correo adjuntamos <strong>'.$_text1.$id.'</strong> con fecha '.$document_date;
             $body .='. Agradecemos por utilizar los servicios de '.$accountDetail->name.' .';
             $body .= '<br>';
             $body .= 'Cualquier inquietud le atenderemos en el teléfono '.$accountDetail->phone.'.';
             $body .= '<br/><br/>';
             $body .= 'Si desea reportar alguna novedad, por favor hacerlo al correo: <strong> '.$accountDetail->email.'</strong>';
             $body .= '<br/><br/>';
-            $body .= 'Atentamente,';
+            $body .= 'Cordialmente,';
             $body .= '<br/><br/>';
             $body .= $accountDetail->name;
             $body .= '<br/><br/>';

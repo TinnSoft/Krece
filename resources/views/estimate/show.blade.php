@@ -21,7 +21,7 @@
 
             <div id="estimate_show" class="row wrapper wrapper-content">
 
-                 @include('partials.SendEmailTo_modal',['header'=>'Enviar cotización'])
+                         @include('partials.SendEmailTo_modal')
 
                                        <div class="ibox-title">
                                        
@@ -168,9 +168,15 @@
                 subject: '',
                 body: 'original',
                 to:'',
+                public_id:'',
+                model_from:'',
                 additional_emails:[]
             }
       }
+  },
+  mounted: function(){
+      this.email.model_from='estimate';
+      this.email.public_id={!!$estimate->public_id!!};
   },
   methods: {     
     printPdf: function(val){
@@ -181,7 +187,7 @@
       },
     fetchData: function (resolution_id) {
       var vm = this
-      axios.get('/getTemplateEmailToCustomer/'+resolution_id)
+      axios.get('/getTemplateEmailToCustomerEstimate/'+resolution_id)
         .then(function (response) {
             
             Vue.set(vm.$data.email, 'subject', response.data.subject);

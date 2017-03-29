@@ -4,7 +4,7 @@ namespace App\Contracts;
 
 interface IEmailRepository  
 {
-    public function TemplateEmailToCustomer($process_type, $id);
+    public function TemplateEmailToCustomer($model, $id);
 
 
 }

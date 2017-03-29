@@ -26,7 +26,12 @@
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
-                    <button class="btn btn-primary pull-right" @click="create" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear</button>                   
+                    <button 
+                        class="btn btn-primary pull-right ladda-button" 
+                        @click="create" 
+                        data-style="zoom-in"
+                        :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear
+                    </button>                   
                     <a href="{{route('invoice.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>

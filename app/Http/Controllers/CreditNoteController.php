@@ -21,9 +21,21 @@ use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
+use App\Contracts\IPdfRepository;
+use App\Contracts\IEmailRepository;
 
 class CreditNoteController extends Controller
 {
+      
+    protected $emailRepo;
+
+    protected $iPdfRepo;
+
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    {
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
+    }
 
     public function index()
     {
@@ -142,8 +154,8 @@ class CreditNoteController extends Controller
         }
         
         $creditnote=Helper::_InvoiceFormatter($creditnote);
-
-        $taxes=$this->getTotalTaxes($creditnote->public_id);
+       
+        $taxes=Helper::getTotalTaxes($creditnote->public_id,'credit_note','credit_note_detail');
 
         return view('credit-note.show', compact('creditnote','taxes'));
     }
@@ -240,43 +252,25 @@ class CreditNoteController extends Controller
 
     public function pdf($id, Request $request)
     {
-         $creditnote = CreditNote::with('account','detail','list_price')
-                    ->GetByPublicId(0,$id)
-                    ->GetSelectedFields()
-                    ->first();
+        $mypdf=$this->iPdfRepo->create(CreditNote::class, $id);
                 
-       $creditnote=Helper::_InvoiceFormatter($creditnote);
-    
-        
-        $mypdf = PDF::loadView('pdf.credit-note', ['creditnote' => $creditnote,'taxes' => $this->getTotalTaxes($creditnote->public_id)]);
-        $filename = "NotaCredito_"."{$creditnote->public_id}.pdf";
+        $filename = "NotaCredito_"."{$id}.pdf";
 
          if($request->get('opt') === 'download') {
-            return $pdf->download($filename);            
+            return $mypdf->download($filename);            
         }
 
          event(new RecordActivity('Print','Se ha impreso el pdf de la Nota Crédito No: ' 
-			.$creditnote->resolution_id,
-			'CreditNote','/credit-note/'.$creditnote->public_id));	
+			.$id,
+			'CreditNote','/credit-note/'.$id));	
         
         return $mypdf->stream();
 
     }
-
-    public static function getTotalTaxes($public_id)
-    {
-        $taxes=
-        DB::table('credit_note')
-            ->join('credit_note_detail', 'credit_note.id', '=', 'credit_note_detail.credit_note_id')
-             ->join('tax', 'credit_note_detail.tax_id', '=', 'tax.id')
-            ->where('credit_note.account_id',Auth::user()->account_id) 
-             ->where('credit_note.public_id',$public_id)  
-              ->where('credit_note_detail.tax_amount','>',0)             
-            ->select(DB::raw("CONCAT(tax.name,' (',credit_note_detail.tax_amount,'%)') AS name"), 
-            DB::raw('SUM(credit_note_detail.total_tax) as total'))
-            ->groupBy('tax.name','credit_note_detail.tax_amount')
-            ->get();
-
-            return  Helper::_taxesFormatter($taxes);
+    
+    public function getTemplateEmailToCustomer($resolution_number)
+    {           
+           return $this->emailRepo->TemplateEmailToCustomer(CreditNote::class,$resolution_number);
     }
+
 }

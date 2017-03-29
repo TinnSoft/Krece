@@ -11,6 +11,9 @@
            <div class="modal-content animated fadeIn" >             
               
                 <div class="modal-body">
+                <input type="hidden" name="mPublic_id" id='mPublic_id' ref='mPublic_id' v-model="email.public_id" >
+                <input type="hidden" name="mModelFrom" id='mModelFrom' ref='mModelFrom' v-model="email.model_from" >
+
                 <p class="text-center"><span class="text-navy">@{{email.header}}<span> </p>
                     <div class="mail-box">
                         <div class="mail-body">
@@ -48,7 +51,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>                    
-                    <button type="button" @click="appEmailToCustomer.sendEmailToCustomer()" class="btn btn-primary">Enviar</button>                                            
+                    <button 
+                        type="button" 
+                        @click="appEmailToCustomer.sendEmailToCustomer()" 
+                        data-style="zoom-in"
+                        class="btn btn-primary ladda-button">Enviar
+                    </button>                                            
                 </div>
             </div>
     </div>
@@ -68,7 +76,9 @@ var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(
                 subject: '',
                 body: '',
                 to:'',
-                additional_emails:[]
+                additional_emails:[],
+                model_from:'',
+                public_id:''
             },
             errors:{}
       }
@@ -94,9 +104,12 @@ var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(
             self.email.to=emailTo.value;
             self.email.body=$('#summernote').summernote('code');
             self.email.subject=emailSubject.value;
+            self.email.public_id=mPublic_id.value;
+            self.email.model_from=mModelFrom.value;
+
             if (self.email.to=='')
             {
-                swal("Porfavor revisar!", "Debe ingresar por lo menos un correo al cual va dirijido el email!!.", "warning");
+                swal("Porfavor revisar!", "Debe ingresar por lo menos un correo al cual va dirigido el email!!.", "warning");
             }
             else if (self.email.subject=='')
             {
@@ -115,17 +128,23 @@ var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(
         },
         SendEmail:function() {
         var vm = this;
-        axios.post('/sendEmailToContact/', vm.email)
+         	var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    		ldbtn.start();
+
+            axios.post('/sendEmailToContact/', vm.email)
             .then(function (response) {
             if (response.data.created) {
+                ldbtn.stop();
                 swal("Envío finalizado", "Se ha enviado el correo al cliente seleccionado", "success");
+                $('#SendEmailModal').modal('toggle'); 
             } else {
+                ldbtn.stop();
                 swal("Algo falló", "No ha sido posible completar la operación", "error");
             }
             })
             .catch(function (error) {
+                ldbtn.stop();
                 swal("Algo falló", "No ha sido posible completar la operación", "error");
-                console.log(error.response.data);
                 Vue.set(vm.$data, 'errors', error.response.data);
             });
         }

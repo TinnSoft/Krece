@@ -10,55 +10,49 @@ use App\Models\Estimate;
 use App\Utilities\Helper;
 use PDF;
 use Auth;
+use App\Contracts\IPdfRepository;
 
 class SendEmailToCustomer extends Mailable
 {
     use Queueable, SerializesModels;
-
+    
     public $body;
+    
     public $subject;
-
+    
     public $tries = 5;
-
+    
     public $timeout = 120;
-
-
+    
+    protected $iPdfRepo;
+    
+    protected $public_id, $model;
     /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($body, $subject)
+    * Create a new message instance.
+    *
+    * @return void
+    */
+    public function __construct($body, $subject,$public_id,$model, IPdfRepository $iPdfRepo)
     {
         $this->body=$body;
         $this->subject=$subject;
+        $this->iPdfRepo=$iPdfRepo;
+        $this->public_id=$public_id;
+        $this->model=$model;
     }
-
+    
     /**
-     * Build the message.
-     *
-     * @return $this
-     */
+    * Build the message.
+    *
+    * @return $this
+    */
     public function build()
     {
-        $id=34;
-        
-
-        $withContainer=['account','detail','list_price','seller'];
-        $estimate = Estimate::with($withContainer)
-            ->where('account_id',  1)
-                ->where('isDeleted',0)
-                 ->where('public_id',  $id)
-            ->GetSelectedFields()
-            ->first();
-           
-           
-        $estimate=Helper::_InvoiceFormatter($estimate);
-        $taxes=Helper::getTotalTaxes($estimate->public_id,'estimate','estimate_detail');
-        $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate, 'taxes'=>$taxes]);
+       
+        $mypdf=$this->iPdfRepo->create($this->model, $this->public_id);
         
         return $this->markdown('emails.emailToCustomer')
-        ->subject('Envío de '.$this->subject)
-        ->attachData($mypdf->output(), 'invoice.pdf');
+                    ->subject('Envío de '.$this->subject)
+                    ->attachData($mypdf->output(), 'documento.pdf');
     }
 }

@@ -11,7 +11,10 @@ use App\Models\{
     Contact_others,
     PaymentTerms,
     Seller,
-    ListPrice
+    ListPrice,
+    Estimate,
+    CreditNote,
+    Remision
 };
 use App\Contracts\IContactsRepository;
 use App\Repositories\PaymentRepository;
@@ -19,18 +22,28 @@ use DB;
 use App\Utilities\Helper;
 use App\Mail\SendEmailToCustomer;
 use Illuminate\Support\Facades\Mail;
+use App\Contracts\IPdfRepository;
 
 
 class ContactsController extends Controller
 {
 
       protected $contactsRepo;
+
       protected $paymentRepo;
 
-     public function __construct(IContactsRepository $contactsRepo, PaymentRepository $paymentRepo)
+      protected $pdfRepo;
+
+
+     public function __construct(IContactsRepository $contactsRepo, PaymentRepository $paymentRepo, IPdfRepository $pdfRepo)
      {
+         
         $this->contactsRepo = $contactsRepo;
+        
         $this->paymentRepo = $paymentRepo;
+        
+        $this->pdfRepo = $pdfRepo;
+  
     }
     
 
@@ -273,10 +286,33 @@ class ContactsController extends Controller
 
     public function sendEmailToContact(Request $request)
     {
+
         $data=$request->all();
+        $model=null;
         
+        switch ($data['model_from'])
+        {
+            case 'estimate';
+                $model=Estimate::class;              
+                break;
+            
+            case 'credit_note';
+                $model=CreditNote::class;              
+                break;
+
+            case 'remision';
+                $model=Remision::class;              
+                break;
+        
+            default;
+            
+            break;
+    
+        };
+
+               
         Mail::to($data['to'])
-            ->queue(new SendEmailToCustomer($data['body'],$data['subject']));
+            ->send(new SendEmailToCustomer($data['body'],$data['subject'],$data['public_id'],$model, $this->pdfRepo));
       
       return response()
             ->json([

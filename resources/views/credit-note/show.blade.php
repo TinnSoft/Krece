@@ -19,23 +19,23 @@
         </div>                
     </div>           
 
-            <div id="creditnote_show" class="row wrapper wrapper-content">            
+            <div id="creditnote_show" class="row wrapper wrapper-content">  
+                            @include('partials.SendEmailTo_modal')          
                                        <div class="ibox-title">                                       
                                             <p>
-                                                <a href="{{route('credit-note.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
-                                                
+                                                                                                
                                                 <a href="{{route('credit-note.edit', $creditnote->public_id)}}" class="btn btn-info btn-sm "> 
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('credit-note.edit', $creditnote->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Clonar</a> 
-                                                
                                                 <a href="{{route('credit-note.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Nota crédito</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$creditnote->public_id}})"> 
+                                                <a class="btn btn-success btn-sm "  @click="printPdf({{$creditnote->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
+                                                
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
+                                                <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
+
                                             </p>                                     
                                         </div>                            
                  </div>          
@@ -144,14 +144,51 @@
 
  var appEstimateShow = new Vue({
   el: '#creditnote_show',
+  data(){
+      return {         
+        email: {
+                header: 'Enviar Nota Crédito',
+                subject: '',
+                body: '',
+                to:'',
+                public_id:'',
+                model_from:'',
+                additional_emails:[]
+            },
+            errors:{}
+      }
+  },
+   mounted: function(){
+      this.email.model_from='credit_note';
+      this.email.public_id={!!$creditnote->public_id!!};
+  },
   methods: {
        printPdf: function(val){
         window.open('/credit-note/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
+    prepareEmailToCustomer: function(){ 
+        this.fetchData({!!$creditnote->resolution_id!!});
       },
+    fetchData: function (resolution_id) {
+      var vm = this
+      axios.get('/getTemplateEmailToCustomerCreditNote/'+resolution_id)
+        .then(function (response) {
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
+          
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
+    },
   }
 })
 </script>

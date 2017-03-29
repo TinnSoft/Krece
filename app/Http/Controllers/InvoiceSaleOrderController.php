@@ -18,7 +18,9 @@ use App\Models\{
     ResolutionNumber,
     Resolution,
     Category,
-    Estimate,User
+    Estimate,
+    User,
+    Remision
 };
 use App\Utilities\Helper;
 use PDF;
@@ -273,10 +275,20 @@ class InvoiceSaleOrderController extends Controller
                 return view('invoice.clone', compact('invoice'));
             }
 
-             if (request()->get('convert')=='toInvoice')
+            $checkConverted=request()->get('convert');
+             if ($checkConverted=='toInvoice' || $checkConverted=='toInvoiceR')
             {
-               
-                 $invoice = Estimate::with(['detail','contact','list_price','currency','seller'])
+               $model=null;
+                if ($checkConverted=='toInvoice')
+                {
+                    $model=Estimate::class;
+                }
+                if ($checkConverted=='toInvoiceR')
+                {
+                    $model=Remision::class;
+                }
+
+                 $invoice = $model::with(['detail','contact','list_price','currency','seller'])
                     ->GetByPublicId(0,$id)
                     ->GetSelectedFields()
                     ->first();
@@ -288,17 +300,16 @@ class InvoiceSaleOrderController extends Controller
                     ->where('isActive',1)
                     ->first();
 
-                 //dd($resolutionID->next_invoice_number);
-
                 $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
                 $invoice['public_id']= $PublicId;
                 $invoice['resolution_id']= $resolutionID->next_invoice_number;
                 $invoice['date']=Helper::setCustomDateFormat(Carbon::now());
                 $invoice['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
                 $invoice['notes']=null;
-                return view('invoice.createFromEstimate', compact('invoice'));
+                return view('invoice.createFromConvert', compact('invoice'));
             }
-            
+
+           
             
             if (!$invoice)
             {

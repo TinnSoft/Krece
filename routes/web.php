@@ -20,7 +20,7 @@ Route::resource('estimate', 'EstimateController');
 Route::get('getEstimateBaseInfo','EstimateController@BaseInfo');
 Route::get('getEstimateList','EstimateController@getEstimateList');
 Route::get('estimate/{id}/pdf', 'EstimateController@pdf');
-Route::get('getTemplateEmailToCustomer/{resolution_id}', 'EstimateController@getTemplateEmailToCustomer');
+Route::get('getTemplateEmailToCustomerEstimate/{resolution_id}', 'EstimateController@getTemplateEmailToCustomer');
 
 //taxes
 Route::resource('taxes', 'TaxesController');
@@ -90,6 +90,7 @@ Route::get('getRemisionBaseInfo','RemisionController@BaseInfo');
 Route::get('getRemisionList','RemisionController@getRemisionList');
 Route::get('remision/{id}/pdf', 'RemisionController@pdf');
 Route::put('remision_update_state/{req}','RemisionController@update_state');
+Route::get('getTemplateEmailToCustomerRemision/{resolution_id}', 'RemisionController@getTemplateEmailToCustomer');
 
 
 //Invoice for sale
@@ -104,6 +105,7 @@ Route::resource('credit-note', 'CreditNoteController');
 Route::get('getCreditNoteBaseInfo','CreditNoteController@BaseInfo');
 Route::get('getCreditNoteList','CreditNoteController@getCreditNoteList');
 Route::get('credit-note/{id}/pdf', 'CreditNoteController@pdf');
+Route::get('getTemplateEmailToCustomerCreditNote/{resolution_id}', 'CreditNoteController@getTemplateEmailToCustomer');
 
 //payment received
 Route::resource('payment-in', 'PaymentIn_Controller');

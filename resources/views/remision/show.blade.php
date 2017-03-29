@@ -20,20 +20,20 @@
     </div>           
 
             <div id="remision_show" class="row wrapper wrapper-content">
-            
+                @include('partials.SendEmailTo_modal') 
                                        <div class="ibox-title">
                                        
                                             <p>
                                             @if($remision->status_id==1)
-                                                <a href="{{route('remision.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura</a> 
+                                                <a href="{{route('invoice.edit', $remision->public_id)}}?convert=toInvoiceR" class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-share-square-o"></span>&nbsp;Convertir en factura</a> 
                                                 
                                                 
                                                 <a href="{{route('remision.edit', $remision->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+                                                <span class="fa fa-pencil"></span>&nbsp;Editar</a> 
 
                                                 <a href="{{route('remision.edit', $remision->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Clonar</a> 
+                                                <span class="fa fa-copy"></span>&nbsp;Clonar</a> 
                                                   <a @click="updateItemStatus({{$remision->id}},2)" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Anular</a> 
                                             @else
@@ -43,8 +43,11 @@
                                                 <a href="{{route('remision.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Remision</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$remision->public_id}})"> 
+                                                <a class="btn btn-success btn-sm "  @click="printPdf({{$remision->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
+                                                
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
+                                                <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
                                             </p>                                     
                                         </div>                            
                  </div>
@@ -173,10 +176,47 @@
    data: function()  {
     return { 
     status:{status_id:null,},
+     email: {
+                header: 'Enviar Remisión',
+                subject: '',
+                body: '',
+                to:'',
+                public_id:'',
+                model_from:'',
+                additional_emails:[]
+            },
+        errors:{}
   }},
+   mounted: function(){
+      this.email.model_from='remision';
+      this.email.public_id={!!$remision->public_id!!};
+  },
   methods: {
        printPdf: function(val){
         window.open('/remision/'+val+'/pdf', '_blank');
+    },
+    prepareEmailToCustomer: function(){ 
+        this.fetchData({!!$remision->resolution_id!!});
+      },
+    fetchData: function (resolution_id) {
+      var vm = this
+      axios.get('/getTemplateEmailToCustomerRemision/'+resolution_id)
+        .then(function (response) {
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
+          
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
     },
     updateItemStatus: function(item,status)
     {          

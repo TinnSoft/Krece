@@ -23,18 +23,22 @@ use PDF;
 use App\Events\RecordActivity;
 use Jenssegers\Date\Date;
 use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class EstimateController extends Controller
 {
     protected $emailRepo;
-    public function __construct(IEmailRepository $emailRepo)
+    protected $iPdfRepo;
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
     {
         $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
     }
 
     
     public function index()
     {
+        
         return view('estimate.index');
     }
     
@@ -142,7 +146,7 @@ class EstimateController extends Controller
         
         public function show($id)
         {
-            
+                  
             $estimate = Estimate::with('detail','list_price','seller')
             ->GetByPublicId(0,$id)
             ->GetSelectedFields()
@@ -274,24 +278,17 @@ class EstimateController extends Controller
         
         public function pdf($id, Request $request)
         {
-            $estimate = Estimate::with('account','detail','list_price','seller')
-            ->GetByPublicId(0,$id)
-            ->GetSelectedFields()
-            ->first();
             
-            $estimate=Helper::_InvoiceFormatter($estimate);
-            $taxes=Helper::getTotalTaxes($estimate->public_id,'estimate','estimate_detail');
-            
-            $mypdf = PDF::loadView('pdf.estimate', ['estimate' => $estimate, 'taxes'=>$taxes]);
-            $filename = "Cotizacion_"."{$estimate->public_id}.pdf";
+            $mypdf=$this->iPdfRepo->create(Estimate::class, $id);
+
+            $filename = "Cotizacion_"."{ $id}.pdf";
             
             if($request->get('opt') === 'download') {
-                return $pdf->download($filename);
+                return $mypdf->download($filename);
             }
             
             event(new RecordActivity('Print','Se ha impreso el pdf de la cotización No: '
-            .$estimate->resolution_id,
-            'Estimate','/estimate/'.$estimate->public_id));
+            .$id,'Estimate','/estimate/'.$id));
             
             return $mypdf->stream();
             
@@ -299,6 +296,6 @@ class EstimateController extends Controller
 
         public function getTemplateEmailToCustomer($estimate_number)
         {           
-           return $this->emailRepo->TemplateEmailToCustomer(1,$estimate_number);
+           return $this->emailRepo->TemplateEmailToCustomer(Estimate::class,$estimate_number);
         }
     }
