@@ -166,7 +166,7 @@
         email: {
                 header: 'Enviar Cotización',
                 subject: '',
-                body: 'original',
+                body: '',
                 to:'',
                 public_id:'',
                 model_from:'',

@@ -7,12 +7,22 @@ use App\Contracts\IPdfRepository;
 use PDF;
 use App\Models\{
     Account,
-    Estimate
+    Estimate,
+    InvoiceSaleOrder,
+    Payment
 };
+use App\Repositories\PaymentRepository;
 
 class PdfRepository implements IPdfRepository
 {
     
+    protected $paymentRepo;
+
+    public function __construct(PaymentRepository $paymentRepo)
+    {
+        $this->paymentRepo = $paymentRepo;
+    }
+
     //Genera el pdf base que se exporta por cada vista
     //$model=nombre del modelo
     //public_id= id del documento
@@ -30,7 +40,8 @@ class PdfRepository implements IPdfRepository
         $table_detail_name=null;
         
         $view=null;
-        
+        $isPayment=false;
+
         switch (class_basename($model))
         {
             case 'Estimate';
@@ -62,6 +73,31 @@ class PdfRepository implements IPdfRepository
                 $view='pdf.remision';
 
                 break;
+            
+            case 'InvoiceSaleOrder';
+                $withArray=['account','detail','list_price','seller'];
+                $array1_name='invoice';
+                $array2_name='taxes';
+                $table_header_name='invoice_sale_order';
+                $table_detail_name='invoice_sale_order_detail';
+                $view='pdf.invoice';
+
+                break;
+
+            case 'PurchaseOrder';
+                $withArray=['account','detail'];
+                $array1_name='po';
+                $array2_name='taxes';
+                $table_header_name='purchase_order';
+                $table_detail_name='purchase_order_detail';
+                $view='pdf.purchase-order';
+
+                break;
+
+            case 'Payment';
+                return $this->paymentPDF($model, $public_id);
+
+                break;
 
             default;
             
@@ -79,5 +115,74 @@ class PdfRepository implements IPdfRepository
 
         return PDF::loadView($view, [$array1_name => $data, $array2_name=>$taxes]);
 
+    }
+
+    private function paymentPDF($model, $id)
+    {   
+        $payment = $model::with('contact','payment_method','bank_account')
+        ->GetByPublicId(0,$id)
+        ->GetSelectedFields()
+        ->first();
+
+        $subtotal=0;
+        $total=0;
+        $taxes=[];
+        $isCategory=false;
+        $detail=[];
+
+         //1. buscar si tiene pagos asociados por factura
+        $payment_detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
+       
+        foreach($payment_detail as $item)
+        {
+            $detail = collect([
+            ['total' => Helper::formatMoney( ($item ->total_payed)), //total_pending_by_payment2
+            'total2' =>  ($item ->total_payed),
+            'quantity' => 1,
+            'concept'=>'Pago a factura de venta No '.$item->resolution_id]
+            ]);
+        }
+        
+        if(!collect($detail)->isEmpty())
+        {
+            $total=Helper::formatMoney($detail->sum('total2'));
+        }
+        
+        $subtotal=$total;
+       
+        //2. Si no tiene pagos asociados por factura entonces buscar si tiene pagos a categorias
+        if ($payment_detail->isEmpty())
+        {
+            $payment_detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   ;
+            if (! $payment_detail->isEmpty())
+            {   
+                $taxes=$this->paymentRepo->getTotalTaxesOfCategoryByPayment($payment->id); 
+
+                $subtotal=Helper::formatMoney($payment_detail->sum('total'));
+                $isCategory=true;
+                $total=Helper::formatMoney($payment_detail->sum('total') + $payment_detail->sum('tax_total'));
+                
+                foreach($payment_detail as $item)
+                {
+                    $detail[] =collect( 
+                    ['total' => Helper::formatMoney($item->total)
+                    , 'quantity' =>  $item->quantity,
+                    'concept'=> $item->category->name
+                    ]);
+                }
+                $detail = collect($detail);
+                          
+            }
+        }
+        
+        return PDF::loadView('pdf.'.PAYMENT_LOCAL_VIEW_IN, 
+            ['payment' => $payment,
+                'detail' => $detail,
+                'taxes' => $taxes,
+                'isCategory'=>$isCategory,
+                'total'=>$total,
+                'subtotal'=>$subtotal
+            ]);
+        
     }
 }

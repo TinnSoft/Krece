@@ -14,7 +14,10 @@ use App\Models\{
     ListPrice,
     Estimate,
     CreditNote,
-    Remision
+    Remision,
+    InvoiceSaleOrder,
+    Payment,
+    PurchaseOrder
 };
 use App\Contracts\IContactsRepository;
 use App\Repositories\PaymentRepository;
@@ -302,6 +305,18 @@ class ContactsController extends Controller
 
             case 'remision';
                 $model=Remision::class;              
+                break;
+            
+            case 'invoice';
+                $model=InvoiceSaleOrder::class;              
+                break;
+
+             case 'payment';
+                $model=Payment::class;              
+                break;
+
+            case 'po';
+                $model=PurchaseOrder::class;              
                 break;
         
             default;

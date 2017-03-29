@@ -22,14 +22,22 @@ use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\PaymentRepository;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class PaymentIn_Controller extends Controller
 {
     protected $paymentRepo;
 
-    public function __construct(PaymentRepository $paymentRepo)
+    protected $emailRepo;
+    
+    protected $iPdfRepo;
+
+    public function __construct(PaymentRepository $paymentRepo, IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
     {
         $this->paymentRepo = $paymentRepo;
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
     }
 
     public function index()
@@ -335,79 +343,17 @@ class PaymentIn_Controller extends Controller
     
     public function pdf($id, Request $request)
     {
+        
+        $mypdf=$this->iPdfRepo->create(Payment::class, $id);
 
-        $payment = Payment::with('contact','payment_method','bank_account')
-        ->GetByPublicId(0,$id)
-        ->GetSelectedFields()
-        ->first();
-        
-        $subtotal=0;
-        $total=0;
-        $taxes=[];
-        $isCategory=false;
-        $detail=[];
-
-        //1. buscar si tiene pagos asociados por factura
-        $payment_detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
-       
-        foreach($payment_detail as $item)
-        {
-            $detail = collect([
-            ['total' => Helper::formatMoney( ($item ->total_payed)), //total_pending_by_payment2
-            'total2' =>  ($item ->total_payed),
-            'quantity' => 1,
-            'concept'=>'Pago a factura de venta No '.$item->resolution_id]
-            ]);
-        }
-        
-        if(!collect($detail)->isEmpty())
-        {
-            $total=Helper::formatMoney($detail->sum('total2'));
-        }
-        
-        $subtotal=$total;
-       
-        //2. Si no tiene pagos asociados por factura entonces buscar si tiene pagos a categorias
-        if ($payment_detail->isEmpty())
-        {
-            $payment_detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   ;
-            if (! $payment_detail->isEmpty())
-            {
-                $taxes=$this->getTotalTaxes($payment->id);
-                $subtotal=Helper::formatMoney($payment_detail->sum('total'));
-                $isCategory=true;
-                $total=Helper::formatMoney($payment_detail->sum('total') + $payment_detail->sum('tax_total'));
-                
-                foreach($payment_detail as $item)
-                {
-                    $detail[] =collect( 
-                    ['total' => Helper::formatMoney($item->total)
-                    , 'quantity' =>  $item->quantity,
-                    'concept'=> $item->category->name
-                    ]);
-                }
-                $detail = collect($detail);
-                          
-            }
-        }
-        
-        $mypdf = PDF::loadView('pdf.'.PAYMENT_LOCAL_VIEW_IN, ['payment' => $payment,
-        'detail' => $detail,
-        'taxes' => $taxes,
-        'isCategory'=>$isCategory,
-        'total'=>$total,
-        'subtotal'=>$subtotal
-        ]);
-        
-        $filename = PAYMENT_LOCAL_VIEW_IN."_"."{$payment->public_id}.pdf";
+        $filename = PAYMENT_LOCAL_VIEW_IN."_"."{$id}.pdf";
         
         if($request->get('opt') === 'download') {
-            return $pdf->download($filename);
+            return $mypdf->download($filename);
         }
         
         event(new RecordActivity('Print','Se ha impreso el pdf para el comprobante de ingreso No: '
-        .$payment->resolution_id,
-        'Payment-out',PAYMENT_LOCAL_VIEW_EVENT_IN.$payment->public_id));
+        .$id,'Payment-out',PAYMENT_LOCAL_VIEW_EVENT_IN.$id));
         
         return $mypdf->stream();
     }
@@ -440,6 +386,11 @@ class PaymentIn_Controller extends Controller
          return  $this->paymentRepo->UpdatePaymentState($request->all(),
         $id,Payment::class,PAYMENT_LOCAL_VIEW_EVENT_IN);
     }
+
+    public function getTemplateEmailToCustomer($estimate_number)
+        {           
+           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$estimate_number);
+        }
 
     
 }

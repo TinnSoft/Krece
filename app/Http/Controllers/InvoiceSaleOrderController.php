@@ -26,9 +26,21 @@ use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use DB;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class InvoiceSaleOrderController extends Controller
 {   
+    protected $emailRepo;
+    
+    protected $iPdfRepo;
+    
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    {
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
+    }
+
   
     public function index()
     {
@@ -251,7 +263,7 @@ class InvoiceSaleOrderController extends Controller
             }
             
             $invoice=Helper::_InvoiceFormatter($invoice);
-            $taxes=$this->getTotalTaxes($invoice->public_id);
+            $taxes=Helper::getTotalTaxes($invoice->public_id,'invoice_sale_order','invoice_sale_order_detail');
             $paymentHistorical=$this->getPaymentHistorical($invoice->public_id);
             
             return view('invoice.show', compact('invoice','taxes','paymentHistorical'));
@@ -408,23 +420,17 @@ class InvoiceSaleOrderController extends Controller
         
         public function pdf($id, Request $request)
         {
-            $invoice = InvoiceSaleOrder::with('account','detail','list_price','seller')
-            ->GetByPublicId(0,$id)
-            ->GetSelectedFields()
-            ->first();
-            
-            $invoice=Helper::_InvoiceFormatter($invoice);
-            
-            $mypdf = PDF::loadView('pdf.invoice', ['invoice' => $invoice,'taxes' => $this->getTotalTaxes($invoice->public_id)]);
-            $filename = "InvoiceSaleOrder_"."{$invoice->public_id}.pdf";
+
+             $mypdf=$this->iPdfRepo->create(InvoiceSaleOrder::class, $id);
+
+            $filename = "InvoiceSaleOrder_"."{$id}.pdf";
             
             if($request->get('opt') === 'download') {
-                return $pdf->download($filename);
+                return $mypdf->download($filename);
             }
             
             event(new RecordActivity('Print','Se ha impreso el pdf de la factura de venta No: '
-            .$invoice->resolution_id,
-            'InvoiceSaleOrder','/invoice/'.$invoice->public_id));
+            .$id,'InvoiceSaleOrder','/invoice/'.$id));
             
             return $mypdf->stream();
         }
@@ -447,23 +453,6 @@ class InvoiceSaleOrderController extends Controller
             ->json([
             'updated' => true
             ]);
-        }
-        
-        public static function getTotalTaxes($invoice_id)
-        {
-            $taxes=
-            DB::table('invoice_sale_order')
-            ->join('invoice_sale_order_detail', 'invoice_sale_order.id', '=', 'invoice_sale_order_detail.invoice_sale_order_id')
-            ->join('tax', 'invoice_sale_order_detail.tax_id', '=', 'tax.id')
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-            ->where('invoice_sale_order.public_id',$invoice_id)
-            ->where('invoice_sale_order_detail.tax_amount','>',0)
-            ->select(DB::raw("CONCAT(tax.name,' (',invoice_sale_order_detail.tax_amount,'%)') AS name"),
-            DB::raw('SUM(invoice_sale_order_detail.total_tax) as total'))
-            ->groupBy('tax.name','invoice_sale_order_detail.tax_amount')
-            ->get();
-            
-            return  Helper::_taxesFormatter($taxes);
         }
         
         public static function getPaymentHistorical($public_id)
@@ -493,5 +482,10 @@ class InvoiceSaleOrderController extends Controller
             }
             
             return  $payment_historical;
+        }
+
+         public function getTemplateEmailToCustomer($estimate_number)
+        {           
+           return $this->emailRepo->TemplateEmailToCustomer(InvoiceSaleOrder::class,$estimate_number);
         }
     }

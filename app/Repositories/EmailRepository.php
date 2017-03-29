@@ -32,9 +32,27 @@ class EmailRepository implements IEmailRepository
                     $_text2='Nota Crédito # ';
                     break;    
 
-                 case 'Remision'; 
+                case 'Remision'; 
                     $_text1='la remisión # ';
                     $_text2='Remisión # ';
+                    break; 
+
+                case 'PurchaseOrder'; 
+                    $_text1='la órden de compra # ';
+                    $_text2='Órden de Compra # ';
+                    break;   
+
+                case 'Payment'; 
+                    $kindOfProcess=$model::where('account_id',Auth::user()->account_id)->where('public_id',$id)->select('type_id')->first();
+                    if ($kindOfProcess['type_id']=='in')
+                    {
+                        $_text1='el recibo de caja # ';
+                        $_text2='Recibo de caja # ';
+                    }
+                    else{
+                        $_text1='el comprobante de egreso # ';
+                        $_text2='Comprobante de egreso # ';
+                    }
                     break;           
                     
             };

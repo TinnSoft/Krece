@@ -99,6 +99,7 @@ Route::get('getInvoiceBaseInfo','InvoiceSaleOrderController@BaseInfo');
 Route::get('getInvoiceList','InvoiceSaleOrderController@getInvoiceList');
 Route::get('invoice/{id}/pdf', 'InvoiceSaleOrderController@pdf');
 Route::put('invoice_update_state/{req}','InvoiceSaleOrderController@update_state');
+Route::get('getTemplateEmailToCustomerInvoice/{resolution_id}', 'InvoiceSaleOrderController@getTemplateEmailToCustomer');
 
 //Nota crédito
 Route::resource('credit-note', 'CreditNoteController');
@@ -116,6 +117,8 @@ Route::get('getInvoicePendingtoPay_edit/{customer_id}','PaymentIn_Controller@get
 Route::put('payment_in_update_state/{req}','PaymentIn_Controller@update_state');
 Route::get('payment_in_ToCategorySection','PaymentIn_Controller@getBaseInfoToCategorySection');
 Route::get('payment-in/{id}/pdf', 'PaymentIn_Controller@pdf');
+Route::get('getTemplateEmailToCustomerPaymentIn/{resolution_id}', 'PaymentIn_Controller@getTemplateEmailToCustomer');
+
 
 //payment made
 Route::resource('payment-out', 'PaymentOut_Controller');
@@ -132,6 +135,7 @@ Route::resource('purchase-order', 'PurchaseOrderController');
 Route::get('getPOBaseInfo','PurchaseOrderController@BaseInfo');
 Route::get('getPOList','PurchaseOrderController@getPOList');
 Route::get('purchase-order/{id}/pdf', 'PurchaseOrderController@pdf');
+Route::get('getTemplateEmailToCustomerPO/{resolution_id}', 'PurchaseOrderController@getTemplateEmailToCustomer');
 
 //Nota Debito
 Route::resource('debit-note', 'DebitNoteController');

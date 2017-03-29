@@ -20,7 +20,7 @@
     </div>           
 
             <div id="invoice_show" class="row wrapper wrapper-content">
-            
+                @include('partials.SendEmailTo_modal')
                                        <div class="ibox-title">
                                             <p>
                                             @if($invoice->status_id==1)
@@ -31,7 +31,7 @@
                                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
 
                                                 <a href="{{route('invoice.edit', $invoice->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Clonar</a> 
+                                                <span class="fa fa-copy"></span>&nbsp;Clonar</a> 
 
                                                 <a @click="updateItemStatus({{$invoice->id}},2)" class="btn btn-info btn-sm "> 
                                                 <span ></span>&nbsp;Anular</a> 
@@ -42,10 +42,13 @@
                                                 <a href="{{route('invoice.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de venta</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$invoice->public_id}})"> 
+                                               
+                                                <a class="btn btn-success btn-sm "  @click="printPdf({{$invoice->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
 
-                                                
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
+                                                <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
+
                                             </p>                                     
                                         </div>                            
                  </div>
@@ -230,12 +233,46 @@
    data: function()  {
     return { 
     status:{status_id:null,},
+     email: {
+                header: 'Enviar Factura de venta',
+                subject: '',
+                body: '',
+                to:'',
+                public_id:'',
+                model_from:'',
+                additional_emails:[]
+            }
   }},
- // components: {
-	//	PulseLoader},
+  mounted: function(){
+      this.email.model_from='invoice';
+      this.email.public_id={!!$invoice->public_id!!};
+  },
   methods: {
        printPdf: function(val){
         window.open('/invoice/'+val+'/pdf', '_blank');
+    },
+    prepareEmailToCustomer: function(){ 
+        this.fetchData({!!$invoice->resolution_id!!});
+      },
+       fetchData: function (resolution_id) {
+      var vm = this
+      axios.get('/getTemplateEmailToCustomerInvoice/'+resolution_id)
+        .then(function (response) {
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
+          
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
     },
     updateItemStatus: function(item,status)
     {          

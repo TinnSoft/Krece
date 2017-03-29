@@ -4,7 +4,7 @@
 
  <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2 >Clonar cotización</h2>
+                    <h2 >Clonar Órden de Compra</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="{{route('estimate.index')}}">Inicio</a>
@@ -24,7 +24,12 @@
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
-                    <button class="btn btn-primary pull-right" @click="create" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Guardar</button>                   
+                    <button 
+                        class="btn btn-primary pull-right ladda-button" 
+                        @click="create" 
+                        data-style="zoom-in"
+                        :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Guardar
+                    </button>                   
                     <a href="{{route('estimate.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>

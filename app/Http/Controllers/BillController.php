@@ -183,7 +183,35 @@ class BillController extends Controller
             );
           return redirect('/bill')->with($notification);
         }
+        
+        $checkConverted=request()->get('convert');
+          if ($checkConverted=='toBill' || $checkConverted=='toBillR')
+            {
+               $model=null;
+                if ($checkConverted=='toBill')
+                {
+                    $model=PurchaseOrder::class;
+                }
+                if ($checkConverted=='toBillR')
+                {
+                    $model=PurchaseOrder::class;
+                }
 
+                 $bill = $model::with(['detail','contact'])
+                    ->GetByPublicId(0,$id)
+                    ->GetSelectedFields()
+                    ->first();
+                
+                $resolutionID=Helper::ResolutionId(ResolutionNumber::class,'bill');
+
+                $PublicId = Helper::PublicId(Bill::class);
+                $bill['public_id']= $PublicId;
+                $bill['resolution_id']= $resolutionID;
+                $bill['date']=Helper::setCustomDateFormat(Carbon::now());
+                $bill['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
+                $bill['notes']=null;
+                return view('bill.createFromConvert', compact('bill'));
+            }
 
         $bill['date']= Helper::setCustomDateFormat(Carbon::parse($bill['date']));
         $bill['due_date']= Helper::setCustomDateFormat(Carbon::parse($bill['due_date']));

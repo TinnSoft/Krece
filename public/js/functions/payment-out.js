@@ -252,6 +252,8 @@ var app = new Vue({
     create: function () {
       var vm = this;
       vm.isProcessing = true;
+       var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    	ldbtn.start();
       axios.post(vm.redirect, vm.form)
         .then(function (response) {
           if (response.data.created) {
@@ -259,9 +261,11 @@ var app = new Vue({
           } else {
             vm.isProcessing = false;
           }
+          ldbtn.stop();
         })
         .catch(function (error) {
           vm.isProcessing = false;
+          ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
         });
     },
@@ -269,6 +273,8 @@ var app = new Vue({
     update: function () {
       var vm = this;
       vm.isProcessing = true;
+       var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    	ldbtn.start();
       axios.put(vm.redirect + vm.form.id, vm.form)
         .then(function (response) {
           if (response.data.updated) {
@@ -277,9 +283,11 @@ var app = new Vue({
           } else {
             vm.isProcessing = false;
           }
+          ldbtn.stop();
         })
         .catch(function (error) {
           vm.isProcessing = false;
+          ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
         })
     }

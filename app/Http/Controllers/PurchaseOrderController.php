@@ -21,9 +21,21 @@ use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class PurchaseOrderController extends Controller
 {
+
+    protected $emailRepo;
+    
+    protected $iPdfRepo;
+    
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    {
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
+    }
 
     public function index()
     {
@@ -255,27 +267,18 @@ class PurchaseOrderController extends Controller
 
     public function pdf($id, Request $request)
     {
-        Carbon::setLocale('es');
 
-         $po = PurchaseOrder::with('account','detail')
-                    ->GetByPublicId(0,$id)
-                    ->GetSelectedFields()
-                    ->first();
-           
-       $po=Helper::_InvoiceFormatter($po);
-        $taxes=$this->getTotalTaxes($po->public_id);
+         $mypdf=$this->iPdfRepo->create(PurchaseOrder::class, $id);
         
-        $mypdf = PDF::loadView('pdf.purchase-order', ['po' => $po, 'taxes' => $taxes]);
-        
-        $filename = "PO_"."{$po->public_id}.pdf";
+        $filename = "PO_"."{$id}.pdf";
 
          if($request->get('opt') === 'download') {
-            return $pdf->download($filename);            
+            return $mypdf->download($filename);            
         }
   
          event(new RecordActivity('Print','Se ha impreso el pdf de la Orden de Compra No: ' 
-			.$po->resolution_id,
-			'PurchaseOrder','/purchase-order/'.$po->public_id));	
+			.$id,
+			'PurchaseOrder','/purchase-order/'.$id));	
          
         return $mypdf->stream();
 
@@ -329,4 +332,9 @@ class PurchaseOrderController extends Controller
             */
             return [];
     }
+
+    public function getTemplateEmailToCustomer($resolution_id)
+        {           
+           return $this->emailRepo->TemplateEmailToCustomer(PurchaseOrder::class,$resolution_id);
+        }
 }

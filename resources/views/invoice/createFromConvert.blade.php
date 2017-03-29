@@ -28,7 +28,6 @@
                         class="btn btn-primary pull-right ladda-button" 
                         @click="create" 
                         data-style="zoom-in"
-                        data-style="zoom-in"
                         :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Guardar
                     </button>                   
                     <a href="{{route('invoice.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
@@ -49,7 +48,6 @@
     {!!Html::script('/themes/krece/js/plugins/datapicker/bootstrap-datepicker.js')!!}    
    {!!Html::style('/themes/krece/css/plugins/datapicker/datepicker3.css')!!}
     {!!Html::script('/js/components/datepicker/datepicker-locale.es.min.js')!!}
-    {!!Html::script('/js/vue-library/vue.min.js')!!}
    {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
    
     <script type="text/javascript">

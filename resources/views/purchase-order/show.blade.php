@@ -7,7 +7,7 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2 >Orden de Compra No: <span class="text-navy">{{$po->resolution_id}}</span></h2>
+                <h2 >Órden de Compra No: <span class="text-navy">{{$po->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
                     <a href="{{route('purchase-order.index')}}">Inicio</a>
@@ -20,29 +20,26 @@
     </div>           
 
             <div id="po_show" class="row wrapper wrapper-content">
-            
+                 @include('partials.SendEmailTo_modal')
                                        <div class="ibox-title">
                                        
                                             <p>
                                             @if($po->status_id==1)
-                                                <a href="{{route('purchase-order.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Convertir en factura de compra</a> 
+                                                <a href="{{route('bill.edit', $po->public_id)}}?convert=toBill" 
+                                                class="btn btn-info btn-sm "> 
+                                                <span class="fa fa-share-square-o"></span>&nbsp;Convertir en factura de compra</a> 
                                                 
                                                 
                                                 <a href="{{route('purchase-order.edit', $po->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+                                                <span class="fa fa-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('purchase-order.edit', $po->public_id)}}?convert=clone" 
-                                                class="btn btn-info btn-sm "> 
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
                                                 <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
-
-                                                <a href="{{route('purchase-order.edit', $po->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Anular</a> 
                                            @endif 
                                                 <a href="{{route('purchase-order.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Orden de Compra</a> 
+                                                <span class="fa fa-plus"></span>&nbsp;Nueva Orden de Compra</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$po->public_id}})"> 
+                                                <a class="btn btn-success btn-sm"  @click="printPdf({{$po->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            
@@ -200,14 +197,49 @@
 
  var appInvoiceShow = new Vue({
   el: '#po_show',
+   data: function()  {
+    return { 
+     email: {
+                header: 'Enviar órden de compra',
+                subject: '',
+                body: '',
+                to:'',
+                public_id:'',
+                model_from:'',
+                additional_emails:[]
+            }
+  }},
+   mounted: function(){
+      this.email.model_from='po';
+      this.email.public_id={!!$po->public_id!!};
+  },
   methods: {
        printPdf: function(val){
         window.open('/purchase-order/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
+   prepareEmailToCustomer: function(){ 
+        this.fetchData({!!$po->resolution_id!!});
       },
+       fetchData: function (resolution_id) {
+      var vm = this
+      axios.get('/getTemplateEmailToCustomerPO/'+resolution_id)
+        .then(function (response) {
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
+          
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
+    },
   }
 })
 </script>
