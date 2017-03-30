@@ -11,6 +11,7 @@ use App\Models\{
     InvoiceSaleOrder,
     Payment
 };
+use Auth;
 use App\Repositories\PaymentRepository;
 
 class PdfRepository implements IPdfRepository
@@ -98,6 +99,26 @@ class PdfRepository implements IPdfRepository
                 return $this->paymentPDF($model, $public_id);
 
                 break;
+            
+             case 'Bill';
+                $withArray=['account','detail'];
+                $array1_name='bill';
+                $array2_name='taxes';
+                $table_header_name='bill';
+                $table_detail_name='bill_detail';
+                $view='pdf.bill';
+
+                break;
+
+             case 'DebitNote';
+                $withArray=['account','detail'];
+                $array1_name='debitnote';
+                $array2_name='taxes';
+                $table_header_name='debit_note';
+                $table_detail_name='debit_note_detail';
+                $view='pdf.debit-note';
+
+                break;
 
             default;
             
@@ -119,6 +140,21 @@ class PdfRepository implements IPdfRepository
 
     private function paymentPDF($model, $id)
     {   
+        $paymentType=$model::where('account_id',Auth::user()->account_id)->where('public_id',$id)->select('type_id')->first();
+        
+        $tableName=null;
+        $view=null;
+        if ($paymentType['type_id']=='in')
+        {
+            $view=PAYMENT_LOCAL_VIEW_IN;
+            $tableName='invoice_sale_order';
+        }
+        else
+        {
+            $view=PAYMENT_LOCAL_VIEW_OUT;
+            $tableName='bill';
+        }
+
         $payment = $model::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -131,17 +167,30 @@ class PdfRepository implements IPdfRepository
         $detail=[];
 
          //1. buscar si tiene pagos asociados por factura
-        $payment_detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
+        $payment_detail=$this->paymentRepo->PaymentHistoryById($tableName,$payment->id);
        
         foreach($payment_detail as $item)
         {
-            $detail = collect([
-            ['total' => Helper::formatMoney( ($item ->total_payed)), //total_pending_by_payment2
-            'total2' =>  ($item ->total_payed),
-            'quantity' => 1,
-            'concept'=>'Pago a factura de venta No '.$item->resolution_id]
-            ]);
+            if ($paymentType['type_id']=='in')
+            {
+                $detail = collect([
+                ['total' => Helper::formatMoney( ($item ->total_payed)), //total_pending_by_payment2
+                'total2' =>  ($item ->total_payed),
+                'quantity' => 1,
+                'concept'=>'Pago a factura de venta No '.$item->resolution_id]
+                ]);
+            }
+            else
+            {
+                $detail = collect([
+                ['total' => Helper::formatMoney( ($item ->total_pending_by_payment2)),
+                'total2' =>  ($item ->total_pending_by_payment2),
+                'quantity' => 1,
+                'concept'=>'Pago a factura de proveedor']
+                ]);
+            }
         }
+        
         
         if(!collect($detail)->isEmpty())
         {
@@ -175,7 +224,7 @@ class PdfRepository implements IPdfRepository
             }
         }
         
-        return PDF::loadView('pdf.'.PAYMENT_LOCAL_VIEW_IN, 
+        return PDF::loadView('pdf.'.$view, 
             ['payment' => $payment,
                 'detail' => $detail,
                 'taxes' => $taxes,

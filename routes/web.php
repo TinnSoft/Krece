@@ -129,6 +129,7 @@ Route::get('getInvoicePendingtoPay_edit_out/{customer_id}','PaymentOut_Controlle
 Route::get('payment_out_ToCategorySection','PaymentOut_Controller@getBaseInfoToCategorySection');
 Route::put('payment_out_update_state/{req}','PaymentOut_Controller@update_state');
 Route::get('payment-out/{id}/pdf', 'PaymentOut_Controller@pdf');
+Route::get('getTemplateEmailToCustomerPaymentOut/{resolution_id}', 'PaymentOut_Controller@getTemplateEmailToCustomer');
 
 //purchase order
 Route::resource('purchase-order', 'PurchaseOrderController');

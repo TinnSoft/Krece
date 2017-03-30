@@ -27,27 +27,18 @@
     </div>           
 
             <div id="payment_show" class="row wrapper wrapper-content">
-            
+            @include('partials.SendEmailTo_modal')
                                        <div class="ibox-title">                                       
                                             <p>                                          
-                                                <a href="{{route('payment-out.index')}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-cog"></span>&nbsp;Enviar por correo</a> 
+                                                <a class="btn btn-success btn-sm"  @click="prepareEmailToCustomer()"> 
+                                                <span class="fa fa-envelope"></span>&nbsp;Enviar por correo</a> 
                                                 
                                                 
                                                 <a href="{{route('payment-out.edit', $payment->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a> 
+                                                <span class="fa fa-pencil"></span>&nbsp;Editar</a> 
 
-                                                <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=clone" class="btn btn-info btn-sm "> 
-                                                <span ></span>&nbsp;Eliminar</a> 
-                                                @if ($payment->status_id==1)               
-                                                    <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=tonull" class="btn btn-info btn-sm "> 
-                                                    <span ></span>&nbsp;Anular</a> 
-                                                @else
-                                                    <a href="{{route('payment-out.edit', $payment->public_id)}}?convert=toopen" class="btn btn-info btn-sm "> 
-                                                    <span ></span>&nbsp;Convertir a abierta</a> 
-                                                @endif
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$payment->public_id}})"> 
+                                                <a class="btn btn-success btn-sm"  @click="printPdf({{$payment->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            
@@ -185,14 +176,49 @@
 
  var apppaymentShow = new Vue({
   el: '#payment_show',
+  data: function()  {
+    return { 
+     email: {
+                header: 'Enviar transacción de pago',
+                subject: '',
+                body: '',
+                to:'',
+                public_id:'',
+                model_from:'',
+                additional_emails:[]
+            }
+  }},
+   mounted: function(){
+      this.email.model_from='payment';
+      this.email.public_id={!!$payment->public_id!!};
+  },
   methods: {
        printPdf: function(val){
         window.open('/payment-out/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
+     prepareEmailToCustomer: function(){ 
+        this.fetchData({!!$payment->resolution_id!!});
       },
+    fetchData: function (resolution_id) {
+      var vm = this
+      axios.get('/getTemplateEmailToCustomerPaymentOut/'+resolution_id)
+        .then(function (response) {
+            
+            Vue.set(vm.$data.email, 'subject', response.data.subject);
+            Vue.set(vm.$data.email, 'body', response.data.body);
+            Vue.set(vm.$data.email, 'to', response.data.to);
+            Vue.set(vm.$data.email, 'additional_emails', response.data.additional_emails);
+   
+            $('#summernote').summernote();
+            $('#summernote').summernote('code', response.data.body);
+        
+            $('#SendEmailModal').modal('toggle'); 
+          
+        })
+        .catch(function (error) {
+          Vue.set(vm.$data, 'errors', error);
+        })
+    },
   }
 })
 </script>

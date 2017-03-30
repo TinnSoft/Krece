@@ -32,10 +32,10 @@
                 <div class="ibox-content">   
                     <div class="row">
                             <a href="{{route('payment-out.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                            <span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar gasto</a>                     
+                            <span class="fa fa-plus"></span>&nbsp;Adicionar gasto</a>                     
                     </div>                    
                 </div>  
-               <div class="ibox-content">                                
+               <div class="row">                                
                     @include('payment-out.index-grid')                           
                 </div>  
         </div>   

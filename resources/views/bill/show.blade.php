@@ -29,19 +29,16 @@
                                                 <span class="fa fa-money"></span>&nbsp;Agregar Pago</a>
 
                                                 <a href="{{route('bill.edit', $bill->public_id)}}" class="btn btn-info btn-sm "> 
-                                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editar</a>                                                 
-
-                                                <a href="{{route('bill.edit', $bill->public_id)}}?convert=clone" class="btn btn-warning btn-sm btn-outline"> 
-                                                <span ></span>&nbsp;Anular</a> 
+                                                <span class="fa fa-pencil"></span>&nbsp;Editar</a>
                                            @endif 
                                            @if($bill->status_id==2)
                                             <a href="{{route('bill.edit', $bill->public_id)}}?convert=clone" class="btn btn-warning btn-sm btn-outline"> 
                                                 <span ></span>&nbsp;Volver a abrir</a>
                                            @endif 
                                                 <a href="{{route('bill.create')}}" class="btn btn-primary btn-sm pull-right"> 
-                                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Factura de Proveedores</a> 
+                                                <span class="fa fa-plus"></span>&nbsp;Nueva Factura de Proveedores</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$bill->public_id}})"> 
+                                                <a class="btn btn-success btn-sm "  @click="printPdf({{$bill->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            
@@ -114,9 +111,9 @@
                                               
                                                 <td class="table-price">$ {{$prod->unit_price  }}</td>
                                                 <td class="table-qty">{{$prod->quantity}}</td>
-                                                <td class="table-discount">{{$prod->discount}}%</td>
-                                                <td class="table-taxes">{{$prod->tax_amount}}%</td>
-                                                <td class="table-total text-right">$ {{$prod->total}}</td>
+                                                <td class="table-discount">{{$prod->discount or '0'}}%</td>
+                                                <td class="table-taxes">{{$prod->tax_amount or '0'}}%</td>
+                                                <td class="table-total text-right">$ {{$prod->total }}</td>
                                             </tr>
                                         @endforeach                                   
 
@@ -206,10 +203,6 @@
        printPdf: function(val){
         window.open('/bill/'+val+'/pdf', '_blank');
     },
-    goShow: function(val){
-          alert();
-   
-      },
   }
 })
 </script>

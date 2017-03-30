@@ -224,6 +224,8 @@
                             v-model="_data.category"
                             label="name"         
                             track-by="name"
+                            group-values="detail" 
+                            group-label="name"
                             :show-labels="false"
                             placeholder="Buscar Categoría..." 
                             @input="onInputCategory(_data)"
@@ -385,5 +387,4 @@
 
 <pre><code>@{{$data.form | json}}</code></pre>
 -->
-<pre><code>@{{$data.errors | json}}</code></pre>
 

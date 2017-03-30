@@ -24,7 +24,12 @@
             </div>
             <div class="panel-footer">
                 <div class="clearfix">                 
-                    <button class="btn btn-primary pull-right" @click="update" :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Actualizar</button>                   
+                    <button 
+                        class="btn btn-primary pull-right ladda-button" 
+                        @click="update" 
+                        data-style="zoom-in"
+                        :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Actualizar
+                    </button>                   
                     <a href="{{route('bill.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
                  </div>
             </div>

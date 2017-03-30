@@ -36,7 +36,7 @@
 
 </head>
 
-<body class="fixed-sidebar fixed-navbar md-skin fixed-footer" landing-scrollspy id="page-top">
+<body class="fixed-sidebar fixed-nav md-skin fixed-footer" landing-scrollspy id="page-top">
 
     <div id="wrapper">
     
@@ -151,14 +151,10 @@
 
         <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-            <form role="search" class="navbar-form-custom" action="">
-                <div class="form-group">
-                    <input type="text" placeholder="Buscar...." class="form-control" name="top-search" id="top-search">
-                </div>
-            </form>
+           
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
@@ -216,5 +212,6 @@
     {!!Html::script('/js/functions/logo.js')!!}
 
 </body>
+
 
 </html>

@@ -27,8 +27,9 @@
             <div class="panel-footer">
                 <div class="clearfix">                 
                     <button 
-                        class="btn btn-primary pull-right" 
+                        class="btn btn-primary pull-right ladda-button" 
                         @click="create" 
+                        data-style="zoom-in"
                         :disabled="isProcessing"><i class="fa fa-save"></i>&nbsp;Crear
                     </button>                   
                     <a href="{{route('bill.index')}}" class="btn btn-default pull-right">&nbsp;Cancelar</a>
@@ -50,34 +51,8 @@
     {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
     {!!Html::script('/js/libraries/accounting.js')!!}
     <script type="text/javascript">
-        Vue.prototype.$http = axios;
-        window._form = {
-            public_id: '',
-            resolution_id:'',
-            customer_id: '',
-            contact: null,
-            observations:'',
-            date: '',
-            due_date: '',
-            currency_code:'',
-            currency:null,
-            sub_total:'',
-            total_discounts:'',
-            total_taxes:'',
-            total:'',           
-            detail: [{
-                category_id: '',
-                tax_id:'',
-                category:null,
-                description:'',
-                unit_price: 0,
-                discount: 0,
-                quantity: 1,
-                tax_amount: 0,
-                tax_value:null
-           }]
-        };
-
+         Vue.prototype.$http = axios;
+        window._form = {!! $bill->toJson() !!};
     </script>
    
        

@@ -387,9 +387,9 @@ class PaymentIn_Controller extends Controller
         $id,Payment::class,PAYMENT_LOCAL_VIEW_EVENT_IN);
     }
 
-    public function getTemplateEmailToCustomer($estimate_number)
+    public function getTemplateEmailToCustomer($id)
         {           
-           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$estimate_number);
+           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
         }
 
     

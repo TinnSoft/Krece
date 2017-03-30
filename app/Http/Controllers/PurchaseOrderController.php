@@ -159,7 +159,8 @@ class PurchaseOrderController extends Controller
         }
         
         $po=Helper::_InvoiceFormatter($po);
-        $taxes=$this->getTotalTaxes($po->public_id);
+    
+        $taxes=Helper::getTotalTaxes($po->public_id,'purchase_order','purchase_order_detail');
         $_invoice_History=$this->getInvoiceHistory($po->public_id);
 
         return view('purchase-order.show', compact('po','taxes','_invoice_History'));
@@ -268,7 +269,7 @@ class PurchaseOrderController extends Controller
     public function pdf($id, Request $request)
     {
 
-         $mypdf=$this->iPdfRepo->create(PurchaseOrder::class, $id);
+        $mypdf=$this->iPdfRepo->create(PurchaseOrder::class, $id);
         
         $filename = "PO_"."{$id}.pdf";
 
@@ -282,23 +283,6 @@ class PurchaseOrderController extends Controller
          
         return $mypdf->stream();
 
-    }
-
-     public static function getTotalTaxes($invoice_id)
-    {
-        $taxes=
-        DB::table('purchase_order')
-            ->join('purchase_order_detail', 'purchase_order.id', '=', 'purchase_order_detail.purchase_order_id')
-             ->join('tax', 'purchase_order_detail.tax_id', '=', 'tax.id')
-            ->where('purchase_order.account_id',Auth::user()->account_id) 
-             ->where('purchase_order.public_id',$invoice_id)  
-              ->where('purchase_order_detail.tax_amount','>',0)             
-            ->select(DB::raw("CONCAT(tax.name,' (',purchase_order_detail.tax_amount,'%)') AS name"), 
-            DB::raw('SUM(purchase_order_detail.total_tax) as total'))
-            ->groupBy('tax.name','purchase_order_detail.tax_amount')
-            ->get();
-
-            return  Helper::_taxesFormatter($taxes);
     }
 
      public static function getInvoiceHistory($public_id)

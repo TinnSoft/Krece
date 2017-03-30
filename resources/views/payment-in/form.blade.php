@@ -228,6 +228,8 @@
                             v-model="_data.category"
                             label="name"         
                             track-by="name"
+                            group-values="detail" 
+                            group-label="name"
                             :show-labels="false"
                             placeholder="Buscar Categoría..." 
                             @input="onInputCategory(_data)"

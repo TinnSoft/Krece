@@ -31,6 +31,7 @@ var app = new Vue({
     
     vm.getInvoice_list();
 
+    
      //verifica si tiene una variable como parametro perteneciente al codigo de cliente
     //indica que requiere seleccionarse automáticamente del dropdown
     vm.defaultCustomerID = window.location.search.substr(1);
@@ -41,6 +42,7 @@ var app = new Vue({
 
     if(typeof _categorylist=='object')
     {
+   
       //procesa el objeto  cuando selecciona la opción Categorias
       if (_categorylist.length>0)
       {

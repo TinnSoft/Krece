@@ -8,7 +8,7 @@
     <script>
         moment.locale('es');  
     </script>
-    
+
 
 
 
@@ -72,7 +72,7 @@
                 rowList: [10, 20, 50, 100],
                 caption:" ",
                 loadonce:true,
-                sortorder: "desc",
+                iconSet: "fontAwesome",
                 loadComplete: function () {
                     var count = $("#invoice-grid").getGridParam();
                     var ts = $("#invoice-grid")[0];
@@ -83,13 +83,8 @@
                     } else {
                         $("#invoice-grid").show();
                         emptyMsgDiv.hide();
-                    };  
-                                     
-                }, 
-                 beforeRequest:function()
-                {
-                    resizewidth();
-                },           
+                    };                                       
+                },            
                 pager:"#pager_list_2"
             });
             
@@ -189,9 +184,7 @@
                     return invoiceApp.moment(cellValue);
             }
 
-             $(window).on("resize", function() {
-                resizewidth();
-            });
+
 
             $(window).bind('resize', function () {
                resizewidth();

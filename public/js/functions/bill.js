@@ -162,6 +162,8 @@ var app = new Vue({
     },
     create: function () {
       var vm = this;
+      var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    	ldbtn.start();
       vm.isProcessing = true;
       axios.post(vm.redirect, vm.form)
         .then(function (response) {
@@ -170,15 +172,19 @@ var app = new Vue({
           } else {
             vm.isProcessing = false;
           }
+          ldbtn.stop();
         })
         .catch(function (error) {
           vm.isProcessing = false;
+          ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
         });
     },
 
     update: function () {
       var vm = this;
+      var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+    	ldbtn.start();
       vm.isProcessing = true;
       axios.put(vm.redirect + vm.form.id, vm.form)
         .then(function (response) {
@@ -213,10 +219,11 @@ var app = new Vue({
     },
 
     TaxesTotal: function () {
+ 
       var TaxTot = this.form.detail.reduce(function (carry, detail) {
         return carry + ((((parseFloat(detail.quantity) * parseFloat(detail.unit_price))
           - ((parseFloat(detail.quantity) * parseFloat(detail.unit_price)) * parseFloat(detail.discount)) / 100) *
-          parseFloat(detail.tax_amount))) / 100;
+          parseFloat(isNaN(detail.tax_amount) || detail.tax_amount=='' || detail.tax_amount==null ? 0 : detail.tax_amount))) / 100;
       }, 0);
 
       this.form.total_taxes = isNaN(TaxTot) ? 0 : TaxTot;

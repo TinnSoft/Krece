@@ -22,14 +22,22 @@ use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\PaymentRepository;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class PaymentOut_Controller extends Controller
 {
     protected $paymentRepo;
 
-    public function __construct(PaymentRepository $paymentRepo)
+    protected $emailRepo;
+    
+    protected $iPdfRepo;
+
+    public function __construct(PaymentRepository $paymentRepo, IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
     {
         $this->paymentRepo = $paymentRepo;
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
     }
 
     public function index()
@@ -97,7 +105,6 @@ class PaymentOut_Controller extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-        //'customer_id' => 'required',
         'date' => 'required',
         'payment_method_id' => 'required',
         'bank_account_id' => 'required',
@@ -219,7 +226,7 @@ class PaymentOut_Controller extends Controller
     
     public function edit($id)
     {
-        
+       
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -349,81 +356,17 @@ class PaymentOut_Controller extends Controller
     
     public function pdf($id, Request $request)
     {
-        
-        $payment = Payment::with('contact','payment_method','bank_account')
-        ->GetByPublicId(0,$id)
-        ->GetSelectedFields()
-        ->first();
-        
-        $subtotal=0;
-        $total=0;
-        $taxes=[];
-        $isCategory=false;
-        $detail=[];
+         $mypdf=$this->iPdfRepo->create(Payment::class, $id);
 
-        //1. buscar si tiene pagos asociados por factura
-        $payment_detail=$this->paymentRepo->PaymentHistoryById('bill',$payment->id);
-       
-        foreach($payment_detail as $item)
-        {
-            $detail = collect([
-            ['total' => Helper::formatMoney( ($item ->total_pending_by_payment2)),
-            'total2' =>  ($item ->total_pending_by_payment2),
-            'quantity' => 1,
-            'concept'=>'Pago a factura de proveedor']
-            ]);
-        }
         
-        if(!collect($detail)->isEmpty())
-        {
-            $total=Helper::formatMoney($detail->sum('total2'));
-        }
-        
-        $subtotal=$total;
-        
-        //2. Si no tiene pagos asociados por factura entonces buscar si tiene pagos a categorias
-        if ($payment_detail->isEmpty())
-        {
-            $payment_detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   ;
-            if (! $payment_detail->isEmpty())
-            {
-                $taxes=$this->getTotalTaxes($payment->id);
-                $subtotal=Helper::formatMoney($payment_detail->sum('total'));
-                $isCategory=true;
-                $total=Helper::formatMoney($payment_detail->sum('total') + $payment_detail->sum('tax_total'));
-                
-               
-
-                foreach($payment_detail as $item)
-                {
-                    $detail[] =collect( 
-                    ['total' => Helper::formatMoney($item->total)
-                    , 'quantity' =>  $item->quantity,
-                    'concept'=> $item->category->name
-                    ]);
-                }
-                $detail = collect($detail);
-                          
-            }
-        }
-        
-        $mypdf = PDF::loadView('pdf.'.PAYMENT_LOCAL_VIEW_OUT, ['payment' => $payment,
-        'detail' => $detail,
-        'taxes' => $taxes,
-        'isCategory'=>$isCategory,
-        'total'=>$total,
-        'subtotal'=>$subtotal
-        ]);
-        
-        $filename = PAYMENT_LOCAL_VIEW_OUT.'_'."{$payment->public_id}.pdf";
+        $filename = PAYMENT_LOCAL_VIEW_OUT.'_'."{$id}.pdf";
         
         if($request->get('opt') === 'download') {
             return $pdf->download($filename);
         }
         
         event(new RecordActivity('Print','Se ha impreso el pdf para el comprobante de egreso No: '
-        .$payment->resolution_id,
-        PAYMENT_LOCAL_VIEW_OUT,PAYMENT_LOCAL_VIEW_EVENT_OUT.$payment->public_id));
+        .$id,PAYMENT_LOCAL_VIEW_OUT,PAYMENT_LOCAL_VIEW_EVENT_OUT.$id));
         
         return $mypdf->stream();
     }
@@ -436,15 +379,14 @@ class PaymentOut_Controller extends Controller
     }
 
 
-    public function getTotalTaxes($payment_id)
-    {
-        return  $this->paymentRepo->getTotalTaxesOfCategoryByPayment($payment_id);  
-    }
-
      public static function update_bill_status($invoice_id, $status_id)
     {
         Bill::where('id', $invoice_id)
         ->update(['status_id' => $status_id]);
     }
     
+     public function getTemplateEmailToCustomer($id)
+        {           
+           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
+        }
 }

@@ -28,7 +28,7 @@
                                                 <a href="{{route('debit-note.create')}}" class="btn btn-primary btn-sm pull-right"> 
                                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Nota débito</a> 
 
-                                                <a class="btn btn-info btn-sm btn-outline"  @click="printPdf({{$debitnote->public_id}})"> 
+                                                <a class="btn btn-success btn-sm"  @click="printPdf({{$debitnote->public_id}})"> 
                                                 <span class="fa fa-print"></span>&nbsp;Imprimir</a> 
                                             </p>                                     
                                         </div>                            

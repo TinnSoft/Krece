@@ -16,15 +16,28 @@ use App\Models\{
     Contact,
     Product,
     ResolutionNumber,
-    Category
+    Category,
+    PurchaseOrder
 };
 use App\Utilities\Helper;
 use PDF;
 use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
+use App\Contracts\IEmailRepository;
+use App\Contracts\IPdfRepository;
 
 class BillController extends Controller
 {
+
+    protected $emailRepo;
+    
+    protected $iPdfRepo;
+    
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    {
+        $this->emailRepo = $emailRepo;
+        $this->iPdfRepo = $iPdfRepo;
+    }
 
     public function index()
     {  
@@ -160,7 +173,7 @@ class BillController extends Controller
         }
        
         $bill=Helper::_InvoiceFormatter($bill);
-        $taxes=$this->getTotalTaxes($bill->public_id);
+        $taxes=Helper::getTotalTaxes($bill->public_id,'bill','bill_detail');
         $paymentHistorical=$this->getPaymentHistorical($bill->public_id);
 
         return view('bill.show', compact('bill','taxes','paymentHistorical'));
@@ -168,6 +181,7 @@ class BillController extends Controller
 
     public function edit($id)
     {
+      
         
         $bill = Bill::with(['detail','contact'])
         ->GetByPublicId(0,$id)
@@ -175,16 +189,8 @@ class BillController extends Controller
         ->first();
 
         
-         if (!$bill)
-        {
-            $notification = array(
-                'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
-                'alert-type' => 'error'
-            );
-          return redirect('/bill')->with($notification);
-        }
-        
         $checkConverted=request()->get('convert');
+
           if ($checkConverted=='toBill' || $checkConverted=='toBillR')
             {
                $model=null;
@@ -202,16 +208,24 @@ class BillController extends Controller
                     ->GetSelectedFields()
                     ->first();
                 
-                $resolutionID=Helper::ResolutionId(ResolutionNumber::class,'bill');
+                $resolutionID=Helper::ResolutionId(ResolutionNumber::class,'bill')['number'];
 
                 $PublicId = Helper::PublicId(Bill::class);
                 $bill['public_id']= $PublicId;
                 $bill['resolution_id']= $resolutionID;
                 $bill['date']=Helper::setCustomDateFormat(Carbon::now());
                 $bill['due_date']=Helper::setCustomDateFormat(Carbon::now()->addDays(30));
-                $bill['notes']=null;
                 return view('bill.createFromConvert', compact('bill'));
             }
+        
+        if (!$bill)
+        {
+            $notification = array(
+                'message' => 'No se encontró ninguna referencia de cotizacion creadas!', 
+                'alert-type' => 'error'
+            );
+          return redirect('/bill')->with($notification);
+        }
 
         $bill['date']= Helper::setCustomDateFormat(Carbon::parse($bill['date']));
         $bill['due_date']= Helper::setCustomDateFormat(Carbon::parse($bill['due_date']));
@@ -294,23 +308,16 @@ class BillController extends Controller
     public function pdf($id, Request $request)
     {
 
-         $bill = Bill::with('account','detail')
-                    ->GetByPublicId(0,$id)
-                    ->GetSelectedFields()
-                    ->first();
-  
-        $bill=Helper::_InvoiceFormatter($bill);
-        
-        $mypdf = PDF::loadView('pdf.bill', ['bill' => $bill,'taxes' => $this->getTotalTaxes($bill->public_id)]);
-        $filename = "Bill_"."{$bill->public_id}.pdf";
+        $mypdf=$this->iPdfRepo->create(Bill::class, $id);
+      
+        $filename = "Bill_"."{$id}.pdf";
 
          if($request->get('opt') === 'download') {
-            return $pdf->download($filename);            
+            return $mypdf->download($filename);            
         }
         
         event(new RecordActivity('Print','Se ha impreso el pdf de la factura de venta No: ' 
-			.$bill->resolution_id,
-			'Bill','/bill/'.$bill->public_id));	
+			.$id,'Bill','/bill/'.$id));	
 
         return $mypdf->stream();
     }
@@ -334,22 +341,7 @@ class BillController extends Controller
             ]);
     }
 
-    public static function getTotalTaxes($bill_id)
-    {
-        $taxes=
-        DB::table('bill')
-            ->join('bill_detail', 'bill.id', '=', 'bill_detail.bill_id')
-             ->join('tax', 'bill_detail.tax_id', '=', 'tax.id')
-            ->where('bill.account_id',Auth::user()->account_id) 
-             ->where('bill.public_id',$bill_id)  
-              ->where('bill_detail.tax_amount','>',0)             
-            ->select(DB::raw("CONCAT(tax.name,' (',bill_detail.tax_amount,'%)') AS name"), 
-            DB::raw('SUM(bill_detail.total_tax) as total'))
-            ->groupBy('tax.name','bill_detail.tax_amount')
-            ->get();
 
-            return  Helper::_taxesFormatter($taxes);
-    }
 
      public static function getPaymentHistorical($public_id)
     {

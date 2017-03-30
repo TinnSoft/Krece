@@ -200,27 +200,27 @@ class PaymentRepository
     {
         return CategoryPayment::with('category','taxes')
         ->select('id',
-        'payment_id',
-        'category_id',
-        'unit_price',
-        'tax_id',
-        DB::raw('IFNULL(tax_amount,0) as tax_amount'),
-        DB::raw('IFNULL(tax_total,0) as tax_total'), 
-        'quantity',
-        'observations',
-        DB::raw('SUM(unit_price * quantity) as total'))
+            'payment_id',
+            'category_id',
+            'unit_price',
+            'tax_id',
+            DB::raw('IFNULL(tax_amount,0) as tax_amount'),
+            DB::raw('IFNULL(tax_total,0) as tax_total'), 
+            'quantity',
+            'observations',
+            DB::raw('SUM(unit_price * quantity) as total'))
         ->where('account_id',Auth::user()->account_id)
         ->where('payment_id',$payment_id)
         ->groupBy('id',
-        'payment_id',
-        'category_id',
-        'unit_price',
-        'tax_id',
-        'tax_total',
-        'tax_amount',
-        'quantity',
-        'observations',
-        'tax_total')
+            'payment_id',
+            'category_id',
+            'unit_price',
+            'tax_id',
+            'tax_total',
+            'tax_amount',
+            'quantity',
+            'observations',
+            'tax_total')
         ->get();
         
     }
