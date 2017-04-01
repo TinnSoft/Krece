@@ -156,7 +156,8 @@ class ProductsRepository implements IProductsRepository
                 $table.'.public_id',
                 $table.'.status_id',
                 $table.'_status.description'
-                );
+                )
+                ->get();
 
             $invoiceWithoutPayments=
             DB::table($table)
@@ -189,10 +190,13 @@ class ProductsRepository implements IProductsRepository
                 $table.'.status_id',
                 $table.'_status.description'
                 ) 
-            ->union($invoiceWithPayments)   
-            ->orderBy('resolution_id','desc')  
+            //->union($invoiceWithPayments)   
+            //->orderBy('resolution_id','desc')  
             ->get();
-    
-            return $invoiceWithoutPayments;
+            
+            $invoiceWithoutPayments=$invoiceWithPayments->union($invoiceWithoutPayments);
+            $invoiceWithoutPayments->all();
+
+            return $invoiceWithoutPayments->sortBy('resolution_id');
     }
 }

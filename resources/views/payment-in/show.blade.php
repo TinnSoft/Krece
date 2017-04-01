@@ -201,6 +201,7 @@
       },
        fetchData: function (resolution_id) {
       var vm = this
+     
       axios.get('/getTemplateEmailToCustomerPaymentIn/'+resolution_id)
         .then(function (response) {
             

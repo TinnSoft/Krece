@@ -35,7 +35,7 @@
                             <span class="glyphicon glyphicon-plus"></span>&nbsp;Nueva Cotización</a>                     
                     </div>                    
                 </div>  
-               <div class="ibox-content">                                
+               <div class="row">                                
                     @include('estimate.index-grid')                           
                 </div>  
         </div>   

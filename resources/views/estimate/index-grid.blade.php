@@ -27,10 +27,10 @@
                     </li>
                 </ul>                      
             </div>-->
-           <div class="ibox-content">  
+        
                 <table id="estimate-grid"></table>
                 <div id="pager_list_2"></div>     
-            </div>        
+                   
         <div>
 
     <script>

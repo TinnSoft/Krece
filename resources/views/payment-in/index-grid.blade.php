@@ -40,7 +40,7 @@
                     { label: 'Cliente', name: 'contact',  width: 140, sorttype: "text" },
                     { label: 'Tipo de Proceso', name: 'IsCategory', width: 100,align:"left", formatter:processtype_mask },
                     { label: 'Fecha', name: 'date', width: 60, formatter: 'date', formatoptions: {newformat: 'd/m/Y'}},
-                     { label: 'Cuenta', name: 'payment_method', width: 100},
+                     { label: 'Cuenta', name: 'bank_account_name', width: 100},
                      { label: 'Estado', name: 'status_id', width: 50,align:"center", formatter:state_mask },
                      { label: 'Monto', name: 'total', width: 70, formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "} },
                      {name:'public_id', search:false, keys: true,"width":100, label:'Acciones', index:'public_id',  "align":"right" , sortable: false, formatter: displayButtons }                  
@@ -116,7 +116,7 @@
                     return "<p class='text-primary'>Categoría</p>"
                 }
                 else{
-                      return "<p class='text-success'>Factura de venta</p>"
+                      return "<p class='text-success'>Factura de venta: "+rowObject.invoice_id+"</p>"
                 }
             }
 

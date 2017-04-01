@@ -193,6 +193,9 @@ class PaymentIn_Controller extends Controller
         }
         $isCategory=false;
         $detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);        
+        
+        
+
         $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
       
          if ($detail->isEmpty())
@@ -230,6 +233,8 @@ class PaymentIn_Controller extends Controller
             );
             return redirect(PAYMENT_LOCAL_VIEW_EVENT_IN)->with($notification);
         }
+
+
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         $isCategory=false;
         $detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
@@ -261,10 +266,31 @@ class PaymentIn_Controller extends Controller
         $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');
         $data['user_id'] = Auth::user()->id;
         $data['date']=Helper::dateFormatter($data['date']);
+        
         $payment->update($data);
         
+     
           
+         if(isset($data['pending_payment_in'])) {
+            foreach($data['pending_payment_in'] as $item) {
+                if(isset($item['amount_receipt'])) {
+                    if($item['amount_receipt']>0)
+                    {
+                        PaymentHistory::where('payment_id', $payment->id)
+                        ->update(
+                        [
+                        'account_id' =>Auth::user()->account_id,
+                        'user_id' => Auth::user()->id,
+                        'invoice_sale_order_id' =>$item['id'],
+                        'amount' =>$item['amount_receipt'],
+                        ]);
+                    }
+                }
+            }
+        }
 
+  
+        
         if(isset($data['payment_in_to_category'])) {
             foreach($data['payment_in_to_category'] as $item) {
                 if(isset($item['amount_receipt'])) {

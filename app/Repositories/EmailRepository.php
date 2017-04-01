@@ -43,8 +43,8 @@ class EmailRepository implements IEmailRepository
                     break;   
 
                 case 'Payment'; 
-                    $kindOfProcess=$model::where('account_id',Auth::user()->account_id)->where('public_id',$id)->select('type_id')->first();
-                    if ($kindOfProcess['type_id']=='in')
+                    $kindOfProcess=$model::where('account_id',Auth::user()->account_id)->where('resolution_id',$id)->select('type_id')->first()['type_id'];
+                    if ($kindOfProcess=='in')
                     {
                         $_text1='el recibo de caja # ';
                         $_text2='Recibo de caja # ';

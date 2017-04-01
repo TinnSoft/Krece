@@ -150,7 +150,8 @@ class ContactsRepository implements IContactsRepository
                 $table.'.public_id',
                 $table.'.status_id',
                 $table.'_status.description'
-                );
+                )
+            ->get();
 
             $invoiceWithoutPayments=
             DB::table($table)
@@ -182,10 +183,13 @@ class ContactsRepository implements IContactsRepository
                 $table.'.status_id',
                 $table.'_status.description'
                 ) 
-            ->union($invoiceWithPayments)   
-            ->orderBy('resolution_id','desc')  
+            //->union($invoiceWithPayments)   
+            //->orderBy('resolution_id','desc')  
             ->get();
+
+            $invoiceWithoutPayments=$invoiceWithPayments->union($invoiceWithoutPayments);
+            $invoiceWithoutPayments->all();
     
-            return $invoiceWithoutPayments;
+            return $invoiceWithoutPayments->sortBy('resolution_id');
     }
 }
