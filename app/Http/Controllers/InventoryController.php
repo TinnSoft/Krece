@@ -166,20 +166,20 @@ class InventoryController extends Controller
         };
     }
 
-    public function show($id)
-    {
-         
-
-         $products = Product::with(['tax','list_price','measure_unit','category'])
+    private static function getProductList($id){
+        return  Product::with(['tax','list_price','measure_unit','category'])
                 ->where('account_id',  Auth::user()->account_id)
                 ->where('public_id',  $id)
                 ->where('isDeleted',  0)
                 ->orderBy('created_at', 'desc')
                 ->select( 'id','name','reference','sale_price','description','tax_id','public_id','inv_type_id',
                 'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive','inv_quantity_actual','category_id'
-                )->first();    
-         
-   
+                )->first();  
+    }
+
+    public function show($id)
+    {
+         $products = $this->getProductList($id);
 
         if (!$products)
         {
@@ -197,15 +197,7 @@ class InventoryController extends Controller
     public function edit($id)
     {
         
-         $products = Product::with(['tax','list_price','measure_unit'])
-                ->where('account_id',  Auth::user()->account_id)
-                ->where('public_id',  $id)
-                ->where('isDeleted',  0)
-                ->orderBy('created_at', 'desc')
-                ->select( 'id','name','reference','sale_price','description','tax_id','public_id','inv_type_id',
-                'inv_unit_cost','inv_inStock','inv_quantity_initial','isActive','category_id'
-                )->first();    
-
+         $products = $this->getProductList($id);
         
          if (!$products)
         {
@@ -217,7 +209,6 @@ class InventoryController extends Controller
         }
  
          return view('inventory.edit', compact('products'));
-         
          
     }
 

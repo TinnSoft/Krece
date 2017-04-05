@@ -58,7 +58,7 @@
         window.open('/bill/'+val+'/pdf', '_blank');
     },
     AddPayment: function(val){
-        window.location='/payment-out/create?in='+val;     
+        window.location='/payment-out/create?'+val;     
     },
        goShow: function(val){
         window.location = '/bill/'+val;

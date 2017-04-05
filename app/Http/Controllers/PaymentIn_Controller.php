@@ -28,18 +28,18 @@ use App\Contracts\IPdfRepository;
 class PaymentIn_Controller extends Controller
 {
     protected $paymentRepo;
-
+    
     protected $emailRepo;
     
     protected $iPdfRepo;
-
+    
     public function __construct(PaymentRepository $paymentRepo, IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
     {
         $this->paymentRepo = $paymentRepo;
         $this->emailRepo = $emailRepo;
         $this->iPdfRepo = $iPdfRepo;
     }
-
+    
     public function index()
     {
         //dd($this->paymentRepo->amountPendingToPay('invoice_sale_order',105));
@@ -52,7 +52,7 @@ class PaymentIn_Controller extends Controller
     }
     
     public function getInvoicePendingtoPay_data($customer_id)
-    {        
+    {
         
         $dataToReturn=['PendingByPayment'=> $this->paymentRepo->ListOfPendingsToPay('invoice_sale_order',$customer_id),
         'debitNote'=>'0'];
@@ -104,42 +104,42 @@ class PaymentIn_Controller extends Controller
         
         $data = $request->except('contact' ,'resolution','resolution_number','payment_method','bank_account','currency');
         
-         if($data['isInvoice']==null)
+        if($data['isInvoice']==null)
         {
-             return response()
-                ->json([
-                'transaction_error' => ['Seleccione un transacción válida']
-                ], 422);
+            return response()
+            ->json([
+            'transaction_error' => ['Seleccione un transacción válida']
+            ], 422);
         };
-
-  
+        
+        
         //Pago asociado a una factura
-        if(isset($data['pending_payment_in'])) 
+        if(isset($data['pending_payment_in']))
         {
             $detailPayment=$data['pending_payment_in'];
-
+            
             $payment=$this->paymentRepo->storePaymentByInvoice(
-                    $data,
-                     $detailPayment,
-                    Payment::class,
-                    PaymentHistory::class,
-                    PAYMENT_INCOME_TYPE, 
-                    InvoiceSaleOrder::class,                     
-                    INVOICE_STATUS_CLOSE
-                );     
-           
+            $data,
+            $detailPayment,
+            Payment::class,
+            PaymentHistory::class,
+            PAYMENT_INCOME_TYPE,
+            InvoiceSaleOrder::class,
+            INVOICE_STATUS_CLOSE
+            );
+            
         }
         else if(isset($data['payment_in_to_category']))  //Pago asignado a una categoría
-        {            
+        {
             $detailPayment=$data['payment_in_to_category'];
-
+            
             $payment=$this->paymentRepo->storeCategoryPayment(
-                    $data,
-                    $detailPayment,
-                    Payment::class,                   
-                    PAYMENT_INCOME_TYPE
-                );
-                
+            $data,
+            $detailPayment,
+            Payment::class,
+            PAYMENT_INCOME_TYPE
+            );
+            
         }
         else{
             return response()
@@ -147,17 +147,17 @@ class PaymentIn_Controller extends Controller
             'created' => false
             ]);
         }
-
-        if($payment) //retornar errores por validación
-            {               
-                $hasErrorr=collect($payment)->get('original');
-                if ($hasErrorr)
-                {
-                    return $payment; //este objeto contiene errores que se muestran al cliente
-                }               
-            }           
         
-           //Incrementa el numero de resolución
+        if($payment) //retornar errores por validación
+        {
+            $hasErrorr=collect($payment)->get('original');
+            if ($hasErrorr)
+            {
+                return $payment; //este objeto contiene errores que se muestran al cliente
+            }
+        }
+        
+        //Incrementa el numero de resolución
         ResolutionNumber::where('key', 'in-come')
         ->increment('number');
         
@@ -170,9 +170,9 @@ class PaymentIn_Controller extends Controller
         'created' => true,
         'id' => $payment->public_id
         ]);
-
-
-      
+        
+        
+        
     }
     
     public function show($id)
@@ -182,7 +182,7 @@ class PaymentIn_Controller extends Controller
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
-        
+       
         if (!$payment)
         {
             $notification = array(
@@ -192,18 +192,18 @@ class PaymentIn_Controller extends Controller
             return redirect(PAYMENT_LOCAL_VIEW_EVENT_IN)->with($notification);
         }
         $isCategory=false;
-        $detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);        
+       
+        $detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
+    
         
-        
-
         $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
-      
-         if ($detail->isEmpty())
+        
+        if ($detail->isEmpty())
         {
-            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);        
+            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);
             if (! $detail->isEmpty())
             {
-                $total=Helper::formatMoney($detail->sum('total'));
+                $total=Helper::formatMoney($detail->sum('total_with_taxes'));
                 foreach($detail as $item)
                 {
                     $item->unit_price=Helper::formatMoney($item->unit_price);
@@ -213,7 +213,7 @@ class PaymentIn_Controller extends Controller
                 
             }
         }
-
+        
         return view(PAYMENT_LOCAL_VIEW_IN.'.show', compact('payment','detail','total','total','isCategory'));
     }
     
@@ -233,19 +233,19 @@ class PaymentIn_Controller extends Controller
             );
             return redirect(PAYMENT_LOCAL_VIEW_EVENT_IN)->with($notification);
         }
-
-
+        
+        
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         $isCategory=false;
         $detail=$this->paymentRepo->PaymentHistoryById('invoice_sale_order',$payment->id);
-         $categoryList=collect([]);
+        $categoryList=collect([]);
         if ($detail->isEmpty())
         {
             $categoryList=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   ;
             if (! $categoryList->isEmpty())
             {
                 $isCategory=true;
-            }            
+            }
         }
         return view(PAYMENT_LOCAL_VIEW_IN.'.edit', compact('payment','detail','isCategory','categoryList'));
     }
@@ -269,9 +269,9 @@ class PaymentIn_Controller extends Controller
         
         $payment->update($data);
         
-     
-          
-         if(isset($data['pending_payment_in'])) {
+        
+        
+        if(isset($data['pending_payment_in'])) {
             foreach($data['pending_payment_in'] as $item) {
                 if(isset($item['amount_receipt'])) {
                     if($item['amount_receipt']>0)
@@ -288,8 +288,8 @@ class PaymentIn_Controller extends Controller
                 }
             }
         }
-
-  
+        
+        
         
         if(isset($data['payment_in_to_category'])) {
             foreach($data['payment_in_to_category'] as $item) {
@@ -309,7 +309,7 @@ class PaymentIn_Controller extends Controller
             }
         }
         
-         $categoryListInput=[];
+        $categoryListInput=[];
         if(isset($data['payment_in_to_category'])) {
             
             foreach($data['payment_in_to_category'] as $item) {
@@ -349,7 +349,7 @@ class PaymentIn_Controller extends Controller
             }
             
         }
-
+        
         event(new RecordActivity('Update','Se actualizó el pago número: '
         .$payment->resolution_id.' para el cliente '.$payment->contact->name,
         'Payment','/payment/'.$payment->public_id));
@@ -363,15 +363,15 @@ class PaymentIn_Controller extends Controller
     
     public function destroy($id)
     {
-        return $this->paymentRepo->destroy($id,Payment::class);      
-       
+        return $this->paymentRepo->destroy($id,Payment::class);
+        
     }
     
     public function pdf($id, Request $request)
     {
         
         $mypdf=$this->iPdfRepo->create(Payment::class, $id);
-
+        
         $filename = PAYMENT_LOCAL_VIEW_IN."_"."{$id}.pdf";
         
         if($request->get('opt') === 'download') {
@@ -392,31 +392,31 @@ class PaymentIn_Controller extends Controller
     
     public static function getTotalTaxes($payment_id)
     {
-       return  $this->paymentRepo->getTotalTaxesOfCategoryByPayment($payment_id); 
+        return  $this->paymentRepo->getTotalTaxesOfCategoryByPayment($payment_id);
     }
-
-
-     public function getBaseInfoToCategorySection(){
+    
+    
+    public function getBaseInfoToCategorySection(){
         $baseInfo = [
-        'category' => Helper::category_outcome(),
+        'category' => Helper::category_all(),
         'taxes'=>Helper::taxes(),
         ];
         
         return response()->json($baseInfo);
     }
-
- 
+    
+    
     
     public function update_state(Request $request,$id)
     {
-         return  $this->paymentRepo->UpdatePaymentState($request->all(),
+        return  $this->paymentRepo->UpdatePaymentState($request->all(),
         $id,Payment::class,PAYMENT_LOCAL_VIEW_EVENT_IN);
     }
-
+    
     public function getTemplateEmailToCustomer($id)
-        {           
-           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
-        }
-
+    {
+        return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
+    }
+    
     
 }

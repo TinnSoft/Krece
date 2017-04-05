@@ -28,17 +28,21 @@ use App\Events\RecordActivity;
 use DB;
 use App\Contracts\IEmailRepository;
 use App\Contracts\IPdfRepository;
+use App\Repositories\PaymentRepository;
 
 class InvoiceSaleOrderController extends Controller
 {   
     protected $emailRepo;
     
     protected $iPdfRepo;
+
+    protected $paymentRepo;
     
-    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo,PaymentRepository $paymentRepo)
     {
         $this->emailRepo = $emailRepo;
         $this->iPdfRepo = $iPdfRepo;
+        $this->paymentRepo = $paymentRepo;
     }
 
   
@@ -264,7 +268,7 @@ class InvoiceSaleOrderController extends Controller
             
             $invoice=Helper::_InvoiceFormatter($invoice);
             $taxes=Helper::getTotalTaxes($invoice->public_id,'invoice_sale_order','invoice_sale_order_detail');
-            $paymentHistorical=$this->getPaymentHistorical($invoice->public_id);
+            $paymentHistorical=$this->paymentRepo->PaymentHistoryByDocument('invoice_sale_order',$invoice->public_id);
             
             return view('invoice.show', compact('invoice','taxes','paymentHistorical'));
         }
@@ -356,8 +360,6 @@ class InvoiceSaleOrderController extends Controller
             'detail.*.quantity' => 'required|integer|min:1',
             'detail.*.product_id' => 'required',
             ]);
-
-          
             
             $invoice = InvoiceSaleOrder::findOrFail($id);
             
@@ -453,35 +455,6 @@ class InvoiceSaleOrderController extends Controller
             ->json([
             'updated' => true
             ]);
-        }
-        
-        public static function getPaymentHistorical($public_id)
-        {
-            $payment_historical=
-            DB::table('invoice_sale_order')
-            ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
-            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-            ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
-            ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
-            ->where('invoice_sale_order.public_id',$public_id)
-            ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-            ->where('invoice_sale_order.isDeleted',0)
-            ->where('payment.isDeleted',0)
-            ->select('payment.date','payment.resolution_id','payment.status_id', 'payment_status.description as status','payment_method.name as payment_method',
-            DB::raw('SUM(payment_history.amount) as total_payed'),'payment.observations','payment.public_id'
-            )
-            ->groupBy('payment.date','payment.resolution_id', 'payment_status.description','payment_method.name',
-            'payment.observations','payment.public_id','payment.status_id')
-            ->orderby('invoice_sale_order.resolution_id','desc')
-            ->get();
-            
-            foreach($payment_historical as $item)
-            {
-                $item->total_payed=Helper::formatMoney($item->total_payed);
-                $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
-            }
-            
-            return  $payment_historical;
         }
 
          public function getTemplateEmailToCustomer($estimate_number)

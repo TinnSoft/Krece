@@ -27,6 +27,12 @@ class Category extends Model
                     ->select(array('id', 'name','type_id',DB::raw("1 AS isCategory")));
     }
 
+     public function type()
+    {
+         return $this->hasOne(CategoryType::class, 'id', 'type_id')->select(array('id', 'type as description'));
+    }
+
+    
      public function getLftName()
     {
         return 'lft';

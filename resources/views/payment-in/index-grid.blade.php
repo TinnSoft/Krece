@@ -137,7 +137,7 @@
             }   
 
             function formatpublicID(cellValue, options, rowObject) {
-                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=paymentApp.goShow(\""+cellValue+"\") >"+cellValue+"</a></p>";
+                    var goTo = "<p><a class='text-info' style='cursor: pointer; color:green;text-decoration: underline' onClick=paymentApp.goShow(\""+rowObject.public_id+"\") >"+rowObject.public_id+"</a></p>";
                     return goTo;
             }
          

@@ -16,6 +16,7 @@ class PaymentRepository
     //El filtro dinámico se realiza por tipo de pago (in-eg) y la tabl que puede ser bill o invoice
      public function ListOfPayments($sourceTable, $pyment_type)
     {
+       
         $userID=Auth::user()->account_id;
         
         $categoryPayment=DB::table('payment')
@@ -28,21 +29,29 @@ class PaymentRepository
         ->where('payment.type_id','=',$pyment_type)
         ->where('category_payment.account_id', $userID)
         ->select('payment.id as payment_id',
-        'payment.date',
-        'payment.resolution_id',
-        'payment.status_id',
-        'payment_method.name as payment_method', 
-        'contact.name as contact',
-        'contact.id as contact_id',
-        DB::raw('SUM((category_payment.unit_price * category_payment.quantity)+IFNULL(category_payment.tax_total,0)) as total'),
-        'payment.observations',
-        'payment.public_id',
-        'bank_account.bank_account_name',
-        DB::raw('1 as IsCategory'),
-        DB::raw('null as invoice_id')
+            'payment.date',
+            'payment.resolution_id',
+            'payment.status_id',
+            'payment_method.name as payment_method', 
+            'contact.name as contact',
+            'contact.id as contact_id',
+            DB::raw('SUM((category_payment.unit_price * category_payment.quantity)+IFNULL(category_payment.tax_total,0)) as total'),
+            'payment.observations',
+            'payment.public_id',
+            'bank_account.bank_account_name',
+            DB::raw('1 as IsCategory'),
+            DB::raw('null as invoice_id')
         )
-        ->groupBy('payment.id','payment.date','payment.resolution_id','payment_method.name','contact.name',
-        'payment.observations','payment.public_id','payment.status_id','contact.id','bank_account.bank_account_name')
+        ->groupBy('payment.id',
+            'payment.date',
+            'payment.resolution_id',
+            'payment_method.name',
+            'contact.name',
+            'payment.observations',
+            'payment.public_id',
+            'payment.status_id',
+            'contact.id',
+            'bank_account.bank_account_name')
         ->get();
         
         
@@ -58,36 +67,39 @@ class PaymentRepository
         ->where('payment.type_id','=',$pyment_type)
         ->where($sourceTable.'.account_id', $userID)
         ->select('payment.id as payment_id',
-        'payment.date',
-        'payment.resolution_id',
-        'payment.status_id',
-        'payment_method.name as payment_method', 
-        'contact.name as contact',
-        'contact.id',
-        DB::raw('SUM(payment_history.amount) as total'),
-        'payment.observations',
-        'payment.public_id',
-        'bank_account.bank_account_name',
-        DB::raw('0 as IsCategory'),
-        $sourceTable.'.resolution_id as invoice_id'
+            'payment.date',
+            'payment.resolution_id',
+            'payment.status_id',
+            'payment_method.name as payment_method', 
+            'contact.name as contact',
+            'contact.id as contact_id',
+            DB::raw('SUM(payment_history.amount) as total'),
+            'payment.observations',
+            'payment.public_id',
+            'bank_account.bank_account_name',
+            DB::raw('0 as IsCategory'),
+            $sourceTable.'.resolution_id as invoice_id'
         )
         ->groupBy('payment.id',
-        'payment.date',
-        'payment.resolution_id',
-        'payment_method.name',
-        'contact.name',
-        'payment.observations',
-        'payment.public_id',
-        'payment.status_id',
-        'bank_account.bank_account_name',
-         $sourceTable.'.resolution_id',
-        'contact.id')     
+            'payment.date',
+            'payment.resolution_id',
+            'payment_method.name',
+            'contact.name',
+            'payment.observations',
+            'payment.public_id',
+            'payment.status_id',
+            'bank_account.bank_account_name',
+            $sourceTable.'.resolution_id',
+            'contact.id')    
         ->get();
-        
-       $payment=$categoryPayment->union($payment);
-       $payment->all();
+      
+       $payment=$categoryPayment->merge($payment);
+       $payment=$payment->all();
 
-        return response()->json($payment->sortBy('resolution_id'));
+        $payment=collect($payment)->sortByDesc('updated_at');
+        $payment = $payment->values()->all();
+
+        return response()->json($payment);
     }
 
     //retorna las facturas de venta y/o de proveedor pendientes por pagar
@@ -98,7 +110,6 @@ class PaymentRepository
         
         $PendingByPayment=   DB::table($sourceTable)
         ->leftJoin('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
-         //->leftJoin('payment','payment.id', '=', 'payment_history.payment_id')
           ->leftJoin('payment', function ($join) {
             $join->on('payment.id', '=', 'payment_history.payment_id')
                  ->where('payment.isDeleted',0);
@@ -213,7 +224,8 @@ class PaymentRepository
     //retorna el listado de items por categorías ingresados en un pago específico
     public function ListOfCategoriesByPayment($payment_id)
     {
-        return CategoryPayment::with('category','taxes')
+       return
+         CategoryPayment::with('category','taxes')
         ->select('id',
             'payment_id',
             'category_id',
@@ -223,7 +235,8 @@ class PaymentRepository
             DB::raw('IFNULL(tax_total,0) as tax_total'), 
             'quantity',
             'observations',
-            DB::raw('SUM(unit_price * quantity) as total'))
+            DB::raw('(unit_price * quantity) + (IFNULL(tax_amount,0) * (unit_price * quantity)/100) as total_with_taxes'),
+            DB::raw('(unit_price * quantity) as total'))
         ->where('account_id',Auth::user()->account_id)
         ->where('payment_id',$payment_id)
         ->groupBy('id',
@@ -240,67 +253,140 @@ class PaymentRepository
         
     }
 
-      public function PaymentHistoryById($sourceTable,$payment_id)
+    //retorna el pago realizado a una factura o categoría
+    public function PaymentHistoryById($sourceTable,$payment_id)
     {
-        $payment_historical=
-            DB::table($sourceTable)
-            ->Join('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
-            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-            ->where($sourceTable.'.account_id',Auth::user()->account_id)
-            ->where($sourceTable.'.isDeleted',0)
-            ->where('payment.isDeleted',0)
-            ->where('payment.id',$payment_id)
-            ->select($sourceTable.'.id',
-                $sourceTable.'.resolution_id', 
-                'payment_history.'.$sourceTable.'_id',
-                $sourceTable.'.total',
-                $sourceTable.'.public_id',
-                $sourceTable.'.total as total2',
-                $sourceTable.'.date',
-                $sourceTable.'.due_date',
-                DB::raw('SUM(payment_history.amount) as total_payed'),
-                DB::raw('SUM(payment_history.amount) as payed'),
-                DB::raw('"" as total_pending_by_payment'))
-            ->groupBy($sourceTable.'.id',
-                $sourceTable.'.resolution_id', 
-                'payment_history.'.$sourceTable.'_id',
-                $sourceTable.'.public_id',
-                'total',
-                'total_pending_by_payment',
-                $sourceTable.'.date',
-                $sourceTable.'.due_date')
-            ->orderby($sourceTable.'.resolution_id','desc')
-            ->get();
-        
-        $trueTotalPayed=DB::table('payment_history')
-                         ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-                        ->where('payment.isDeleted',0)
-                        ->where($sourceTable.'_id',$payment_historical[0]->id)
-                        ->select(DB::raw('SUM(payment_history.amount) as total'))
-                        ->first()->total;
-       
-        if (!$trueTotalPayed)
-        {
-            $trueTotalPayed=0;
-        }
-        
+        //determinar si el pago fue asociado a una factura o categorí
+        $isInvoice=DB::table('payment')->where('payment.id',$payment_id)
+                    ->select('payment.isInvoice')
+                    ->first()->isInvoice;
 
-        foreach($payment_historical as $item)
+        if ($isInvoice==1)
         {
-            $item->total_pending_by_payment2=  $item->total - $trueTotalPayed;
-            $item->total_pending_by_payment=Helper::formatMoney($item->total - $trueTotalPayed);
-            //$item->total_payed=Helper::formatMoney($item->total_payed);
-            $item->total_payed= $trueTotalPayed;
-            $item->total=Helper::formatMoney($item->total);
-            // $item->payed=Helper::formatMoney($item->payed);
-            $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
-            $item->due_date= Helper::setCustomDateFormat(Carbon::parse( $item->due_date));
-        }
+           
+            $payment_historical=
+                DB::table($sourceTable)
+                ->Join('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
+                ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
+                ->where($sourceTable.'.account_id',Auth::user()->account_id)
+                ->where($sourceTable.'.isDeleted',0)
+                ->where('payment.isDeleted',0)
+                ->where('payment.id',$payment_id)
+                ->select($sourceTable.'.id',
+                    $sourceTable.'.resolution_id', 
+                    'payment_history.'.$sourceTable.'_id',
+                    $sourceTable.'.total',
+                    $sourceTable.'.public_id',
+                    $sourceTable.'.total as total2',
+                    $sourceTable.'.date',
+                    $sourceTable.'.due_date',
+                    DB::raw('SUM(payment_history.amount) as total_payed'),
+                    DB::raw('SUM(payment_history.amount) as payed'),
+                    DB::raw('"" as total_pending_by_payment'))
+                ->groupBy($sourceTable.'.id',
+                    $sourceTable.'.resolution_id', 
+                    'payment_history.'.$sourceTable.'_id',
+                    $sourceTable.'.public_id',
+                    'total',
+                    'total_pending_by_payment',
+                    $sourceTable.'.date',
+                    $sourceTable.'.due_date')
+                ->orderby($sourceTable.'.resolution_id','desc')
+                ->get();
+        
+            if ($payment_historical->isEMpty())
+            {
+                 return collect([]);
+            }
+            //retorna el valor total pagado real
+            $trueTotalPayed=DB::table('payment_history')
+                            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
+                            ->where('payment.isDeleted',0)
+                            ->where($sourceTable.'_id',$payment_historical[0]->id)
+                            ->select(DB::raw('SUM(payment_history.amount) as total'))
+                            ->first()->total;
+    
+            if (!$trueTotalPayed)
+            {
+                $trueTotalPayed=0;
+            }
+            
 
-       
-       
-        return  $payment_historical;
+            foreach($payment_historical as $item)
+            {
+                $item->total_pending_by_payment2=  $item->total - $trueTotalPayed;
+                $item->total_pending_by_payment=Helper::formatMoney($item->total - $trueTotalPayed);
+                $item->total_payed= $trueTotalPayed;
+                $item->total=Helper::formatMoney($item->total);
+                $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
+                $item->due_date= Helper::setCustomDateFormat(Carbon::parse( $item->due_date));
+            }
+
+        
+            return  $payment_historical;
+        }
+        else
+        {
+            return collect([]);
+        }
+      
     }
+
+    public function PaymentHistoryByDocument($sourceTable,$public_id)
+        {
+             $isInvoice=DB::table('payment')->where('payment.id',$payment_id)
+                    ->select('payment.isInvoice')
+                    ->first()->isInvoice;
+
+            if ($isInvoice==1)
+            {
+                $payment_historical=
+                DB::table($sourceTable)
+                ->Join('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
+                ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
+                ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
+                ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
+                ->where($sourceTable.'.public_id',$public_id)
+                ->where($sourceTable.'.account_id',Auth::user()->account_id)
+                ->where($sourceTable.'.isDeleted',0)
+                ->where('payment.isDeleted',0)
+                ->select('payment.date',
+                        'payment.resolution_id',
+                        'payment.status_id', 
+                        'payment_status.description as status',
+                        'payment_method.name as payment_method',
+                        DB::raw('SUM(payment_history.amount) as total_payed'),
+                        'payment.observations',
+                        'payment.public_id'
+                )
+                ->groupBy('payment.date',
+                        'payment.resolution_id', 
+                        'payment_status.description',
+                        'payment_method.name',
+                        'payment.observations',
+                        'payment.public_id',
+                        'payment.status_id')
+                ->orderby($sourceTable.'.resolution_id','desc')
+                ->get();
+                
+                 if ($payment_historical->isEMpty())
+                    {
+                        return collect([]);
+                    }
+                
+                foreach($payment_historical as $item)
+                {
+                    $item->total_payed=Helper::formatMoney($item->total_payed);
+                    $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
+                }
+                
+                return  $payment_historical;
+            }
+            else{
+                return collect([]);
+            }
+        }
+
 
     //retorna los impuestos totales para la seccion de categorías
     public function getTotalTaxesOfCategoryByPayment($payment_id)
@@ -342,8 +428,7 @@ class PaymentRepository
     //Guarda los registros en la tbla CategoryPayment
     //Esto luego de haber seleccionado la opción de asignar pagos a categorias
     public function storeCategoryPayment($data,$CategoryData, $model,$payment_type)
-    {   
-       
+    {          
 
         //operación de categoría
         $categoryListInput=[];      
@@ -523,8 +608,11 @@ class PaymentRepository
     //query
     //Retorna todos los movimientos realizados por bancos (entrada y salida)
     //pagos realizados de entrada y salida de dinero
+    //$id=payment id
+    //$column_name = (invoice_id, Bill_id)
     public function getTransactions($id,$column_name)
     {
+
          $transactionsToCategory=
             DB::table('payment')
                 ->join('category_payment', 'category_payment.payment_id', '=', 'payment.id')
@@ -537,15 +625,16 @@ class PaymentRepository
                 ->select('payment.id','payment.public_id',
                     'payment.date',
                     'contact.name as contact_name',
-                    'category.name as category_name',
+                    DB::raw("'' as category_name"),
                     'payment.status_id',
                     'payment.payment_method_id',
                     DB::raw("CASE WHEN payment.type_id='eg' THEN 'Categoría de Egreso' ELSE 'Categoría de Ingreso' END as detail"),
-                    DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_outcome"),
-                    DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(category_payment.total,0)) ELSE 0 END as total_income")
+                    DB::raw("CASE WHEN payment.type_id='eg' THEN sum(IFNULL(category_payment.total,0))+sum(IFNULL(category_payment.tax_total,0)) ELSE 0 END as total_outcome"),
+                    DB::raw("CASE WHEN payment.type_id='in' THEN sum(IFNULL(category_payment.total,0))+sum(IFNULL(category_payment.tax_total,0)) ELSE 0 END as total_income")
                 )
-                ->groupBy('payment.id','payment.date','contact.name','payment.type_id','category.name',
-                'payment.status_id','payment.public_id','payment.payment_method_id');
+                ->groupBy('payment.id','payment.date','contact.name','payment.type_id',
+                'payment.status_id','payment.public_id','payment.payment_method_id')
+                ->get();
         
         $transactionsToInvoice=
             DB::table('payment')
@@ -598,11 +687,16 @@ class PaymentRepository
                 )
                 ->groupBy('payment.id','payment.date','contact.name','payment.type_id',
                 'payment.status_id','payment.public_id','payment.payment_method_id','bill.resolution_id') 
-                //->union($transactionsToInvoice)
                 ->get();
 
-                $transactionsToBill=$transactionsToInvoice->union($transactionsToBill);
+                $transactionsToBill=$transactionsToInvoice->merge($transactionsToBill);
                 $transactionsToBill->all();
+
+                $transactionsToBill=$transactionsToBill->merge($transactionsToCategory);
+                $transactionsToBill->all();
+
+                $transactionsToBill=collect($transactionsToBill)->sortByDesc('public_id');
+                $transactionsToBill = $transactionsToBill->values()->all();
 
         return  $transactionsToBill;
     }

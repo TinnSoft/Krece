@@ -15,7 +15,7 @@
                     break;
                 
                 case 'warning':
-                    toastr.warning("{{ Session::get('message') }}");
+                    //toastr.warning("{{ Session::get('message') }}");
                     break;
 
                 case 'success':
@@ -23,7 +23,7 @@
                     break;
 
                 case 'error':
-                    toastr.error("{{ Session::get('message') }}");
+                   // toastr.error("{{ Session::get('message') }}");
                     break;
             }
         }, 1300);

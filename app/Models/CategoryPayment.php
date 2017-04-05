@@ -14,7 +14,7 @@ class CategoryPayment extends Model
 
      public function category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id')->select(array('id', 'name'));    
+        return $this->hasOne(Category::class, 'id', 'category_id')->with('type')->select(array('id', 'name','type_id'));    
     }
 
      public function taxes()
@@ -22,5 +22,5 @@ class CategoryPayment extends Model
         return $this->hasOne(Tax::class, 'id', 'tax_id')->select(array(DB::raw("CONCAT(name,' (',amount,'%)') AS text"),'amount as value','id'));        
     }
 
-    
+   
 }

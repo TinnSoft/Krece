@@ -25,6 +25,7 @@ use App\Events\RecordActivity;
 use Illuminate\Support\Facades\DB;
 use App\Contracts\IEmailRepository;
 use App\Contracts\IPdfRepository;
+use App\Repositories\PaymentRepository;
 
 class BillController extends Controller
 {
@@ -32,11 +33,14 @@ class BillController extends Controller
     protected $emailRepo;
     
     protected $iPdfRepo;
+
+    protected $paymentRepo;
     
-    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
+    public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo, PaymentRepository $paymentRepo)
     {
         $this->emailRepo = $emailRepo;
         $this->iPdfRepo = $iPdfRepo;
+        $this->paymentRepo = $paymentRepo;
     }
 
     public function index()
@@ -56,16 +60,28 @@ class BillController extends Controller
                     })         
                     ->where('bill.account_id',Auth::user()->account_id)
                     ->where('bill.isDeleted',0)   
-                    ->select('bill.id','bill.resolution_id','bill.status_id', 
-                    'bill.due_date', 'contact.name as contact_name','contact.id as contact_id',
-                    DB::raw('SUM(payment_history.amount) as total_payed'),'bill.created_at',
-                    'bill.public_id','bill.total',
-                    DB::raw('bill.total - sum(IFNULL(payment_history.amount,0)) as pending_to_pay')
+                    ->select(
+                        'bill.id',
+                        'bill.resolution_id',
+                        'bill.status_id', 
+                        'bill.due_date', 
+                        'contact.name as contact_name',
+                        'contact.id as contact_id',
+                        'contact.public_id as contact_public_id',
+                        DB::raw('SUM(payment_history.amount) as total_payed'),
+                        'bill.created_at',
+                        'bill.public_id','bill.total',
+                        DB::raw('bill.total - sum(IFNULL(payment_history.amount,0)) as pending_to_pay')
                     )
-                    ->groupBy('bill.id','bill.resolution_id','bill.status_id', 
-                    'bill.due_date', 'contact.name',
-                    'bill.created_at','contact.id',
-                    'bill.public_id','bill.total')
+                    ->groupBy('bill.id',
+                        'bill.resolution_id',
+                        'bill.status_id', 
+                        'bill.due_date', 
+                        'contact.name',
+                        'bill.created_at',
+                        'contact.id',
+                        'contact.public_id',
+                        'bill.public_id','bill.total')
                     ->orderby('bill.resolution_id','desc')
                     ->get();
             
@@ -174,7 +190,7 @@ class BillController extends Controller
        
         $bill=Helper::_InvoiceFormatter($bill);
         $taxes=Helper::getTotalTaxes($bill->public_id,'bill','bill_detail');
-        $paymentHistorical=$this->getPaymentHistorical($bill->public_id);
+        $paymentHistorical=$this->paymentRepo->PaymentHistoryByDocument('bill',$bill->public_id);
 
         return view('bill.show', compact('bill','taxes','paymentHistorical'));
     }
@@ -339,39 +355,5 @@ class BillController extends Controller
             ->json([
                 'updated' => true                           
             ]);
-    }
-
-
-
-     public static function getPaymentHistorical($public_id)
-    {
-        $payment_historical=
-            DB::table('bill')            
-            ->Join('payment_history', 'bill.id', '=', 'payment_history.bill_id')
-            ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-            ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
-            ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
-             ->where('bill.public_id',$public_id)   
-            ->where('bill.account_id',Auth::user()->account_id)
-              ->where('bill.isDeleted',0)   
-              ->where('payment.isDeleted',0)  
-            ->select('payment.date','payment.resolution_id','payment.status_id', 'payment_status.description as status',
-                'payment_method.name as payment_method', 
-                 DB::raw('SUM(payment_history.amount) as total_payed'),
-                 'payment.observations','payment.public_id'
-                 )
-            ->groupBy('payment.date','payment.resolution_id', 'payment_status.description','payment_method.name', 
-               'payment.observations','payment.public_id','payment.status_id')
-            ->orderby('bill.resolution_id','desc')
-            ->get();
-
-            foreach($payment_historical as $item) 
-            {  
-               
-                $item->total_payed=Helper::formatMoney($item->total_payed);            
-                $item->date= Helper::setCustomDateFormat(Carbon::parse( $item->date));
-            }
-
-            return  $payment_historical;
     }
 }

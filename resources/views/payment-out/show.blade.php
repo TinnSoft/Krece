@@ -151,12 +151,12 @@
                                              @foreach($detail as $prod)
                                                 <tr>
                                                     <td class=""> <a href="{{route('category.show', $prod->public_id)}}">
-                                                    {{$prod->category->name  }}</a></td>
+                                                   {{$prod->category->type->description.': '.$prod->category->name }}</a></td>
                                                     <td class="">${{$prod->unit_price  }}</td>
                                                     <td class="">{{$prod->tax_amount}}%</td>
                                                     <td class="">{{$prod->quantity}}</td>
                                                     <td class="">{{$prod->observations}}</td>
-                                                    <td class="">${{$prod->total}}</td>
+                                                    <td class="">${{$prod->total_with_taxes}}</td>
                                                     
                                                 </tr>
                                             @endforeach          

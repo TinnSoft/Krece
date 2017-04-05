@@ -73,7 +73,7 @@ class DebitNote extends Model
     {
         return $query->select('id','account_id','public_id','amount_pending_to_apply','customer_id','currency_code',
                     'sub_total','total_discounts','total_taxes','total','date','observations','exchange_rate',
-                    'created_at','updated_at','resolution_id');
+                    'created_at','updated_at','resolution_id', 'total as amount_pending_to_apply');
 	}
 
 }

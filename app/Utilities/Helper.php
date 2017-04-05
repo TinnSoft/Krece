@@ -157,6 +157,19 @@ class Helper
                 ->toArray();
     }
 
+
+     public static function category_all()
+    {
+        return Category::with('detail')
+                    ->select('id', 'name','type_id')
+                    ->where('account_id',  Auth::user()->account_id)
+                    ->where('isDeleted',  0)
+                    ->whereIsRoot()
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->toArray();
+    }
+
       public static function PaymentTerms()
     {
         return PaymentTerms::select('id', 'name','days')

@@ -28,31 +28,31 @@ use App\Contracts\IPdfRepository;
 class PaymentOut_Controller extends Controller
 {
     protected $paymentRepo;
-
+    
     protected $emailRepo;
     
     protected $iPdfRepo;
-
+    
     public function __construct(PaymentRepository $paymentRepo, IEmailRepository $emailRepo, IPdfRepository $iPdfRepo)
     {
         $this->paymentRepo = $paymentRepo;
         $this->emailRepo = $emailRepo;
         $this->iPdfRepo = $iPdfRepo;
     }
-
+    
     public function index()
     {
         return view(PAYMENT_LOCAL_VIEW_OUT.'.index');
     }
     
     public function getPaymentList()
-    {        
+    {
         return $this->paymentRepo->ListOfPayments('bill',PAYMENT_OUTCOME_TYPE);
     }
     
     public function getInvoicePendingtoPay_data($customer_id)
     {
-         
+        
         $dataToReturn=['PendingByPayment'=> $this->paymentRepo->ListOfPendingsToPay('bill',$customer_id),
         'debitNote'=>'0'];
         
@@ -61,8 +61,8 @@ class PaymentOut_Controller extends Controller
     }
     
     public function getInvoicePendingtoPay_data_edit($customer_id)
-    {        
-      
+    {
+        
         $dataToReturn=['PendingByPayment'=> $this->paymentRepo->ListOfPendingsToPay_edit('bill',$customer_id),
         'debitNote'=>'0'];
         
@@ -89,7 +89,7 @@ class PaymentOut_Controller extends Controller
     
     public function getBaseInfoToCategorySection(){
         $baseInfo = [
-        'category' => Helper::category_outcome(),
+        'category' => Helper::category_all(),
         'taxes'=>Helper::taxes(),
         ];
         
@@ -116,41 +116,41 @@ class PaymentOut_Controller extends Controller
         
         if($data['isInvoice']==null)
         {
-             return response()
-                ->json([
-                'transaction_error' => ['Seleccione un transacción válida']
-                ], 422);
+            return response()
+            ->json([
+            'transaction_error' => ['Seleccione un transacción válida']
+            ], 422);
         };
-                
-
+        
+        
         //Pago asociado a una factura
-        if(isset($data['pending_payment_out'])) 
+        if(isset($data['pending_payment_out']))
         {
             $detailPayment=$data['pending_payment_out'];
-
+            
             $payment=$this->paymentRepo->storePaymentByInvoice(
-                    $data,
-                     $detailPayment,
-                    Payment::class,
-                    PaymentHistory::class,
-                    PAYMENT_OUTCOME_TYPE, 
-                    Bill::class,                     
-                    BILL_STATUS_CLOSE
-                );     
-           
+            $data,
+            $detailPayment,
+            Payment::class,
+            PaymentHistory::class,
+            PAYMENT_OUTCOME_TYPE,
+            Bill::class,
+            BILL_STATUS_CLOSE
+            );
+            
         }
         else if(isset($data['payment_out_to_category']))  //Pago asignado a una categoría
         {
             
             $detailPayment=$data['payment_out_to_category'];
-
+            
             $payment=$this->paymentRepo->storeCategoryPayment(
-                    $data,
-                    $detailPayment,
-                    Payment::class,                   
-                    PAYMENT_OUTCOME_TYPE
-                );
-                
+            $data,
+            $detailPayment,
+            Payment::class,
+            PAYMENT_OUTCOME_TYPE
+            );
+            
         }
         else{
             return response()
@@ -158,16 +158,16 @@ class PaymentOut_Controller extends Controller
             'created' => false
             ]);
         }
-
+        
         if($payment) //retornar errores por validación
-            {               
-                $hasErrorr=collect($payment)->get('original');
-                if ($hasErrorr)
-                {
-                    return $payment; //este objeto contiene errores que se muestran al cliente
-                }               
-            }           
-    
+        {
+            $hasErrorr=collect($payment)->get('original');
+            if ($hasErrorr)
+            {
+                return $payment; //este objeto contiene errores que se muestran al cliente
+            }
+        }
+        
         //Incrementa el numero de resolución para los gastos
         ResolutionNumber::where('key', 'out-come')
         ->increment('number');
@@ -186,13 +186,13 @@ class PaymentOut_Controller extends Controller
     
     public function show($id)
     {
-       
+        
         
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
         ->first();
-       
+        
         if (!$payment)
         {
             $notification = array(
@@ -202,13 +202,15 @@ class PaymentOut_Controller extends Controller
             return redirect(PAYMENT_LOCAL_VIEW_EVENT_OUT)->with($notification);
         }
         $isCategory=false;
+        
         $detail=$this->paymentRepo->PaymentHistoryById('bill',$payment->id);
+        
         $total=Helper::formatMoney(PaymentHistory::where('payment_id',$payment->id)->sum('amount'));
         
         if ($detail->isEmpty())
         {
-            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);   
-            $total=Helper::formatMoney($detail->sum('total'));
+            $detail=$this->paymentRepo->ListOfCategoriesByPayment($payment->id);
+            $total=Helper::formatMoney($detail->sum('total_with_taxes'));
             if (! $detail->isEmpty())
             {
                 foreach($detail as $item)
@@ -226,7 +228,7 @@ class PaymentOut_Controller extends Controller
     
     public function edit($id)
     {
-       
+        
         $payment = Payment::with('contact','payment_method','bank_account')
         ->GetByPublicId(0,$id)
         ->GetSelectedFields()
@@ -243,7 +245,7 @@ class PaymentOut_Controller extends Controller
         $payment['date']= Helper::setCustomDateFormat(Carbon::parse($payment['date']));
         $isCategory=false;
         $detail=$this->paymentRepo->PaymentHistoryById('bill',$payment->id);
-     
+        
         $categoryList=collect([]);
         if ($detail->isEmpty())
         {
@@ -251,7 +253,7 @@ class PaymentOut_Controller extends Controller
             if (! $categoryList->isEmpty())
             {
                 $isCategory=true;
-            }            
+            }
         }
         //dd($categoryList);
         return view(PAYMENT_LOCAL_VIEW_OUT.'.edit', compact('payment','detail','isCategory','categoryList'));
@@ -356,8 +358,8 @@ class PaymentOut_Controller extends Controller
     
     public function pdf($id, Request $request)
     {
-         $mypdf=$this->iPdfRepo->create(Payment::class, $id);
-
+        $mypdf=$this->iPdfRepo->create(Payment::class, $id);
+        
         
         $filename = PAYMENT_LOCAL_VIEW_OUT.'_'."{$id}.pdf";
         
@@ -375,18 +377,18 @@ class PaymentOut_Controller extends Controller
     {
         return  $this->paymentRepo->UpdatePaymentState($request->all(),
         $id,Payment::class,PAYMENT_LOCAL_VIEW_EVENT_OUT);
-     
+        
     }
-
-
-     public static function update_bill_status($invoice_id, $status_id)
+    
+    
+    public static function update_bill_status($invoice_id, $status_id)
     {
         Bill::where('id', $invoice_id)
         ->update(['status_id' => $status_id]);
     }
     
-     public function getTemplateEmailToCustomer($id)
-        {           
-           return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
-        }
+    public function getTemplateEmailToCustomer($id)
+    {
+        return $this->emailRepo->TemplateEmailToCustomer(Payment::class,$id);
+    }
 }

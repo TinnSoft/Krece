@@ -6,7 +6,7 @@
  
     <div  class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2 >Factura de venta No: <span class="text-navy">{{$bill->resolution_id}}</span></h2>
+                <h2 >Factura de proveedor No: <span class="text-navy">{{$bill->resolution_id}}</span></h2>
                 <ol class="breadcrumb">
                 <li>
                     <a href="{{route('bill.index')}}">Inicio</a>

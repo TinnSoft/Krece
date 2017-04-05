@@ -190,13 +190,14 @@ class ProductsRepository implements IProductsRepository
                 $table.'.status_id',
                 $table.'_status.description'
                 ) 
-            //->union($invoiceWithPayments)   
-            //->orderBy('resolution_id','desc')  
             ->get();
             
-            $invoiceWithoutPayments=$invoiceWithPayments->union($invoiceWithoutPayments);
+            $invoiceWithoutPayments=$invoiceWithPayments->merge($invoiceWithoutPayments);
             $invoiceWithoutPayments->all();
 
-            return $invoiceWithoutPayments->sortBy('resolution_id');
+            $invoiceWithoutPayments=$invoiceWithoutPayments->sortByDesc('resolution_id');
+            $invoiceWithoutPayments = $invoiceWithoutPayments->values()->all();
+
+            return $invoiceWithoutPayments;
     }
 }

@@ -131,13 +131,13 @@
             }
 
              function displayButtons(cellvalue, options, rowObject) {
+        
                 var edit = "<div  title= 'editar'  class='fa fa-pencil fa-2x ' style='cursor: pointer;color:#1ABC9C' onClick=billApp.goEdit(\""+cellvalue+"\") ></div><span > </span>",
                     Details = "<div title= 'ver' class='fa fa-eye fa-2x ' style='cursor: pointer;color:#1ABC9C'  onClick=billApp.goShow(\""+cellvalue+"\")></div><span > </span>",
                     Print = "<div title= 'Imprimir' class='fa fa-print fa-2x' style='cursor: pointer;color:#1ABC9C'  onClick=billApp.printPdf(\""+cellvalue+"\")></div><span > </span>",
                     Delete = "<div title= 'eliminar' class='fa fa-remove fa-2x red'  style='cursor: pointer' onclick=billApp.remove(\""+cellvalue+"\")/></div><span > </span>";
                     Lock = "<div title= 'Anular' class='fa fa-unlock fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=billApp.updateItemStatus(\""+rowObject.id+"\",'2')/></div><span > </span>";
-                    Payment="";
-                    Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=billApp.AddPayment(\""+rowObject.contact_id+"\")/></div><span > </span>";
+                    Payment = "<div title= 'Adicionar pago' class='fa fa-money fa-2x '  style='cursor: pointer; color:#1ABC9C' onclick=billApp.AddPayment(\""+rowObject.contact_public_id+"\")/></div><span > </span>";
                     if (rowObject.status_id==2)
                     {                    
                         edit = "<div  title= 'Editar'  class='fa fa-pencil fa-2x' style='color:#ABEBC6'/></div><span > </span>";
