@@ -81,9 +81,9 @@ class InvoiceSaleOrder extends Model
 	}
 	
 	public function scopeAccountID($query,$isDeleted)
-	{
-		
+	{		
 		return $query->where('account_id',  Auth::user()->account_id)
+				->where('status_id','<>',2)
                 ->where('isDeleted',$isDeleted);
 	}
 	
@@ -91,6 +91,7 @@ class InvoiceSaleOrder extends Model
     {
         return $query->where('account_id',  Auth::user()->account_id)
                 ->where('isDeleted',$isDeleted)
+				->where('status_id','<>',2)
                  ->where('public_id',  $id);
     }
 

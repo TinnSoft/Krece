@@ -21,7 +21,7 @@ class PaymentRepository
         
         $categoryPayment=DB::table('payment')
         ->Join('category_payment', 'payment.id', '=', 'category_payment.payment_id')
-        ->Join('contact', 'contact.id', '=', 'payment.customer_id')
+        ->leftJoin('contact', 'contact.id', '=', 'payment.customer_id')
         ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
         ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
         ->Join('bank_account','bank_account.id','=','payment.bank_account_id')
@@ -58,7 +58,7 @@ class PaymentRepository
         $payment =  DB::table($sourceTable)
         ->Join('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
         ->Join('payment', 'payment.id', '=', 'payment_history.payment_id')
-        ->Join('contact', 'contact.id', '=', 'payment.customer_id')
+        ->leftJoin('contact', 'contact.id', '=', 'payment.customer_id')
         ->Join('payment_method', 'payment.payment_method_id', '=', 'payment_method.id')
         ->Join('payment_status', 'payment.status_id', '=', 'payment_status.id')
         ->Join('bank_account','bank_account.id','=','payment.bank_account_id')
@@ -96,7 +96,7 @@ class PaymentRepository
        $payment=$categoryPayment->merge($payment);
        $payment=$payment->all();
 
-        $payment=collect($payment)->sortByDesc('updated_at');
+        $payment=collect($payment)->sortByDesc('created_at');
         $payment = $payment->values()->all();
 
         return response()->json($payment);
@@ -133,7 +133,7 @@ class PaymentRepository
             'payment.status_id',
             'payment.isDeleted'
         )
-        ->orderby($sourceTable.'.resolution_id','desc')
+        ->orderby($sourceTable.'.id','desc')
         ->get();
       
         foreach($PendingByPayment as $item)
@@ -185,7 +185,7 @@ class PaymentRepository
             'total_pending_by_payment',
             'payment.status_id',
             'payment.isDeleted')
-        ->orderby($sourceTable.'.resolution_id','desc')
+        ->orderby($sourceTable.'.id','desc')
         ->get();
         
         foreach($PendingByPayment as $item)
@@ -291,7 +291,7 @@ class PaymentRepository
                     'total_pending_by_payment',
                     $sourceTable.'.date',
                     $sourceTable.'.due_date')
-                ->orderby($sourceTable.'.resolution_id','desc')
+                ->orderby($sourceTable.'.id','desc')
                 ->get();
         
             if ($payment_historical->isEMpty())
@@ -334,12 +334,7 @@ class PaymentRepository
 
     public function PaymentHistoryByDocument($sourceTable,$public_id)
         {
-             $isInvoice=DB::table('payment')->where('payment.id',$payment_id)
-                    ->select('payment.isInvoice')
-                    ->first()->isInvoice;
-
-            if ($isInvoice==1)
-            {
+            try{
                 $payment_historical=
                 DB::table($sourceTable)
                 ->Join('payment_history', $sourceTable.'.id', '=', 'payment_history.'.$sourceTable.'_id')
@@ -366,7 +361,7 @@ class PaymentRepository
                         'payment.observations',
                         'payment.public_id',
                         'payment.status_id')
-                ->orderby($sourceTable.'.resolution_id','desc')
+                ->orderby($sourceTable.'.id','desc')
                 ->get();
                 
                  if ($payment_historical->isEMpty())
@@ -382,7 +377,7 @@ class PaymentRepository
                 
                 return  $payment_historical;
             }
-            else{
+            catch(Exception $e){
                 return collect([]);
             }
         }
@@ -695,7 +690,7 @@ class PaymentRepository
                 $transactionsToBill=$transactionsToBill->merge($transactionsToCategory);
                 $transactionsToBill->all();
 
-                $transactionsToBill=collect($transactionsToBill)->sortByDesc('public_id');
+                $transactionsToBill=collect($transactionsToBill)->sortByDesc('id');
                 $transactionsToBill = $transactionsToBill->values()->all();
 
         return  $transactionsToBill;

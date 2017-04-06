@@ -31,11 +31,11 @@ use App\Contracts\IPdfRepository;
 use App\Repositories\PaymentRepository;
 
 class InvoiceSaleOrderController extends Controller
-{   
+{
     protected $emailRepo;
     
     protected $iPdfRepo;
-
+    
     protected $paymentRepo;
     
     public function __construct(IEmailRepository $emailRepo, IPdfRepository $iPdfRepo,PaymentRepository $paymentRepo)
@@ -44,79 +44,54 @@ class InvoiceSaleOrderController extends Controller
         $this->iPdfRepo = $iPdfRepo;
         $this->paymentRepo = $paymentRepo;
     }
-
-  
+    
+    
     public function index()
     {
         return view('invoice.index');
     }
-
+    
     public function getInvoiceList()
     {
         //Obtener facturas sin pagos
-        $invoiceNoPayed = DB::table('invoice_sale_order')
+        $data = DB::table('invoice_sale_order')
         ->Join('contact', 'invoice_sale_order.customer_id', '=', 'contact.id')
         ->leftJoin('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
         ->leftJoin('payment', function ($join) {
             $join->on('payment.id', '=', 'payment_history.payment_id');
         })
-        ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-        ->where('invoice_sale_order.isDeleted',0)
-        ->where('payment_history.amount',null)
+        ->where([
+            ['invoice_sale_order.account_id',Auth::user()->account_id],
+            ['invoice_sale_order.isDeleted',0],
+            ['payment_history.amount',null]
+        ])
+        ->orWhere(function ($query) {
+                $query->where('payment.status_id',1)
+                      ->where('invoice_sale_order.isDeleted',0)
+                      ->where('invoice_sale_order.account_id',Auth::user()->account_id);
+            })
         ->select('invoice_sale_order.id',
-            'invoice_sale_order.resolution_id',
-            'invoice_sale_order.status_id',
-            'invoice_sale_order.due_date', 
-            'contact.name as contact_name',
-            'contact.public_id as contact_id',            
-            'invoice_sale_order.created_at',
-            'invoice_sale_order.public_id',
-            'invoice_sale_order.total',
-            'payment.isDeleted as isPaymentDeleted',
-            DB::raw('SUM(payment_history.amount) as total_payed'),
-            DB::raw('invoice_sale_order.total - IFNULL(payment_history.amount,0) as pending_to_pay')
-        )
-        ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id','invoice_sale_order.status_id',
-        'invoice_sale_order.due_date', 'contact.name',
-        'invoice_sale_order.created_at','contact.public_id',
-        'invoice_sale_order.public_id','invoice_sale_order.total',
-        'payment_history.amount','payment.isDeleted')
-        ->orderby('invoice_sale_order.resolution_id','desc');
-
-        //obtener factursa con al menos 1 pago
-        $invoicePayed = DB::table('invoice_sale_order')
-        ->Join('contact', 'invoice_sale_order.customer_id', '=', 'contact.id')
-        ->Join('payment_history', 'invoice_sale_order.id', '=', 'payment_history.invoice_sale_order_id')
-        ->Join('payment', function ($join) {
-            $join->on('payment.id', '=', 'payment_history.payment_id');
-        })
-        ->where('invoice_sale_order.account_id',Auth::user()->account_id)
-        ->where('invoice_sale_order.isDeleted',0)
-        ->where('payment.isDeleted',0)
-        ->where('payment.status_id',1)
-        ->select('invoice_sale_order.id',
-            'invoice_sale_order.resolution_id',
-            'invoice_sale_order.status_id',
-            'invoice_sale_order.due_date', 
-            'contact.name as contact_name',
-            'contact.public_id as contact_id',            
-            'invoice_sale_order.created_at',
-            'invoice_sale_order.public_id',
-            'invoice_sale_order.total',
-            'payment.isDeleted as isPaymentDeleted',
-            DB::raw('SUM(payment_history.amount) as total_payed'),
-            DB::raw('invoice_sale_order.total - IFNULL(SUM(payment_history.amount),0) as pending_to_pay')
+        'invoice_sale_order.resolution_id',
+        'invoice_sale_order.status_id',
+        'invoice_sale_order.due_date',
+        'contact.name as contact_name',
+        'contact.public_id as contact_id',
+        'invoice_sale_order.created_at',
+        'invoice_sale_order.public_id',
+        'invoice_sale_order.total',
+        'payment.isDeleted as isPaymentDeleted',
+        DB::raw('SUM(payment_history.amount) as total_payed'),
+        DB::raw('invoice_sale_order.total - IFNULL(SUM(payment_history.amount),0) as pending_to_pay')
         )
         ->groupBy('invoice_sale_order.id','invoice_sale_order.resolution_id','invoice_sale_order.status_id',
         'invoice_sale_order.due_date', 'contact.name',
         'invoice_sale_order.created_at','contact.public_id',
         'invoice_sale_order.public_id','invoice_sale_order.total',
         'payment.isDeleted')
-        ->orderby('invoice_sale_order.resolution_id','desc')
-        ->union($invoiceNoPayed)
+        ->orderBy('invoice_sale_order.id','desc')
         ->get();
-
-        return response()->json($invoicePayed);
+      
+        return response()->json($data);
     }
     
     //Rtorna la información necesaria para el header de las facturas/cotizaciones.etc
@@ -154,7 +129,7 @@ class InvoiceSaleOrderController extends Controller
                 
                 return response()->json($baseInfo);
                 
-    }
+        }
         
         public function create()
         {
@@ -231,9 +206,9 @@ class InvoiceSaleOrderController extends Controller
             }
             
             $invoice = InvoiceSaleOrder::create($data);
-                       
+            
             $invoice->detail()->saveMany($products);
-      
+            
             //Incrementa el numero de cotización
             Resolution::where('account_id', Auth::user()->account_id)
             ->where('id',$request['resolution_id'])
@@ -268,6 +243,7 @@ class InvoiceSaleOrderController extends Controller
             
             $invoice=Helper::_InvoiceFormatter($invoice);
             $taxes=Helper::getTotalTaxes($invoice->public_id,'invoice_sale_order','invoice_sale_order_detail');
+           
             $paymentHistorical=$this->paymentRepo->PaymentHistoryByDocument('invoice_sale_order',$invoice->public_id);
             
             return view('invoice.show', compact('invoice','taxes','paymentHistorical'));
@@ -290,11 +266,11 @@ class InvoiceSaleOrderController extends Controller
                 $invoice['notes']=null;
                 return view('invoice.clone', compact('invoice'));
             }
-
+            
             $checkConverted=request()->get('convert');
-             if ($checkConverted=='toInvoice' || $checkConverted=='toInvoiceR')
+            if ($checkConverted=='toInvoice' || $checkConverted=='toInvoiceR')
             {
-               $model=null;
+                $model=null;
                 if ($checkConverted=='toInvoice')
                 {
                     $model=Estimate::class;
@@ -303,19 +279,19 @@ class InvoiceSaleOrderController extends Controller
                 {
                     $model=Remision::class;
                 }
-
-                 $invoice = $model::with(['detail','contact','list_price','currency','seller'])
-                    ->GetByPublicId(0,$id)
-                    ->GetSelectedFields()
-                    ->first();
+                
+                $invoice = $model::with(['detail','contact','list_price','currency','seller'])
+                ->GetByPublicId(0,$id)
+                ->GetSelectedFields()
+                ->first();
                 
                 $resolutionID=Resolution::select('next_invoice_number')
-                    ->where('isDefault',1)
-                    ->where('account_id',Auth::user()->account_id)
-                    ->where('isDeleted',0)
-                    ->where('isActive',1)
-                    ->first();
-
+                ->where('isDefault',1)
+                ->where('account_id',Auth::user()->account_id)
+                ->where('isDeleted',0)
+                ->where('isActive',1)
+                ->first();
+                
                 $PublicId = Helper::PublicId(InvoiceSaleOrder::class);
                 $invoice['public_id']= $PublicId;
                 $invoice['resolution_id']= $resolutionID->next_invoice_number;
@@ -324,8 +300,8 @@ class InvoiceSaleOrderController extends Controller
                 $invoice['notes']=null;
                 return view('invoice.createFromConvert', compact('invoice'));
             }
-
-           
+            
+            
             
             if (!$invoice)
             {
@@ -336,7 +312,7 @@ class InvoiceSaleOrderController extends Controller
                 return redirect('/invoice')->with($notification);
             }
             
-
+            
             $invoice['date']= Helper::setCustomDateFormat(Carbon::parse($invoice['date']));
             $invoice['due_date']= Helper::setCustomDateFormat(Carbon::parse($invoice['due_date']));
             
@@ -347,8 +323,8 @@ class InvoiceSaleOrderController extends Controller
         
         public function update(Request $request, $id)
         {
-             
-
+            
+            
             $this->validate($request, [
             'customer_id' => 'required',
             'date' => 'required',
@@ -422,9 +398,9 @@ class InvoiceSaleOrderController extends Controller
         
         public function pdf($id, Request $request)
         {
-
-             $mypdf=$this->iPdfRepo->create(InvoiceSaleOrder::class, $id);
-
+            
+            $mypdf=$this->iPdfRepo->create(InvoiceSaleOrder::class, $id);
+            
             $filename = "InvoiceSaleOrder_"."{$id}.pdf";
             
             if($request->get('opt') === 'download') {
@@ -456,9 +432,9 @@ class InvoiceSaleOrderController extends Controller
             'updated' => true
             ]);
         }
-
-         public function getTemplateEmailToCustomer($estimate_number)
-        {           
-           return $this->emailRepo->TemplateEmailToCustomer(InvoiceSaleOrder::class,$estimate_number);
+        
+        public function getTemplateEmailToCustomer($estimate_number)
+        {
+            return $this->emailRepo->TemplateEmailToCustomer(InvoiceSaleOrder::class,$estimate_number);
         }
     }

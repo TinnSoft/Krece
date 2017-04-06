@@ -12,7 +12,7 @@
                     {{$prod->resolution_id}},
                     @endforeach
                 @else
-                    <h2 >Egresos por concepto de categorías <span class="text-navy">
+                    <h2 >Ingresos por concepto de categorías <span class="text-navy">
                 @endif
                 </span></h2>
                 <ol class="breadcrumb">
