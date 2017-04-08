@@ -143,7 +143,8 @@
                                             :width="150"                                        
                                             :option="doughnut._options"
                                             :labels="doughnut.d_labels" 
-                                            :datasets="doughnut.d_dataset">
+                                            :datasets="doughnut.d_dataset"
+                                            :bind="true">
                                         </chartjs-doughnut>
                                 </div>
                             </div>     
@@ -155,7 +156,6 @@
 
       @push('scripts')
 
-<link type="text/javascript" href="{{asset('js/libraries/accounting.js')}}">
       
         {!!Html::script('/js/libraries/accounting.js')!!}
         {!!Html::script('/themes/krece/js/plugins/chartJs/Chart.min.js')!!}
@@ -175,6 +175,7 @@
                 outcome_value:null,
                 data2: [1, 2, 3, 4, 5, 6, 7,8],
                 graph_data:[],
+                pie_data:[],
                 period_label:'Hoy',
                 YearLabels:["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio","Agosto",
                     "Septiembre","Octubre","Noviembre","Diciembre"],
@@ -192,14 +193,16 @@
                                          position: 'bottom',
                                     }
                             },
-                    d_labels: ["Gastos administrativos", "Nómina", "Seguros y seguridad","Otros"],
+                    d_labels: [],
                     d_dataset:[{
-                        data: [300, 50, 100,400],
+                        data: [],
                         backgroundColor: [
+                            "#81DAF5",
                             "#a3e1d4",
                             "#FDD6C1",
                             "#9CC3DA",
-                            "#dedede",
+                            '#17A589',
+                            "#dedede"                            
                         ],
                        
                     }]                         
@@ -272,11 +275,17 @@
                 Vue.set(this.$data, 'income', {!! $income->toJson() !!});
                 Vue.set(this.$data, 'outcome', {!! $outcome->toJson() !!});
                 Vue.set(this.$data, 'graph_data', {!! $graph_data->toJson() !!});
+                Vue.set(this.$data, 'pie_data', {!! $pie_data->toJson() !!});
                 Vue.set(this.$data, 'income_value', this.income.day);
                 Vue.set(this.$data, 'outcome_value', this.outcome.day);
+
                 this.graph.datasets[0].data=this.graph_data.weekData_income;
                 this.graph.datasets[1].data=this.graph_data.weekData_outcome;
                 this.graph.rowlabels=this.WeekLabels;
+                
+                this.doughnut.d_labels=this.pie_data.isToday.name;
+                this.doughnut.d_dataset[0].data=this.pie_data.isToday.total;
+                
             },
             methods: { 
                 setIndicator: function(val){
@@ -289,6 +298,8 @@
                         this.graph.rowlabels=this.WeekLabels;
                         this.graph.datasets[0].data=this.graph_data.weekData_income;
                         this.graph.datasets[1].data=this.graph_data.weekData_outcome;
+                        this.doughnut.d_labels=this.pie_data.isToday.name;
+                        this.doughnut.d_dataset[0].data=this.pie_data.isToday.total;
                     }
                     else if(val=='w')
                     {
@@ -298,6 +309,8 @@
                         this.graph.rowlabels=this.WeekLabels;
                         this.graph.datasets[0].data=this.graph_data.weekData_income;
                         this.graph.datasets[1].data=this.graph_data.weekData_outcome;
+                        this.doughnut.d_labels=this.pie_data.isWeek.name;
+                        this.doughnut.d_dataset[0].data=this.pie_data.isWeek.total;
                     }
                     else if(val=='m')
                     {
@@ -307,15 +320,19 @@
                         this.graph.rowlabels=this.graph_data.labels_current_month;
                         this.graph.datasets[0].data=this.graph_data.data_by_day_current_month_in;
                         this.graph.datasets[1].data=this.graph_data.data_by_day_current_month_out;
+                        this.doughnut.d_labels=this.pie_data.isMonth.name;
+                        this.doughnut.d_dataset[0].data=this.pie_data.isMonth.total;
                     }
                     else if(val=='y')
                     {
-                         this.income_value=this.income.year;
-                         this.outcome_value=this.outcome.year;
-                         this.period_label="Último año";
-                         this.graph.rowlabels=this.YearLabels;
-                          this.graph.datasets[0].data=this.graph_data.DataBymont_peryear_in;
+                        this.income_value=this.income.year;
+                        this.outcome_value=this.outcome.year;
+                        this.period_label="Último año";
+                        this.graph.rowlabels=this.YearLabels;
+                        this.graph.datasets[0].data=this.graph_data.DataBymont_peryear_in;
                         this.graph.datasets[1].data=this.graph_data.DataBymont_peryear_out;
+                        this.doughnut.d_labels=this.pie_data.isYear.name;
+                        this.doughnut.d_dataset[0].data=this.pie_data.isYear.total;
                     }
                 }
             },

@@ -21,7 +21,7 @@
            <div class="">
            <div id="pager_list_2"></div> 
                     <div id='gridContainer'></div>
-                    <button id="export">Export to Excel</button>
+            
             </div> 
     <div>
 

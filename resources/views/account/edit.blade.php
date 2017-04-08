@@ -3,7 +3,7 @@
 @section('content')
 
  <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-sm-4">
+                <div class="col-sm-7">
                     <h2 >Editar información de la empresa</h2>
                     <ol class="breadcrumb">
                         <li>

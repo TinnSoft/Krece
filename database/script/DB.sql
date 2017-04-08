@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versión del servidor:         10.1.19-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win32
--- HeidiSQL Versión:             9.4.0.5168
+-- HeidiSQL Versión:             9.4.0.5169
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,44 +30,9 @@ CREATE TABLE IF NOT EXISTS `account` (
   `decimal_precision` tinyint(4) DEFAULT NULL,
   `decimal_separator` char(1) DEFAULT NULL,
   `account_key` varchar(255) DEFAULT NULL,
-  `email_footer` text,
   `email` varchar(255) DEFAULT NULL,
-  `invoice_design_id` int(11) unsigned DEFAULT '1',
   `pro_plan_paid` date DEFAULT NULL,
-  `id_number` varchar(255) DEFAULT NULL,
-  `email_template_invoice` text,
-  `email_template_quote` text,
-  `email_template_payment` text,
-  `invoice_footer` text,
-  `pdf_email_attachment` smallint(6) DEFAULT '0',
-  `referral_user_id` int(10) unsigned DEFAULT NULL,
-  `email_subject_invoice` varchar(255) DEFAULT NULL,
-  `email_subject_quote` varchar(255) DEFAULT NULL,
-  `email_subject_payment` varchar(255) DEFAULT NULL,
-  `email_subject_reminder1` varchar(255) DEFAULT NULL,
-  `email_template_reminder1` text,
-  `enable_reminder1` bit(1) DEFAULT b'0',
-  `num_days_reminder1` smallint(6) DEFAULT '7',
-  `num_days_reminder2` smallint(6) DEFAULT '14',
-  `num_days_reminder3` smallint(6) DEFAULT '30',
-  `custom_invoice_text_label1` varchar(255) DEFAULT NULL,
-  `custom_invoice_text_label2` varchar(255) DEFAULT NULL,
-  `invoice_number_pattern` varchar(255) DEFAULT NULL,
-  `quote_number_pattern` varchar(255) DEFAULT NULL,
-  `quote_terms` text,
-  `email_design_id` int(11) DEFAULT '1',
-  `show_currency_code` bit(1) DEFAULT NULL,
   `pro_plan_trial` date DEFAULT NULL,
-  `enable_portal_password` bit(1) DEFAULT b'0',
-  `send_portal_password` bit(1) DEFAULT b'0',
-  `custom_invoice_item_label1` varchar(255) DEFAULT NULL,
-  `custom_invoice_item_label2` varchar(255) DEFAULT NULL,
-  `recurring_invoice_number_prefix` varchar(255) DEFAULT 'R',
-  `enable_client_portal` bit(1) DEFAULT b'1',
-  `invoice_fields` text,
-  `financial_year_start` date DEFAULT NULL,
-  `enabled_modules` smallint(6) DEFAULT '63',
-  `enabled_dashboard_sections` smallint(6) DEFAULT '7',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -81,16 +46,16 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Volcando datos para la tabla krece.account: ~9 rows (aproximadamente)
 DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` (`id`, `name`, `identification`, `address`, `phone`, `website`, `city`, `regime_id`, `logo`, `decimal_precision`, `decimal_separator`, `account_key`, `email_footer`, `email`, `invoice_design_id`, `pro_plan_paid`, `id_number`, `email_template_invoice`, `email_template_quote`, `email_template_payment`, `invoice_footer`, `pdf_email_attachment`, `referral_user_id`, `email_subject_invoice`, `email_subject_quote`, `email_subject_payment`, `email_subject_reminder1`, `email_template_reminder1`, `enable_reminder1`, `num_days_reminder1`, `num_days_reminder2`, `num_days_reminder3`, `custom_invoice_text_label1`, `custom_invoice_text_label2`, `invoice_number_pattern`, `quote_number_pattern`, `quote_terms`, `email_design_id`, `show_currency_code`, `pro_plan_trial`, `enable_portal_password`, `send_portal_password`, `custom_invoice_item_label1`, `custom_invoice_item_label2`, `recurring_invoice_number_prefix`, `enable_client_portal`, `invoice_fields`, `financial_year_start`, `enabled_modules`, `enabled_dashboard_sections`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 'TinnSoft', '1234567', 'mi dirección', '3629222', 'www.fernando.com', 'Bogotá', 1, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbQAAAEHCAMAAAGGs3M5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL6UExURQAAAP7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/h0aU+MAAAD+dFJOUwCvQBpbnAfdSInwyjV2t/hjpOWRItI9fg+/UCprrBftWJnaRYbHMnMEtB/1oeJNjmA6ewy8J/1o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', 1, '.', NULL, NULL, 'fernando2684@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 16:17:25', '2017-03-20 11:19:57', NULL),
-	(2, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernando26842@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2016-12-07 17:19:15', '2016-12-07 17:19:15', NULL),
-	(6, 'seguros delima', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'fernando26841234@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:22:54', '2017-03-22 21:22:54', NULL),
-	(7, 'negocio eliminar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'example@text.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
-	(8, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test@test.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 21:55:18', '2017-03-22 21:55:18', NULL),
-	(9, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test2@test.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 22:01:19', '2017-03-22 22:01:19', NULL),
-	(10, 'asjasgh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'test3@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-22 22:02:02', '2017-03-22 22:02:02', NULL),
-	(11, 'mi negocio', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'fer@test.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-23 14:21:49', '2017-03-23 14:21:49', NULL),
-	(12, 'mi compañia pipex', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, NULL, 'fer11@gmail.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, b'0', 7, 14, 30, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, b'0', b'0', NULL, NULL, 'R', b'1', NULL, NULL, 63, 7, '2017-03-23 14:41:10', '2017-03-23 14:41:10', NULL);
+INSERT INTO `account` (`id`, `name`, `identification`, `address`, `phone`, `website`, `city`, `regime_id`, `logo`, `decimal_precision`, `decimal_separator`, `account_key`, `email`, `pro_plan_paid`, `pro_plan_trial`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 'TinnSoft', '1234567', 'mi dirección', '3629222', 'www.fernando.com', 'Bogotá', 1, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbQAAAEHCAMAAAGGs3M5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAL6UExURQAAAP7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v////7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v////7+/v7+/v7+/v7+/h0aU+MAAAD+dFJOUwCvQBpbnAfdSInwyjV2t/hjpOWRItI9fg+/UCprrBftWJnaRYbHMnMEtB/1oeJNjmA6ewy8J/1o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', 1, '.', NULL, 'fernando2684@gmail.com', NULL, NULL, '2016-12-07 16:17:25', '2017-03-20 11:19:57', NULL),
+	(2, 'FERNANDO ARDILA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fernando26842@gmail.com', NULL, NULL, '2016-12-07 17:19:15', '2016-12-07 17:19:15', NULL),
+	(6, 'seguros delima', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'fernando26841234@gmail.com', NULL, NULL, '2017-03-22 21:22:54', '2017-03-22 21:22:54', NULL),
+	(7, 'negocio eliminar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'example@text.com', NULL, NULL, '2017-03-22 21:34:50', '2017-03-22 21:34:50', NULL),
+	(8, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'test@test.com', NULL, NULL, '2017-03-22 21:55:18', '2017-03-22 21:55:18', NULL),
+	(9, 'mi negocio sr', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'test2@test.com', NULL, NULL, '2017-03-22 22:01:19', '2017-03-22 22:01:19', NULL),
+	(10, 'asjasgh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'test3@gmail.com', NULL, NULL, '2017-03-22 22:02:02', '2017-03-22 22:02:02', NULL),
+	(11, 'mi negocio', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'fer@test.com', NULL, NULL, '2017-03-23 14:21:49', '2017-03-23 14:21:49', NULL),
+	(12, 'mi compañia pipex', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '.', NULL, 'fer11@gmail.com', NULL, NULL, '2017-03-23 14:41:10', '2017-03-23 14:41:10', NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.account_regime
@@ -138,8 +103,8 @@ DELETE FROM `account_tokens`;
 -- Volcando estructura para tabla krece.activity_log
 CREATE TABLE IF NOT EXISTS `activity_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account_id` int(11),
-  `user_id` int(11),
+  `account_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `detail` varchar(500) DEFAULT NULL,
   `route` varchar(500) DEFAULT NULL,
@@ -150,9 +115,9 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=806 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=872 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~572 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~794 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
 INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
@@ -949,7 +914,73 @@ INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail
 	(802, 1, 1, '2017-03-30 12:01:19', 'Se actualizó el comprobante de pago número: 24 para el cliente contacto-proveedor', '/payment-out/40', 'payment-out', 'Update'),
 	(803, 1, 1, '2017-03-30 15:18:07', 'Se ha impreso el pdf para el comprobante de egreso No: 24', '/payment-out/40', 'payment-out', 'Print'),
 	(804, 1, 1, '2017-03-30 15:18:56', 'Se ha impreso el pdf para el comprobante de egreso No: 40', '/payment-out/40', 'payment-out', 'Print'),
-	(805, 1, 1, '2017-03-30 15:32:26', 'Se ha impreso el pdf para el comprobante de egreso No: 40', '/payment-out/40', 'payment-out', 'Print');
+	(805, 1, 1, '2017-03-30 15:32:26', 'Se ha impreso el pdf para el comprobante de egreso No: 40', '/payment-out/40', 'payment-out', 'Print'),
+	(806, 1, 1, '2017-03-30 18:26:20', 'Se eliminó el pago número: 24', NULL, 'Payment', 'Delete'),
+	(807, 1, 1, '2017-03-30 18:31:34', 'Se eliminó la cotización número: 2', NULL, 'PurchaseOrder', 'Delete'),
+	(808, 1, 1, '2017-03-30 18:31:56', 'Se eliminó la factura de venta número: 5', NULL, 'Bill', 'Delete'),
+	(809, 1, 1, '2017-03-30 18:31:59', 'Se eliminó la factura de venta número: 6', NULL, 'Bill', 'Delete'),
+	(810, 1, 1, '2017-03-30 18:33:48', 'Se eliminó la remisión número: 4', NULL, 'Remision', 'Delete'),
+	(811, 1, 1, '2017-03-30 18:33:51', 'Se eliminó la remisión número: 5', NULL, 'Remision', 'Delete'),
+	(812, 1, 1, '2017-03-30 18:34:03', 'Se actualizó el estado de la factura de venta número: 18 para el cliente contacto-cliente', '/invoice/18', 'InvoiceSaleOrder', 'Update'),
+	(813, 1, 1, '2017-03-30 18:34:04', 'Se actualizó el estado de la factura de venta número: 20 para el cliente contacto-cliente', '/invoice/20', 'InvoiceSaleOrder', 'Update'),
+	(814, 1, 1, '2017-03-30 18:34:05', 'Se actualizó el estado de la factura de venta número: 21 para el cliente contacto-cliente', '/invoice/21', 'InvoiceSaleOrder', 'Update'),
+	(815, 1, 1, '2017-03-30 18:34:06', 'Se actualizó el estado de la factura de venta número: 19 para el cliente contacto-cliente', '/invoice/19', 'InvoiceSaleOrder', 'Update'),
+	(816, 1, 1, '2017-03-30 18:34:16', 'Se eliminó el pago número: 30', NULL, 'Payment', 'Delete'),
+	(817, 1, 1, '2017-03-30 18:34:19', 'Se eliminó el pago número: 31', NULL, 'Payment', 'Delete'),
+	(818, 1, 1, '2017-03-30 18:34:34', 'Se eliminó la cotización número: 39', NULL, 'Estimate', 'Delete'),
+	(819, 1, 1, '2017-03-30 18:34:37', 'Se eliminó la cotización número: 38', NULL, 'Estimate', 'Delete'),
+	(820, 1, 1, '2017-03-30 18:36:49', 'Se creó la remisión número: 6 para el cliente contacto-cliente', '/remision/6', 'Remision', 'Create'),
+	(821, 1, 1, '2017-03-30 18:39:14', 'Se creó la Cotización número: 46 para el cliente contacto-cliente', '/estimate/41', 'Estimate', 'Create'),
+	(822, 1, 1, '2017-03-30 18:39:40', 'Se ha impreso el pdf de la cotización No: 41', '/estimate/41', 'Estimate', 'Print'),
+	(823, 1, 1, '2017-03-30 18:41:29', 'Se creó la Nota Crédito número: 4 para el cliente contacto-cliente', '/credit-note/4', 'CreditNote', 'Create'),
+	(824, 1, 1, '2017-03-30 18:41:59', 'Se ha impreso el pdf de la Nota Crédito No: 4', '/credit-note/4', 'CreditNote', 'Print'),
+	(825, 1, 1, '2017-03-30 18:45:17', 'Se creó la factura de venta número: 22 para el cliente contacto-cliente', '/invoice/22', 'InvoiceSaleOrder', 'Create'),
+	(826, 1, 1, '2017-03-30 19:20:38', 'Se ha creado el ingreso número: 32 para el cliente contacto-cliente', '/payment-in/41', 'Payment', 'Create'),
+	(827, 1, 1, '2017-03-30 19:21:16', 'Se actualizó el pago número: 32 para el cliente contacto-cliente', '/payment/41', 'Payment', 'Update'),
+	(828, 1, 1, '2017-03-30 19:26:10', 'Se actualizó el pago número: 32 para el cliente contacto-cliente', '/payment/41', 'Payment', 'Update'),
+	(829, 1, 1, '2017-03-30 19:57:44', 'Se actualizó el pago número: 32 para el cliente contacto-cliente', '/payment/41', 'Payment', 'Update'),
+	(830, 1, 1, '2017-03-30 20:07:11', 'Se ha creado el ingreso número: 33 para el cliente contacto-cliente', '/payment-in/42', 'Payment', 'Create'),
+	(831, 1, 1, '2017-03-30 20:41:12', 'Se actualizó el pago número: 33 para el cliente contacto-cliente', '/payment/42', 'Payment', 'Update'),
+	(832, 1, 1, '2017-03-30 20:44:59', 'Se ha impreso el pdf para el comprobante de ingreso No: 42', '/payment-in/42', 'Payment-out', 'Print'),
+	(833, 1, 1, '2017-03-30 20:48:45', 'Se ha impreso el pdf para el comprobante de ingreso No: 42', '/payment-in/42', 'Payment-out', 'Print'),
+	(834, 1, 1, '2017-03-30 20:51:04', 'Se ha impreso el pdf para el comprobante de ingreso No: 42', '/payment-in/42', 'Payment-out', 'Print'),
+	(835, 1, 1, '2017-03-30 20:51:40', 'Se ha impreso el pdf para el comprobante de ingreso No: 42', '/payment-in/42', 'Payment-out', 'Print'),
+	(836, 1, 1, '2017-03-30 20:58:38', 'Se ha impreso el pdf para el comprobante de ingreso No: 42', '/payment-in/42', 'Payment-out', 'Print'),
+	(837, 1, 1, '2017-03-30 21:13:48', 'Se ha impreso el pdf para el comprobante de ingreso No: 41', '/payment-in/41', 'Payment-out', 'Print'),
+	(838, 1, 1, '2017-03-31 19:40:05', 'Se ha impreso el pdf para el comprobante de ingreso No: 41', '/payment-in/41', 'Payment-out', 'Print'),
+	(839, 1, 1, '2017-04-03 21:56:04', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(840, 1, 1, '2017-04-03 21:56:31', 'Fernando ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(841, 1, 1, '2017-04-04 16:53:12', 'Se ha creado el ingreso número: 34 para el cliente contacto-cliente', '/payment-in/43', 'Payment', 'Create'),
+	(842, 1, 1, '2017-04-04 18:24:49', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(843, 1, 1, '2017-04-04 18:26:25', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(844, 1, 1, '2017-04-04 20:07:32', 'Se ha creado el ingreso número: 35 para el cliente contacto-cliente', '/payment-in/44', 'Payment', 'Create'),
+	(845, 1, 1, '2017-04-04 20:13:27', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(846, 1, 1, '2017-04-04 20:22:09', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(847, 1, 1, '2017-04-04 20:24:28', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(848, 1, 1, '2017-04-04 20:24:40', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(849, 1, 1, '2017-04-04 20:25:32', 'Se ha impreso el pdf para el comprobante de ingreso No: 43', '/payment-in/43', 'Payment-out', 'Print'),
+	(850, 1, 1, '2017-04-05 06:11:44', 'Se creó la Orden de Compra número: 3 para el cliente contacto-proveedor', '/purchase-order/3', 'PurchaseOrder', 'Create'),
+	(851, 1, 1, '2017-04-05 06:22:08', 'Se ha impreso el pdf de la Orden de Compra No: 3', '/purchase-order/3', 'PurchaseOrder', 'Print'),
+	(852, 1, 1, '2017-04-05 06:28:54', 'Se creó la Orden de Compra número: 4 para el cliente contacto-proveedor', '/purchase-order/4', 'PurchaseOrder', 'Create'),
+	(853, 1, 1, '2017-04-05 06:34:05', 'Se creó la Nota Débito número: 5 para el cliente contacto-proveedor', '/debit-note/4', 'DebitNote', 'Create'),
+	(854, 1, 1, '2017-04-05 06:45:21', 'Se ha impreso el pdf de la Nota Débito No: 4', '/debit-note/4', 'DebitNote', 'Print'),
+	(855, 1, 1, '2017-04-05 06:51:37', 'Se creó la factura de proveedor número: 7 para el cliente contacto-proveedor', '/bill/7', 'Bill', 'Create'),
+	(856, 1, 1, '2017-04-05 06:52:32', 'Se ha impreso el pdf de la factura de venta No: 7', '/bill/7', 'Bill', 'Print'),
+	(857, 1, 1, '2017-04-05 06:56:32', 'Se creó la factura de proveedor número: 8 para el cliente contacto-proveedor', '/bill/8', 'Bill', 'Create'),
+	(858, 1, 1, '2017-04-05 06:56:57', 'Se actualizó el estado de la factura de venta número: 8 para el cliente contacto-proveedor', '/bill/8', 'Bill', 'Update'),
+	(859, 1, 1, '2017-04-05 06:56:59', 'Se actualizó el estado de la factura de venta número: 8 para el cliente contacto-proveedor', '/bill/8', 'Bill', 'Update'),
+	(860, 1, 1, '2017-04-05 06:57:09', 'Se ha impreso el pdf de la factura de venta No: 8', '/bill/8', 'Bill', 'Print'),
+	(861, 1, 1, '2017-04-05 08:32:19', 'Se creó el comprobante de pago número: 25 para el proveedor contacto-proveedor', '/payment-out/45', 'payment-out', 'Create'),
+	(862, 1, 1, '2017-04-05 08:33:42', 'Se actualizó el comprobante de pago número: 25 para el cliente contacto-proveedor', '/payment-out/45', 'payment-out', 'Update'),
+	(863, 1, 1, '2017-04-05 08:35:14', 'Se creó el comprobante de pago número: 26 para el proveedor contacto-proveedor', '/payment-out/46', 'payment-out', 'Create'),
+	(864, 1, 1, '2017-04-05 08:38:14', 'Se creó el comprobante de pago número: 27 para el proveedor contacto-proveedor', '/payment-out/47', 'payment-out', 'Create'),
+	(865, 1, 1, '2017-04-05 08:47:12', 'Se ha impreso el pdf para el comprobante de egreso No: 47', '/payment-out/47', 'payment-out', 'Print'),
+	(866, 1, 1, '2017-04-05 21:07:32', 'Se eliminó el pago número: 25', NULL, 'Payment', 'Delete'),
+	(867, 1, 1, '2017-04-05 21:07:36', 'Se eliminó el pago número: 26', NULL, 'Payment', 'Delete'),
+	(868, 1, 1, '2017-04-05 21:07:56', 'Se eliminó el pago número: 28', NULL, 'Payment', 'Delete'),
+	(869, 1, 1, '2017-04-05 21:08:04', 'Se eliminó el pago número: 27', NULL, 'Payment', 'Delete'),
+	(870, 1, 1, '2017-04-05 21:23:15', 'Se creó la factura de venta número: 23 para el cliente contacto-cliente', '/invoice/23', 'InvoiceSaleOrder', 'Create'),
+	(871, 1, 1, '2017-04-05 21:55:35', 'Se ha creado el ingreso número: 36 para el cliente contacto-cliente', '/payment-in/48', 'Payment', 'Create');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -1059,9 +1090,9 @@ CREATE TABLE IF NOT EXISTS `bill` (
   CONSTRAINT `FK_invoice_supplier_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_invoice_supplier_status` FOREIGN KEY (`status_id`) REFERENCES `bill_status` (`id`),
   CONSTRAINT `FK_invoice_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
--- Volcando datos para la tabla krece.bill: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla krece.bill: ~8 rows (aproximadamente)
 DELETE FROM `bill`;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
 INSERT INTO `bill` (`id`, `account_id`, `user_id`, `public_id`, `customer_id`, `resolution_id`, `date`, `due_date`, `status_id`, `observations`, `currency_code`, `total`, `sub_total`, `total_discounts`, `total_taxes`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1069,8 +1100,10 @@ INSERT INTO `bill` (`id`, `account_id`, `user_id`, `public_id`, `customer_id`, `
 	(9, 1, 1, 2, 6, 2, '2017-02-24', '2017-02-24', 6, 'asas', 'COP', 1212, 1212, 0, 0, NULL, NULL, b'0', b'1', '2017-02-24 18:22:39', '2017-03-06 09:52:11', '2017-03-06 09:52:11'),
 	(10, 1, 1, 3, 9, 3, '2017-02-24', '2017-02-24', 6, 'asa', 'COP', 49824.1, 48903, 0, 921.12, NULL, NULL, b'0', b'1', '2017-02-24 18:49:45', '2017-03-06 09:52:15', '2017-03-06 09:52:15'),
 	(11, 1, 1, 4, 23, 4, '2017-02-28', '2017-02-28', 6, 'test', 'COP', 3000, 3000, 0, 0, NULL, NULL, b'0', b'1', '2017-02-28 10:31:18', '2017-03-06 09:52:08', '2017-03-06 09:52:08'),
-	(12, 1, 1, 5, 24, 5, '2017-03-14', '2017-03-14', 1, 'observaciones factura proveedor', 'COP', 9880, 10000, 500, 380, NULL, NULL, b'0', b'0', '2017-03-14 14:40:18', '2017-03-14 14:40:18', NULL),
-	(13, 1, 1, 6, 24, 6, '2017-03-30', '2017-04-29', 1, 'observaciones orden de compra\nconverted from PO', 'COP', 5380, 5000, 0, 380, NULL, NULL, b'0', b'0', '2017-03-30 10:29:16', '2017-03-30 10:47:07', NULL);
+	(12, 1, 1, 5, 24, 5, '2017-03-14', '2017-03-14', 1, 'observaciones factura proveedor', 'COP', 9880, 10000, 500, 380, NULL, NULL, b'0', b'1', '2017-03-14 14:40:18', '2017-03-30 18:31:56', '2017-03-30 18:31:56'),
+	(13, 1, 1, 6, 24, 6, '2017-03-30', '2017-04-29', 1, 'observaciones orden de compra\nconverted from PO', 'COP', 5380, 5000, 0, 380, NULL, NULL, b'0', b'1', '2017-03-30 10:29:16', '2017-03-30 18:31:59', '2017-03-30 18:31:59'),
+	(14, 1, 1, 7, 24, 7, '2017-04-05', '2017-04-05', 1, 'asas', 'COP', 499000, 490000, 29000, 38000, NULL, NULL, b'0', b'0', '2017-04-05 06:51:36', '2017-04-05 06:51:36', NULL),
+	(15, 1, 1, 8, 24, 8, '2017-04-05', '2017-04-05', 1, 'qasas', 'COP', 50239, 50239, 0, 0, NULL, NULL, b'0', b'0', '2017-04-05 06:56:32', '2017-04-05 06:56:59', NULL);
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bill_debit_note
@@ -1116,9 +1149,9 @@ CREATE TABLE IF NOT EXISTS `bill_detail` (
   CONSTRAINT `FK_soi_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_supplier_order_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_supplier_order_invoice_supplier_order` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.bill_detail: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla krece.bill_detail: ~17 rows (aproximadamente)
 DELETE FROM `bill_detail`;
 /*!40000 ALTER TABLE `bill_detail` DISABLE KEYS */;
 INSERT INTO `bill_detail` (`id`, `bill_id`, `user_id`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `category_id`, `product_id`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -1135,7 +1168,10 @@ INSERT INTO `bill_detail` (`id`, `bill_id`, `user_id`, `unit_price`, `discount`,
 	(21, 12, 1, 3000, 0, 0, NULL, 55, NULL, 'Comisiones y honorarios', NULL, 1, 0, 3000, '2017-03-14 14:40:18', '2017-03-14 14:40:18', NULL),
 	(22, 12, 1, 5000, 10, 0, NULL, 75, NULL, 'Legales', NULL, 1, 0, 4500, '2017-03-14 14:40:18', '2017-03-14 14:40:18', NULL),
 	(27, 13, 1, 2000, 0, 19, 3, 54, NULL, 'Alquiler de equipos y licencias', NULL, 1, 380, 2000, '2017-03-30 10:47:07', '2017-03-30 10:47:07', NULL),
-	(28, 13, 1, 3000, 0, NULL, NULL, 55, NULL, 'Comisiones y honorarios', NULL, 1, 0, 3000, '2017-03-30 10:47:07', '2017-03-30 10:47:07', NULL);
+	(28, 13, 1, 3000, 0, NULL, NULL, 55, NULL, 'Comisiones y honorarios', NULL, 1, 0, 3000, '2017-03-30 10:47:07', '2017-03-30 10:47:07', NULL),
+	(29, 14, 1, 200000, 0, 19, 3, 80, NULL, 'Salarios', 'esto es un salario', 1, 38000, 200000, '2017-04-05 06:51:36', '2017-04-05 06:51:36', NULL),
+	(30, 14, 1, 145000, 10, 0, NULL, 89, NULL, 'Viajes y viáticos', NULL, 2, 0, 261000, '2017-04-05 06:51:36', '2017-04-05 06:51:36', NULL),
+	(31, 15, 1, 50239, 0, 0, NULL, 87, NULL, 'Transporte y mensajería', NULL, 1, 0, 50239, '2017-04-05 06:56:32', '2017-04-05 06:56:32', NULL);
 /*!40000 ALTER TABLE `bill_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bill_payment
@@ -1860,9 +1896,9 @@ CREATE TABLE IF NOT EXISTS `category_payment` (
   CONSTRAINT `FK_cp_payment_id` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `FK_cp_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_cp_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.category_payment: ~21 rows (aproximadamente)
+-- Volcando datos para la tabla krece.category_payment: ~26 rows (aproximadamente)
 DELETE FROM `category_payment`;
 /*!40000 ALTER TABLE `category_payment` DISABLE KEYS */;
 INSERT INTO `category_payment` (`id`, `payment_id`, `account_id`, `user_id`, `category_id`, `unit_price`, `tax_id`, `tax_amount`, `tax_total`, `total`, `quantity`, `observations`, `created_at`, `updated_at`) VALUES
@@ -1886,7 +1922,14 @@ INSERT INTO `category_payment` (`id`, `payment_id`, `account_id`, `user_id`, `ca
 	(46, 116, 1, 1, 109, 1000, NULL, NULL, NULL, 1000, 1, NULL, '2017-03-10 22:19:01', '2017-03-10 22:19:01'),
 	(47, 117, 1, 1, 109, 1000, NULL, NULL, NULL, 1000, 1, NULL, '2017-03-10 22:19:01', '2017-03-10 22:19:01'),
 	(52, 121, 1, 1, 54, 2000, 3, 19, 380, 2000, 1, NULL, '2017-03-30 12:01:19', '2017-03-30 12:01:19'),
-	(53, 121, 1, 1, 55, 3000, 5, 0, NULL, 3000, 1, NULL, '2017-03-30 12:01:19', '2017-03-30 12:01:19');
+	(53, 121, 1, 1, 55, 3000, 5, 0, NULL, 3000, 1, NULL, '2017-03-30 12:01:19', '2017-03-30 12:01:19'),
+	(54, 124, 1, 1, 34, 2000, 3, 19, 380, 2000, 1, NULL, '2017-04-04 16:53:12', '2017-04-04 16:53:12'),
+	(55, 124, 1, 1, 31, 3000, NULL, NULL, NULL, 3000, 1, 'asasas', '2017-04-04 16:53:12', '2017-04-04 16:53:12'),
+	(56, 124, 1, 1, 54, 1000, 3, 19, 190, 1000, 1, NULL, '2017-04-04 16:53:12', '2017-04-04 16:53:12'),
+	(57, 125, 1, 1, 56, 5000, 3, 19, 950, 5000, 1, 'ascq', '2017-04-04 20:07:31', '2017-04-04 20:07:31'),
+	(58, 125, 1, 1, 39, 3000, NULL, NULL, NULL, 3000, 1, 'as', '2017-04-04 20:07:31', '2017-04-04 20:07:31'),
+	(59, 128, 1, 1, 93, 1200, 3, 19, 228, 1200, 1, NULL, '2017-04-05 08:38:14', '2017-04-05 08:38:14'),
+	(60, 128, 1, 1, 83, 500, NULL, NULL, NULL, 500, 1, NULL, '2017-04-05 08:38:14', '2017-04-05 08:38:14');
 /*!40000 ALTER TABLE `category_payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category_type
@@ -1978,7 +2021,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   CONSTRAINT `FK_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
 
--- Volcando datos para la tabla krece.contact: ~22 rows (aproximadamente)
+-- Volcando datos para la tabla krece.contact: ~24 rows (aproximadamente)
 DELETE FROM `contact`;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`, `address`, `city`, `email`, `phone1`, `phone2`, `fax`, `phone_mobile`, `list_price_id`, `seller_id`, `payment_terms_id`, `observation`, `include_account_state`, `isProvider`, `isCustomer`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2004,7 +2047,7 @@ INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`
 	(22, 1, 1, 18, 'distribuciones IDRD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'1', '2017-02-17 16:21:28', '2017-03-06 10:23:32', '2017-03-06 10:23:32'),
 	(23, 1, 1, 19, 'contact-provider', '123457', 'Call 23 # 54', 'Bogota', 'fernando2684@gmail.com', NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'1', b'1', '2017-02-28 10:13:24', '2017-03-06 10:23:35', '2017-03-06 10:23:35'),
 	(24, 1, 1, 20, 'contacto-proveedor', '123456', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'1', b'0', b'0', '2017-03-06 11:11:03', '2017-03-16 15:12:43', NULL),
-	(25, 1, 1, 21, 'contacto-cliente', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2017-03-06 11:20:50', '2017-03-06 11:21:00', NULL),
+	(25, 1, 1, 21, 'contacto-cliente', '123456', 'Calle 12', 'Bogota', 'test@hotmail.com', NULL, NULL, NULL, '3001234567890', 1, 4, 1, NULL, b'0', b'0', b'1', b'0', '2017-03-06 11:20:50', '2017-04-04 20:05:00', NULL),
 	(26, 1, 1, 22, 'Test', '121212', NULL, NULL, NULL, NULL, NULL, NULL, '122433432', 1, 4, 1, '3242332', b'0', b'1', b'1', b'0', '2017-03-17 11:40:24', '2017-03-17 14:16:08', NULL);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
@@ -2078,15 +2121,16 @@ CREATE TABLE IF NOT EXISTS `credit_note` (
   CONSTRAINT `FK_credit_note_customer` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_credit_note_list_price` FOREIGN KEY (`list_price_id`) REFERENCES `list_price` (`id`),
   CONSTRAINT `FK_credit_note_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.credit_note: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla krece.credit_note: ~4 rows (aproximadamente)
 DELETE FROM `credit_note`;
 /*!40000 ALTER TABLE `credit_note` DISABLE KEYS */;
 INSERT INTO `credit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `list_price_id`, `customer_id`, `currency_code`, `date`, `notes`, `observations`, `exchange_rate`, `sub_total`, `total`, `total_discounts`, `total_taxes`, `amount_pending_to_apply`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 1, 1, 1, 1, 4, 'COP', '2017-02-15', 'as', 'as', NULL, 8000, 9163, 300, 1463, NULL, b'1', '2017-02-15 12:28:37', '2017-03-06 09:48:11', '2017-03-06 09:48:11'),
 	(2, 1, 1, 2, 2, 1, 4, 'COP', '2017-02-15', NULL, NULL, NULL, 9000, 9840, 300, 1140, NULL, b'1', '2017-02-15 13:28:09', '2017-02-15 13:28:25', '2017-02-15 13:28:25'),
-	(3, 1, 1, 3, 3, 1, 25, 'COP', '2017-03-28', 'notas visibles en la cotización', 'notas no visibles en la cotización', NULL, 7000, 7950, 0, 950, NULL, b'0', '2017-03-13 13:58:26', '2017-03-28 10:25:57', NULL);
+	(3, 1, 1, 3, 3, 1, 25, 'COP', '2017-03-28', 'notas visibles en la cotización', 'notas no visibles en la cotización', NULL, 7000, 7950, 0, 950, NULL, b'1', '2017-03-13 13:58:26', '2017-03-30 18:34:27', '2017-03-30 18:34:27'),
+	(4, 1, 1, 4, 4, 1, 25, 'COP', '2017-03-30', 'notas de la cotizacion', 'observaciones', NULL, 7000, 7380, 0, 380, NULL, b'0', '2017-03-30 18:41:29', '2017-04-05 06:30:59', '2017-04-05 06:30:59');
 /*!40000 ALTER TABLE `credit_note` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.credit_note_detail
@@ -2117,9 +2161,9 @@ CREATE TABLE IF NOT EXISTS `credit_note_detail` (
   CONSTRAINT `FK_credit_note_detail_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_credit_note_detail_remision_id` FOREIGN KEY (`credit_note_id`) REFERENCES `credit_note` (`id`),
   CONSTRAINT `FK_credit_note_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.credit_note_detail: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla krece.credit_note_detail: ~9 rows (aproximadamente)
 DELETE FROM `credit_note_detail`;
 /*!40000 ALTER TABLE `credit_note_detail` DISABLE KEYS */;
 INSERT INTO `credit_note_detail` (`id`, `credit_note_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2129,7 +2173,9 @@ INSERT INTO `credit_note_detail` (`id`, `credit_note_id`, `user_id`, `product_id
 	(6, 2, 1, 3, 'ref2', 3000, 10, NULL, 0, 'producto 2', 'descripcion producto 2', 1, 0, 2700, '2017-02-15 13:28:10', '2017-02-15 13:28:10', NULL),
 	(7, 2, 1, 3, 'ref2', 3000, 0, 4, 19, 'producto 2', 'descripcion producto 2', 1, 570, 3000, '2017-02-15 13:28:10', '2017-02-15 13:28:10', NULL),
 	(26, 3, 1, 6, NULL, 2000, 0, NULL, 0, 'producto-1-inv', NULL, 1, 0, 2000, '2017-03-28 10:25:57', '2017-03-28 10:25:57', NULL),
-	(27, 3, 1, 7, NULL, 5000, 0, 3, 19, 'producto-2-no-inv', NULL, 1, 950, 5000, '2017-03-28 10:25:57', '2017-03-28 10:25:57', NULL);
+	(27, 3, 1, 7, NULL, 5000, 0, 3, 19, 'producto-2-no-inv', NULL, 1, 950, 5000, '2017-03-28 10:25:57', '2017-03-28 10:25:57', NULL),
+	(28, 4, 1, 6, NULL, 2000, 0, 3, 19, 'producto-1-inv', NULL, 1, 380, 2000, '2017-03-30 18:41:29', '2017-03-30 18:41:29', NULL),
+	(29, 4, 1, 7, NULL, 5000, 0, NULL, 0, 'producto-2-no-inv', NULL, 1, 0, 5000, '2017-03-30 18:41:29', '2017-03-30 18:41:29', NULL);
 /*!40000 ALTER TABLE `credit_note_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.currency
@@ -2266,15 +2312,16 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
   CONSTRAINT `FK_debit_note_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_debit_note_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_debit_note_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
--- Volcando datos para la tabla krece.debit_note: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla krece.debit_note: ~4 rows (aproximadamente)
 DELETE FROM `debit_note`;
 /*!40000 ALTER TABLE `debit_note` DISABLE KEYS */;
 INSERT INTO `debit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `customer_id`, `date`, `currency_code`, `observations`, `exchange_rate`, `amount_pending_to_apply`, `sub_total`, `total_taxes`, `total_discounts`, `total`, `isDeleted`, `updated_at`, `created_at`, `deleted_at`) VALUES
 	(5, 1, 1, 1, 1, 6, '2017-02-24', 'COP', 'observations', NULL, NULL, 4000, 752.4, 40, 4712.4, b'1', '2017-03-06 09:51:56', '2017-02-24 15:12:13', '2017-03-06 09:51:56'),
 	(6, 1, 1, 2, 2, 18, '2017-02-24', 'COP', 'esta es una nota credito de prueba', NULL, NULL, 5086250, 966388, 0, 6052640, b'1', '2017-02-24 15:31:28', '2017-02-24 15:28:39', '2017-02-24 15:31:28'),
-	(7, 1, 1, 3, 4, 24, '2017-03-14', 'COP', 'observaciones nota debito', NULL, NULL, 5000, 380, 300, 5080, b'0', '2017-03-30 11:09:53', '2017-03-14 15:31:59', NULL);
+	(7, 1, 1, 3, 4, 24, '2017-03-14', 'COP', 'observaciones nota debito', NULL, NULL, 5000, 380, 300, 5080, b'1', '2017-03-30 18:31:45', '2017-03-14 15:31:59', '2017-03-30 18:31:45'),
+	(8, 1, 1, 4, 5, 24, '2017-04-05', 'COP', 'observaciones', NULL, NULL, 24500, 3990, 0, 28490, b'0', '2017-04-05 06:34:05', '2017-04-05 06:34:05', NULL);
 /*!40000 ALTER TABLE `debit_note` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.debit_note_detail
@@ -2306,9 +2353,9 @@ CREATE TABLE IF NOT EXISTS `debit_note_detail` (
   CONSTRAINT `FK_debit_note_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_debit_note_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_debit_note_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.debit_note_detail: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla krece.debit_note_detail: ~8 rows (aproximadamente)
 DELETE FROM `debit_note_detail`;
 /*!40000 ALTER TABLE `debit_note_detail` DISABLE KEYS */;
 INSERT INTO `debit_note_detail` (`id`, `debit_note_id`, `user_id`, `category_id`, `product_id`, `name`, `description`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `total_tax`, `quantity`, `total`, `updated_at`, `created_at`) VALUES
@@ -2317,7 +2364,9 @@ INSERT INTO `debit_note_detail` (`id`, `debit_note_id`, `user_id`, `category_id`
 	(14, 5, 1, 66, NULL, 'Descuento financiero', NULL, 2000, 0, 3, 19, 380, 1, 2000, '2017-02-24 15:27:33', '2017-02-24 15:27:33'),
 	(15, 6, 1, 66, NULL, 'Descuento financiero', 'test', 5086250, 0, 3, 19, 966388, 1, 5086250, '2017-02-24 15:28:39', '2017-02-24 15:28:39'),
 	(22, 7, 1, 54, NULL, 'Alquiler de equipos y licencias', NULL, 2000, 0, 3, 19, 380, 1, 2000, '2017-03-30 11:09:53', '2017-03-30 11:09:53'),
-	(23, 7, 1, 55, NULL, 'Comisiones y honorarios', NULL, 3000, 10, NULL, 0, 0, 1, 2700, '2017-03-30 11:09:53', '2017-03-30 11:09:53');
+	(23, 7, 1, 55, NULL, 'Comisiones y honorarios', NULL, 3000, 10, NULL, 0, 0, 1, 2700, '2017-03-30 11:09:53', '2017-03-30 11:09:53'),
+	(24, 8, 1, 75, NULL, 'Legales', 'sas', 3500, 0, NULL, 0, 0, 1, 3500, '2017-04-05 06:34:05', '2017-04-05 06:34:05'),
+	(25, 8, 1, 76, NULL, 'Mantenimiento e instalaciones', NULL, 21000, 0, 3, 19, 3990, 1, 21000, '2017-04-05 06:34:05', '2017-04-05 06:34:05');
 /*!40000 ALTER TABLE `debit_note_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.debit_note_transaction
@@ -2368,9 +2417,9 @@ CREATE TABLE IF NOT EXISTS `estimate` (
   CONSTRAINT `FK_estimate_client` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_estimate_currency_code` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_estimate_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.estimate: ~38 rows (aproximadamente)
+-- Volcando datos para la tabla krece.estimate: ~41 rows (aproximadamente)
 DELETE FROM `estimate`;
 /*!40000 ALTER TABLE `estimate` DISABLE KEYS */;
 INSERT INTO `estimate` (`id`, `account_id`, `public_id`, `resolution_id`, `user_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `date`, `due_date`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2407,14 +2456,15 @@ INSERT INTO `estimate` (`id`, `account_id`, `public_id`, `resolution_id`, `user_
 	(35, 1, 30, 35, 1, 4, 2, 4, 'COP', 7000, 0, 0, 7000, '2017-02-10', '2017-02-16', 'testtt', NULL, NULL, b'1', '2017-02-10 13:40:14', '2017-03-06 09:50:45', '2017-03-06 09:50:45'),
 	(36, 1, 31, 36, 1, 1, 1, 1, 'COP', 7000, 400, 950, 7550, '2017-02-10', '2017-03-03', 'esta fue una cotización clonada', NULL, NULL, b'1', '2017-02-10 14:15:14', '2017-03-06 09:50:42', '2017-03-06 09:50:42'),
 	(37, 1, 32, 37, 1, 4, 1, 4, 'COP', 5000, 0, 0, 5000, '2017-02-12', '2017-02-09', 'asas', 'as', NULL, b'1', '2017-02-12 14:18:38', '2017-03-06 09:50:38', '2017-03-06 09:50:38'),
-	(38, 1, 33, 38, 1, 4, 1, 25, 'COP', 7000, 0, 380, 7380, '2017-03-08', '2017-04-07', 'notas de la cotizacion jakhjksahdsjak', 'observaciones zjkahsjkashj', NULL, b'0', '2017-03-08 17:14:19', '2017-03-08 17:35:57', NULL),
-	(39, 1, 34, 39, 1, NULL, 1, 25, 'COP', 6000, 400, 380, 5980, '2017-03-24', '2017-04-23', 'Notas visibles', NULL, NULL, b'0', '2017-03-24 14:15:46', '2017-03-28 11:39:01', NULL),
+	(38, 1, 33, 38, 1, 4, 1, 25, 'COP', 7000, 0, 380, 7380, '2017-03-08', '2017-04-07', 'notas de la cotizacion jakhjksahdsjak', 'observaciones zjkahsjkashj', NULL, b'1', '2017-03-08 17:14:19', '2017-03-30 18:34:37', '2017-03-30 18:34:37'),
+	(39, 1, 34, 39, 1, NULL, 1, 25, 'COP', 6000, 400, 380, 5980, '2017-03-24', '2017-04-23', 'Notas visibles', NULL, NULL, b'1', '2017-03-24 14:15:46', '2017-03-30 18:34:34', '2017-03-30 18:34:34'),
 	(40, 1, 35, 40, 1, 4, 1, 26, 'COP', 11000, 0, 0, 11000, '2017-03-24', '2017-04-23', 'asasas', 'asas', NULL, b'1', '2017-03-24 16:19:45', '2017-03-24 16:20:10', '2017-03-24 16:20:10'),
 	(41, 1, 36, 41, 1, 4, 1, 25, 'COP', 7000, 0, 0, 7000, '2017-03-24', '2017-04-23', 'asas', 'as', NULL, b'1', '2017-03-24 16:20:55', '2017-03-24 16:23:07', '2017-03-24 16:23:07'),
 	(42, 1, 37, 42, 1, 4, 1, 25, 'COP', 2000, 0, 0, 2000, '2017-03-24', '2017-04-23', 'asas', 'asas', NULL, b'1', '2017-03-24 16:23:22', '2017-03-24 16:23:55', '2017-03-24 16:23:55'),
 	(43, 1, 38, 43, 1, 4, 1, 25, 'COP', 7000, 0, 0, 7000, '2017-03-24', '2017-04-23', 'asas', 'as', NULL, b'1', '2017-03-24 16:24:09', '2017-03-24 16:29:57', '2017-03-24 16:29:57'),
 	(44, 1, 39, 44, 1, 4, 1, 26, 'COP', 7000, 0, 0, 7000, '2017-03-24', '2017-04-23', 'asas', 'asas', NULL, b'1', '2017-03-24 16:24:43', '2017-03-24 16:29:52', '2017-03-24 16:29:52'),
-	(45, 1, 40, 45, 1, 4, 1, 25, 'COP', 7000, 0, 0, 7000, '2017-03-24', '2017-04-23', 'asas', 'as', NULL, b'1', '2017-03-24 16:25:01', '2017-03-24 16:29:48', '2017-03-24 16:29:48');
+	(45, 1, 40, 45, 1, 4, 1, 25, 'COP', 7000, 0, 0, 7000, '2017-03-24', '2017-04-23', 'asas', 'as', NULL, b'1', '2017-03-24 16:25:01', '2017-03-24 16:29:48', '2017-03-24 16:29:48'),
+	(46, 1, 41, 46, 1, 4, 1, 25, 'COP', 7000, 200, 950, 7750, '2017-03-30', '2017-04-29', 'notas de la cotizacion', 'observaciones', NULL, b'0', '2017-03-30 18:39:14', '2017-03-30 18:39:14', NULL);
 /*!40000 ALTER TABLE `estimate` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.estimate_detail
@@ -2445,9 +2495,9 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   CONSTRAINT `FK_estimate_detail_remision_id` FOREIGN KEY (`estimate_id`) REFERENCES `estimate` (`id`),
   CONSTRAINT `FK_estimate_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_estimate_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.estimate_detail: ~55 rows (aproximadamente)
+-- Volcando datos para la tabla krece.estimate_detail: ~56 rows (aproximadamente)
 DELETE FROM `estimate_detail`;
 /*!40000 ALTER TABLE `estimate_detail` DISABLE KEYS */;
 INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -2506,7 +2556,9 @@ INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `re
 	(241, 45, 1, 6, NULL, 2000, 0, NULL, 0, NULL, NULL, 1, 0, 2000, '2017-03-24 16:27:28', '2017-03-24 16:27:28', NULL),
 	(242, 45, 1, 7, NULL, 5000, 0, NULL, 0, NULL, NULL, 1, 0, 5000, '2017-03-24 16:27:28', '2017-03-24 16:27:28', NULL),
 	(247, 39, 1, 6, NULL, 2000, 0, 3, 19, NULL, NULL, 1, 380, 2000, '2017-03-28 11:39:01', '2017-03-28 11:39:01', NULL),
-	(248, 39, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 2, 0, 3600, '2017-03-28 11:39:01', '2017-03-28 11:39:01', NULL);
+	(248, 39, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 2, 0, 3600, '2017-03-28 11:39:01', '2017-03-28 11:39:01', NULL),
+	(249, 46, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 1, 0, 1800, '2017-03-30 18:39:14', '2017-03-30 18:39:14', NULL),
+	(250, 46, 1, 7, NULL, 5000, 0, 3, 19, NULL, NULL, 1, 950, 5000, '2017-03-30 18:39:14', '2017-03-30 18:39:14', NULL);
 /*!40000 ALTER TABLE `estimate_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.failed_jobs
@@ -2520,7 +2572,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla krece.failed_jobs: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla krece.failed_jobs: ~12 rows (aproximadamente)
 DELETE FROM `failed_jobs`;
 /*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
 INSERT INTO `failed_jobs` (`id`, `connection`, `queue`, `payload`, `exception`, `failed_at`) VALUES
@@ -2601,7 +2653,7 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
 -- Volcando datos para la tabla krece.invoice_sale_order: ~21 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
@@ -2624,10 +2676,12 @@ INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `r
 	(25, 15, 1, 1, 15, 23, '2017-02-28', '2017-03-09', '2', 1, 'estas notas están visibles', NULL, 4, 1, 34, 'COP', 10000, 0, 0, 10000, NULL, NULL, b'0', b'1', '2017-02-28 10:14:20', '2017-03-06 09:46:39', '2017-03-06 09:46:39'),
 	(26, 16, 1, 1, 16, 1, '2017-05-03', '2017-05-31', '2', 1, 'Creado desde mi phone', NULL, 4, 1, 34, 'COP', 4000, 0, 0, 4000, NULL, NULL, b'0', b'1', '2017-03-05 11:15:50', '2017-03-06 09:46:34', '2017-03-06 09:46:34'),
 	(27, 17, 1, 1, 17, 25, '2017-03-13', '2017-03-13', '1', 2, 'notas visibles en la factura', NULL, 4, 1, 34, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-03-13 12:24:32', '2017-03-13 13:09:28', NULL),
-	(28, 18, 1, 1, 18, 25, '2017-03-13', '2017-03-13', '1', 1, 'notas visibles test2', NULL, 4, 1, 34, 'COP', 14000, 0, 0, 14000, NULL, NULL, b'0', b'0', '2017-03-13 12:29:37', '2017-03-16 21:26:45', NULL),
-	(29, 19, 1, 1, 19, 25, '2017-03-17', '2017-03-17', '2', 1, 'notas factura venta', 'asqwqw', 4, 1, 34, 'COP', 19000, 1500, 760, 18260, NULL, NULL, b'0', b'0', '2017-03-17 09:16:09', '2017-03-17 09:16:09', NULL),
-	(30, 20, 1, 1, 20, 25, '2017-03-24', '2017-03-24', '1', 1, 'asas', 'asas', NULL, 1, 34, 'COP', 6000, 0, 0, 6000, NULL, NULL, b'0', b'0', '2017-03-24 16:41:20', '2017-03-24 16:41:20', NULL),
-	(31, 21, 1, 1, 21, 25, '2017-03-28', '2017-03-28', '1', 1, 'convertido de una remision', 'esta es una remision', 4, 1, 34, 'COP', 9000, 200, 1130, 9930, NULL, NULL, b'0', b'0', '2017-03-28 17:07:26', '2017-03-29 11:04:55', NULL);
+	(28, 18, 1, 1, 18, 25, '2017-03-13', '2017-03-13', '1', 2, 'notas visibles test2', NULL, 4, 1, 34, 'COP', 14000, 0, 0, 14000, NULL, NULL, b'0', b'0', '2017-03-13 12:29:37', '2017-03-30 18:34:02', NULL),
+	(29, 19, 1, 1, 19, 25, '2017-03-17', '2017-03-17', '2', 2, 'notas factura venta', 'asqwqw', 4, 1, 34, 'COP', 19000, 1500, 760, 18260, NULL, NULL, b'0', b'0', '2017-03-17 09:16:09', '2017-03-30 18:34:06', NULL),
+	(30, 20, 1, 1, 20, 25, '2017-03-24', '2017-03-24', '1', 2, 'asas', 'asas', NULL, 1, 34, 'COP', 6000, 0, 0, 6000, NULL, NULL, b'0', b'0', '2017-03-24 16:41:20', '2017-03-30 18:34:04', NULL),
+	(31, 21, 1, 1, 21, 25, '2017-03-28', '2017-03-28', '1', 2, 'convertido de una remision', 'esta es una remision', 4, 1, 34, 'COP', 9000, 200, 1130, 9930, NULL, NULL, b'0', b'0', '2017-03-28 17:07:26', '2017-03-30 18:34:05', NULL),
+	(32, 22, 1, 1, 22, 25, '2017-03-30', '2017-03-30', '2', 1, 'notas', 'obervaciones', 4, 1, 34, 'COP', 1500000, 50000, 0, 1450000, NULL, NULL, b'0', b'0', '2017-03-30 18:45:16', '2017-03-30 18:45:16', NULL),
+	(33, 23, 1, 1, 23, 25, '2017-04-05', '2017-04-05', '1', 1, 'asas', 'as', 4, 1, 34, 'COP', 7000, 0, 0, 7000, NULL, NULL, b'0', b'0', '2017-04-05 21:23:14', '2017-04-05 21:23:14', NULL);
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_credit_note
@@ -2672,7 +2726,7 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
 -- Volcando datos para la tabla krece.invoice_sale_order_detail: ~47 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
@@ -2724,7 +2778,11 @@ INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id
 	(87, 30, 1, NULL, 6, NULL, NULL, NULL, 2000, 0, 0, 2, 4000, 0, '2017-03-24 16:41:20', '2017-03-24 16:41:20'),
 	(94, 31, 1, 3, 6, NULL, NULL, NULL, 2000, 0, 19, 1, 2000, 380, '2017-03-28 18:14:11', '2017-03-28 18:14:11'),
 	(95, 31, 1, 4, 7, NULL, NULL, NULL, 5000, 0, 15, 1, 5000, 750, '2017-03-28 18:14:11', '2017-03-28 18:14:11'),
-	(96, 31, 1, NULL, 6, NULL, NULL, NULL, 2000, 10, 0, 1, 1800, 0, '2017-03-28 18:14:11', '2017-03-28 18:14:11');
+	(96, 31, 1, NULL, 6, NULL, NULL, NULL, 2000, 10, 0, 1, 1800, 0, '2017-03-28 18:14:11', '2017-03-28 18:14:11'),
+	(97, 32, 1, NULL, 6, NULL, NULL, NULL, 2000, 0, 0, 500, 1000000, 0, '2017-03-30 18:45:16', '2017-03-30 18:45:16'),
+	(98, 32, 1, NULL, 7, NULL, NULL, NULL, 5000, 10, 0, 100, 450000, 0, '2017-03-30 18:45:16', '2017-03-30 18:45:16'),
+	(99, 33, 1, NULL, 6, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-05 21:23:15', '2017-04-05 21:23:15'),
+	(100, 33, 1, NULL, 7, NULL, NULL, NULL, 5000, 0, 0, 1, 5000, 0, '2017-04-05 21:23:15', '2017-04-05 21:23:15');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_estimate
@@ -2875,7 +2933,7 @@ CREATE TABLE IF NOT EXISTS `list_price` (
   CONSTRAINT `FK_list_price_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COMMENT='Store the list price information';
 
--- Volcando datos para la tabla krece.list_price: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla krece.list_price: ~11 rows (aproximadamente)
 DELETE FROM `list_price`;
 /*!40000 ALTER TABLE `list_price` DISABLE KEYS */;
 INSERT INTO `list_price` (`id`, `account_id`, `user_id`, `public_id`, `name`, `type_id`, `value`, `isDefault`, `created_at`, `updated_at`, `deleted_at`, `isEnabled`, `isDeleted`) VALUES
@@ -2915,7 +2973,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.migrations: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.migrations: ~2 rows (aproximadamente)
 DELETE FROM `migrations`;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -2961,7 +3019,7 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.password_resets: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla krece.password_resets: ~0 rows (aproximadamente)
 DELETE FROM `password_resets`;
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
@@ -3004,9 +3062,9 @@ CREATE TABLE IF NOT EXISTS `payment` (
   CONSTRAINT `FK_payment_status` FOREIGN KEY (`status_id`) REFERENCES `payment_status` (`id`),
   CONSTRAINT `FK_payment_type` FOREIGN KEY (`type_id`) REFERENCES `payment_type` (`type`),
   CONSTRAINT `FK_payment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment: ~29 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment: ~38 rows (aproximadamente)
 DELETE FROM `payment`;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
 INSERT INTO `payment` (`id`, `resolution_id`, `public_id`, `user_id`, `account_id`, `customer_id`, `date`, `bank_account_id`, `observations`, `notes`, `payment_method_id`, `currency_code`, `type_id`, `status_id`, `parent_id`, `isInvoice`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -3029,24 +3087,32 @@ INSERT INTO `payment` (`id`, `resolution_id`, `public_id`, `user_id`, `account_i
 	(95, 17, 27, 1, 1, 9, '2017-03-03', 1, NULL, NULL, 2, 'COP', 'eg', 1, NULL, b'1', b'0', '2017-03-03 18:31:03', '2017-03-03 18:31:03', NULL),
 	(104, 24, 28, 1, 1, 1, '2017-03-03', 1, 'asas', NULL, 2, 'COP', 'in', 1, NULL, b'1', b'1', '2017-03-03 19:56:58', '2017-03-06 09:47:52', '2017-03-06 09:47:52'),
 	(108, 20, 29, 1, 1, NULL, '2017-03-10', 1, 'estas es mi transferencia', NULL, 3, 'COP', 'eg', 1, NULL, b'0', b'0', '2017-03-10 13:14:48', '2017-03-10 13:14:48', NULL),
-	(109, 25, 30, 1, 1, NULL, '2017-03-10', 2, 'estas es mi transferencia', NULL, 3, 'COP', 'in', 1, NULL, b'0', b'0', '2017-03-10 13:14:48', '2017-03-10 13:14:48', NULL),
+	(109, 25, 30, 1, 1, NULL, '2017-03-10', 2, 'estas es mi transferencia', NULL, 3, 'COP', 'in', 1, NULL, b'0', b'1', '2017-03-10 13:14:48', '2017-04-05 21:07:32', '2017-04-05 21:07:32'),
 	(110, 21, 31, 1, 1, NULL, '2017-03-10', 1, 'trasnsferencia hacia banco 2', NULL, 3, 'COP', 'eg', 1, 110, b'0', b'0', '2017-03-10 13:24:53', '2017-03-10 13:24:53', NULL),
-	(111, 26, 32, 1, 1, NULL, '2017-03-10', 2, 'trasnsferencia hacia banco 2', NULL, 3, 'COP', 'in', 1, 110, b'0', b'0', '2017-03-10 13:24:53', '2017-03-10 13:24:53', NULL),
+	(111, 26, 32, 1, 1, NULL, '2017-03-10', 2, 'trasnsferencia hacia banco 2', NULL, 3, 'COP', 'in', 1, 110, b'0', b'1', '2017-03-10 13:24:53', '2017-04-05 21:07:36', '2017-04-05 21:07:36'),
 	(114, 22, 33, 1, 1, NULL, '2017-03-10', 1, 'asas', NULL, 3, 'COP', 'eg', 1, 114, b'0', b'0', '2017-03-10 17:13:46', '2017-03-10 17:13:46', NULL),
-	(115, 27, 34, 1, 1, NULL, '2017-03-10', 2, 'asas', NULL, 3, 'COP', 'in', 1, 114, b'0', b'0', '2017-03-10 17:13:46', '2017-03-10 17:13:46', NULL),
+	(115, 27, 34, 1, 1, NULL, '2017-03-10', 2, 'asas', NULL, 3, 'COP', 'in', 1, 114, b'0', b'1', '2017-03-10 17:13:46', '2017-04-05 21:08:04', '2017-04-05 21:08:04'),
 	(116, 23, 35, 1, 1, NULL, '2017-03-10', 2, NULL, NULL, 3, 'COP', 'eg', 1, 116, b'0', b'0', '2017-03-10 22:19:01', '2017-03-10 22:19:01', NULL),
-	(117, 28, 36, 1, 1, NULL, '2017-03-10', 1, NULL, NULL, 3, 'COP', 'in', 1, 116, b'0', b'0', '2017-03-10 22:19:01', '2017-03-10 22:19:01', NULL),
+	(117, 28, 36, 1, 1, NULL, '2017-03-10', 1, NULL, NULL, 3, 'COP', 'in', 1, 116, b'0', b'1', '2017-03-10 22:19:01', '2017-04-05 21:07:56', '2017-04-05 21:07:56'),
 	(118, 29, 37, 1, 1, 25, '2017-03-16', 1, NULL, NULL, 2, 'COP', 'in', 1, NULL, b'1', b'1', '2017-03-16 15:25:51', '2017-03-16 16:29:36', '2017-03-16 16:29:36'),
-	(119, 30, 38, 1, 1, 25, '2017-03-16', 1, 'observaciones del pago', 'notas del recibo', 2, 'COP', 'in', 1, NULL, b'1', b'0', '2017-03-16 17:21:59', '2017-03-16 17:21:59', NULL),
-	(120, 31, 39, 1, 1, 25, '2017-03-16', 1, 'pago 2', 'pago 2', 1, 'COP', 'in', 1, NULL, b'1', b'0', '2017-03-16 21:44:59', '2017-03-16 21:44:59', NULL),
-	(121, 24, 40, 1, 1, 24, '2017-03-30', 1, NULL, NULL, 1, 'COP', 'eg', 1, NULL, b'0', b'0', '2017-03-30 11:49:03', '2017-03-30 12:01:19', NULL);
+	(119, 30, 38, 1, 1, 25, '2017-03-16', 1, 'observaciones del pago', 'notas del recibo', 2, 'COP', 'in', 1, NULL, b'1', b'1', '2017-03-16 17:21:59', '2017-03-30 18:34:16', '2017-03-30 18:34:16'),
+	(120, 31, 39, 1, 1, 25, '2017-03-16', 1, 'pago 2', 'pago 2', 1, 'COP', 'in', 1, NULL, b'1', b'1', '2017-03-16 21:44:59', '2017-03-30 18:34:19', '2017-03-30 18:34:19'),
+	(121, 24, 40, 1, 1, 24, '2017-03-30', 1, NULL, NULL, 1, 'COP', 'eg', 1, NULL, b'0', b'1', '2017-03-30 11:49:03', '2017-03-30 18:26:20', '2017-03-30 18:26:20'),
+	(122, 32, 41, 1, 1, 25, '2017-03-30', 1, NULL, NULL, 1, 'COP', 'in', 1, NULL, b'1', b'0', '2017-03-30 19:20:38', '2017-03-30 19:57:43', NULL),
+	(123, 33, 42, 1, 1, 25, '2017-03-30', 2, NULL, NULL, 2, 'COP', 'in', 1, NULL, b'1', b'0', '2017-03-30 20:07:11', '2017-03-30 20:41:12', NULL),
+	(124, 34, 43, 1, 1, 25, '2017-04-04', 1, 'axas', 'asas', 1, 'COP', 'in', 1, NULL, b'0', b'0', '2017-04-04 16:53:12', '2017-04-04 16:53:12', NULL),
+	(125, 35, 44, 1, 1, 25, '2017-04-04', 3, NULL, NULL, 6, 'COP', 'in', 1, NULL, b'0', b'0', '2017-04-04 20:07:31', '2017-04-04 20:07:31', NULL),
+	(126, 25, 45, 1, 1, 24, '2017-04-05', 1, NULL, NULL, 1, 'COP', 'eg', 1, NULL, b'1', b'0', '2017-04-05 08:32:19', '2017-04-05 08:33:42', NULL),
+	(127, 26, 46, 1, 1, 24, '2017-04-05', 2, NULL, NULL, 4, 'COP', 'eg', 1, NULL, b'1', b'0', '2017-04-05 08:35:14', '2017-04-05 08:35:14', NULL),
+	(128, 27, 47, 1, 1, 24, '2017-04-05', 3, NULL, NULL, 1, 'COP', 'eg', 1, NULL, b'0', b'0', '2017-04-05 08:38:14', '2017-04-05 08:38:14', NULL),
+	(129, 36, 48, 1, 1, 25, '2017-04-05', 1, NULL, NULL, 1, 'COP', 'in', 1, NULL, b'1', b'0', '2017-04-05 21:55:35', '2017-04-05 21:55:35', NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_history
 CREATE TABLE IF NOT EXISTS `payment_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
-  `payment_id` bigint(20),
+  `payment_id` bigint(20) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `invoice_sale_order_id` int(11) DEFAULT NULL,
   `bill_id` int(11) DEFAULT NULL,
@@ -3060,9 +3126,9 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   CONSTRAINT `FK_payment_history_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_payment_history_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `FK_payment_history_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment_history: ~17 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment_history: ~22 rows (aproximadamente)
 DELETE FROM `payment_history`;
 /*!40000 ALTER TABLE `payment_history` DISABLE KEYS */;
 INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `invoice_sale_order_id`, `bill_id`, `amount`, `created_at`, `updated_at`) VALUES
@@ -3085,7 +3151,12 @@ INSERT INTO `payment_history` (`id`, `account_id`, `payment_id`, `user_id`, `inv
 	(60, 1, 104, 1, 23, NULL, 4800, '2017-03-03 19:56:58', '2017-03-03 19:56:58'),
 	(61, 1, 118, 1, 28, NULL, 6500, '2017-03-16 15:25:51', '2017-03-16 15:25:51'),
 	(62, 1, 119, 1, 28, NULL, 2000, '2017-03-16 17:21:59', '2017-03-16 17:21:59'),
-	(63, 1, 120, 1, 28, NULL, 3000, '2017-03-16 21:45:00', '2017-03-16 21:45:00');
+	(63, 1, 120, 1, 28, NULL, 3000, '2017-03-16 21:45:00', '2017-03-16 21:45:00'),
+	(64, 1, 122, 1, 32, NULL, 350000, '2017-03-30 19:57:44', '2017-03-30 19:57:44'),
+	(65, 1, 123, 1, 32, NULL, 100000, '2017-03-30 20:41:12', '2017-03-30 20:41:12'),
+	(66, 1, 126, 1, NULL, 15, 20000, '2017-04-05 08:33:42', '2017-04-05 08:33:42'),
+	(67, 1, 127, 1, NULL, 14, 100000, '2017-04-05 08:35:14', '2017-04-05 08:35:14'),
+	(68, 1, 129, 1, 33, NULL, 2000, '2017-04-05 21:55:35', '2017-04-05 21:55:35');
 /*!40000 ALTER TABLE `payment_history` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_method
@@ -3267,7 +3338,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   CONSTRAINT `FK_products_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.product: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla krece.product: ~6 rows (aproximadamente)
 DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`id`, `public_id`, `user_id`, `account_id`, `name`, `description`, `reference`, `sale_price`, `tax_id`, `list_price_id`, `category_id`, `inv_quantity_initial`, `inv_quantity_actual`, `inv_type_id`, `inv_unit_cost`, `inv_inStock`, `isDeleted`, `isActive`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -3276,7 +3347,7 @@ INSERT INTO `product` (`id`, `public_id`, `user_id`, `account_id`, `name`, `desc
 	(4, 3, 1, 1, 'productoprueba', 'producto para pruebas', '1234', 5000, 3, NULL, 30, NULL, NULL, NULL, 0, b'0', b'1', b'1', '2017-03-06 09:56:02', '2017-03-06 09:56:02', '2017-03-06 09:56:02'),
 	(5, 4, 1, 1, 'test', 'esta es una descripcion del producto pruena', NULL, 2000, 4, NULL, 30, 2, NULL, 1, 300, b'1', b'1', b'1', '2017-03-06 09:55:49', '2017-03-06 09:55:49', '2017-03-06 09:55:49'),
 	(6, 5, 1, 1, 'producto-1-inv', NULL, NULL, 2000, 5, NULL, 34, 2, NULL, 1, 1500, b'1', b'0', b'1', '2017-03-06 09:57:58', '2017-03-06 09:57:58', NULL),
-	(7, 6, 1, 1, 'producto-2-no-inv', NULL, NULL, 5000, 5, NULL, 34, NULL, NULL, NULL, 0, b'0', b'0', b'1', '2017-03-06 10:03:20', '2017-03-06 10:03:20', NULL);
+	(7, 6, 1, 1, 'producto-2-no-inv', 'este producto es de prueba', NULL, 5000, 5, NULL, 34, NULL, NULL, NULL, 0, b'0', b'0', b'1', '2017-04-06 11:56:30', '2017-04-06 11:56:30', NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.product_inventory_type
@@ -3344,14 +3415,16 @@ CREATE TABLE IF NOT EXISTS `purchase_order` (
   CONSTRAINT `FK_purchase_order_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_purchase_order_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_purchase_order_status` FOREIGN KEY (`status_id`) REFERENCES `purchase_order_status` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
--- Volcando datos para la tabla krece.purchase_order: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla krece.purchase_order: ~4 rows (aproximadamente)
 DELETE FROM `purchase_order`;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
 INSERT INTO `purchase_order` (`id`, `account_id`, `public_id`, `user_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `currency_code`, `status_id`, `notes`, `observations`, `terms`, `exchange_rate`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 1, 1, 1, 6, '2017-02-23', '2017-03-25', 'COP', 1, 'esta es una nota de prueba', NULL, 'estos son terminos y condiciones de la orden', NULL, 125408, 12340.8, 21482.8, 134550, b'1', '2017-02-23 18:12:19', '2017-03-14 14:43:33', '2017-03-14 14:43:33'),
-	(2, 1, 2, 1, 2, 24, '2017-03-14', '2017-04-13', 'COP', 1, 'notas orden de compra', 'observaciones orden de compra', 'terminos y condiciones de PO', NULL, 5000, 0, 0, 5000, b'0', '2017-03-14 15:02:08', '2017-03-29 17:53:56', NULL);
+	(2, 1, 2, 1, 2, 24, '2017-03-14', '2017-04-13', 'COP', 1, 'notas orden de compra', 'observaciones orden de compra', 'terminos y condiciones de PO', NULL, 5000, 0, 0, 5000, b'1', '2017-03-14 15:02:08', '2017-03-30 18:31:34', '2017-03-30 18:31:34'),
+	(3, 1, 3, 1, 3, 24, '2017-04-05', '2017-05-05', 'COP', 1, 'notas', 'observeichons', 'terminos y condiciones', NULL, 16289, 200, 2334.91, 18423.9, b'0', '2017-04-05 06:11:43', '2017-04-05 06:11:43', NULL),
+	(4, 1, 4, 1, 4, 24, '2017-04-05', '2017-05-05', 'COP', 1, 'qwqw', 'asa', 'sdcxz', NULL, 1000, 0, 0, 1000, b'0', '2017-04-05 06:28:54', '2017-04-05 06:28:54', NULL);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.purchase_order_detail
@@ -3383,16 +3456,20 @@ CREATE TABLE IF NOT EXISTS `purchase_order_detail` (
   CONSTRAINT `FK_purchase_order_detail_po` FOREIGN KEY (`purchase_order_id`) REFERENCES `purchase_order` (`id`),
   CONSTRAINT `FK_purchase_order_detail_tax_id` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_purchase_order_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.purchase_order_detail: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla krece.purchase_order_detail: ~8 rows (aproximadamente)
 DELETE FROM `purchase_order_detail`;
 /*!40000 ALTER TABLE `purchase_order_detail` DISABLE KEYS */;
 INSERT INTO `purchase_order_detail` (`id`, `purchase_order_id`, `user_id`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `category_id`, `product_id`, `name`, `description`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
 	(11, 1, 1, 2000, 0, 19, 3, 54, NULL, 'Alquiler de equipos y licencias', NULL, 1, 2000, 380, '2017-02-24 13:06:02', '2017-02-24 13:06:02'),
 	(12, 1, 1, 123408, 10, 19, 4, 65, NULL, 'Egresos no operacionales', NULL, 1, 111067, 21102.8, '2017-02-24 13:06:02', '2017-02-24 13:06:02'),
 	(17, 2, 1, 2000, 0, 19, 3, 54, NULL, 'Alquiler de equipos y licencias', NULL, 1, 2000, 380, '2017-03-29 17:53:56', '2017-03-29 17:53:56'),
-	(18, 2, 1, 3000, 0, NULL, NULL, 55, NULL, 'Comisiones y honorarios', NULL, 1, 3000, 0, '2017-03-29 17:53:56', '2017-03-29 17:53:56');
+	(18, 2, 1, 3000, 0, NULL, NULL, 55, NULL, 'Comisiones y honorarios', NULL, 1, 3000, 0, '2017-03-29 17:53:56', '2017-03-29 17:53:56'),
+	(19, 3, 1, 2500, 0, 19, 3, 54, NULL, 'Alquiler de equipos y licencias', 'askjgja', 1, 2500, 475, '2017-04-05 06:11:44', '2017-04-05 06:11:44'),
+	(20, 3, 1, 1000, 5, 0, NULL, 87, NULL, 'Transporte y mensajería', NULL, 4, 3800, 0, '2017-04-05 06:11:44', '2017-04-05 06:11:44'),
+	(21, 3, 1, 9789, 0, 19, 3, 57, NULL, 'Ajustes del inventario', 'inv', 1, 9789, 1859.91, '2017-04-05 06:11:44', '2017-04-05 06:11:44'),
+	(22, 4, 1, 1000, 0, 0, NULL, 54, NULL, 'Alquiler de equipos y licencias', NULL, 1, 1000, 0, '2017-04-05 06:28:54', '2017-04-05 06:28:54');
 /*!40000 ALTER TABLE `purchase_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.purchase_order_status
@@ -3454,17 +3531,18 @@ CREATE TABLE IF NOT EXISTS `remision` (
   CONSTRAINT `FK_remision_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_remision_status` FOREIGN KEY (`status_id`) REFERENCES `remision_status` (`id`),
   CONSTRAINT `FK_remision_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.remision: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla krece.remision: ~6 rows (aproximadamente)
 DELETE FROM `remision`;
 /*!40000 ALTER TABLE `remision` DISABLE KEYS */;
 INSERT INTO `remision` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `document_type_id`, `status_id`, `date`, `due_date`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `deleted_at`, `updated_at`) VALUES
 	(6, 1, 1, 1, 1, 4, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-10', 10000, 0, 950, 10950, 'asas', NULL, NULL, b'1', '2017-02-10 16:28:02', '2017-03-06 09:48:28', '2017-03-06 09:48:28'),
 	(7, 1, 1, 2, 2, NULL, 1, 4, 'COP', 1, 1, '2017-02-10', '2017-03-12', 55000, 0, 950, 55950, 'remision clonada', NULL, NULL, b'1', '2017-02-10 16:57:58', '2017-02-13 13:21:36', '2017-02-13 13:21:36'),
 	(8, 1, 1, 3, 3, 4, 1, 18, 'COP', 2, 1, '2017-02-10', '2017-03-10', 10000, 0, 570, 10570, 'prueba remision 2', NULL, NULL, b'1', '2017-02-10 17:01:08', '2017-03-06 09:48:24', '2017-03-06 09:48:24'),
-	(9, 1, 1, 4, 4, 4, 1, 25, 'COP', 1, 1, '2017-03-06', '2017-04-06', 9000, 200, 1130, 9930, 'estas fueron las notas de la remision', 'esta es una remision', NULL, b'0', '2017-03-06 13:29:45', NULL, '2017-03-28 12:02:55'),
-	(10, 1, 1, 5, 5, 4, 1, 25, 'COP', 1, 1, '2017-03-28', '2017-04-27', 9000, 200, 1130, 9930, 'notas', 'esta es una remision', NULL, b'0', '2017-03-28 12:13:14', NULL, '2017-03-28 12:13:14');
+	(9, 1, 1, 4, 4, 4, 1, 25, 'COP', 1, 1, '2017-03-06', '2017-04-06', 9000, 200, 1130, 9930, 'estas fueron las notas de la remision', 'esta es una remision', NULL, b'1', '2017-03-06 13:29:45', '2017-03-30 18:33:48', '2017-03-30 18:33:48'),
+	(10, 1, 1, 5, 5, 4, 1, 25, 'COP', 1, 1, '2017-03-28', '2017-04-27', 9000, 200, 1130, 9930, 'notas', 'esta es una remision', NULL, b'1', '2017-03-28 12:13:14', '2017-03-30 18:33:51', '2017-03-30 18:33:51'),
+	(11, 1, 1, 6, 6, 4, 1, 25, 'COP', 1, 1, '2017-03-30', '2017-04-30', 7000, 500, 380, 6880, 'notas', 'observaciones', NULL, b'0', '2017-03-30 18:36:48', NULL, '2017-03-30 18:36:48');
 /*!40000 ALTER TABLE `remision` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision_detail
@@ -3495,7 +3573,7 @@ CREATE TABLE IF NOT EXISTS `remision_detail` (
   CONSTRAINT `FK_remision_detail_remision_id` FOREIGN KEY (`remision_id`) REFERENCES `remision` (`id`),
   CONSTRAINT `FK_remision_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_remision_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.remision_detail: ~16 rows (aproximadamente)
 DELETE FROM `remision_detail`;
@@ -3516,7 +3594,9 @@ INSERT INTO `remision_detail` (`id`, `remision_id`, `user_id`, `product_id`, `re
 	(53, 9, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 1, 1800, 0, '2017-03-28 11:56:43', '2017-03-28 11:56:43', NULL),
 	(54, 10, 1, 6, NULL, 2000, 0, 3, 19, NULL, NULL, 1, 2380, 380, '2017-03-28 12:13:14', '2017-03-28 12:13:14', NULL),
 	(55, 10, 1, 7, NULL, 5000, 0, 4, 15, NULL, NULL, 1, 5750, 750, '2017-03-28 12:13:14', '2017-03-28 12:13:14', NULL),
-	(56, 10, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 1, 1800, 0, '2017-03-28 12:13:14', '2017-03-28 12:13:14', NULL);
+	(56, 10, 1, 6, NULL, 2000, 10, NULL, 0, NULL, NULL, 1, 1800, 0, '2017-03-28 12:13:14', '2017-03-28 12:13:14', NULL),
+	(57, 11, 1, 6, NULL, 2000, 0, 3, 19, NULL, NULL, 1, 2380, 380, '2017-03-30 18:36:48', '2017-03-30 18:36:48', NULL),
+	(58, 11, 1, 7, NULL, 5000, 10, NULL, 0, NULL, NULL, 1, 4500, 0, '2017-03-30 18:36:48', '2017-03-30 18:36:48', NULL);
 /*!40000 ALTER TABLE `remision_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.remision_document_type
@@ -3575,11 +3655,11 @@ CREATE TABLE IF NOT EXISTS `resolution` (
   CONSTRAINT `FK_resolution_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COMMENT='contains resolution IDs for each sale order, according law policies (DIAN in colombia)';
 
--- Volcando datos para la tabla krece.resolution: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla krece.resolution: ~12 rows (aproximadamente)
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
 INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, 1, 1, 1, '1', '', '22', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-03-28 17:07:26', NULL),
+	(1, 1, 1, 1, '1', '', '24', 'Principal', NULL, 'resolucion', b'1', b'1', b'0', b'1', '2017-02-09 15:58:41', '2017-04-05 21:23:15', NULL),
 	(2, 1, 2, 1, '1', '', '1', 'Nuevo', NULL, NULL, b'0', b'1', b'0', b'1', '2017-02-09 16:15:11', '2017-02-14 11:13:27', '2017-02-09 19:09:39'),
 	(3, 1, 3, 1, '1', NULL, '2', 'tes', 'PR', NULL, b'0', b'1', b'1', b'1', '2017-02-09 18:15:58', '2017-02-14 14:19:34', '2017-02-14 14:19:34'),
 	(4, 1, 4, 1, '1', NULL, '1', 'fer', NULL, NULL, b'0', b'0', b'0', b'1', '2017-02-09 19:38:49', '2017-02-14 10:47:25', NULL),
@@ -3612,70 +3692,70 @@ CREATE TABLE IF NOT EXISTS `resolution_numbers` (
 DELETE FROM `resolution_numbers`;
 /*!40000 ALTER TABLE `resolution_numbers` DISABLE KEYS */;
 INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
-	(8, 1, 'estimate', NULL, 46, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-03-24 16:25:01'),
-	(9, 1, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-03-14 15:02:08'),
-	(10, 1, 'credit_note', NULL, 4, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-03-13 13:58:26'),
-	(11, 1, 'remision', NULL, 6, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-03-28 12:13:14'),
-	(12, 1, 'in-come', NULL, 32, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-03-16 21:45:00'),
-	(13, 1, 'debit_note', NULL, 5, 'Siguiente número de nota debito', '2017-02-24 14:07:27', '2017-03-14 15:31:59'),
-	(14, 1, 'bill', NULL, 7, 'Siguiente número de factura de proveedores', '2017-02-24 16:13:59', '2017-03-30 10:29:16'),
-	(15, 1, 'out-come', NULL, 25, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-03-30 11:49:03'),
-	(16, 2, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', '2017-03-22 19:27:02', '2017-03-24 16:25:01'),
-	(17, 2, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
-	(18, 2, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
-	(19, 2, 'remision', NULL, 2, 'Siguiente número de remisiones', '2017-03-22 19:27:03', '2017-03-28 12:13:14'),
-	(20, 2, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
-	(21, 2, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 19:27:03', '2017-03-22 19:27:03'),
-	(22, 2, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', '2017-03-22 19:27:03', '2017-03-30 10:29:16'),
-	(23, 2, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', '2017-03-22 19:27:03', '2017-03-30 11:49:03'),
-	(24, 6, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', '2017-03-22 21:23:00', '2017-03-24 16:25:01'),
-	(25, 6, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
-	(26, 6, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
-	(27, 6, 'remision', NULL, 2, 'Siguiente número de remisiones', '2017-03-22 21:23:00', '2017-03-28 12:13:14'),
-	(28, 6, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
-	(29, 6, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 21:23:00', '2017-03-22 21:23:00'),
-	(30, 6, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', '2017-03-22 21:23:00', '2017-03-30 10:29:16'),
-	(31, 6, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', '2017-03-22 21:23:00', '2017-03-30 11:49:03'),
-	(32, 7, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', '2017-03-22 21:34:50', '2017-03-24 16:25:01'),
-	(33, 7, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
-	(34, 7, 'credit_note', NULL, 1, 'Siguiente número de nota credito', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
-	(35, 7, 'remision', NULL, 2, 'Siguiente número de remisiones', '2017-03-22 21:34:50', '2017-03-28 12:13:14'),
-	(36, 7, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
-	(37, 7, 'debit_note', NULL, 1, 'Siguiente número de nota debito', '2017-03-22 21:34:50', '2017-03-22 21:34:50'),
-	(38, 7, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', '2017-03-22 21:34:51', '2017-03-30 10:29:16'),
-	(39, 7, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', '2017-03-22 21:34:51', '2017-03-30 11:49:03'),
-	(40, 9, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', NULL, '2017-03-24 16:25:01'),
-	(41, 9, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
-	(42, 9, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
-	(43, 9, 'remision', NULL, 2, 'Siguiente número de remisiones', NULL, '2017-03-28 12:13:14'),
-	(44, 9, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
-	(45, 9, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
-	(46, 9, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', NULL, '2017-03-30 10:29:16'),
-	(47, 9, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', NULL, '2017-03-30 11:49:03'),
-	(48, 10, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', NULL, '2017-03-24 16:25:01'),
-	(49, 10, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
-	(50, 10, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
-	(51, 10, 'remision', NULL, 2, 'Siguiente número de remisiones', NULL, '2017-03-28 12:13:14'),
-	(52, 10, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
-	(53, 10, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
-	(54, 10, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', NULL, '2017-03-30 10:29:16'),
-	(55, 10, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', NULL, '2017-03-30 11:49:03'),
-	(56, 11, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', NULL, '2017-03-24 16:25:01'),
-	(57, 11, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
-	(58, 11, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
-	(59, 11, 'remision', NULL, 2, 'Siguiente número de remisiones', NULL, '2017-03-28 12:13:14'),
-	(60, 11, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
-	(61, 11, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
-	(62, 11, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', NULL, '2017-03-30 10:29:16'),
-	(63, 11, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', NULL, '2017-03-30 11:49:03'),
-	(64, 12, 'estimate', NULL, 8, 'Siguiente número de cotizaciones', NULL, '2017-03-24 16:25:01'),
-	(65, 12, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
-	(66, 12, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
-	(67, 12, 'remision', NULL, 2, 'Siguiente número de remisiones', NULL, '2017-03-28 12:13:14'),
-	(68, 12, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
-	(69, 12, 'debit_note', NULL, 1, 'Siguiente número de nota debito', NULL, NULL),
-	(70, 12, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', NULL, '2017-03-30 10:29:16'),
-	(71, 12, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', NULL, '2017-03-30 11:49:03');
+	(8, 1, 'estimate', NULL, 47, 'Siguiente número de cotizaciones', '2017-02-09 12:55:05', '2017-03-30 18:39:14'),
+	(9, 1, 'purchase_order', NULL, 5, 'Siguiente número de órdenes de compra', '2017-02-09 12:55:53', '2017-04-05 06:28:54'),
+	(10, 1, 'credit_note', NULL, 5, 'Siguiente número de nota credito', '2017-02-09 12:56:46', '2017-03-30 18:41:29'),
+	(11, 1, 'remision', NULL, 7, 'Siguiente número de remisiones', '2017-02-09 12:57:47', '2017-03-30 18:36:48'),
+	(12, 1, 'in-come', NULL, 37, 'Siguiente número de recibo de caja', '2017-02-16 12:37:49', '2017-04-05 21:55:35'),
+	(13, 1, 'debit_note', NULL, 6, 'Siguiente número de nota debito', '2017-02-24 14:07:27', '2017-04-05 06:34:05'),
+	(14, 1, 'bill', NULL, 9, 'Siguiente número de factura de proveedores', '2017-02-24 16:13:59', '2017-04-05 06:56:32'),
+	(15, 1, 'out-come', NULL, 28, 'Siguiente número de comprobante de pago', '2017-02-28 10:09:04', '2017-04-05 08:38:14'),
+	(16, 2, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', '2017-03-22 19:27:02', '2017-03-30 18:39:14'),
+	(17, 2, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', '2017-03-22 19:27:03', '2017-04-05 06:28:54'),
+	(18, 2, 'credit_note', NULL, 2, 'Siguiente número de nota credito', '2017-03-22 19:27:03', '2017-03-30 18:41:29'),
+	(19, 2, 'remision', NULL, 3, 'Siguiente número de remisiones', '2017-03-22 19:27:03', '2017-03-30 18:36:48'),
+	(20, 2, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', '2017-03-22 19:27:03', '2017-04-05 21:55:35'),
+	(21, 2, 'debit_note', NULL, 2, 'Siguiente número de nota debito', '2017-03-22 19:27:03', '2017-04-05 06:34:05'),
+	(22, 2, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', '2017-03-22 19:27:03', '2017-04-05 06:56:32'),
+	(23, 2, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', '2017-03-22 19:27:03', '2017-04-05 08:38:14'),
+	(24, 6, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', '2017-03-22 21:23:00', '2017-03-30 18:39:14'),
+	(25, 6, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', '2017-03-22 21:23:00', '2017-04-05 06:28:54'),
+	(26, 6, 'credit_note', NULL, 2, 'Siguiente número de nota credito', '2017-03-22 21:23:00', '2017-03-30 18:41:29'),
+	(27, 6, 'remision', NULL, 3, 'Siguiente número de remisiones', '2017-03-22 21:23:00', '2017-03-30 18:36:48'),
+	(28, 6, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', '2017-03-22 21:23:00', '2017-04-05 21:55:35'),
+	(29, 6, 'debit_note', NULL, 2, 'Siguiente número de nota debito', '2017-03-22 21:23:00', '2017-04-05 06:34:05'),
+	(30, 6, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', '2017-03-22 21:23:00', '2017-04-05 06:56:32'),
+	(31, 6, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', '2017-03-22 21:23:00', '2017-04-05 08:38:14'),
+	(32, 7, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', '2017-03-22 21:34:50', '2017-03-30 18:39:14'),
+	(33, 7, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', '2017-03-22 21:34:50', '2017-04-05 06:28:54'),
+	(34, 7, 'credit_note', NULL, 2, 'Siguiente número de nota credito', '2017-03-22 21:34:50', '2017-03-30 18:41:29'),
+	(35, 7, 'remision', NULL, 3, 'Siguiente número de remisiones', '2017-03-22 21:34:50', '2017-03-30 18:36:48'),
+	(36, 7, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', '2017-03-22 21:34:50', '2017-04-05 21:55:35'),
+	(37, 7, 'debit_note', NULL, 2, 'Siguiente número de nota debito', '2017-03-22 21:34:50', '2017-04-05 06:34:05'),
+	(38, 7, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', '2017-03-22 21:34:51', '2017-04-05 06:56:32'),
+	(39, 7, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', '2017-03-22 21:34:51', '2017-04-05 08:38:14'),
+	(40, 9, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', NULL, '2017-03-30 18:39:14'),
+	(41, 9, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', NULL, '2017-04-05 06:28:54'),
+	(42, 9, 'credit_note', NULL, 2, 'Siguiente número de nota credito', NULL, '2017-03-30 18:41:29'),
+	(43, 9, 'remision', NULL, 3, 'Siguiente número de remisiones', NULL, '2017-03-30 18:36:48'),
+	(44, 9, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', NULL, '2017-04-05 21:55:35'),
+	(45, 9, 'debit_note', NULL, 2, 'Siguiente número de nota debito', NULL, '2017-04-05 06:34:05'),
+	(46, 9, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', NULL, '2017-04-05 06:56:32'),
+	(47, 9, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', NULL, '2017-04-05 08:38:14'),
+	(48, 10, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', NULL, '2017-03-30 18:39:14'),
+	(49, 10, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', NULL, '2017-04-05 06:28:54'),
+	(50, 10, 'credit_note', NULL, 2, 'Siguiente número de nota credito', NULL, '2017-03-30 18:41:29'),
+	(51, 10, 'remision', NULL, 3, 'Siguiente número de remisiones', NULL, '2017-03-30 18:36:48'),
+	(52, 10, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', NULL, '2017-04-05 21:55:35'),
+	(53, 10, 'debit_note', NULL, 2, 'Siguiente número de nota debito', NULL, '2017-04-05 06:34:05'),
+	(54, 10, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', NULL, '2017-04-05 06:56:32'),
+	(55, 10, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', NULL, '2017-04-05 08:38:14'),
+	(56, 11, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', NULL, '2017-03-30 18:39:14'),
+	(57, 11, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', NULL, '2017-04-05 06:28:54'),
+	(58, 11, 'credit_note', NULL, 2, 'Siguiente número de nota credito', NULL, '2017-03-30 18:41:29'),
+	(59, 11, 'remision', NULL, 3, 'Siguiente número de remisiones', NULL, '2017-03-30 18:36:48'),
+	(60, 11, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', NULL, '2017-04-05 21:55:35'),
+	(61, 11, 'debit_note', NULL, 2, 'Siguiente número de nota debito', NULL, '2017-04-05 06:34:05'),
+	(62, 11, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', NULL, '2017-04-05 06:56:32'),
+	(63, 11, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', NULL, '2017-04-05 08:38:14'),
+	(64, 12, 'estimate', NULL, 9, 'Siguiente número de cotizaciones', NULL, '2017-03-30 18:39:14'),
+	(65, 12, 'purchase_order', NULL, 3, 'Siguiente número de órdenes de compra', NULL, '2017-04-05 06:28:54'),
+	(66, 12, 'credit_note', NULL, 2, 'Siguiente número de nota credito', NULL, '2017-03-30 18:41:29'),
+	(67, 12, 'remision', NULL, 3, 'Siguiente número de remisiones', NULL, '2017-03-30 18:36:48'),
+	(68, 12, 'in-come', NULL, 6, 'Siguiente número de recibo de caja', NULL, '2017-04-05 21:55:35'),
+	(69, 12, 'debit_note', NULL, 2, 'Siguiente número de nota debito', NULL, '2017-04-05 06:34:05'),
+	(70, 12, 'bill', NULL, 4, 'Siguiente número de factura de proveedores', NULL, '2017-04-05 06:56:32'),
+	(71, 12, 'out-come', NULL, 5, 'Siguiente número de comprobante de pago', NULL, '2017-04-05 08:38:14');
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
@@ -3701,7 +3781,7 @@ CREATE TABLE IF NOT EXISTS `retention` (
   CONSTRAINT `FK_wht_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.retention: ~94 rows (aproximadamente)
+-- Volcando datos para la tabla krece.retention: ~95 rows (aproximadamente)
 DELETE FROM `retention`;
 /*!40000 ALTER TABLE `retention` DISABLE KEYS */;
 INSERT INTO `retention` (`id`, `account_id`, `public_id`, `user_id`, `name`, `value`, `description`, `isDeleted`, `type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -3849,7 +3929,7 @@ DELETE FROM `seller`;
 INSERT INTO `seller` (`id`, `account_id`, `user_id`, `public_id`, `name`, `dni`, `work_phone`, `private_phone`, `observations`, `isEnabled`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 1, 1, 'Fernando ardila', '12345996', '123456', '123456', 'observaciones', b'1', b'1', '2017-01-19 15:33:25', '2017-01-19 15:48:06', '2017-01-19 15:48:06'),
 	(2, 1, 1, 2, 'Fernando Ardila', '18234994', '1234565', '12345', 'prueba', b'0', b'0', '2017-01-19 15:47:34', '2017-02-04 14:15:39', NULL),
-	(3, 1, 1, 3, 'vendedor 2', '', '', '', '', b'0', b'0', '2017-01-19 15:50:56', '2017-01-19 15:52:59', NULL),
+	(3, 1, 1, 3, 'vendedor 2', '', '', '', '', b'0', b'1', '2017-01-19 15:50:56', '2017-04-06 12:40:34', '2017-04-06 12:40:34'),
 	(4, 1, 1, 4, 'vendedor 3', '', '', '124334', '', b'1', b'0', '2017-01-19 15:51:04', '2017-01-19 15:53:53', NULL);
 /*!40000 ALTER TABLE `seller` ENABLE KEYS */;
 
@@ -3889,7 +3969,7 @@ CREATE TABLE IF NOT EXISTS `tax` (
   CONSTRAINT `FK_taxes_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.tax: ~27 rows (aproximadamente)
+-- Volcando datos para la tabla krece.tax: ~28 rows (aproximadamente)
 DELETE FROM `tax`;
 /*!40000 ALTER TABLE `tax` DISABLE KEYS */;
 INSERT INTO `tax` (`id`, `account_id`, `public_id`, `user_id`, `name`, `amount`, `description`, `type_id`, `isEditable`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -3971,11 +4051,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   CONSTRAINT `FK_user_status` FOREIGN KEY (`status_id`) REFERENCES `user_status` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.user: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla krece.user: ~10 rows (aproximadamente)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
-	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$kyQ2lV6uMJq9oMJmiFigneGX1cQ4baV3hMIMVrXATDDlAeMtPT5lG', 'GC6ptCRZCR3QDMlAgCY3eZmsgWiQ3J9whkb5UfCZSOjrvqdd7wphcPqch6i6', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-03-23 17:48:25', '2017-03-23 17:48:25', NULL, NULL, 1, NULL, NULL, b'1'),
+	(1, 1, 1, 'Fernando', 'Ardila Rodriguez', 'fernando2684@gmail.com', '$2y$10$kyQ2lV6uMJq9oMJmiFigneGX1cQ4baV3hMIMVrXATDDlAeMtPT5lG', 'wu2mzZo67yU2xGLaQIqQiNoP8LX1izQvardiNvMh7Z9mnQInvtUpbwe7dQcG', NULL, NULL, 1, '2016-12-07 16:17:25', NULL, '2017-04-03 21:56:31', '2017-04-03 21:56:31', NULL, NULL, 1, NULL, NULL, b'1'),
 	(2, 2, 1, 'Fernando 2', 'Ardila', 'fernando26842@gmail.com', '$2y$10$a55MnRDXKsxTU5UmNWKh/ua7FY1kSsvAI.PaZNXcWC3Axulhr.aD2', 'RapxDZXohJ2FKbHop2lxhmC7hdNR2ybLrEmwi1TVrXPuMWOVLzQbbm8Pu66X', NULL, NULL, 1, '2016-12-07 17:19:15', NULL, '2017-01-24 16:45:47', NULL, NULL, NULL, 1, NULL, NULL, b'1'),
 	(7, 6, 1, 'seguros delima', NULL, 'fernando26841234@gmail.com', '$2y$10$3foquoWNxCscHa6dczAm..bOa7bFvrJyPauh/mlRLoHBGI.DowUMW', 'CBtHeMZJ92mAcm671fakwj7Bgk53oBYXHqQBJm2FH1bR2X7mwtxGDNLRNgli', NULL, NULL, 1, '2017-03-22 21:22:54', NULL, '2017-03-22 21:22:54', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
 	(8, 7, 1, 'negocio eliminar', NULL, 'example@text.com', '$2y$10$epKY35yKPtDPItAggj2v4ercp1Kitmkyp6QT3BfmB4A/UpfhEasuC', '9E3iqt4cH1RyTsrYEjkBOijhiWoO5DL1kZhWpNbw3pBh2Ckc5HTRLAj0NyXN', NULL, NULL, 1, '2017-03-22 21:34:50', NULL, '2017-03-22 21:34:50', NULL, NULL, NULL, NULL, NULL, NULL, b'1'),
@@ -4045,8 +4125,8 @@ CREATE TABLE IF NOT EXISTS `user_status` (
 DELETE FROM `user_status`;
 /*!40000 ALTER TABLE `user_status` DISABLE KEYS */;
 INSERT INTO `user_status` (`id`, `description`) VALUES
-	(1, 'Active'),
-	(2, 'Inactive'),
+	(1, 'Activo'),
+	(2, 'Inactiv0'),
 	(3, 'Deleted');
 /*!40000 ALTER TABLE `user_status` ENABLE KEYS */;
 

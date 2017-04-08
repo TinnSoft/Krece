@@ -47,7 +47,7 @@
                         <div id="logo" class="dropdown profile-element" v-cloak> <span>
                             
                             <template v-if="logoSrc != ''">
-                                  <img alt="image" class="img-circle" :src="logoSrc" style="width: 95px" height="95px" />
+                                  <img alt="image" class="img-circle " :src="logoSrc" style="width: 95px" height="95px" />
                             </template>
                             <template v-else>
                                 <img alt="image" src="/logo.png" style="width: 95px" height="75px" />
