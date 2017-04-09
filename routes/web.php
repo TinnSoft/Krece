@@ -120,7 +120,7 @@ Route::get('payment-in/{id}/pdf', 'PaymentIn_Controller@pdf');
 Route::get('getTemplateEmailToCustomerPaymentIn/{resolution_id}', 'PaymentIn_Controller@getTemplateEmailToCustomer');
 
 
-//payment made
+//payment made by customer
 Route::resource('payment-out', 'PaymentOut_Controller');
 Route::get('getPaymentOut_List','PaymentOut_Controller@getPaymentList');
 Route::get('getPaymentOut_BaseInfo','PaymentOut_Controller@BaseInfo');
