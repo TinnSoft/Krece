@@ -531,16 +531,16 @@
         },
         {
             "name": "kalnoy/nestedset",
-            "version": "v4.2.2",
+            "version": "4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lazychaser/laravel-nestedset.git",
-                "reference": "621b224480b28c63cf04d48a217b514b632aaba0"
+                "reference": "b2f6af877ac5656337867b7664e52da3a1decf90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lazychaser/laravel-nestedset/zipball/621b224480b28c63cf04d48a217b514b632aaba0",
-                "reference": "621b224480b28c63cf04d48a217b514b632aaba0",
+                "url": "https://api.github.com/repos/lazychaser/laravel-nestedset/zipball/b2f6af877ac5656337867b7664e52da3a1decf90",
+                "reference": "b2f6af877ac5656337867b7664e52da3a1decf90",
                 "shasum": ""
             },
             "require": {
@@ -581,7 +581,7 @@
                 "nested sets",
                 "nsm"
             ],
-            "time": "2017-02-11T08:05:48+00:00"
+            "time": "2017-04-08T06:43:55+00:00"
         },
         {
             "name": "laravel/framework",
