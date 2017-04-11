@@ -2,7 +2,7 @@
 
       
     {!!Html::script('/themes/krece/js/jquery-3.1.1.min.js')!!} 
-    {!!Html::style('/themes/krece/css/plugins/jqGrid/ui.jqGrid.css')!!}  
+    {!!Html::style('/themes/krece/css/plugins/jqGrid/ui.jqgrid.css')!!}  
     {!!Html::script('/themes/krece/js/plugins/jqgrid/jquery.jqGrid52.min.js')!!}  
     {!!Html::script('/themes/krece/js/plugins/jquery-layout/jquery.layout.js')!!}
     {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!}  
