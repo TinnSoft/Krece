@@ -73,14 +73,14 @@ class RetentionController extends Controller
     {    
 
           $retentionlist = Retention::with('retention_type')
-                ->where('retention.account_id',  Auth::user()->account_id)
-                ->where('retention.isDeleted',  0)
+                ->where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)
                ->orderBy('created_at', 'desc')
-               ->select('retention.id','retention.account_id',
-               'retention.name','retention.value','retention.description',
-               'retention.type_id'
+               ->select('id','account_id',
+               'name','value','description',
+               'type_id'
                )->find((int)$id);           
-   
+            
          if (!$retentionlist)
         {
             $notification = array(
