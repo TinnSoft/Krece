@@ -67,7 +67,7 @@ class PaymentTermsController extends Controller
                'name','days'
                )->first((int)$id);           
 
-        dd($paytermslist, (int)$id);   
+      
          if (!$paytermslist)
         {
             $notification = array(
