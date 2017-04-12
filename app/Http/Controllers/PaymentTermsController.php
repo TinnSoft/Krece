@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\PaymentTerms;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class PaymentTermsController extends Controller
 {
@@ -39,8 +39,7 @@ class PaymentTermsController extends Controller
         $this->validate($request, [   
             'days' => 'required|numeric'
         ]);
-        
-        
+
         $data = $request->except('description'); 
 
         $currentPublicId = PaymentTerms::where('account_id',  Auth::user()->account_id)->max('public_id')+1;
@@ -66,8 +65,9 @@ class PaymentTermsController extends Controller
                ->orderBy('created_at', 'desc')
                ->select('id','account_id','user_id',
                'name','days'
-               )->find($id);           
-   
+               )->first((int)$id);           
+
+        dd($paytermslist, (int)$id);   
          if (!$paytermslist)
         {
             $notification = array(
@@ -86,9 +86,8 @@ class PaymentTermsController extends Controller
             'days' => 'required|numeric'
         ]);
        
-        $payterm = PaymentTerms::findOrFail($id);    
+        $payterm = PaymentTerms::findOrFail((int)$id);    
         $data = $request->except('payterm_type'); 
-        //$data = $request; 
         $payterm->update($data);
         
         return response()
@@ -100,7 +99,7 @@ class PaymentTermsController extends Controller
     
     public function destroy($id)
     {
-            $payterm = PaymentTerms::findOrFail($id);
+            $payterm = PaymentTerms::findOrFail((int)$id);
 
             $payterm['isDeleted']=1;
             $payterm['deleted_at']=$now = Carbon::now();
