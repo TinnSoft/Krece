@@ -42,6 +42,7 @@
                             label="name"         
                             track-by="name"
                             placeholder="Impuesto..."    
+                            :show-labels="false"
                             @input="onInputTax"                        
                         >
                         </multiselect>
