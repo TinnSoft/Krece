@@ -79,7 +79,7 @@ class RetentionController extends Controller
                ->select('id','account_id',
                'name','value','description',
                'type_id'
-               )->find((int)$id);           
+               )->first((int)$id);           
             dd( $retentionlist, $id);
          if (!$retentionlist)
         {
