@@ -18,11 +18,7 @@ class TaxesController extends Controller
         return view('taxes.index');
   
     }
-/*
-                                    <span id="icon-detail" title="Editar registro" class="glyphicon glyphicon-pencil fa-1x green"></span>
-                               
-                                    <span id="icon-detail" title="Eliminar registro" @click.prevent="remove({{$tax->id}})" class="glyphicon glyphicon-remove fa-1x red"></span>
-           */               
+           
     public function getTaxesList()
     {
         return Tax::with('tax_type')
@@ -66,13 +62,11 @@ class TaxesController extends Controller
 
 
     public function BaseInfo()
-    {  
-        
+    {          
                $taxtypeList = TaxType::select('id', 'name')              
                ->orderBy('id', 'asc')
                ->get();
         
-
          return response()->json($taxtypeList);
     }
 
@@ -80,14 +74,14 @@ class TaxesController extends Controller
     {    
 
           $taxlist = Tax::with('tax_type')
-                ->where('tax.account_id',  Auth::user()->account_id)
-                ->where('tax.isDeleted',  0)
+                ->where('account_id',  Auth::user()->account_id)
+                ->where('isDeleted',  0)
                ->orderBy('created_at', 'desc')
-               ->select('tax.id','tax.account_id','tax.public_id',
-               'tax.name','tax.amount','tax.description',
-               'tax.type_id'
+               ->select('id','account_id','public_id',
+               'name','amount','description',
+               'type_id'
                )->find($id);           
-   
+            dd($taxlist);
          if (!$taxlist)
         {
             $notification = array(
