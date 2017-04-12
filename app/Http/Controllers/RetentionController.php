@@ -80,7 +80,7 @@ class RetentionController extends Controller
                'name','value','description',
                'type_id'
                )->first((int)$id);           
-            dd( $retentionlist, $id);
+ 
          if (!$retentionlist)
         {
             $notification = array(
