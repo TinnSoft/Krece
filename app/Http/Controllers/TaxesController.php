@@ -33,7 +33,7 @@ class TaxesController extends Controller
 
     public function create()
     {
-        return view('Taxes.create');        
+        return view('taxes.create');        
     }
         
     public function store(Request $request)
