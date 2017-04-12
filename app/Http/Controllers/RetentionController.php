@@ -8,7 +8,7 @@ use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use App\Models\Retention;
 use App\Models\RetentionType;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class RetentionController extends Controller
 {
@@ -69,7 +69,7 @@ class RetentionController extends Controller
          return response()->json($retentiontypeList);
     }
 
-    public function edit(int $id)
+    public function edit( $id)
     {    
 
           $retentionlist = Retention::with('retention_type')
@@ -79,7 +79,7 @@ class RetentionController extends Controller
                ->select('retention.id','retention.account_id',
                'retention.name','retention.value','retention.description',
                'retention.type_id'
-               )->find($id);           
+               )->find((int)$id);           
    
          if (!$retentionlist)
         {
@@ -92,7 +92,7 @@ class RetentionController extends Controller
          return view('retention.edit', compact('retentionlist'));
     }
 
-   public function update(Request $request, int $id)
+   public function update(Request $request, $id)
     {       
       
         $this->validate($request, [     
@@ -101,7 +101,7 @@ class RetentionController extends Controller
             'type_id' => 'required',
         ]);
        
-        $retention = Retention::findOrFail($id);    
+        $retention = Retention::findOrFail((int)$id);    
         $data = $request->except('retention_type'); 
         $retention->update($data);
         
@@ -112,9 +112,9 @@ class RetentionController extends Controller
             ]);
     }
     
-    public function destroy(int $id)
+    public function destroy( $id)
     {
-            $retention = Retention::findOrFail($id);
+            $retention = Retention::findOrFail((int)$id);
 
             $retention['isDeleted']=1;
             $retention['deleted_at']=$now = Carbon::now();
