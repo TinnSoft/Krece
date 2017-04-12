@@ -15,8 +15,7 @@ class TaxesController extends Controller
 
     public function index()
     {
-        return view('taxes.index');
-  
+        return view('taxes.index');  
     }
            
     public function getTaxesList()
@@ -60,7 +59,6 @@ class TaxesController extends Controller
             ]);
     }
 
-
     public function BaseInfo()
     {          
                $taxtypeList = TaxType::select('id', 'name')              
@@ -81,7 +79,6 @@ class TaxesController extends Controller
                'name','amount','description',
                'type_id'
                )->first((int)$id);        
-
            
          if (!$taxlist)
         {
