@@ -33,7 +33,7 @@
           
 
             $("#taxes-grid").jqGrid({
-                url: "/getTaxesList",
+                url: "getTaxesList",
                 datatype: "json",
                 mtype: 'GET',
                 emptyrecords:  "",
