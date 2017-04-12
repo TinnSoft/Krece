@@ -69,7 +69,7 @@ class RetentionController extends Controller
          return response()->json($retentiontypeList);
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {    
 
           $retentionlist = Retention::with('retention_type')
@@ -92,7 +92,7 @@ class RetentionController extends Controller
          return view('retention.edit', compact('retentionlist'));
     }
 
-   public function update(Request $request, $id)
+   public function update(Request $request, int $id)
     {       
       
         $this->validate($request, [     
@@ -112,7 +112,7 @@ class RetentionController extends Controller
             ]);
     }
     
-    public function destroy($id)
+    public function destroy(int $id)
     {
             $retention = Retention::findOrFail($id);
 
