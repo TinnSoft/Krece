@@ -80,7 +80,8 @@ class TaxesController extends Controller
                ->select('id','account_id','public_id',
                'name','amount','description',
                'type_id'
-               )->find($id);           
+               )->first($id);        
+
             dd($id);
          if (!$taxlist)
         {
