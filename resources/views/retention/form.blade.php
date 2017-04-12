@@ -42,7 +42,8 @@
                             label="name"         
                             track-by="name"
                             placeholder="Retención..."    
-                            @input="onInputretention"                        
+                            @input="onInputretention"    
+                            :show-labels="false"                    
                         >
                         </multiselect>
                         </span>
