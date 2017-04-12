@@ -81,7 +81,7 @@ class TaxesController extends Controller
                'name','amount','description',
                'type_id'
                )->find($id);           
-            dd($taxlist);
+            dd($id);
          if (!$taxlist)
         {
             $notification = array(
