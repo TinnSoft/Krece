@@ -74,7 +74,7 @@ class AccountController extends Controller
         $company = Account::findOrFail( Auth::user()->account_id);
 
         $data = $request->all();       
-            
+                
         try{
             $company->update($data);  
               

@@ -4,7 +4,7 @@
      {!!Html::script('/themes/krece/js/plugins/jqgrid/jquery.jqGrid52.min.js')!!}  
      {!!Html::script('/themes/krece/js/plugins/jquery-layout/jquery.layout.js')!!}
       {!!Html::script('/themes/krece/js/plugins/jqgrid/i18n/grid.locale-es.js')!!} 
-    {!!Html::style('/themes/krece/css/plugins/jQueryUi/jquery-ui.css')!!}
+    {!!Html::style('/themes/krece/css/plugins/jQueryUI/jquery-ui.css')!!}
     <script>
         moment.locale('es');  
     </script>

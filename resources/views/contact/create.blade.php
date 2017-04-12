@@ -39,9 +39,7 @@
 
 @push('scripts')
  
-    {!!Html::script('/js/libraries/axios.min.js')!!}
     {!!Html::script('/js/libraries/moment.min.js')!!}
-    {!!Html::script('/js/vue-library/vue.min.js')!!}
     {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
     <script type="text/javascript">
         Vue.prototype.$http = axios;

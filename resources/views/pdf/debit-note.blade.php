@@ -9,7 +9,7 @@
            <tbody>
                 <tr>
                     <td style="text-align: centered;width: 98px">
-                      @if (count($debitnote->account) > 0)
+                      @if (count($debitnote->account->logo) > 0)
                          <img alt="image" src= {{$debitnote->account->logo}} style='width: 98px' height='80px' />                                                   
                       @endif
                   </td>

@@ -110,7 +110,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <th><span >Régimen</span></th>
+                                                            <th><a class="text-danger"><strong> *</strong></a><span >Régimen</span></th>
                                                             <td>
                                                                 <span>
                                                                     <select name="cars" class="form-control" v-model="form.regime_id">
@@ -118,6 +118,9 @@
                                                                             @{{ option.value }}
                                                                         </option>
                                                                     </select>
+                                                                    <small v-if="errors.regime_id" class="error is-danger  text-danger">
+                                                                        Este campo es obligatorio.
+                                                                    </small>  
                                                                 </span>
                                                             </td>
                                                         </tr>

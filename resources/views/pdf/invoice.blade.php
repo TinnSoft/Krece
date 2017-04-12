@@ -11,7 +11,7 @@
            <tbody>
                 <tr>
                     <td style="text-align: centered;width: 98px">
-                      @if (count($invoice->account) > 0)
+                      @if (count($invoice->account->logo) > 0)
                          <img alt="image" src= {{$invoice->account->logo}} style='width: 98px' height='80px' />                                                   
                       @endif
                   </td>

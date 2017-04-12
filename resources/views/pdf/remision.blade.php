@@ -9,7 +9,7 @@
            <tbody>
                 <tr>
                     <td style="text-align: centered;width: 98px">
-                      @if (count($remision->account) > 0)
+                      @if (count($remision->account->logo) > 0)
                          <img alt="image" src= {{$remision->account->logo}} style='width: 98px' height='80px' />                                                   
                       @endif
                   </td>
