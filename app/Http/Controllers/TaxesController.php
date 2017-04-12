@@ -80,9 +80,9 @@ class TaxesController extends Controller
                ->select('id','account_id','public_id',
                'name','amount','description',
                'type_id'
-               )->first($id);        
+               )->first((int)$id);        
 
-            dd((int)$id);
+            dd($taxlist);
          if (!$taxlist)
         {
             $notification = array(
