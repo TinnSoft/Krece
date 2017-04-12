@@ -103,7 +103,7 @@ class TaxesController extends Controller
             'type_id' => 'required',
         ]);
        
-        $tax = Tax::findOrFail($id);    
+        $tax = Tax::findOrFail((int)$id);    
         $data = $request->except('tax_type'); 
         $tax->update($data);
         
@@ -116,7 +116,7 @@ class TaxesController extends Controller
     
     public function destroy($id)
     {
-            $tax = Tax::findOrFail($id);
+            $tax = Tax::findOrFail((int)$id);
 
             $tax['isDeleted']=1;
             $tax['deleted_at']=$now = Carbon::now();
