@@ -39,8 +39,7 @@
 
 @push('scripts')
  
-    {!!Html::script('/js/libraries/axios.min.js')!!} 
-    {!!Html::script('/js/vue-library/vue.min.js')!!}
+
     {!!Html::script('/js/components/vue-multiselect/multiselect.min.js')!!}
     {!!Html::script('/js/libraries/accounting.js')!!}
     <script type="text/javascript">
