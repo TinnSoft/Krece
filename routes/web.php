@@ -1,11 +1,12 @@
 <?php
 
-Route::get('/', 'AppController@index');
-
 Route::get('inicio', function () {
     return view('landing.index');  
 })->name('inicio');
 
+Route::group(['krece' => 'app.krece.co'], function()
+    {
+Route::get('/', 'AppController@index');
 
 Route::post('login', 'AppController@login')->middleware('guest');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -156,6 +157,7 @@ Route::get('getBillList','BillController@getBillList');
 Route::get('bill/{id}/pdf', 'BillController@pdf');
 Route::put('bill_update_state/{req}','BillController@update_state');
 
+    });
 
 
 define('INVOICE_STATUS_OPEN', 1);
