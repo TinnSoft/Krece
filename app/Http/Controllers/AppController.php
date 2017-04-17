@@ -116,7 +116,7 @@ class AppController extends Controller
         $byMonth= $mainClass->pie_info_total(false,false,true,false);   
         
         $byYear= $mainClass->pie_info_total(false,false,false,true);
-
+       
          $data= collect([
             "isToday"=> $byDay,
             "isWeek"=> $byWeek,

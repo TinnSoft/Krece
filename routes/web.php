@@ -2,6 +2,11 @@
 
 Route::get('/', 'AppController@index');
 
+Route::get('inicio', function () {
+    return view('landing.index');  
+})->name('inicio');
+
+
 Route::post('login', 'AppController@login')->middleware('guest');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
