@@ -91,7 +91,7 @@
 <section id="features" class="container services">
     <div class="row">
         <div class="col-sm-3">
-            <h2>Mantengase organizado</h2>
+            <h2>Mantente organizado</h2>
             <p>Gestione sus ingresos y gastos sin esfuerzo en un solo lugar. Elimine la introducción manual de datos y no se preocupe por los detalles</p>
         </div>
         <div class="col-sm-3">
@@ -121,17 +121,17 @@
     <div class="row">
         <div class="col-md-3 text-center wow fadeInLeft">
             <div>
-                <i class="fa fa-mobile features-icon"></i>
+                <i class="fa fa-file-text features-icon"></i>
                 <h2>Facturación</h2>
                 <p>Crea facturas de ingreso o egreso fácilmente, imprimelas o envialas directamente a tus clientes.</p>
             </div>
             <div class="m-t-lg">
-                <i class="fa fa-bar-chart features-icon"></i>
+                <i class="fa fa-check-circle features-icon"></i>
                 <h2>Normatividad DIAN</h2>
                 <p>No te preocupes!, todos los documentos funcionan bajo la normatividad de la DIAN.</p>
             </div>
              <div class="m-t-lg">
-                <i class="fa fa-bar-chart features-icon"></i>
+                <i class="fa fa-user features-icon"></i>
                 <h2>Gestion de contactos</h2>
                 <p>Puedes gestionar tus contactos fácilmente, sean clientes o proveedores y generar informes de sus movimientos</p>
             </div>
@@ -141,17 +141,17 @@
         </div>
         <div class="col-md-3 text-center wow fadeInRight">
             <div>
-                <i class="fa fa-envelope features-icon"></i>
+                <i class="fa fa-cog features-icon"></i>
                 <h2>Automatización</h2>
                 <p>Optimize tiempo y esfuerzo con las funcionalidades de creación facturas automáticas y envio automático de recordatorios de pago a tus clientes</p>
             </div>
             <div class="m-t-lg">
-                <i class="fa fa-google features-icon"></i>
+                <i class="fa fa-money features-icon"></i>
                 <h2>Multimoneda</h2>
                 <p>Krece te permite realizar transacciones en diferentes monedas</p>
             </div>
              <div class="m-t-lg">
-                <i class="fa fa-google features-icon"></i>
+                <i class="fa fa-folder features-icon"></i>
                 <h2>Inventario</h2>
                 <p>Gestiona el stock de tus productos, nosotros te avisamos por email acerca de posibles acciones a tomar (ej. productos faltantes, movimientos.etc)</p>
             </div>
@@ -176,28 +176,28 @@
                 <small>Reportes</small>
                 <h2>Reportes inteligentes</h2>
                 <i class="fa fa-bar-chart big-icon pull-right"></i>
-                <p>Tenemos a tu disposición una serie de reportes que puedes acceder en tiempo real y los cuales te permitirán tomar mejores desiciones: ventas, clientes, productos, flujo de caje.etc</p>
+                <p>Tenemos a tu disposición una serie de reportes que puedes acceder en tiempo real y los cuales te permitirán tomar mejores desiciones: ventas, clientes, productos, flujo de caja.etc)</p>
             </div>
             <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
+                <small>Categorías</small>
+                <h2>Gestiona tus categorías contables</h2>
                 <i class="fa fa-bolt big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
+                <p>Crea, edita, elimina las categorías o asientos contables de manera fácil</p>
+            </div>            
         </div>
         <div class="row">
             <div class="col-lg-5 col-lg-offset-1 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-clock-o big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+                <small>Bancos</small>
+                <h2>Gestion de bancos</h2>
+                <i class="fa fa-bank big-icon pull-right"></i>
+                <p>Gestiona tus bancos, tus saldos, y mucho mas.</p>
             </div>
             <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-users big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
+                <small>Impuestos</small>
+                <h2>Gestion de impuestos</h2>
+                <i class="fa fa-list-alt big-icon pull-right"></i>
+                <p>Crea, controla, gestiona tus impuestos que deben ser aplicados a cada uno de tus documentos</p>
+            </div>           
         </div>
     </div>
 
@@ -207,18 +207,18 @@
         <div class="row m-b-lg">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>App Pricing</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                <h1>Nuestros planes</h1>
+                <p>Seleccione el plan que mas se adapte a tus necesidades, o contáctenos y te asesoramos.</p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4 wow zoomIn">
                 <ul class="pricing-plan list-unstyled">
                     <li class="pricing-title">
-                        Basic
+                        Basico
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        Diseñado para profesionales independientes y microempresas
                     </li>
                     <li class="pricing-price">
                         <span>$16</span> / month
@@ -239,7 +239,7 @@
                         AngularJs
                     </li>
                     <li>
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="https://krece.co/register">Seleccionar</a>
                     </li>
                 </ul>
             </div>
@@ -250,7 +250,7 @@
                         Standard
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        Diseñado para pequeñas empresas
                     </li>
                     <li class="pricing-price">
                         <span>$22</span> / month
@@ -274,7 +274,7 @@
                         <strong>Support platform</strong>
                     </li>
                     <li class="plan-action">
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="https://krece.co/register">Seleccionar</a>
                     </li>
                 </ul>
             </div>
@@ -282,10 +282,10 @@
             <div class="col-lg-4 wow zoomIn">
                 <ul class="pricing-plan list-unstyled">
                     <li class="pricing-title">
-                        Premium
+                        Full
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        Para todo tipo de empresas
                     </li>
                     <li class="pricing-price">
                         <span>$160</span> / month
@@ -306,7 +306,7 @@
                         AngularJs
                     </li>
                     <li>
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="https://krece.co/register">Seleccionar</a>
                     </li>
                 </ul>
             </div>
