@@ -54,7 +54,7 @@
                         de tu empresa</h1>
                     <p>Especialmente diseñado para pequeños negocios</p>
                     <p>
-                        <a class="btn btn-lg btn-primary" href="#" role="button">SABER MÁS</a>
+                        <a class="btn btn-lg btn-primary" href="#features" role="button">SABER MÁS</a>
                     </p>
                 </div>
                 <div class="carousel-image wow zoomIn">
@@ -70,7 +70,7 @@
                 <div class="carousel-caption blank">
                     <h1>Gestiona Tu negocio, tus clientes<br/> con Una plataforma de facturación <br/>gratuita y potente</h1>
                     <p>desde cualquier lugar y a cualquier hora</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Saber más</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="#features" role="button">Saber más</a></p>
                 </div>
             </div>
             <!-- Set background for slide in css -->
