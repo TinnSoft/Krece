@@ -313,7 +313,7 @@
         </div>
         <div class="row m-t-lg">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">
-                <p>*Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. <span class="navy">Various versions</span>  have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                <p>* Nos gusta ayudar a los que ayudan, si eres una fundación que ayuda, iglesia o una institución educativa, puedes <span class="navy">Krecer</span>  sin costo</p>
             </div>
         </div>
     </div>
@@ -325,44 +325,41 @@
         <div class="row m-b-lg">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>Contact Us</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                <h1>Tienes dudas? </br></br>Contáctanos</h1>
+                <p>Si tienes dudas acerca de como usar la aplicación o deseas dejarnos feedback, envíanos un email.</p>
             </div>
         </div>
         <div class="row m-b-lg">
             <div class="col-lg-3 col-lg-offset-3">
                 <address>
-                    <strong><span class="navy">Company name, Inc.</span></strong><br/>
-                    795 Folsom Ave, Suite 600<br/>
-                    San Francisco, CA 94107<br/>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    <strong><span class="navy">Krece.co</span></strong><br/>
+                    <abbr title="Phone">Teléfono:</abbr> 312 3 63 37 53
                 </address>
             </div>
             <div class="col-lg-4">
                 <p class="text-color">
-                    Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam veritatis quis ad perspiciatis, totam corporis laboriosam veritatis, consectetur adipisicing elit quos non quis ad perspiciatis, totam corporis ea,
+                    <h3>Cuentas con nosotros para ayudarte.</h3>
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 text-center">
-                <a href="mailto:test@email.com" class="btn btn-primary">Send us mail</a>
+                <a href="mailto:servicioalcliente@krece.co" class="btn btn-primary">Envíanos un email</a>
                 <p class="m-t-sm">
-                    Or follow us on social platform
+                    Puedes seguirnos en las redes sociales
                 </p>
                 <ul class="list-inline social-icon">
                     <li><a href="#"><i class="fa fa-twitter"></i></a>
                     </li>
                     <li><a href="#"><i class="fa fa-facebook"></i></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                <p><strong>&copy; 2015 Company Name</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                <p><strong>&copy; 2017 Krece</strong><br/> .</p>
             </div>
         </div>
     </div>
