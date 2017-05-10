@@ -107,6 +107,12 @@ var app = new Vue({
       }
     },
 
+     formatDate:function(dateString)
+    {
+      var pattern = 'DD/MM/YYYY';
+      return moment(dateString, "DD/MM/YYYY").format(pattern);
+    },
+
     getCurrentDate: function () {
       var d = new Date();
 
@@ -114,8 +120,8 @@ var app = new Vue({
       dd.setMonth(d.getMonth() + 1);
 
       if (this.form.date == "") {
-        this.form.date = d.toLocaleDateString();
-        this.form.due_date = dd.toLocaleDateString();
+        this.form.date = this.formatDate(d);
+        this.form.due_date = this.formatDate(dd);
       }
     },
     addLine: function (e) {

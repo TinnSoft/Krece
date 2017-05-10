@@ -29,6 +29,7 @@ use DB;
 use App\Contracts\IEmailRepository;
 use App\Contracts\IPdfRepository;
 use App\Repositories\PaymentRepository;
+use Datatables;
 
 class InvoiceSaleOrderController extends Controller
 {
@@ -87,10 +88,11 @@ class InvoiceSaleOrderController extends Controller
         'invoice_sale_order.due_date', 'contact.name',
         'invoice_sale_order.created_at','contact.public_id',
         'invoice_sale_order.public_id','invoice_sale_order.total',
-        'payment.isDeleted')
+        'payment.isDeleted')        
         ->orderBy('invoice_sale_order.id','desc')
+        
         ->get();
-      
+      //return Datatables::queryBuilder($data)->make(true);
         return response()->json($data);
     }
     
@@ -158,7 +160,7 @@ class InvoiceSaleOrderController extends Controller
             //el numero de resolución debe ser único
             $checkInvoiceNumber=InvoiceSaleOrder::where('account_id',Auth::user()->account_id)
             ->where('resolution_id',$data['resolution_number'])->get()->count();
-            
+
             
             if ($checkInvoiceNumber>0)
             {

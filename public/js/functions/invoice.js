@@ -142,7 +142,7 @@ var app = new Vue({
 
         var d = new Date();
         d.setDate(d.getDate() + val.days);
-        this.form.due_date = d.toLocaleDateString();
+        this.form.due_date = this.formatDate(d);
       }
       else
       { this.form.payment_terms_id = ''; }
@@ -221,13 +221,18 @@ var app = new Vue({
         return `${code} — [${symbol}]`
       }
     },
+    formatDate:function(dateString)
+    {
+      var pattern = 'DD/MM/YYYY';
+      return moment(dateString, "DD/MM/YYYY").format(pattern);
+    },
 
     getCurrentDate: function () {
       var d = new Date();
 
       if (this.form.date == "") {
-        this.form.date = d.toLocaleDateString();
-        this.form.due_date = d.toLocaleDateString();
+        this.form.date = this.formatDate(d);
+        this.form.due_date = this.formatDate(d);
       }
     },
     addLine: function (e) {

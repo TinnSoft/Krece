@@ -99,14 +99,20 @@ var app = new Vue({
       }
     },
 
+    formatDate:function(dateString)
+    {
+      var pattern = 'DD/MM/YYYY';
+      return moment(dateString, "DD/MM/YYYY").format(pattern);
+    },
+
     getCurrentDate: function () {
       var d = new Date();
-      var n = d.toLocaleDateString();
+      var n = this.formatDate(d);
       if (this.form.date == "") {
         this.form.date = n;
         
         d.setDate(d.getDate() + 30);
-        this.form.due_date = d.toLocaleDateString();
+        this.form.due_date = this.formatDate(d);
       }
     },
     addLine: function (e) {

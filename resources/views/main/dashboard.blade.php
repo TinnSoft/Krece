@@ -66,7 +66,7 @@
                     <label class="btn btn-sm btn-outline btn-primary " @click="setIndicator('w')"> <input type="radio"  id="option2" name="options"> Esta semana </label>
                     <label class="btn btn-sm btn-outline btn-primary" @click="setIndicator('m')"> <input type="radio"  id="option3" name="options"> Este mes </label>
                     <label class="btn btn-sm btn-outline btn-primary" @click="setIndicator('y')"> <input type="radio"  id="option4" name="options"> Este año </label>
-                </div>
+                </div> 
             </div>
 
              <br><br>

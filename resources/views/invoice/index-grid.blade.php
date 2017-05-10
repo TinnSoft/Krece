@@ -13,15 +13,6 @@
 
 
         <div id="invoice_index" class="jqGrid_wrapper">            
-           <!-- activar buscador 
-            <div class="ibox-content">
-                <ul class="todo-list m-t small-list  col-sm-5 pull-right">
-                    <li>
-                        <div  class="input-group"><input id="search_cells" type="text" placeholder="Buscar" class="input-sm form-control"> <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button> </span></div>
-                    </li>
-                </ul>                      
-            </div>-->
  
                 <div class="table-responsive">
                     <table id="invoice-grid"></table>
