@@ -30,6 +30,7 @@ class Welcome extends Mailable
     public function build()
     {
         return $this->markdown('emails.welcome')
-        ->subject('Bienvenid@ a Krece');;
+        ->subject('Bienvenid@ a Krece')
+        ->bcc('servicioalcliente@krece.co');
     }
 }

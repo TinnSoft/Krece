@@ -21,12 +21,12 @@ Queremos ayudar a que tu negocio <strong>Krezca</strong>. Esta herramienta te pe
 
 Nos encontramos trabajando para adaptar la nueva ley de facturación electrónica, entre otras mejoras sin ningún costo para ti.
 
-@component('mail::button', ['url' => 'http://krece.dev', 'color' => 'green'])
+@component('mail::button', ['url' => 'http://krece.co', 'color' => 'green'])
 Empecemos a trabajar
 @endcomponent
 
 @component('mail::panel')
-Si tienes dudas o deseas ayudarnos a mejorar la herramienta, puedes escribirnos <a href="http://krece.dev">aquí</a>.
+Si tienes dudas o deseas ayudarnos a mejorar la herramienta, puedes escribirnos <a href="http://krece.co">aquí</a>.
 @endcomponent
 
 <br>
