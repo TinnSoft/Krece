@@ -76,7 +76,7 @@ class PdfRepository implements IPdfRepository
                 break;
             
             case 'InvoiceSaleOrder';
-                $withArray=['account','detail','list_price','seller'];
+                $withArray=['account','detail','list_price','seller','resolution','payment_terms'];
                 $array1_name='invoice';
                 $array2_name='taxes';
                 $table_header_name='invoice_sale_order';

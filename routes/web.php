@@ -1,9 +1,10 @@
 <?php
 
+/*
 Route::get('inicio', function () {
     return view('landing.index');  
 })->name('inicio');
-
+*/
 
 Route::get('/', 'AppController@index');
 

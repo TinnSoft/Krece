@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.1.19-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.2.3-MariaDB-log - mariadb.org binary distribution
 -- SO del servidor:              Win32
--- HeidiSQL Versión:             9.4.0.5169
+-- HeidiSQL Versión:             9.4.0.5174
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `website` varchar(255) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `regime_id` int(11) DEFAULT NULL,
-  `logo` longtext,
+  `logo` longtext DEFAULT NULL,
   `decimal_precision` tinyint(4) DEFAULT NULL,
   `decimal_separator` char(1) DEFAULT NULL,
   `account_key` varchar(255) DEFAULT NULL,
@@ -41,11 +41,13 @@ CREATE TABLE IF NOT EXISTS `account` (
   UNIQUE KEY `UK_account_email` (`email`),
   KEY `FK_account_regime` (`regime_id`),
   CONSTRAINT `FK_account_regime` FOREIGN KEY (`regime_id`) REFERENCES `account_regime` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contains the account information for each user register in the app, in addition controls the the permisiones over the application';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Contains the account information for each user register in the app, in addition controls the the permisiones over the application';
 
--- Volcando datos para la tabla krece.account: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla krece.account: ~1 rows (aproximadamente)
 DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` (`id`, `name`, `identification`, `address`, `phone`, `website`, `city`, `regime_id`, `logo`, `decimal_precision`, `decimal_separator`, `account_key`, `email`, `pro_plan_paid`, `pro_plan_trial`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 'tinnsoft', NULL, NULL, NULL, NULL, NULL, 1, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdQAAAE4CAYAAADioQKVAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnMAABJzAYwiuQcAAFgWSURBVHhe7b0HnxzVmb79fotdUAaMvfb+19m7612vN9lrpMmSQCCSico5I6LI2AabZIKxyUlh8ihHJKGA4kgTpMk559Bh5n6f+/SU1Bp6JGEXMIL74vdQ3RVPVY/qqufUqVP/H4QQQgjxNyOhCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+IKEKIYQQPiChCiGEED4goQohhBA+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', 0, '.', NULL, 'fernando2684@gmail.com', NULL, NULL, '2017-04-12 09:26:10', '2017-04-12 09:36:04', NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.account_regime
@@ -95,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `detail` varchar(500) DEFAULT NULL,
   `route` varchar(500) DEFAULT NULL,
   `model` varchar(20) DEFAULT NULL,
@@ -105,11 +107,36 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
   KEY `FK_log_user` (`user_id`),
   CONSTRAINT `FK_log_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 COMMENT='stores the log for each transaction made by any user';
 
--- Volcando datos para la tabla krece.activity_log: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.activity_log: ~20 rows (aproximadamente)
 DELETE FROM `activity_log`;
 /*!40000 ALTER TABLE `activity_log` DISABLE KEYS */;
+INSERT INTO `activity_log` (`id`, `account_id`, `user_id`, `created_at`, `detail`, `route`, `model`, `process_type`) VALUES
+	(1, NULL, 1, '2017-04-12 08:39:40', 'tinnsoft ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(2, 1, 1, '2017-04-12 09:26:22', 'tinnsoft ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(3, 1, 1, '2017-04-12 09:27:34', 'Se creó la Cotización número: 1 para el cliente test', '/estimate/1', 'Estimate', 'Create'),
+	(4, 1, 1, '2017-04-12 09:27:39', 'Se ha impreso el pdf de la cotización No: 1', '/estimate/1', 'Estimate', 'Print'),
+	(5, 1, 1, '2017-04-12 09:28:14', 'Se ha impreso el pdf de la cotización No: 1', '/estimate/1', 'Estimate', 'Print'),
+	(6, 1, 1, '2017-04-12 09:37:56', 'Se ha impreso el pdf de la cotización No: 1', '/estimate/1', 'Estimate', 'Print'),
+	(7, 1, 1, '2017-04-12 09:38:37', 'Se creó la factura de venta número: 1 para el cliente test', '/invoice/1', 'InvoiceSaleOrder', 'Create'),
+	(8, 1, 1, '2017-04-12 21:53:18', 'Se creó la Cotización número: 2 para el cliente test', '/estimate/2', 'Estimate', 'Create'),
+	(9, 1, 1, '2017-04-12 21:54:42', 'Se creó la factura de venta número: 2 para el cliente test', '/invoice/2', 'InvoiceSaleOrder', 'Create'),
+	(10, 1, 1, '2017-04-13 21:21:16', 'Se creó la factura de proveedor número: 1 para el cliente test', '/bill/1', 'Bill', 'Create'),
+	(11, 1, 1, '2017-04-13 21:21:58', 'Se creó la Nota Débito número: 1 para el cliente test', '/debit-note/1', 'DebitNote', 'Create'),
+	(12, 1, 1, '2017-04-13 21:25:29', 'Se creó el comprobante de pago número: 1 para el proveedor test', '/payment-out/1', 'payment-out', 'Create'),
+	(13, 1, 1, '2017-04-16 22:05:44', 'tinnsoft ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn'),
+	(14, 1, 1, '2017-04-18 19:21:03', 'Se creó la factura de venta número: 3 para el cliente test', '/invoice/3', 'InvoiceSaleOrder', 'Create'),
+	(15, 1, 1, '2017-04-18 19:21:14', 'Se creó la factura de venta número: 4 para el cliente test', '/invoice/4', 'InvoiceSaleOrder', 'Create'),
+	(16, 1, 1, '2017-04-18 19:21:25', 'Se creó la factura de venta número: 5 para el cliente test', '/invoice/5', 'InvoiceSaleOrder', 'Create'),
+	(17, 1, 1, '2017-04-18 19:21:34', 'Se creó la factura de venta número: 6 para el cliente test', '/invoice/6', 'InvoiceSaleOrder', 'Create'),
+	(18, 1, 1, '2017-04-18 19:21:45', 'Se creó la factura de venta número: 7 para el cliente test', '/invoice/7', 'InvoiceSaleOrder', 'Create'),
+	(19, 1, 1, '2017-04-18 19:21:55', 'Se creó la factura de venta número: 8 para el cliente test', '/invoice/8', 'InvoiceSaleOrder', 'Create'),
+	(20, 1, 1, '2017-04-18 19:22:05', 'Se creó la factura de venta número: 9 para el cliente test', '/invoice/9', 'InvoiceSaleOrder', 'Create'),
+	(21, 1, 1, '2017-04-18 19:22:14', 'Se creó la factura de venta número: 10 para el cliente test', '/invoice/10', 'InvoiceSaleOrder', 'Create'),
+	(22, 1, 1, '2017-04-18 19:22:29', 'Se creó la factura de venta número: 11 para el cliente test', '/invoice/11', 'InvoiceSaleOrder', 'Create'),
+	(23, 1, 1, '2017-05-10 09:26:43', 'Se creó la factura de venta número: 12 para el cliente test', '/invoice/12', 'InvoiceSaleOrder', 'Create'),
+	(24, 1, 1, '2017-07-10 15:56:53', 'tinnsoft ha iniciado sesion', '/profile/1/edit', 'User', 'LogIn');
 /*!40000 ALTER TABLE `activity_log` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account
@@ -122,11 +149,11 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   `bank_account_name` varchar(100) NOT NULL,
   `bank_account_number` varchar(100) DEFAULT NULL,
   `initial_balance` float NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `isDefault` bit(1) NOT NULL DEFAULT b'0',
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_BA_public_id_account_id` (`public_id`,`account_id`),
@@ -136,11 +163,15 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   CONSTRAINT `FK_banks_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_banks_accounttype` FOREIGN KEY (`bank_account_type_id`) REFERENCES `bank_account_type` (`id`),
   CONSTRAINT `FK_banks_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='bank information related with accounts';
 
--- Volcando datos para la tabla krece.bank_account: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.bank_account: ~3 rows (aproximadamente)
 DELETE FROM `bank_account`;
 /*!40000 ALTER TABLE `bank_account` DISABLE KEYS */;
+INSERT INTO `bank_account` (`id`, `user_id`, `public_id`, `account_id`, `bank_account_type_id`, `bank_account_name`, `bank_account_number`, `initial_balance`, `description`, `isDeleted`, `isDefault`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 'Banco 1', NULL, 0, NULL, b'0', b'1', NULL, '2017-04-12 09:26:16', NULL),
+	(2, 1, 2, 1, 2, 'Tarjeta de crédito 1', NULL, 0, NULL, b'0', b'0', NULL, '2017-04-12 09:26:16', NULL),
+	(3, 1, 3, 1, 3, 'Caja general', NULL, 0, NULL, b'0', b'0', NULL, '2017-04-12 09:26:16', NULL);
 /*!40000 ALTER TABLE `bank_account` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bank_account_type
@@ -170,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `date` date NOT NULL,
   `due_date` date NOT NULL,
   `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
-  `observations` text COMMENT 'for customer tracking , just internal',
+  `observations` text DEFAULT NULL COMMENT 'for customer tracking , just internal',
   `currency_code` varchar(3) NOT NULL,
   `total` float DEFAULT NULL,
   `sub_total` float DEFAULT NULL,
@@ -194,17 +225,19 @@ CREATE TABLE IF NOT EXISTS `bill` (
   CONSTRAINT `FK_invoice_supplier_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_invoice_supplier_status` FOREIGN KEY (`status_id`) REFERENCES `bill_status` (`id`),
   CONSTRAINT `FK_invoice_supplier_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
 -- Volcando datos para la tabla krece.bill: ~0 rows (aproximadamente)
 DELETE FROM `bill`;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
+INSERT INTO `bill` (`id`, `account_id`, `user_id`, `public_id`, `customer_id`, `resolution_id`, `date`, `due_date`, `status_id`, `observations`, `currency_code`, `total`, `sub_total`, `total_discounts`, `total_taxes`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 1, '2017-04-13', '2017-04-13', 1, NULL, 'COP', 200, 200, 0, 0, NULL, NULL, b'0', b'0', '2017-04-13 21:21:15', '2017-04-13 21:21:15', NULL);
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bill_detail
 CREATE TABLE IF NOT EXISTS `bill_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
-  `bill_id` bigint(20) NOT NULL DEFAULT '0',
+  `bill_id` bigint(20) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `unit_price` float NOT NULL,
   `discount` float DEFAULT NULL,
@@ -229,11 +262,13 @@ CREATE TABLE IF NOT EXISTS `bill_detail` (
   CONSTRAINT `FK_soi_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_supplier_order_company` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_supplier_order_invoice_supplier_order` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
 -- Volcando datos para la tabla krece.bill_detail: ~0 rows (aproximadamente)
 DELETE FROM `bill_detail`;
 /*!40000 ALTER TABLE `bill_detail` DISABLE KEYS */;
+INSERT INTO `bill_detail` (`id`, `bill_id`, `user_id`, `unit_price`, `discount`, `tax_amount`, `tax_id`, `category_id`, `product_id`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 200, 0, 0, NULL, 38, NULL, 'Publicidad', NULL, 1, 0, 200, '2017-04-13 21:21:15', '2017-04-13 21:21:15', NULL);
 /*!40000 ALTER TABLE `bill_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.bill_status
@@ -318,11 +353,94 @@ CREATE TABLE IF NOT EXISTS `category` (
   CONSTRAINT `FK_category_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_category_type` FOREIGN KEY (`type_id`) REFERENCES `category_type` (`id`),
   CONSTRAINT `FK_category_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='product categories';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1 COMMENT='product categories';
 
--- Volcando datos para la tabla krece.category: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.category: ~82 rows (aproximadamente)
 DELETE FROM `category`;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`id`, `account_id`, `user_id`, `parent_id`, `lft`, `rgt`, `name`, `niif_account`, `description`, `isEditable`, `isDeleted`, `type_id`, `updated_at`, `created_at`) VALUES
+	(1, 1, 1, NULL, 1, 14, 'Ingresos', NULL, 'Bajo esta categoría se encuentran todos los Ingresos de la compañía', b'0', b'0', 1, '2017-04-12 09:26:10', '2017-04-12 09:26:10'),
+	(2, 1, 1, 1, 2, 3, 'Devoluciones de ventas', NULL, NULL, b'0', b'0', 1, '2017-04-12 09:26:10', '2017-04-12 09:26:10'),
+	(3, 1, 1, 1, 4, 5, 'Ingreso sin identificar', NULL, NULL, b'0', b'0', 1, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(4, 1, 1, 1, 6, 11, 'Ingresos no operacionales', NULL, NULL, b'0', b'0', 1, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(5, 1, 1, 4, 7, 10, 'Otros Ingresos', NULL, NULL, b'0', b'0', 1, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(6, 1, 1, 5, 8, 9, 'Ingresos por interes', NULL, 'Ingresos por intereses bancarios', b'0', b'0', 1, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(7, 1, 1, 1, 12, 13, 'Ventas', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 1, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(8, 1, 1, NULL, 15, 88, 'Egresos', NULL, 'Bajo esta categoría se encuentran todos los egresos de la compañía', b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(9, 1, 1, 8, 16, 17, 'Alquiler de equipos y licencias', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(10, 1, 1, 8, 18, 19, 'Comisiones y honorarios', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(11, 1, 1, 8, 20, 31, 'Costo de la mercancía vendida', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(12, 1, 1, 11, 21, 22, 'Ajustes del inventario', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(13, 1, 1, 11, 23, 24, 'Compras inventariables', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(14, 1, 1, 11, 25, 26, 'Fletes y envíos', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(15, 1, 1, 11, 27, 28, 'Mano de obra', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(16, 1, 1, 11, 29, 30, 'Materias primas', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(17, 1, 1, 8, 32, 33, 'Costo servicios vendidos', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(18, 1, 1, 8, 34, 35, 'Cuentas incobrables', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(19, 1, 1, 8, 36, 37, 'Devoluciones en compras de ítem', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:11', '2017-04-12 09:26:11'),
+	(20, 1, 1, 8, 38, 43, 'Egresos no operacionales', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(21, 1, 1, 20, 39, 40, 'Descuento financiero', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(22, 1, 1, 20, 41, 42, 'Diferencia en cambio', NULL, 'Bajo esta categoría se encuentran las perdidas y ganancias por diferencias en tasas de cambio', b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(23, 1, 1, 8, 44, 55, 'Gastos administrativos', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(24, 1, 1, 23, 45, 46, 'Arrendamiento', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(25, 1, 1, 23, 47, 48, 'Aseo y cafetería', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(26, 1, 1, 23, 49, 50, 'Internet y telecomunicaciones', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(27, 1, 1, 23, 51, 52, 'Papelería', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(28, 1, 1, 23, 53, 54, 'Servicios públicos', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(29, 1, 1, 8, 56, 57, 'Gastos bancarios', NULL, 'Bajo esta categoría se encuentran todos los gastos bancarios de la compañía', b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(30, 1, 1, 8, 58, 59, 'Legales', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(31, 1, 1, 8, 60, 61, 'Mantenimiento e instalaciones', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(32, 1, 1, 8, 62, 71, 'Nómina', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(33, 1, 1, 32, 63, 64, 'Dotación', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(34, 1, 1, 32, 65, 66, 'Prestaciones sociales', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(35, 1, 1, 32, 67, 68, 'Salarios', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(36, 1, 1, 32, 69, 70, 'Seguridad social y parafiscales', NULL, NULL, b'1', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(37, 1, 1, 8, 72, 73, 'Otros impuestos', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:12', '2017-04-12 09:26:12'),
+	(38, 1, 1, 8, 74, 75, 'Publicidad', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(39, 1, 1, 8, 76, 77, 'Seguros y seguridad', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(40, 1, 1, 8, 78, 79, 'Servicios bancarios', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(41, 1, 1, 8, 80, 81, 'Subscripciones y afiliaciones', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(42, 1, 1, 8, 82, 83, 'Transporte y mensajería', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(43, 1, 1, 8, 84, 85, 'Varios', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(44, 1, 1, 8, 86, 87, 'Viajes y viáticos', NULL, NULL, b'0', b'0', 2, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(45, 1, 1, NULL, 89, 124, 'Activos', NULL, 'Bajo esta categoría se encuentran todos los activos de la compañía', b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(46, 1, 1, 45, 90, 97, 'Activo corriente', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(47, 1, 1, 46, 91, 92, 'Bancos', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(48, 1, 1, 46, 93, 94, 'Cuentas por cobrar', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(49, 1, 1, 46, 95, 96, 'Inventario', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(50, 1, 1, 45, 98, 99, 'Activos fijos', NULL, 'Bajo esta categoría se encuentran todos los activos principales de la compañía', b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(51, 1, 1, 45, 100, 101, 'Avances y anticipos entregados', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(52, 1, 1, 45, 102, 103, 'Cuentas por cobrar - devoluciones', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(53, 1, 1, 45, 104, 109, 'Impuestos a favor', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(54, 1, 1, 53, 105, 106, 'ICO a favor', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(55, 1, 1, 53, 107, 108, 'IVA a favor', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:13', '2017-04-12 09:26:13'),
+	(56, 1, 1, 45, 110, 111, 'Inversiones', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(57, 1, 1, 45, 112, 113, 'Préstamos a terceros', NULL, NULL, b'0', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(58, 1, 1, 45, 114, 123, 'Retenciones a favor', NULL, NULL, b'1', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(59, 1, 1, 58, 115, 116, 'Retención de CREE a favor', NULL, NULL, b'1', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(60, 1, 1, 58, 117, 118, 'Retención de Industria y comercio a favor', NULL, NULL, b'1', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(61, 1, 1, 58, 119, 120, 'Retención de IVA a favor', NULL, NULL, b'1', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(62, 1, 1, 58, 121, 122, 'Retención en la fuente a favor', NULL, NULL, b'1', b'0', 3, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(63, 1, 1, NULL, 125, 152, 'Pasivos', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(64, 1, 1, 63, 126, 127, 'Avances y anticipos recibidos', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(65, 1, 1, 63, 128, 129, 'Cuentas por pagar - devoluciones', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(66, 1, 1, 63, 130, 131, 'Cuentas por pagar - proveedores', NULL, 'Bajo esta categoría se encuentran los pasivos principales', b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(67, 1, 1, 63, 132, 133, 'Cuentas por pagar - tarjetas de crédito', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(68, 1, 1, 63, 134, 139, 'Impuestos por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(69, 1, 1, 68, 135, 136, 'ICO por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(70, 1, 1, 68, 137, 138, 'IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(71, 1, 1, 63, 140, 141, 'Obligaciones financieras y préstamos a terceros', NULL, 'Bajo esta categoría se encuentran todos los Ingresos principales', b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(72, 1, 1, 63, 142, 151, 'Retenciones por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(73, 1, 1, 72, 143, 144, 'Retención de CREE por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(74, 1, 1, 72, 145, 146, 'Retención de industria y Comercio por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:14', '2017-04-12 09:26:14'),
+	(75, 1, 1, 72, 147, 148, 'Retención de IVA por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(76, 1, 1, 72, 149, 150, 'Retención en la fuente por pagar', NULL, NULL, b'0', b'0', 4, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(77, 1, 1, NULL, 153, 162, 'Patrimonio', NULL, NULL, b'0', b'0', 5, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(78, 1, 1, 77, 154, 155, 'Ajustes iniciales - Bancos', NULL, NULL, b'0', b'0', 5, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(79, 1, 1, 77, 156, 157, 'Ajustes iniciales - Inventario', NULL, NULL, b'0', b'0', 5, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(80, 1, 1, 77, 158, 159, 'Capital accionistas', NULL, NULL, b'0', b'0', 5, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(81, 1, 1, 77, 160, 161, 'Utilidades', NULL, 'Bajo esta categoría se encuentra el patrimonio principal', b'0', b'0', 5, '2017-04-12 09:26:15', '2017-04-12 09:26:15'),
+	(82, 1, 1, NULL, 163, 164, 'Transferencias bancarias', NULL, 'Bajo esta categoría se encuentran todas las transferencias que se realizen entre bancos de la empresa', b'0', b'0', 6, '2017-04-12 09:26:15', '2017-04-12 09:26:15');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category_payment
@@ -338,7 +456,7 @@ CREATE TABLE IF NOT EXISTS `category_payment` (
   `tax_total` float DEFAULT NULL,
   `total` float DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `observations` text,
+  `observations` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -353,11 +471,13 @@ CREATE TABLE IF NOT EXISTS `category_payment` (
   CONSTRAINT `FK_cp_payment_id` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
   CONSTRAINT `FK_cp_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_cp_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.category_payment: ~0 rows (aproximadamente)
 DELETE FROM `category_payment`;
 /*!40000 ALTER TABLE `category_payment` DISABLE KEYS */;
+INSERT INTO `category_payment` (`id`, `payment_id`, `account_id`, `user_id`, `category_id`, `unit_price`, `tax_id`, `tax_amount`, `tax_total`, `total`, `quantity`, `observations`, `created_at`, `updated_at`) VALUES
+	(1, 1, 1, 1, 42, 2000, NULL, NULL, NULL, 2000, 1, NULL, '2017-04-13 21:25:29', '2017-04-13 21:25:29');
 /*!40000 ALTER TABLE `category_payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.category_type
@@ -427,7 +547,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `list_price_id` int(11) DEFAULT NULL,
   `seller_id` int(11) DEFAULT NULL,
   `payment_terms_id` int(11) DEFAULT NULL,
-  `observation` text,
+  `observation` text DEFAULT NULL,
   `include_account_state` bit(1) NOT NULL DEFAULT b'0',
   `isProvider` bit(1) NOT NULL DEFAULT b'0',
   `isCustomer` bit(1) NOT NULL DEFAULT b'0',
@@ -447,11 +567,13 @@ CREATE TABLE IF NOT EXISTS `contact` (
   CONSTRAINT `FK_contacts_payment_term` FOREIGN KEY (`payment_terms_id`) REFERENCES `payment_terms` (`id`),
   CONSTRAINT `FK_contacts_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='contains the whole set of contacts of each company';
 
 -- Volcando datos para la tabla krece.contact: ~0 rows (aproximadamente)
 DELETE FROM `contact`;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
+INSERT INTO `contact` (`id`, `account_id`, `user_id`, `public_id`, `name`, `nit`, `address`, `city`, `email`, `phone1`, `phone2`, `fax`, `phone_mobile`, `list_price_id`, `seller_id`, `payment_terms_id`, `observation`, `include_account_state`, `isProvider`, `isCustomer`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 'test', NULL, 'asas', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, NULL, b'0', b'1', b'1', b'0', '2017-04-12 09:26:54', '2017-04-12 09:26:54', NULL);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.contact_others
@@ -599,7 +721,7 @@ CREATE TABLE IF NOT EXISTS `currency_code` (
   `decimal_separator` char(1) DEFAULT NULL,
   `name` varchar(150) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'1',
-  `order` int(11) DEFAULT '2',
+  `order` int(11) DEFAULT 2,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='default values for the kind of money around the world';
 
@@ -671,7 +793,7 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
   `customer_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `currency_code` varchar(3) NOT NULL,
-  `observations` text COMMENT 'for customer tracking , just internal',
+  `observations` text DEFAULT NULL COMMENT 'for customer tracking , just internal',
   `exchange_rate` float DEFAULT NULL,
   `amount_pending_to_apply` float DEFAULT NULL,
   `sub_total` float DEFAULT NULL,
@@ -691,17 +813,19 @@ CREATE TABLE IF NOT EXISTS `debit_note` (
   CONSTRAINT `FK_debit_note_currency` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_debit_note_customerID` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_debit_note_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Header of supplier invoices';
 
 -- Volcando datos para la tabla krece.debit_note: ~0 rows (aproximadamente)
 DELETE FROM `debit_note`;
 /*!40000 ALTER TABLE `debit_note` DISABLE KEYS */;
+INSERT INTO `debit_note` (`id`, `account_id`, `user_id`, `public_id`, `resolution_id`, `customer_id`, `date`, `currency_code`, `observations`, `exchange_rate`, `amount_pending_to_apply`, `sub_total`, `total_taxes`, `total_discounts`, `total`, `isDeleted`, `updated_at`, `created_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 1, '2017-04-13', 'COP', NULL, NULL, NULL, 300, 0, 0, 300, b'0', '2017-04-13 21:21:57', '2017-04-13 21:21:57', NULL);
 /*!40000 ALTER TABLE `debit_note` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.debit_note_detail
 CREATE TABLE IF NOT EXISTS `debit_note_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
-  `debit_note_id` bigint(20) NOT NULL DEFAULT '0',
+  `debit_note_id` bigint(20) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
@@ -727,11 +851,13 @@ CREATE TABLE IF NOT EXISTS `debit_note_detail` (
   CONSTRAINT `FK_debit_note_detail_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_debit_note_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_debit_note_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
 -- Volcando datos para la tabla krece.debit_note_detail: ~0 rows (aproximadamente)
 DELETE FROM `debit_note_detail`;
 /*!40000 ALTER TABLE `debit_note_detail` DISABLE KEYS */;
+INSERT INTO `debit_note_detail` (`id`, `debit_note_id`, `user_id`, `category_id`, `product_id`, `name`, `description`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `total_tax`, `quantity`, `total`, `updated_at`, `created_at`) VALUES
+	(1, 1, 1, 10, NULL, 'Comisiones y honorarios', NULL, 300, 0, NULL, 0, 0, 1, 300, '2017-04-13 21:21:57', '2017-04-13 21:21:57');
 /*!40000 ALTER TABLE `debit_note_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.estimate
@@ -745,14 +871,14 @@ CREATE TABLE IF NOT EXISTS `estimate` (
   `list_price_id` int(11) DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `currency_code` varchar(3) DEFAULT NULL,
-  `sub_total` float DEFAULT '0',
-  `total_discounts` float DEFAULT '0',
-  `total_taxes` float DEFAULT '0',
-  `total` float DEFAULT '0',
+  `sub_total` float DEFAULT 0,
+  `total_discounts` float DEFAULT 0,
+  `total_taxes` float DEFAULT 0,
+  `total` float DEFAULT 0,
   `date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `notes` text,
-  `observations` text,
+  `notes` text DEFAULT NULL,
+  `observations` text DEFAULT NULL,
   `exchange_rate` float DEFAULT NULL,
   `isDeleted` bit(1) DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -767,11 +893,14 @@ CREATE TABLE IF NOT EXISTS `estimate` (
   CONSTRAINT `FK_estimate_client` FOREIGN KEY (`customer_id`) REFERENCES `contact` (`id`),
   CONSTRAINT `FK_estimate_currency_code` FOREIGN KEY (`currency_code`) REFERENCES `currency_code` (`code`),
   CONSTRAINT `FK_estimate_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.estimate: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.estimate: ~2 rows (aproximadamente)
 DELETE FROM `estimate`;
 /*!40000 ALTER TABLE `estimate` DISABLE KEYS */;
+INSERT INTO `estimate` (`id`, `account_id`, `public_id`, `resolution_id`, `user_id`, `seller_id`, `list_price_id`, `customer_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `date`, `due_date`, `notes`, `observations`, `exchange_rate`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, NULL, 1, 1, 'COP', 2000, 0, 0, 2000, '2017-04-12', '2017-05-12', 'asas', NULL, NULL, b'0', '2017-04-12 09:27:34', '2017-04-12 09:27:34', NULL),
+	(2, 1, 2, 2, 1, NULL, 1, 1, 'COP', 2000, 0, 0, 2000, '2017-04-12', '2017-04-20', 'as', NULL, NULL, b'0', '2017-04-12 21:53:18', '2017-04-12 21:53:18', NULL);
 /*!40000 ALTER TABLE `estimate` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.estimate_detail
@@ -782,14 +911,14 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   `product_id` int(11) NOT NULL,
   `reference` varchar(50) DEFAULT NULL,
   `unit_price` float NOT NULL,
-  `discount` float DEFAULT '0',
+  `discount` float DEFAULT 0,
   `tax_id` int(11) DEFAULT NULL,
-  `tax_amount` float DEFAULT '0',
+  `tax_amount` float DEFAULT 0,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `total_tax` float DEFAULT '0',
-  `total` float DEFAULT '0',
+  `total_tax` float DEFAULT 0,
+  `total` float DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -802,11 +931,14 @@ CREATE TABLE IF NOT EXISTS `estimate_detail` (
   CONSTRAINT `FK_estimate_detail_remision_id` FOREIGN KEY (`estimate_id`) REFERENCES `estimate` (`id`),
   CONSTRAINT `FK_estimate_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_estimate_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.estimate_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.estimate_detail: ~2 rows (aproximadamente)
 DELETE FROM `estimate_detail`;
 /*!40000 ALTER TABLE `estimate_detail` DISABLE KEYS */;
+INSERT INTO `estimate_detail` (`id`, `estimate_id`, `user_id`, `product_id`, `reference`, `unit_price`, `discount`, `tax_id`, `tax_amount`, `name`, `description`, `quantity`, `total_tax`, `total`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, NULL, 2000, 0, NULL, 0, NULL, NULL, 1, 0, 2000, '2017-04-12 09:27:34', '2017-04-12 09:27:34', NULL),
+	(2, 2, 1, 1, NULL, 2000, 0, NULL, 0, NULL, NULL, 1, 0, 2000, '2017-04-12 21:53:18', '2017-04-12 21:53:18', NULL);
 /*!40000 ALTER TABLE `estimate_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.failed_jobs
@@ -816,7 +948,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -837,8 +969,8 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   `due_date` date NOT NULL,
   `payment_terms_id` varchar(20) NOT NULL,
   `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
-  `notes` text COMMENT 'vissible inf the sale invoice',
-  `observations` text COMMENT 'for customer tracking , just internal',
+  `notes` text DEFAULT NULL COMMENT 'vissible inf the sale invoice',
+  `observations` text DEFAULT NULL COMMENT 'for customer tracking , just internal',
   `seller_id` int(11) DEFAULT NULL,
   `list_price_id` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
@@ -872,11 +1004,24 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order` (
   CONSTRAINT `FK_invoice_sale_seller` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`id`),
   CONSTRAINT `FK_invoice_sale_status` FOREIGN KEY (`status_id`) REFERENCES `invoice_sale_order_status` (`id`),
   CONSTRAINT `FK_invoice_sale_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COMMENT='Header of sale invoices';
 
--- Volcando datos para la tabla krece.invoice_sale_order: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order: ~11 rows (aproximadamente)
 DELETE FROM `invoice_sale_order`;
 /*!40000 ALTER TABLE `invoice_sale_order` DISABLE KEYS */;
+INSERT INTO `invoice_sale_order` (`id`, `public_id`, `user_id`, `account_id`, `resolution_id`, `customer_id`, `date`, `due_date`, `payment_terms_id`, `status_id`, `notes`, `observations`, `seller_id`, `list_price_id`, `category_id`, `currency_code`, `sub_total`, `total_discounts`, `total_taxes`, `total`, `currency_code_multicurrency`, `exchange_rate`, `isRecurring`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 1, '2017-04-12', '2017-04-12', '1', 1, 'notas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-12 09:38:37', '2017-04-12 09:38:37', NULL),
+	(2, 2, 1, 1, 2, 1, '2017-04-12', '2017-04-12', '2', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-12 21:54:42', '2017-04-12 21:54:42', NULL),
+	(3, 3, 1, 1, 3, 1, '2017-04-18', '2017-04-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:02', '2017-04-18 19:21:02', NULL),
+	(4, 4, 1, 1, 4, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:14', '2017-04-18 19:21:14', NULL),
+	(5, 5, 1, 1, 5, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:25', '2017-04-18 19:21:25', NULL),
+	(6, 6, 1, 1, 6, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:34', '2017-04-18 19:21:34', NULL),
+	(7, 7, 1, 1, 7, 1, '2017-04-18', '2017-05-18', '1', 1, 'assa', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:44', '2017-04-18 19:21:44', NULL),
+	(8, 8, 1, 1, 8, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:21:55', '2017-04-18 19:21:55', NULL),
+	(9, 9, 1, 1, 9, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:22:05', '2017-04-18 19:22:05', NULL),
+	(10, 10, 1, 1, 10, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-04-18 19:22:14', '2017-04-18 19:22:14', NULL),
+	(11, 11, 1, 1, 11, 1, '2017-04-18', '2017-05-18', '1', 1, 'asas', NULL, NULL, 1, 7, 'COP', 4000, 0, 0, 4000, NULL, NULL, b'0', b'0', '2017-04-18 19:22:25', '2017-04-18 19:22:25', NULL),
+	(12, 12, 1, 1, 12, 1, '2017-05-10', '2017-05-10', '1', 1, 'asasas', NULL, NULL, 1, 7, 'COP', 2000, 0, 0, 2000, NULL, NULL, b'0', b'0', '2017-05-10 09:26:43', '2017-05-10 09:26:43', NULL);
 /*!40000 ALTER TABLE `invoice_sale_order` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_detail
@@ -895,7 +1040,7 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   `quantity` int(11) NOT NULL,
   `total` float DEFAULT NULL,
   `total_tax` float DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `FK_ISOI_invoice_sale_order` (`invoice_sale_order_id`),
@@ -906,11 +1051,25 @@ CREATE TABLE IF NOT EXISTS `invoice_sale_order_detail` (
   CONSTRAINT `FK_ISOI_invoice_sale_order` FOREIGN KEY (`invoice_sale_order_id`) REFERENCES `invoice_sale_order` (`id`),
   CONSTRAINT `FK_ISOI_item` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK_ISOI_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COMMENT='detail of the invoice generated';
 
--- Volcando datos para la tabla krece.invoice_sale_order_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.invoice_sale_order_detail: ~11 rows (aproximadamente)
 DELETE FROM `invoice_sale_order_detail`;
 /*!40000 ALTER TABLE `invoice_sale_order_detail` DISABLE KEYS */;
+INSERT INTO `invoice_sale_order_detail` (`id`, `invoice_sale_order_id`, `user_id`, `tax_id`, `product_id`, `name`, `description`, `reference`, `unit_price`, `discount`, `tax_amount`, `quantity`, `total`, `total_tax`, `created_at`, `updated_at`) VALUES
+	(1, 1, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-12 09:38:37', '2017-04-12 09:38:37'),
+	(2, 2, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-12 21:54:42', '2017-04-12 21:54:42'),
+	(3, 3, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:02', '2017-04-18 19:21:02'),
+	(4, 4, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:14', '2017-04-18 19:21:14'),
+	(5, 5, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:25', '2017-04-18 19:21:25'),
+	(6, 6, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:34', '2017-04-18 19:21:34'),
+	(7, 7, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:44', '2017-04-18 19:21:44'),
+	(8, 8, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:21:55', '2017-04-18 19:21:55'),
+	(9, 9, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:22:05', '2017-04-18 19:22:05'),
+	(10, 10, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:22:14', '2017-04-18 19:22:14'),
+	(11, 11, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:22:27', '2017-04-18 19:22:27'),
+	(12, 11, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-04-18 19:22:27', '2017-04-18 19:22:27'),
+	(13, 12, 1, NULL, 1, NULL, NULL, NULL, 2000, 0, 0, 1, 2000, 0, '2017-05-10 09:26:43', '2017-05-10 09:26:43');
 /*!40000 ALTER TABLE `invoice_sale_order_detail` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.invoice_sale_order_status
@@ -995,15 +1154,15 @@ DELETE FROM `jobs`;
 -- Volcando estructura para tabla krece.list_price
 CREATE TABLE IF NOT EXISTS `list_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `public_id` int(11) NOT NULL DEFAULT '0',
+  `account_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `public_id` int(11) NOT NULL DEFAULT 0,
   `name` varchar(100) NOT NULL DEFAULT '0',
-  `type_id` tinyint(4) NOT NULL DEFAULT '0',
-  `value` float NOT NULL DEFAULT '0',
+  `type_id` tinyint(4) NOT NULL DEFAULT 0,
+  `value` float NOT NULL DEFAULT 0,
   `isDefault` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   `isEnabled` bit(1) NOT NULL DEFAULT b'1',
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
@@ -1014,11 +1173,13 @@ CREATE TABLE IF NOT EXISTS `list_price` (
   CONSTRAINT `FK_list_price_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_list_price_type` FOREIGN KEY (`type_id`) REFERENCES `list_price_type` (`id`),
   CONSTRAINT `FK_list_price_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Store the list price information';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Store the list price information';
 
 -- Volcando datos para la tabla krece.list_price: ~0 rows (aproximadamente)
 DELETE FROM `list_price`;
 /*!40000 ALTER TABLE `list_price` DISABLE KEYS */;
+INSERT INTO `list_price` (`id`, `account_id`, `user_id`, `public_id`, `name`, `type_id`, `value`, `isDefault`, `created_at`, `updated_at`, `deleted_at`, `isEnabled`, `isDeleted`) VALUES
+	(1, 1, 1, 1, 'General', 2, 0, b'1', '2017-04-12 09:26:16', '2017-04-12 09:26:16', NULL, b'1', b'0');
 /*!40000 ALTER TABLE `list_price` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.list_price_type
@@ -1042,7 +1203,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Volcando datos para la tabla krece.migrations: ~0 rows (aproximadamente)
 DELETE FROM `migrations`;
@@ -1102,8 +1263,8 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `customer_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `bank_account_id` int(11) NOT NULL,
-  `observations` text,
-  `notes` text,
+  `observations` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
   `payment_method_id` tinyint(4) NOT NULL,
   `currency_code` varchar(3) DEFAULT NULL,
   `type_id` char(2) NOT NULL,
@@ -1130,11 +1291,13 @@ CREATE TABLE IF NOT EXISTS `payment` (
   CONSTRAINT `FK_payment_status` FOREIGN KEY (`status_id`) REFERENCES `payment_status` (`id`),
   CONSTRAINT `FK_payment_type` FOREIGN KEY (`type_id`) REFERENCES `payment_type` (`type`),
   CONSTRAINT `FK_payment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.payment: ~0 rows (aproximadamente)
 DELETE FROM `payment`;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` (`id`, `resolution_id`, `public_id`, `user_id`, `account_id`, `customer_id`, `date`, `bank_account_id`, `observations`, `notes`, `payment_method_id`, `currency_code`, `type_id`, `status_id`, `parent_id`, `isInvoice`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 1, 1, '2017-04-13', 1, NULL, NULL, 2, 'COP', 'eg', 1, NULL, b'0', b'0', '2017-04-13 21:25:29', '2017-04-13 21:25:29', NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_history
@@ -1146,7 +1309,7 @@ CREATE TABLE IF NOT EXISTS `payment_history` (
   `invoice_sale_order_id` int(11) DEFAULT NULL,
   `bill_id` int(11) DEFAULT NULL,
   `amount` float NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `FK_payment_history_account_id` (`account_id`),
@@ -1209,18 +1372,25 @@ CREATE TABLE IF NOT EXISTS `payment_terms` (
   `days` int(11) NOT NULL,
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_company_id_name_days` (`account_id`,`name`,`days`,`isDeleted`),
   KEY `FK_payment_terms_user` (`user_id`),
   CONSTRAINT `FK_payment_terms_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_payment_terms_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.payment_terms: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.payment_terms: ~6 rows (aproximadamente)
 DELETE FROM `payment_terms`;
 /*!40000 ALTER TABLE `payment_terms` DISABLE KEYS */;
+INSERT INTO `payment_terms` (`id`, `account_id`, `user_id`, `public_id`, `name`, `days`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 'Vencimiento manual', 0, b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(2, 1, 1, 2, 'De contado', 0, b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(3, 1, 1, 3, '8 días', 8, b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(4, 1, 1, 4, '15 días', 15, b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(5, 1, 1, 5, '30 días', 30, b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(6, 1, 1, 6, '60 días', 60, b'0', NULL, '2017-04-12 09:26:15', NULL);
 /*!40000 ALTER TABLE `payment_terms` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.payment_type
@@ -1273,7 +1443,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `inv_inStock` bit(1) DEFAULT b'0',
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `isActive` bit(1) NOT NULL DEFAULT b'1',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1291,11 +1461,13 @@ CREATE TABLE IF NOT EXISTS `product` (
   CONSTRAINT `FK_products_listprice` FOREIGN KEY (`list_price_id`) REFERENCES `list_price` (`id`),
   CONSTRAINT `FK_products_tax` FOREIGN KEY (`tax_id`) REFERENCES `tax` (`id`),
   CONSTRAINT `FK_products_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla krece.product: ~0 rows (aproximadamente)
 DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` (`id`, `public_id`, `user_id`, `account_id`, `name`, `description`, `reference`, `sale_price`, `tax_id`, `list_price_id`, `category_id`, `inv_quantity_initial`, `inv_quantity_actual`, `inv_type_id`, `inv_unit_cost`, `inv_inStock`, `isDeleted`, `isActive`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 'item venta', NULL, NULL, 2000, 1, NULL, 7, NULL, NULL, NULL, 0, b'0', b'0', b'1', '2017-04-12 09:27:17', '2017-04-12 09:27:17', NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.product_inventory_type
@@ -1340,9 +1512,9 @@ CREATE TABLE IF NOT EXISTS `purchase_order` (
   `due_date` date NOT NULL,
   `currency_code` varchar(3) NOT NULL,
   `status_id` int(11) NOT NULL COMMENT 'Status of the invoice that could be open, closed, revoked',
-  `notes` text COMMENT 'vissible inf the supplier invoice',
-  `observations` text COMMENT 'for customer tracking , just internal',
-  `terms` text,
+  `notes` text DEFAULT NULL COMMENT 'vissible inf the supplier invoice',
+  `observations` text DEFAULT NULL COMMENT 'for customer tracking , just internal',
+  `terms` text DEFAULT NULL,
   `exchange_rate` float DEFAULT NULL,
   `sub_total` float DEFAULT NULL,
   `total_discounts` float DEFAULT NULL,
@@ -1373,7 +1545,7 @@ DELETE FROM `purchase_order`;
 -- Volcando estructura para tabla krece.purchase_order_detail
 CREATE TABLE IF NOT EXISTS `purchase_order_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'header invoice number',
-  `purchase_order_id` bigint(20) NOT NULL DEFAULT '0',
+  `purchase_order_id` bigint(20) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `unit_price` float NOT NULL,
   `discount` float DEFAULT NULL,
@@ -1561,11 +1733,13 @@ CREATE TABLE IF NOT EXISTS `resolution` (
   KEY `FK_resolution_user` (`user_id`),
   CONSTRAINT `FK_resolution_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_resolution_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contains resolution IDs for each sale order, according law policies (DIAN in colombia)';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='contains resolution IDs for each sale order, according law policies (DIAN in colombia)';
 
 -- Volcando datos para la tabla krece.resolution: ~0 rows (aproximadamente)
 DELETE FROM `resolution`;
 /*!40000 ALTER TABLE `resolution` DISABLE KEYS */;
+INSERT INTO `resolution` (`id`, `account_id`, `public_id`, `user_id`, `initial_number`, `final_number`, `next_invoice_number`, `name`, `prefix`, `invoice_text`, `isDefault`, `isActive`, `isDeleted`, `auto_increment`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, '1', NULL, '13', 'Principal', NULL, NULL, b'1', b'1', b'0', b'1', '2017-04-12 09:26:15', '2017-05-10 09:26:43', NULL);
 /*!40000 ALTER TABLE `resolution` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.resolution_numbers
@@ -1581,11 +1755,20 @@ CREATE TABLE IF NOT EXISTS `resolution_numbers` (
   PRIMARY KEY (`id`),
   KEY `FK_resonumb_account_id` (`account_id`),
   CONSTRAINT `FK_resonumb_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla krece.resolution_numbers: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.resolution_numbers: ~8 rows (aproximadamente)
 DELETE FROM `resolution_numbers`;
 /*!40000 ALTER TABLE `resolution_numbers` DISABLE KEYS */;
+INSERT INTO `resolution_numbers` (`id`, `account_id`, `key`, `prefix`, `number`, `text`, `created_at`, `updated_at`) VALUES
+	(1, 1, 'estimate', NULL, 3, 'Siguiente número de cotizaciones', NULL, '2017-04-12 21:53:18'),
+	(2, 1, 'purchase_order', NULL, 1, 'Siguiente número de órdenes de compra', NULL, NULL),
+	(3, 1, 'credit_note', NULL, 1, 'Siguiente número de nota credito', NULL, NULL),
+	(4, 1, 'remision', NULL, 1, 'Siguiente número de remisiones', NULL, NULL),
+	(5, 1, 'in-come', NULL, 1, 'Siguiente número de recibo de caja', NULL, NULL),
+	(6, 1, 'debit_note', NULL, 2, 'Siguiente número de nota debito', NULL, '2017-04-13 21:21:57'),
+	(7, 1, 'bill', NULL, 2, 'Siguiente número de factura de proveedores', NULL, '2017-04-13 21:21:16'),
+	(8, 1, 'out-come', NULL, 2, 'Siguiente número de comprobante de pago', NULL, '2017-04-13 21:25:29');
 /*!40000 ALTER TABLE `resolution_numbers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention
@@ -1600,7 +1783,7 @@ CREATE TABLE IF NOT EXISTS `retention` (
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `type_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_wht_type` (`type_id`),
@@ -1609,11 +1792,25 @@ CREATE TABLE IF NOT EXISTS `retention` (
   CONSTRAINT `FK_wht_company` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_wht_type` FOREIGN KEY (`type_id`) REFERENCES `retention_type` (`id`),
   CONSTRAINT `FK_wht_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.retention: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.retention: ~13 rows (aproximadamente)
 DELETE FROM `retention`;
 /*!40000 ALTER TABLE `retention` DISABLE KEYS */;
+INSERT INTO `retention` (`id`, `account_id`, `public_id`, `user_id`, `name`, `value`, `description`, `isDeleted`, `type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 'Arrendamiento de bienes inmuebles', 4, '', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(2, 1, 2, 1, 'Arrendamiento de bienes raices', 3.5, 'Retencion aplicada a pagos de arrendamiento de bienes raices', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(3, 1, 3, 1, 'Compras declarantes', 2.5, 'Retencion aplicada a compras declarantes', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(4, 1, 4, 1, 'Compras no declarantes', 3.5, 'Retencion aplicada a compras no declarantes', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(5, 1, 5, 1, 'Honorarios y comisiones (naturales)', 10, 'Retencion aplicada a personas naturales', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(6, 1, 6, 1, 'Honoraios y comisiones (jurídicas)', 11, 'Retencion aplicada a personas juridicas', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(7, 1, 7, 1, 'Servicios de aseo y vigilancia', 2, 'Retencion aplicada a pagos de servicios en aseo y/o vigilancia', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(8, 1, 8, 1, 'Servicios de hoteles y restaurantes', 3.5, 'Retencion aplicada por servicios de hoteles, restaurantes y hospedaje a declarantes y no declarantes', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(9, 1, 9, 1, 'Servicios generales (declarantes)', 4, 'Retencion aplicada a pagos de personas declarantes', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(10, 1, 10, 1, 'Servicios generales (no declarantes)', 6, 'Retencion aplicada a pagos de personas no declarantes', b'0', 2, NULL, '2017-04-12 09:26:15', NULL),
+	(11, 1, 11, 1, 'ReteIca', 0, 'Retencion de industria y comercio', b'0', 3, NULL, '2017-04-12 09:26:15', NULL),
+	(12, 1, 12, 1, 'ReteIva', 15, 'Retencion sobre el total del IVA asociado a una factura', b'0', 1, NULL, '2017-04-12 09:26:15', NULL),
+	(13, 1, 13, 1, 'Transporte de carga', 15, '', b'0', 2, NULL, '2017-04-12 09:26:15', NULL);
 /*!40000 ALTER TABLE `retention` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.retention_type
@@ -1644,7 +1841,7 @@ CREATE TABLE IF NOT EXISTS `seller` (
   `dni` varchar(50) DEFAULT NULL,
   `work_phone` varchar(255) DEFAULT NULL,
   `private_phone` varchar(255) DEFAULT NULL,
-  `observations` text,
+  `observations` text DEFAULT NULL,
   `isEnabled` bit(1) NOT NULL DEFAULT b'1',
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1675,7 +1872,7 @@ CREATE TABLE IF NOT EXISTS `tax` (
   `isEditable` bit(1) NOT NULL DEFAULT b'1',
   `isDeleted` bit(1) NOT NULL DEFAULT b'0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_taxes_account_id_public_id` (`account_id`,`public_id`),
@@ -1684,11 +1881,15 @@ CREATE TABLE IF NOT EXISTS `tax` (
   CONSTRAINT `FK_taxes_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_taxes_type` FOREIGN KEY (`type_id`) REFERENCES `tax_type` (`id`),
   CONSTRAINT `FK_taxes_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='contains the taxes list that each user defines';
 
--- Volcando datos para la tabla krece.tax: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla krece.tax: ~3 rows (aproximadamente)
 DELETE FROM `tax`;
 /*!40000 ALTER TABLE `tax` DISABLE KEYS */;
+INSERT INTO `tax` (`id`, `account_id`, `public_id`, `user_id`, `name`, `amount`, `description`, `type_id`, `isEditable`, `isDeleted`, `created_at`, `updated_at`, `deleted_at`) VALUES
+	(1, 1, 1, 1, 'IVA', 19, 'IVA', 1, b'1', b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(2, 1, 2, 1, 'ICO', 19, 'ICO', 2, b'1', b'0', NULL, '2017-04-12 09:26:15', NULL),
+	(3, 1, 3, 1, 'Ninguno', 0, 'Ninguno', 3, b'1', b'0', NULL, '2017-04-12 09:26:15', NULL);
 /*!40000 ALTER TABLE `tax` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.tax_type
@@ -1711,7 +1912,7 @@ INSERT INTO `tax_type` (`id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
-  `role_id` int(11) DEFAULT '1',
+  `role_id` int(11) DEFAULT 1,
   `name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
@@ -1719,7 +1920,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `remember_token` varchar(255) DEFAULT NULL,
   `transaction_token` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
-  `status_id` int(11) DEFAULT '1' COMMENT 'state of the user: active, inactive',
+  `status_id` int(11) DEFAULT 1 COMMENT 'state of the user: active, inactive',
   `created_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1737,11 +1938,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   CONSTRAINT `FK_user_accountid` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_user_role` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`),
   CONSTRAINT `FK_user_status` FOREIGN KEY (`status_id`) REFERENCES `user_status` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla krece.user: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla krece.user: ~1 rows (aproximadamente)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `account_id`, `role_id`, `name`, `last_name`, `email`, `password`, `remember_token`, `transaction_token`, `phone`, `status_id`, `created_at`, `deleted_at`, `updated_at`, `last_login`, `modified_by`, `created_by`, `public_id`, `oauth_user_id`, `oauth_provider_id`, `is_admin`) VALUES
+	(1, 1, 1, 'tinnsoft', NULL, 'fernando2684@gmail.com', '$2y$10$P11KbDoZBJGbPaSQhErKE.kV2cSXZKh5IhHDaHTNxoMfi.3XUvpE2', 'eABttyL7Rg9ptIczw1v89Cr50pq5BHgk8SSkK0JDKypAYzR2poixlPeBg4Lv', NULL, NULL, 1, '2017-04-11 18:36:23', NULL, '2017-07-10 15:56:51', '2017-07-10 15:56:51', NULL, NULL, NULL, NULL, NULL, b'1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Volcando estructura para tabla krece.user_password_resets

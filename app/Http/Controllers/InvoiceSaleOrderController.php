@@ -153,6 +153,9 @@ class InvoiceSaleOrderController extends Controller
             ]);
             
             
+            $resolutionRef= $request->resolution['id'];
+
+
             $data = $request->except('detail','list_price','currency','contact','seller','payment_terms'
             ,'resolution','ResolutionIsAutoNumeric','resolution_id');
             
@@ -194,12 +197,14 @@ class InvoiceSaleOrderController extends Controller
             
             $data['public_id'] = Helper::PublicId(InvoiceSaleOrder::class);
             $data['resolution_id'] = (int)$data['resolution_number'];
+            $data['resolution_id_ref'] = (int)$resolutionRef;
             $data['status_id'] = INVOICE_STATUS_OPEN;
             $data['category_id'] = $categoryId['id'];
             $data['account_id'] = Auth::user()->account_id;
             $data['user_id'] = Auth::user()->id;
             $data['date']=Helper::dateFormatter($data['date']);
             $data['due_date']= Helper::dateFormatter($data['due_date']);
+
             
             //Default
             if (!$data['currency_code'])
@@ -341,6 +346,8 @@ class InvoiceSaleOrderController extends Controller
             
             $invoice = InvoiceSaleOrder::findOrFail($id);
             
+            $resolutionRef= $request->resolution['id'];
+
             $products = collect($request->detail)->transform(function($detail) {
                 $baseprice=$detail['quantity'] * $detail['unit_price'];
                 $totalDiscount= $baseprice*($detail['discount']/100);
@@ -362,6 +369,7 @@ class InvoiceSaleOrderController extends Controller
             $data['date']=Helper::dateFormatter($data['date']);
             $data['due_date']= Helper::dateFormatter($data['due_date']);
             $data['resolution_id']= $data['resolution_number'];
+            $data['resolution_id_ref'] = (int)$resolutionRef;
             $invoice->update($data);
             
             InvoiceSaleOrderDetail::where('invoice_sale_order_id', $invoice->id)->delete();

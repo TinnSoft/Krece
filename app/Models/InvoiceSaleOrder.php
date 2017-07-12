@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Contact;
 use App\Models\Seller;
 use App\Models\ListPrice;
+use App\Models\Resolution;
 use App\Utilities\DatesTranslator;
 use Auth;
 
@@ -24,7 +25,7 @@ class InvoiceSaleOrder extends Model
 	protected $fillable=[
 	'public_id','customer_id','description','account_id','user_id','sub_total','total_discounts','total_taxes',
 	'seller_id','currency_code','observations','notes','date','due_date','list_price_id','total','isDeleted','resolution_id',
-	'status_id','payment_terms_id','category_id','total_payed','balance'
+	'status_id','payment_terms_id','category_id','total_payed','balance','resolution_id_ref'
 	];
 	
 	protected $dates = ['deleted_at'];
@@ -45,7 +46,6 @@ class InvoiceSaleOrder extends Model
 		
 	}
 	
-	
 	public function seller()
 	{
 		
@@ -53,14 +53,12 @@ class InvoiceSaleOrder extends Model
 		
 	}
 	
-	
 	public function list_price()
 	{
 		
 		return $this->hasOne(ListPrice::class, 'id', 'list_price_id')->select(array('id', 'name'));
 		
 	}
-	
 	
 	public function currency()
 	{
@@ -73,6 +71,12 @@ class InvoiceSaleOrder extends Model
 	{
 		return $this->hasOne(Account::class,'id','account_id')->with('account_regime')
 		->select(array('id','name','address','phone','identification','city','logo','regime_id'));
+	}
+
+	public function resolution()
+	{
+		return $this->hasOne(Resolution::class,'id','resolution_id_ref')
+		->select(array('id','invoice_text'));
 	}
 
 	public function payment_terms()
@@ -99,7 +103,7 @@ class InvoiceSaleOrder extends Model
     {
         return $query->select('id','account_id','public_id','seller_id','list_price_id','customer_id','currency_code',
                     'sub_total','total_discounts','total_taxes','total','date','due_date','notes','observations','exchange_rate',
-                    'created_at','updated_at','resolution_id','status_id','payment_terms_id');
+                    'created_at','updated_at','resolution_id','status_id','payment_terms_id','resolution_id_ref');
 	}
 
 }

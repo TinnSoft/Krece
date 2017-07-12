@@ -26,32 +26,40 @@
                              @if (count($invoice->account) > 0)
                                 {{$invoice->account->identification}}
                             @endif<br>
-                            @if (count($invoice->account) > 0)
-                                   {{$invoice->account->city}}
+                            @if (count($invoice->account->city) > 0)
+                                   {{$invoice->account->city}}, {{$invoice->account->address}} 
                             @endif<br>
                             <abbr>Tel:</abbr>  
-                            @if (count($invoice->account) > 0)
+                            @if (count($invoice->account->phone) > 0)
                                    {{$invoice->account->phone}}
                             @endif
+                            
                         </address>
                   </td>
                   <td style="text-align: right;">
-                       <h2>Factura de venta No: <a class="text-navy"> {{$invoice->resolution_id}}</a></h2>
-                       <small>{{$invoice->account->account_regime->value}}</small><br>
-                       <small>Factura de venta original</small><br><br>
+                       <h2>Factura de venta No: <a class="text-navy"> {{$invoice->resolution_id}}</a></h2>                      
+                        @if (count($invoice->resolution->invoice_text) > 0)
+                            <h6>
+                                <small class="text-muted">{{$invoice->resolution->invoice_text}}</small><br>
+                                <hr class="hr-line-solid" style="color: white;background-color:green">  
+                            </h6>
+                        @endif
+                        
+                        <small>FACTURA DE VENTA ORIGINAL</small><br> 
+                       <small>{{$invoice->account->account_regime->value}}</small><br><br>                        
 
                        <address>
                             <small>Fecha de expedición: {{$invoice->date}}</small><br>
                             <small>Fecha de vencimiento: {{$invoice->due_date}}</small>
                        </address>
-                       
+                      
                   </td>
                   
                  </tr>                                       
             </tbody>
     </table
 </div>
-<hr class="hr-line-solid" style="color: white;background-color:green">
+<hr class="hr-line-solid" style="color: white;background-color:green">    
 <div class="">
         <address>
              <span class="text-muted text-xs block">SEÑOR(ES):<br>   
@@ -78,6 +86,14 @@
                       {{$invoice->contact->nit}}
                 @endif
              </span><br>
+               @if (count($invoice->payment_terms) > 0)
+                             @if (count($invoice->payment_terms->days) > 0)
+                                <small>Condición de pago: Crédito</small><br>
+                             @else
+                                <small>Condición de pago: Contado</small><br>
+                             @endif
+                            
+                        @endif   
         </address>
  </div>
 
@@ -151,12 +167,16 @@
                             <div class="ibox"><br><br><br><br>
                                      @include('partials.pdf-elaborated_by') 
                             </div>  
+                      
                          <div class="footer"> 
-                                <div class="ibox"><small>
+                                <div class="ibox">
+                                
+                                <h6><small>
                                         Esta factura se asimila en todos sus efectos a una letra de cambio de conformidad con el Art. 774 del código de
                                         comercio. Autorizo que en caso de incumplimiento de esta obligación sea reportado a las centrales de riesgo, se
                                         cobrarán intereses por mora.
-                                    </small>   
+                                    </small>  </h6> 
+                                       
                                 </div>
                         </div>
                         
