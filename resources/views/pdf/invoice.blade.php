@@ -38,7 +38,7 @@
                   </td>
                   <td style="text-align: right;">
                        <h2>Factura de venta No: <a class="text-navy"> {{$invoice->resolution_id}}</a></h2>                      
-                        @if (count($invoice->resolution->invoice_text) > 0)
+                        @if (count($invoice->resolution) > 0)
                             <h6>
                                 <small class="text-muted">{{$invoice->resolution->invoice_text}}</small><br>
                                 <hr class="hr-line-solid" style="color: white;background-color:green">  
