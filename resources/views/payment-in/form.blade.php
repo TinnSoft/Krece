@@ -327,7 +327,7 @@
                                             @yield('payment_warning2') 
                                             <template  v-if="errors.payment_empty" >
                                                     <div class="alert alert-danger">         
-                                                        Asegurese que el cliente seleccionado tenga pagos pendientes
+                                                       Asegurese que el cliente seleccionado tenga pagos pendientes
                                                 </div>
                                             </template>
                                              <template  v-if="errors.amount_error" >

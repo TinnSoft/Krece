@@ -62,7 +62,7 @@ var app = new Vue({
       }
       else {
         val.tax_amount = "";
-        val.tax_id  = "";
+        val.tax_id = "";
       }
     },
     onInputlistprice: function (val) {
@@ -99,8 +99,7 @@ var app = new Vue({
       }
     },
 
-    formatDate:function(dateString)
-    {
+    formatDate: function (dateString) {
       var pattern = 'DD/MM/YYYY';
       return moment(dateString, "DD/MM/YYYY").format(pattern);
     },
@@ -110,7 +109,7 @@ var app = new Vue({
       var n = this.formatDate(d);
       if (this.form.date == "") {
         this.form.date = n;
-        
+
         d.setDate(d.getDate() + 30);
         this.form.due_date = this.formatDate(d);
       }
@@ -168,8 +167,8 @@ var app = new Vue({
     create: function () {
       var vm = this;
       vm.isProcessing = true;
-       	var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
-    		ldbtn.start();
+      var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
+      ldbtn.start();
 
       axios.post(vm.redirect, vm.form)
         .then(function (response) {
@@ -189,9 +188,9 @@ var app = new Vue({
 
     update: function () {
       var vm = this;
-      
+
       var ldbtn = Ladda.create(document.querySelector('.ladda-button'));
-    	ldbtn.start();
+      ldbtn.start();
 
       vm.isProcessing = true;
       axios.put(vm.redirect + vm.form.id, vm.form)
@@ -208,7 +207,7 @@ var app = new Vue({
           ldbtn.stop();
           Vue.set(vm.$data, 'errors', error.response.data);
         });
-        
+
     }
   },
   //valores calculados
@@ -230,10 +229,10 @@ var app = new Vue({
     },
 
     TaxesTotal: function () {
-         var TaxTot = this.form.detail.reduce(function (carry, detail) {
+      var TaxTot = this.form.detail.reduce(function (carry, detail) {
         return carry + ((((parseFloat(detail.quantity) * parseFloat(detail.unit_price))
           - ((parseFloat(detail.quantity) * parseFloat(detail.unit_price)) * parseFloat(detail.discount)) / 100) *
-          parseFloat(isNaN(detail.tax_amount) || detail.tax_amount=='' || detail.tax_amount==null ? 0 : detail.tax_amount))) / 100;
+          parseFloat(isNaN(detail.tax_amount) || detail.tax_amount == '' || detail.tax_amount == null ? 0 : detail.tax_amount))) / 100;
       }, 0);
 
 
